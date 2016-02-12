@@ -1,0 +1,25 @@
+{
+  "name": "rx-ducks",
+  "version": "0.0.0-alpha.0",
+  "description": "Rx and ducks, for reals",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blesh/RxDucks.git"
+  },
+  "keywords": [
+    "Rx",
+    "Ducks",
+    "Reducks",
+    "Redux"
+  ],
+  "author": "Ben Lesh <ben@benlesh.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blesh/RxDucks/issues"
+  },
+  "homepage": "https://github.com/blesh/RxDucks#readme"
+}
