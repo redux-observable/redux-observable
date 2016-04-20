@@ -1,25 +1,42 @@
 {
-  "name": "rx-ducks",
+  "name": "rx-ducks-middleware",
   "version": "0.0.0-alpha.0",
-  "description": "Rx and ducks, for reals",
+  "description": "creates RxJS based middleware for Redux",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src -d lib",
+    "test": "mocha --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/blesh/RxDucks.git"
+    "url": "git+https://github.com/blesh/rx-ducks-middleware.git"
   },
   "keywords": [
     "Rx",
     "Ducks",
     "Reducks",
-    "Redux"
+    "Redux",
+    "middleware"
   ],
   "author": "Ben Lesh <ben@benlesh.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/blesh/RxDucks/issues"
+    "url": "https://github.com/blesh/rx-ducks-middleware/issues"
   },
-  "homepage": "https://github.com/blesh/RxDucks#readme"
+  "homepage": "https://github.com/blesh/rx-ducks-middleware#readme",
+  "peerDependencies": {
+    "redux": "^3.5.1",
+    "rxjs": "^5.0.0-beta.6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.7.5",
+    "babel-plugin-transform-function-bind": "^6.5.2",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-register": "^6.7.2",
+    "chai": "^3.5.0",
+    "eslint": "^2.8.0",
+    "mocha": "^2.4.5",
+    "redux": "^3.5.1",
+    "rxjs": "^5.0.0-beta.6"
+  }
 }
