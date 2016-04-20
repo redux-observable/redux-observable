@@ -10,7 +10,7 @@ the reducer.
 
 ## Install
 
-NOTE: This has a peer dependency of `rxjs@5.0.*` which will have to be installed
+NOTE: This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed
 as well.
 
 ```sh
