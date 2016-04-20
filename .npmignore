@@ -1,0 +1,6 @@
+src
+test
+.gitignore
+.eslintrc
+.babelrc
+temp

@@ -14,10 +14,6 @@
     "type": "git",
     "url": "git+https://github.com/blesh/rx-ducks-middleware.git"
   },
-  "files": [
-    "index.js",
-    "./lib/**/*.js"
-  ],
   "keywords": [
     "Rx",
     "Ducks",
