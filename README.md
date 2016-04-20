@@ -1,4 +1,6 @@
-# rx-ducks-middleware
+# rx-ducks-middleware (alpha)
+
+** WARNING: This module is purely experimental **
 
 Creates [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Basically, this intercepts actions via
