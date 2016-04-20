@@ -1,7 +1,7 @@
 /* globals describe it */
 import { expect } from 'chai';
 import { createStore, applyMiddleware } from 'redux';
-import { createRxMiddleware } from '../';
+import createRxMiddleware from '../';
 import { map } from 'rxjs/operator/map';
 
 describe('middleware', () => {
