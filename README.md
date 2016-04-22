@@ -30,30 +30,30 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/filter';
 
 export default class MyComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.rxDucks = rxDucksMiddleware((actions) =>
-          actions.filter(({ type }) => type === 'SOME_ACTION')
-            .switchMap((action) => makeAjaxRequest(action.data)));
-        this.store = createStore(yourReducerHere, applyMiddleware(middleware));
-        this.actions = actions;
-        this.send = send;
-    }
+  constructor(props) {
+    super(props);
+    this.rxDucks = rxDucksMiddleware((actions) =>
+      actions.filter(({ type }) => type === 'SOME_ACTION')
+        .switchMap((action) => makeAjaxRequest(action.data)));
+    this.store = createStore(yourReducerHere, applyMiddleware(middleware));
+    this.actions = actions;
+    this.send = send;
+  }
 
-    componentDidMount() {
-      this.rxDucks.connect();
-    }
+  componentDidMount() {
+    this.rxDucks.connect();
+  }
 
-    componentWillUnmount() {
-      this.rxDucks.unsubscribe();
-    }
+  componentWillUnmount() {
+    this.rxDucks.unsubscribe();
+  }
 
-    sendAction() {
-        this.store.dispatch({ type: 'SOME_ACTION', data: 'stuff here' });
-    }
+  sendAction() {
+    this.store.dispatch({ type: 'SOME_ACTION', data: 'stuff here' });
+  }
 
-    render() {
-        return (<button onClick={this.sendAction}>test me</button>);
-    }
+  render() {
+    return (<button onClick={this.sendAction}>test me</button>);
+  }
 }
 ```
