@@ -9,28 +9,48 @@ describe('rxDucksMiddleware', () => {
     expect(rxDucksMiddleware).to.be.a('function');
   });
 
-  it('should wire up some middleware', () => {
-    const { actions, send, middleware } = rxDucksMiddleware();
-    const middleActions = [];
+  it('should intercept and process actions', () => {
+    const middleware = rxDucksMiddleware((actions) => actions::map(x => ({ ...x, data: x.data + '!' })));
     const reducedActions = [];
 
-    const store = createStore((state = { data: 0 }, action) => {
+    const store = createStore((state = { data: 'start' }, action) => {
       reducedActions.push(action);
       return state;
     }, applyMiddleware(middleware));
 
-    actions.subscribe(action => middleActions.push(action));
+    middleware.connect();
 
-    actions::map(({ type, data }) => ({ type, data: data + 1 }))
-      .subscribe(send);
+    store.dispatch({ type: 'TEST', data: 'this' });
+    store.dispatch({ type: 'TEST', data: 'should' });
+    store.dispatch({ type: 'TEST', data: 'work' });
 
-    const originalActions = [{ type: 'TEST', data: 1 }, { type: 'TEST', data: 2 }, { type: 'TEST', data: 3 }];
-    const middleExpected = [...originalActions];
-    const reducedExpected = [{ type: '@@redux/INIT' }, ...middleExpected.map(({ type, data }) => ({ type, data: data + 1 }))];
+    expect(reducedActions).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'TEST', data: 'this!' },
+      { type: 'TEST', data: 'should!' },
+      { type: 'TEST', data: 'work!' }
+    ]);
 
-    originalActions.forEach(action => store.dispatch(action));
+    middleware.unsubscribe();
 
-    expect(middleActions).to.deep.equal(middleExpected);
-    expect(reducedActions).to.deep.equal(reducedExpected);
+    store.dispatch({ type: 'BAD', data: 'should not show up' });
+
+    expect(reducedActions).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'TEST', data: 'this!' },
+      { type: 'TEST', data: 'should!' },
+      { type: 'TEST', data: 'work!' }
+    ]);
+
+    middleware.connect();
+
+    store.dispatch({ type: 'LAST_ONE', data: 'one for the road' });
+    expect(reducedActions).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'TEST', data: 'this!' },
+      { type: 'TEST', data: 'should!' },
+      { type: 'TEST', data: 'work!' },
+      { type: 'LAST_ONE', data: 'one for the road!' }
+    ]);
   });
 });

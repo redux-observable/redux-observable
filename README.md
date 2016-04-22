@@ -32,27 +32,20 @@ import 'rxjs/add/operator/filter';
 export default class MyComponent extends Component {
     constructor(props) {
         super(props);
-        const { middleware, actions, send } = rxDucksMiddleware();
+        this.rxDucks = rxDucksMiddleware((actions) =>
+          actions.filter(({ type }) => type === 'SOME_ACTION')
+            .switchMap((action) => makeAjaxRequest(action.data)));
         this.store = createStore(yourReducerHere, applyMiddleware(middleware));
         this.actions = actions;
         this.send = send;
     }
 
-    middlwareActions() {
-        this.actions
-            .filter(({ type }) => type === 'SOME_ACTION')
-            .switchMap((action) => makeAjaxRequest(action.data));
-    }
-
     componentDidMount() {
-        this.subscription = this.actions
-            .filter(({ type }) => type === 'SOME_ACTION')
-            .switchMap((action) => makeAjaxRequest(action.data))
-            .subscribe()
+      this.rxDucks.connect();
     }
 
     componentWillUnmount() {
-        this.subscription.unsubscribe();
+      this.rxDucks.unsubscribe();
     }
 
     sendAction() {
