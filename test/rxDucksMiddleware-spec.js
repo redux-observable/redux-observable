@@ -26,20 +26,27 @@ describe('rxDucksMiddleware', () => {
 
     expect(reducedActions).to.deep.equal([
       { type: '@@redux/INIT' },
+      { type: 'TEST', data: 'this' },
       { type: 'TEST', data: 'this!' },
+      { type: 'TEST', data: 'should' },
       { type: 'TEST', data: 'should!' },
+      { type: 'TEST', data: 'work' },
       { type: 'TEST', data: 'work!' }
     ]);
 
     middleware.unsubscribe();
 
-    store.dispatch({ type: 'BAD', data: 'should not show up' });
+    store.dispatch({ type: 'NOT_HANDLED', data: '' });
 
     expect(reducedActions).to.deep.equal([
       { type: '@@redux/INIT' },
+      { type: 'TEST', data: 'this' },
       { type: 'TEST', data: 'this!' },
+      { type: 'TEST', data: 'should' },
       { type: 'TEST', data: 'should!' },
-      { type: 'TEST', data: 'work!' }
+      { type: 'TEST', data: 'work' },
+      { type: 'TEST', data: 'work!' },
+      { type: 'NOT_HANDLED', data: '' }
     ]);
 
     middleware.connect();
@@ -47,9 +54,14 @@ describe('rxDucksMiddleware', () => {
     store.dispatch({ type: 'LAST_ONE', data: 'one for the road' });
     expect(reducedActions).to.deep.equal([
       { type: '@@redux/INIT' },
+      { type: 'TEST', data: 'this' },
       { type: 'TEST', data: 'this!' },
+      { type: 'TEST', data: 'should' },
       { type: 'TEST', data: 'should!' },
+      { type: 'TEST', data: 'work' },
       { type: 'TEST', data: 'work!' },
+      { type: 'NOT_HANDLED', data: '' },
+      { type: 'LAST_ONE', data: 'one for the road' },
       { type: 'LAST_ONE', data: 'one for the road!' }
     ]);
   });
