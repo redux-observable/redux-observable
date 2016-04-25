@@ -9,6 +9,7 @@ export function rxDucksMiddleware(transform) {
     return (next) => {
       send.subscribe(next);
       return (action) => {
+        next(action);
         actions.next(action);
       };
     };
