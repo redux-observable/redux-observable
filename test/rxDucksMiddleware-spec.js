@@ -2,48 +2,38 @@
 import { expect } from 'chai';
 import { createStore, applyMiddleware } from 'redux';
 import { rxDucksMiddleware } from '../';
-import { timer } from 'rxjs/observable/timer';
+import { merge } from 'rxjs/observable/merge';
 import { map } from 'rxjs/operator/map';
-import { startWith } from 'rxjs/operator/startWith';
+import { filter } from 'rxjs/operator/filter';
 
 describe('rxDucksMiddleware', () => {
   it('should exist', () => {
     expect(rxDucksMiddleware).to.be.a('function');
   });
 
-  it('should intercept and process actions', (done) => {
-    const middleware = rxDucksMiddleware();
-    const reducedActions = [];
+  it('should intercept and process actions', () => {
+    const part1 = (actions) => actions::filter(({ type }) => type === 'TEST1')
+      ::map(() => ({ type: 'TEST1_HANDLED' }));
 
-    const store = createStore((state = {}, action) => {
-      reducedActions.push(action);
-      switch (action.type) {
-        case 'STARTING_TEST':
-          return { ...state, testStarted: true };
-        case 'END_TEST':
-          expect(state.testStarted).to.equal(true);
-          expect(reducedActions).to.deep.equal([
-            { type: '@@redux/INIT' },
-            { type: 'STARTING_TEST' },
-            { type: 'END_TEST' }
-          ]);
-          done();
-          return { ...state, testEnded: true };
-        default:
-          break;
-      }
-      return state;
-    }, applyMiddleware(middleware));
+    const part2 = (actions) => actions::filter(({ type }) => type === 'TEST2')
+      ::map(() => ({ type: 'TEST2_HANDLED' }));
 
-    let sub = store.dispatch({
-      type: 'START_TEST',
-      async: () =>
-        timer(10)
-        ::map(() => ({ type: 'END_TEST' }))
-        ::startWith({ type: 'STARTING_TEST' })
-    });
+    const reducer = (state = [], action) => state.concat(action);
 
-    expect(sub).to.be.a('object');
-    expect(sub.unsubscribe).to.be.a('function');
+    const middleware = rxDucksMiddleware((actions) =>
+      merge(part1(actions), part2(actions)));
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'TEST1' });
+    store.dispatch({ type: 'TEST2' });
+
+    expect(store.getState()).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'TEST1' },
+      { type: 'TEST1_HANDLED' },
+      { type: 'TEST2' },
+      { type: 'TEST2_HANDLED' }
+    ]);
   });
 });

@@ -41,19 +41,21 @@ const reducer = (state = {}, action) => {
   return state;
 };
 
-const store = createStore(reducer, applyMiddleware(rxDucksMiddleware()));
+const rxDucks = rxDucksMiddleware((actions) =>
+  actions.filter(a => a.type === 'LOAD_DATA')
+    .switchMap(Rx.Observable.ajaxGet('some/data/url'))
+    .map(data => ({ type: 'DATA_LOADED', data }))
+    .startWith({ type: 'DATA_LOADING' })
+    .takeUntil(actions.filter(a => a.type === 'ABORT_LOAD'))
+  );
+
+const store = createStore(reducer, applyMiddleware(rxDucks));
 
 export default class MyComponent extends Component {
 
   @autobind
   loadData() {
-    this.props.store.dispatch({
-      type: 'LOAD_DATA',
-      async: (actions) => Observable.ajaxGet('some/data/url')
-                          .map(data => ({ type: 'DATA_LOADED', data }))
-                          .startWith({ type: 'DATA_LOADING' })
-                          .takeUntil(actions.filter(({ type }) => type === 'ABORT_LOAD'))
-    })
+    this.props.store.dispatch({ type: 'LOAD_DATA' });
   }
 
   componentDidMount() {
