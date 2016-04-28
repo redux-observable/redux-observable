@@ -1,3 +1,9 @@
+<a name="0.0.1"></a>
+## [0.0.1](https://github.com/blesh/rx-ducks-middleware/compare/0.0.0-alpha.3...v0.0.1) (2016-04-28)
+
+
+
+
 <a name="0.0.0-alpha.3"></a>
 # [0.0.0-alpha.3](https://github.com/blesh/rx-ducks-middleware/compare/0.0.0-alpha.2...v0.0.0-alpha.3) (2016-04-25)
 
