@@ -31,25 +31,4 @@ describe('rxDucksMiddleware', () => {
       done();
     }, 100);
   });
-
-  it('should blah', (done) => {
-    const reducer = (state = [], action) => state.concat(action);
-
-    const middleware = rxDucksMiddleware();
-
-    const store = createStore(reducer, applyMiddleware(middleware));
-
-    store.dispatch(() => Observable.of({ type: 'TEST1_HANDLED' }).delay(10));
-    store.dispatch(() => Observable.of({ type: 'TEST2_HANDLED' }).delay(20));
-
-    // HACKY: but should work until we use TestScheduler.
-    setTimeout(() => {
-      expect(store.getState()).to.deep.equal([
-        { type: '@@redux/INIT' },
-        { type: 'TEST1_HANDLED' },
-        { type: 'TEST2_HANDLED' }
-      ]);
-      done();
-    }, 100);
-  });
 });
