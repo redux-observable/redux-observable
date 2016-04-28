@@ -25,35 +25,55 @@ Below is a basic example of it how it might work in React.
 import { Component } from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import rxDucksMiddleware from 'rx-ducks-middleware';
-import yourReducerHere from './where/ever/it/lives';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/filter';
+import { autobind } from 'core-decorators';
+import * as Rx from 'rxjs';
+
+
+const reducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'DATA_LOADING':
+      return { ...state, loading: true };
+    case 'DATA_LOADED':
+      return { ...state, loading: false, data: action.data };
+    case 'ABORT_LOAD':
+      return { ...state, loading: false };
+  }
+  return state;
+};
+
+const store = createStore(reducer, applyMiddleware(rxDucksMiddleware()));
 
 export default class MyComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.rxDucks = rxDucksMiddleware((actions) =>
-      actions.filter(({ type }) => type === 'SOME_ACTION')
-        .switchMap((action) => makeAjaxRequest(action.data)));
-    this.store = createStore(yourReducerHere, applyMiddleware(middleware));
-    this.actions = actions;
-    this.send = send;
+
+  @autobind
+  loadData() {
+    this.props.store.dispatch({
+      type: 'LOAD_DATA',
+      async: (actions) => Observable.ajaxGet('some/data/url')
+                          .map(data => ({ type: 'DATA_LOADED', data }))
+                          .startWith({ type: 'DATA_LOADING' })
+                          .takeUntil(actions.filter(({ type }) => type === 'ABORT_LOAD'))
+    })
   }
 
   componentDidMount() {
-    this.rxDucks.connect();
+    const { store } = this.props;
+    store.subscribe(() => this.setState(this.getState()));
   }
 
-  componentWillUnmount() {
-    this.rxDucks.unsubscribe();
-  }
-
-  sendAction() {
-    this.store.dispatch({ type: 'SOME_ACTION', data: 'stuff here' });
+  @autobind
+  abortLoad() {
+    this.props.store.dispatch({ type: 'ABORT_LOAD' });
   }
 
   render() {
-    return (<button onClick={this.sendAction}>test me</button>);
+    const { loading, data } = this.state;
+    return (<div>
+      <button onClick={this.loadData}>load data</button>
+      <button onClick={this.abortLoad}>abort load</button>
+      <div>Loading: {loading}</div>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
+    </div>);
   }
 }
 ```
