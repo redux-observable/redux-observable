@@ -2,38 +2,54 @@
 import { expect } from 'chai';
 import { createStore, applyMiddleware } from 'redux';
 import { rxDucksMiddleware } from '../';
-import { merge } from 'rxjs/observable/merge';
-import { map } from 'rxjs/operator/map';
-import { filter } from 'rxjs/operator/filter';
+import * as Rx from 'rxjs';
+
+const { Observable } = Rx;
 
 describe('rxDucksMiddleware', () => {
   it('should exist', () => {
     expect(rxDucksMiddleware).to.be.a('function');
   });
 
-  it('should intercept and process actions', () => {
-    const part1 = (actions) => actions::filter(({ type }) => type === 'TEST1')
-      ::map(() => ({ type: 'TEST1_HANDLED' }));
-
-    const part2 = (actions) => actions::filter(({ type }) => type === 'TEST2')
-      ::map(() => ({ type: 'TEST2_HANDLED' }));
-
+  it('should intercept and process actions', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = rxDucksMiddleware((actions) =>
-      merge(part1(actions), part2(actions)));
+    const middleware = rxDucksMiddleware();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    store.dispatch({ type: 'TEST1' });
-    store.dispatch({ type: 'TEST2' });
+    store.dispatch(() => Observable.of({ type: 'TEST1_HANDLED' }).delay(10));
+    store.dispatch(() => Observable.of({ type: 'TEST2_HANDLED' }).delay(20));
 
-    expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
-      { type: 'TEST1' },
-      { type: 'TEST1_HANDLED' },
-      { type: 'TEST2' },
-      { type: 'TEST2_HANDLED' }
-    ]);
+    // HACKY: but should work until we use TestScheduler.
+    setTimeout(() => {
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'TEST1_HANDLED' },
+        { type: 'TEST2_HANDLED' }
+      ]);
+      done();
+    }, 100);
+  });
+
+  it('should blah', (done) => {
+    const reducer = (state = [], action) => state.concat(action);
+
+    const middleware = rxDucksMiddleware();
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch(() => Observable.of({ type: 'TEST1_HANDLED' }).delay(10));
+    store.dispatch(() => Observable.of({ type: 'TEST2_HANDLED' }).delay(20));
+
+    // HACKY: but should work until we use TestScheduler.
+    setTimeout(() => {
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'TEST1_HANDLED' },
+        { type: 'TEST2_HANDLED' }
+      ]);
+      done();
+    }, 100);
   });
 });

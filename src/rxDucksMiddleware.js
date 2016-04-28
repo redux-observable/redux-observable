@@ -1,15 +1,18 @@
 import { Subject } from 'rxjs/Subject';
 
-export function rxDucksMiddleware(transform) {
+export function rxDucksMiddleware() {
   let actions = new Subject();
-  let send = new Subject();
-  transform(actions).subscribe(send);
 
   let middleware = (store) => (next) => {
-    send.subscribe(next);
     return (action) => {
-      next(action);
-      actions.next(action);
+      if (typeof action === 'function') {
+        let obs = action(actions, store);
+        let sub = obs.subscribe(next);
+        actions.next(action);
+        return sub;
+      } else {
+        return next(action);
+      }
     };
   };
 

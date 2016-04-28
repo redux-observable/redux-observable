@@ -23,12 +23,12 @@ Below is a basic example of it how it might work in React.
 
 ```js
 import { Component } from 'react';
+import { connect } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import rxDucksMiddleware from 'rx-ducks-middleware';
-import { autobind } from 'core-decorators';
+import { rxDucksMiddleware } from 'rx-ducks-middleware';
 import * as Rx from 'rxjs';
 
-
+// Just the plain redux reducer.
 const reducer = (state = {}, action) => {
   switch (action.type) {
     case 'DATA_LOADING':
@@ -41,41 +41,36 @@ const reducer = (state = {}, action) => {
   return state;
 };
 
-const rxDucks = rxDucksMiddleware((actions) =>
-  actions.filter(a => a.type === 'LOAD_DATA')
-    .switchMap(Rx.Observable.ajaxGet('some/data/url'))
-    .map(data => ({ type: 'DATA_LOADED', data }))
-    .startWith({ type: 'DATA_LOADING' })
-    .takeUntil(actions.filter(a => a.type === 'ABORT_LOAD'))
-  );
+// making a store
+const store = createStore(reducer, applyMiddleware(rxDucksMiddleware()));
 
-const store = createStore(reducer, applyMiddleware(rxDucks));
+// HERE BE THE DUCKS
+const loadData = () => (actions, store) => Observable.of('hello world')
+                .delay(1000)
+                .map(data => ({ type: 'DATA_LOADED', data })
+                .startWith({ type: 'DATA_LOADING' })
+                .takeUntil(actions.filter(a => a.type === 'ABORT_LOAD'));
 
-export default class MyComponent extends Component {
+// plain old action
+const abortLoad = () => ({ type: 'ABORT_LOAD' });
 
-  @autobind
-  loadData() {
-    this.props.store.dispatch({ type: 'LOAD_DATA' });
-  }
+const mapStateToProps = ({ data, loading }) => ({ data, loading });
 
-  componentDidMount() {
-    const { store } = this.props;
-    store.subscribe(() => this.setState(this.getState()));
-  }
+const mapDispatchToProps = (dispatch) => ({
+  loadData: () => dispatch(loadData()),
+  abortLoad: () => dispatch(abortLoad())
+});
 
-  @autobind
-  abortLoad() {
-    this.props.store.dispatch({ type: 'ABORT_LOAD' });
-  }
+const MyComponent = ({ loading, data, loadData, abortLoad }) => (
+  <div>
+    <button onClick={loadData}>load data</button>
+    <button onClick={abortLoad}>abort load</button>
+    <div>Loading: {loading}</div>
+    <pre>{JSON.stringify(data, null, 2)}</pre>
+  </div>
+);
 
-  render() {
-    const { loading, data } = this.state;
-    return (<div>
-      <button onClick={this.loadData}>load data</button>
-      <button onClick={this.abortLoad}>abort load</button>
-      <div>Loading: {loading}</div>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </div>);
-  }
-}
+export default connect(mapStateToProps, mapDispatchToProps)(MyComponent);
 ```
+
+:shipit:
