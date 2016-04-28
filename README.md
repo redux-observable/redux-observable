@@ -3,10 +3,12 @@
 ** WARNING: This module is purely experimental **
 
 Creates [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
-[Redux](http://github.com/reactjs/redux). Basically, this intercepts actions via
-middleware and sends them out through an observable, and provides an observer that
-can be used to send an action back along your chain of middleware on its way to
-the reducer.
+[Redux](http://github.com/reactjs/redux).
+
+- Dispatch a function that returns an observable of actions.
+- Function is provided a stream of all actions, useful for composition with the current dispatched observable
+  (think things like `takeUntil` or `zip`)
+- Function is also provided a reference to the store which can be used to get the state or even dispatch.
 
 ## Install
 
