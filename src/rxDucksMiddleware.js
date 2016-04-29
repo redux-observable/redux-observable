@@ -1,4 +1,5 @@
 import { Subject } from 'rxjs/Subject';
+import { from } from 'rxjs/observable/from';
 
 export function rxDucksMiddleware() {
   let actions = new Subject();
@@ -6,7 +7,7 @@ export function rxDucksMiddleware() {
   let middleware = (store) => (next) => {
     return (action) => {
       if (typeof action === 'function') {
-        let obs = action(actions, store);
+        let obs = from(action(actions, store));
         let sub = obs.subscribe(next);
         actions.next(action);
         return sub;
