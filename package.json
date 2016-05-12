@@ -1,6 +1,6 @@
 {
-  "name": "rx-ducks-middleware",
-  "version": "0.1.0",
+  "name": "redux-observable",
+  "version": "0.2.0",
   "description": "creates RxJS based middleware for Redux",
   "main": "index.js",
   "scripts": {
@@ -19,9 +19,15 @@
     "Ducks",
     "Reducks",
     "Redux",
-    "middleware"
+    "middleware",
+    "observable",
+    "thunk",
+    "async"
   ],
-  "author": "Ben Lesh <ben@benlesh.com>",
+  "contributors": [
+    { name: "Ben Lesh", email: "ben@benlesh.com" },
+    { name: "Jay Phelps", email: "hello@jayphelps.com" }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/blesh/rx-ducks-middleware/issues"
