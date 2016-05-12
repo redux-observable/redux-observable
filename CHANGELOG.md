@@ -1,3 +1,13 @@
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/blesh/redux-observable/compare/0.2.0...v0.3.0) (2016-05-12)
+
+
+### Bug Fixes
+
+* **naming:** get rid of references to rxDucks missed during renaming ([04c54c6](https://github.com/blesh/redux-observable/commit/04c54c6))
+
+
+
 <a name=""></a>
 # [](//compare/0.1.0...vundefined) (2016-05-12)
 
