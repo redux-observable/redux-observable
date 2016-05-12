@@ -1,13 +1,15 @@
 import { Subject } from 'rxjs/Subject';
 import { from } from 'rxjs/observable/from';
+import { ActionsObservable as Actions } from './actions-observable';
 
 export function reduxObservable() {
   let actions = new Subject();
+  let actionsObs = new Actions(actions);
 
   let middleware = (store) => (next) => {
     return (action) => {
       if (typeof action === 'function') {
-        let obs = from(action(actions, store));
+        let obs = from(action(actionsObs, store));
         let sub = obs.subscribe(next);
         return sub;
       } else {
@@ -19,3 +21,5 @@ export function reduxObservable() {
 
   return middleware;
 }
+
+export const ActionsObservable = Actions;
