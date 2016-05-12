@@ -18,6 +18,13 @@ module.exports = {
     new webpack.NoErrorsPlugin()
   ],
   resolve: {
+    alias: {
+      // This is done only so that you can use the redux-observable code inside
+      // this this repo, so you can edit and test against it.
+      // You would normally just use the `npm install redux-observable` version
+      'redux-observable': path.resolve(__dirname, '..', '..'),
+      'rxjs': path.resolve(__dirname, 'node_modules', 'rxjs')
+    },
     extensions: ['', '.js']
   },
   module: {
