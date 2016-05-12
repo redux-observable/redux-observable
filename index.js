@@ -1,1 +1,1 @@
-module.exports = require('./lib/rxDucksMiddleware');
+module.exports = require('./lib/middleware');
