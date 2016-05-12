@@ -1,8 +1,8 @@
 {
   "name": "redux-observable",
   "version": "0.3.0",
-  "description": "creates RxJS based middleware for Redux",
-  "main": "index.js",
+  "description": "RxJS based middleware for Redux. Compose and cancel async actions and more.",
+  "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src && eslint test",
     "build": "npm run lint && rm -rf lib && babel src -d lib",
@@ -22,7 +22,9 @@
     "middleware",
     "observable",
     "thunk",
-    "async"
+    "async",
+    "cancel",
+    "action"
   ],
   "contributors": [
     { "name": "Ben Lesh", "email": "ben@benlesh.com" },
