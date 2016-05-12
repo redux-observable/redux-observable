@@ -9,9 +9,9 @@ export function reduxObservable() {
       if (typeof action === 'function') {
         let obs = from(action(actions, store));
         let sub = obs.subscribe(next);
-        actions.next(action);
         return sub;
       } else {
+        actions.next(action);
         return next(action);
       }
     };
