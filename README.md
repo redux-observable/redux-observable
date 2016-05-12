@@ -14,14 +14,14 @@ NOTE: This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have 
 as well.
 
 ```sh
-npm i -S rx-ducks-middleware
+npm i -S redux-observable
 ```
 
 ## Usage
 
 ## Basic
 
-With rxDucksMiddleware, you can dispatch any function that returns an observable,
+With redux-observable, you can dispatch any function that returns an observable,
 a promise, an observable-like object or an iterable. The basic call looks like:
 
 ```js
@@ -88,7 +88,7 @@ Below is a basic example of it how it might work in React.
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { rxDucksMiddleware } from 'rx-ducks-middleware';
+import { reduxObservable } from 'redux-observable';
 import * as Rx from 'rxjs';
 
 // Just the plain redux reducer.
@@ -105,9 +105,9 @@ const reducer = (state = {}, action) => {
 };
 
 // making a store
-const store = createStore(reducer, applyMiddleware(rxDucksMiddleware()));
+const store = createStore(reducer, applyMiddleware(reduxObservable()));
 
-// HERE BE THE DUCKS
+// set up async dispatches here
 const loadData = () => (actions, store) => Observable.of('hello world')
                 .delay(1000)
                 .map(data => ({ type: 'DATA_LOADED', data })

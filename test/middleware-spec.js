@@ -1,7 +1,7 @@
 /* globals describe it */
 import { expect } from 'chai';
 import { createStore, applyMiddleware } from 'redux';
-import { rxDucksMiddleware } from '../';
+import { reduxObservable } from '../';
 import * as Rx from 'rxjs';
 import Promise from 'promise';
 import 'babel-polyfill';
@@ -9,11 +9,11 @@ import $$observable from 'symbol-observable';
 
 const { Observable } = Rx;
 
-describe('rxDucksMiddleware', () => {
+describe('reduxObservable', () => {
   it('should intercept and process actions', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = rxDucksMiddleware();
+    const middleware = reduxObservable();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -34,7 +34,7 @@ describe('rxDucksMiddleware', () => {
   it('should work dispatched functions that return a promise', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = rxDucksMiddleware();
+    const middleware = reduxObservable();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -55,7 +55,7 @@ describe('rxDucksMiddleware', () => {
   it('should work with iterators/generators', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = rxDucksMiddleware();
+    const middleware = reduxObservable();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -78,7 +78,7 @@ describe('rxDucksMiddleware', () => {
   it('should work with observablesque arguments', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = rxDucksMiddleware();
+    const middleware = reduxObservable();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
