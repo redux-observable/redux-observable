@@ -15,7 +15,7 @@ export const fetchUser = () => (
     )
     // Abort fetching the user if someone dispatches an abort action
     .takeUntil(
-      actions.filter(action => action.type === FETCH_USER_ABORTED)
+      actions.ofType(FETCH_USER_ABORTED)
     )
     // Let's us immediately update the user's state so we can display
     // loading messages to the user, etc.
