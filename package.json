@@ -1,6 +1,6 @@
 {
   "name": "redux-observable",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "creates RxJS based middleware for Redux",
   "main": "index.js",
   "scripts": {
