@@ -65,7 +65,7 @@ dispatch(
     .map(() => ({ type: 'TIMER_COMPLETE'}))
     .takeUntil(
       actions.ofType('ABORT_TIMER')
-	  )
+    )
     // `actions.ofType('ABORT_TIMER')` is equivalent to
     // `actions.filter(action => action.type === 'ABORT_TIMER')`
 );
