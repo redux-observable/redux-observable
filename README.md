@@ -53,16 +53,21 @@ dispatch(asyncAction());
 ### Cancellation
 
 It's recommended to dispatch an action to cancel your async action with Rx. This can be done
-by leveraging the first argument to your dispatched function, which returns all `actions`. With that
-you can use `takeUntil` to abort the async action cleanly and via composition.
+by leveraging the first argument to your dispatched function, which returns an observable of all `actions`.
+This observable is an instanceof `ActionObservable` and has a custom operator `ofType`. The `ofType`
+operator can be used to filter down to a set of actions of a particular type. It is essentially an alias
+for `filter(action.type === 'SOME_TYPE')`. You can use this stream of all actions with operators like
+`takeUntil` to abort the async action cleanly and via composition.
 
 ```js
 dispatch(
   (actions) => Observable.timer(1000)
     .map(() => ({ type: 'TIMER_COMPLETE'}))
     .takeUntil(
-      actions.filter(a => a.type === 'ABORT_TIMER')
-	)
+      actions.ofType('ABORT_TIMER')
+	  )
+    // `actions.ofType('ABORT_TIMER')` is equivalent to
+    // `actions.filter(action => action.type === 'ABORT_TIMER')`
 );
 
 // elsewhere in your code you can abort with a simple dispatch
