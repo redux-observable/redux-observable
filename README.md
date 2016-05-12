@@ -2,11 +2,11 @@
 
 # redux-observable (beta)
 
-Creates [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
-[Redux](http://github.com/reactjs/redux).
+[RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
+[Redux](http://github.com/reactjs/redux). Compose and cancel async actions and more.
 
 - Dispatch a function that returns an observable of actions, a promise of action or iterable of actions.
-- Function is provided a stream of all actions, useful for composition with the current dispatched observable
+- Function is provided a stream of all future actions, useful for composition with the current dispatched observable, especially for cancellation.
   (think things like `takeUntil` or `zip`)
 - Function is also provided a reference to the store which can be used to get the state or even dispatch.
 
@@ -16,7 +16,7 @@ NOTE: This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have 
 as well.
 
 ```sh
-npm i -S redux-observable
+npm install --save redux-observable
 ```
 
 ## Usage
@@ -38,7 +38,16 @@ dispatch(() => (function* () {
   for (let i = 0; i < 10; i++) {
     yield { type: 'SOME_GENERATED_ACTION', value: i };
   }
-}()))
+}()));
+
+// Of couse, you'll usually create action factories instead:
+
+const asyncAction = () => (
+  (actions, store) => Rx.Observable.of({ type: 'ASYNC_ACTION_FROM_RX' }).delay(1000)
+);
+
+dispatch(asyncAction());
+
 ```
 
 ### Cancellation
@@ -48,9 +57,13 @@ by leveraging the first argument to your dispatched function, which returns all 
 you can use `takeUntil` to abort the async action cleanly and via composition.
 
 ```js
-dispatch((actions) => Observable.timer(1000)
-  .map(() => ({ type: 'TIMER_COMPLETE'}))
-  .takeUntil(actions.filter(a => a.type === 'ABORT_TIMER')))
+dispatch(
+  (actions) => Observable.timer(1000)
+    .map(() => ({ type: 'TIMER_COMPLETE'}))
+    .takeUntil(
+      actions.filter(a => a.type === 'ABORT_TIMER')
+	)
+);
 
 // elsewhere in your code you can abort with a simple dispatch
 dispatch({ type: 'ABORT_TIMER' });
@@ -84,58 +97,12 @@ dispatch = ((actions?: Observable<Action>, store?: ReduxStore) => Observable<Act
 
 ### Example
 
-Below is a basic example of it how it might work in React.
+A full example is available in [examples/basic](examples/basic)
 
-```js
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { createStore, applyMiddleware } from 'redux';
-import { reduxObservable } from 'redux-observable';
-import * as Rx from 'rxjs';
+* * *
 
-// Just the plain redux reducer.
-const reducer = (state = {}, action) => {
-  switch (action.type) {
-    case 'DATA_LOADING':
-      return { ...state, loading: true };
-    case 'DATA_LOADED':
-      return { ...state, loading: false, data: action.data };
-    case 'ABORT_LOAD':
-      return { ...state, loading: false };
-  }
-  return state;
-};
+##### Incompatible w/ redux-thunk
 
-// making a store
-const store = createStore(reducer, applyMiddleware(reduxObservable()));
-
-// set up async dispatches here
-const loadData = () => (actions, store) => Observable.of('hello world')
-                .delay(1000)
-                .map(data => ({ type: 'DATA_LOADED', data })
-                .startWith({ type: 'DATA_LOADING' })
-                .takeUntil(actions.filter(a => a.type === 'ABORT_LOAD'));
-
-// plain old action
-const abortLoad = () => ({ type: 'ABORT_LOAD' });
-
-const mapStateToProps = ({ data, loading }) => ({ data, loading });
-
-const mapDispatchToProps = (dispatch) => ({
-  loadData: () => dispatch(loadData()),
-  abortLoad: () => dispatch(abortLoad())
-});
-
-const MyComponent = ({ loading, data, loadData, abortLoad }) => (
-  <div>
-    <button onClick={loadData}>load data</button>
-    <button onClick={abortLoad}>abort load</button>
-    <div>Loading: {loading}</div>
-    <pre>{JSON.stringify(data, null, 2)}</pre>
-  </div>
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(MyComponent);
-```
+Since redux-observable uses dispached functions, this middlware is *incompatible with redux-thunk*. At this time, this is unavoidable since providing the function a stream of future actions for cancellation is imperative.
 
 :shipit:
