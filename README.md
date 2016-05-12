@@ -1,3 +1,5 @@
+![LOGO](resources/logo-medium.png)
+
 # redux-observable (beta)
 
 Creates [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
