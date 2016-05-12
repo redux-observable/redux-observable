@@ -1,6 +1,4 @@
-# rx-ducks-middleware (alpha)
-
-** WARNING: This module is purely experimental **
+# redux-observable (beta)
 
 Creates [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux).
