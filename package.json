@@ -25,8 +25,8 @@
     "async"
   ],
   "contributors": [
-    { name: "Ben Lesh", email: "ben@benlesh.com" },
-    { name: "Jay Phelps", email: "hello@jayphelps.com" }
+    { "name": "Ben Lesh", "email": "ben@benlesh.com" },
+    { "name": "Jay Phelps", "email": "hello@jayphelps.com" }
   ],
   "license": "MIT",
   "bugs": {
