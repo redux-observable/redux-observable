@@ -114,4 +114,37 @@ describe('reduxObservable', () => {
       done();
     }, 100);
   });
+
+  it('should emit POJO actions to the actions Subject', (done) => {
+    const reducer = (state = [], action) => state.concat(action);
+
+    const middleware = reduxObservable();
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch(
+      (actions) => Observable.of({ type: 'ASYNC_ACTION_2' })
+        .delay(10)
+        .takeUntil(actions.filter(action => action.type === 'ASYNC_ACTION_ABORT'))
+        .merge(
+          actions.map(
+            action => ({ type: action.type + '_MERGED' })
+          )
+        )
+        .startWith({ type: 'ASYNC_ACTION_1' })
+    );
+
+    store.dispatch({ type: 'ASYNC_ACTION_ABORT' });
+
+    // HACKY: but should work until we use TestScheduler.
+    setTimeout(() => {
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'ASYNC_ACTION_1' },
+        { type: 'ASYNC_ACTION_ABORT_MERGED' },
+        { type: 'ASYNC_ACTION_ABORT' }
+      ]);
+      done();
+    }, 100);
+  });
 });
