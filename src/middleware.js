@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs/Subject';
 import { from } from 'rxjs/observable/from';
 
-export function rxDucksMiddleware() {
+export function reduxObservable() {
   let actions = new Subject();
 
   let middleware = (store) => (next) => {
