@@ -10,6 +10,8 @@
   (think things like `takeUntil` or `zip`)
 - Function is also provided a reference to the store which can be used to get the state or even dispatch.
 
+[Read about it on Medium](https://medium.com/@benlesh/redux-observable-ec0b00d2eb52)
+
 ## Install
 
 NOTE: This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed
