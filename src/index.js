@@ -1,2 +1,2 @@
-export { reduxObservable } from './redux-observable';
-export { ActionsObservable } from './actions-observable';
+export { reduxObservable } from './reduxObservable';
+export { ActionsObservable } from './ActionsObservable';
