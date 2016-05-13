@@ -10,6 +10,11 @@
     "test": "npm run build && npm run build_tests && mocha temp",
     "prepublish": "npm test"
   },
+  "files": [
+    "lib",
+    "README.md",
+    "LICENSE"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/blesh/redux-observable.git"
