@@ -1,5 +1,4 @@
-![LOGO](https://cloud.githubusercontent.com/assets/762949/15234285/e84cc032-1864-11e6-9fb5-ced867249343.png)
-
+<img title="redux-observable logo" src="https://cloud.githubusercontent.com/assets/762949/15234285/e84cc032-1864-11e6-9fb5-ced867249343.png" width="360">
 
 # redux-observable (beta)
 
