@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 import { from } from 'rxjs/observable/from';
-import { ActionsObservable } from './actions-observable';
+import { ActionsObservable } from './ActionsObservable';
 
 export function reduxObservable() {
   let actions = new Subject();
