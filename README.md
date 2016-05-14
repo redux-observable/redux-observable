@@ -82,6 +82,15 @@ const fetchUserById = (userId) => (
 
 dispatch(fetchUserById(123));
 
+// If you find it more readable, you certainly can omit all the those
+// arrow function parenthesis (or use regular functions)
+
+const fetchUserById = userId =>
+  actions =>
+    Rx.Observable.ajax(`/api/users/${userId}`)
+      .map(payload => ({ type: 'FETCH_USER_FULFILLED', payload }))
+      .startWith({ type: 'FETCH_USER_PENDING' });
+
 ```
 
 #### Cancellation
