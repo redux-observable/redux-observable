@@ -10,7 +10,7 @@ export function reduxObservable() {
     return (action) => {
       if (typeof action === 'function') {
         let obs = from(action(actionsObs, store));
-        let sub = obs.subscribe(next);
+        let sub = obs.subscribe(store.dispatch);
         return sub;
       } else {
         actions.next(action);
