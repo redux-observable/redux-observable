@@ -23,7 +23,21 @@ npm install --save redux-observable
 
 ## Usage
 
-## Basic
+### Basic
+
+Add the middlware to your redux store:
+
+```js
+import { createStore, applyMiddleware } from 'redux';
+import { reduxObservable } from 'redux-observable';
+
+const store = createStore(
+  rootReducer,
+  // Notice that we invoke `reduxObservable()` before passing it!
+  applyMiddleware(reduxObservable())
+);
+
+```
 
 With redux-observable, you can dispatch any function that returns an observable,
 a promise, an observable-like object or an iterable. The basic call looks like:
@@ -52,7 +66,7 @@ dispatch(asyncAction());
 
 ```
 
-### Cancellation
+#### Cancellation
 
 It's recommended to dispatch an action to cancel your async action with Rx. This can be done
 by leveraging the first argument to your dispatched function, which returns an observable of all `actions`.
