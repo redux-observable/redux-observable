@@ -127,9 +127,9 @@ describe('reduxObservable', () => {
         .delay(10)
         .takeUntil(actions.filter(action => action.type === 'ASYNC_ACTION_ABORT'))
         .merge(
-          actions.map(
-            action => ({ type: action.type + '_MERGED' })
-          )
+          actions
+            .map(action => ({ type: action.type + '_MERGED' }))
+            .take(1)
         )
         .startWith({ type: 'ASYNC_ACTION_1' })
     );
@@ -143,6 +143,29 @@ describe('reduxObservable', () => {
         { type: 'ASYNC_ACTION_1' },
         { type: 'ASYNC_ACTION_ABORT_MERGED' },
         { type: 'ASYNC_ACTION_ABORT' }
+      ]);
+      done();
+    }, 100);
+  });
+
+  it('should store.dispatch onNext to allow async actions to emit other async actions', (done) => {
+    const reducer = (state = [], action) => state.concat(action);
+
+    const middleware = reduxObservable();
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    const action2 = (actions) => Observable.of({ type: 'ASYNC_ACTION_2' });
+    const action1 = (actions) => Observable.of({ type: 'ASYNC_ACTION_1' }, action2);
+
+    store.dispatch(action1);
+
+    // HACKY: but should work until we use TestScheduler.
+    setTimeout(() => {
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'ASYNC_ACTION_1' },
+        { type: 'ASYNC_ACTION_2' }
       ]);
       done();
     }, 100);
