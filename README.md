@@ -40,7 +40,11 @@ const store = createStore(
 ```
 
 With redux-observable, you can dispatch any function that returns an observable,
-a promise, an observable-like object or an iterable. The basic call looks like:
+a promise, an observable-like object or an iterable; we call this a "thunkservable".
+
+Your thunkservable emits a stream of actions.
+
+Here are several examples:
 
 ```js
 // using RxJS
@@ -55,14 +59,28 @@ dispatch(() => (function* () {
     yield { type: 'SOME_GENERATED_ACTION', value: i };
   }
 }()));
+```
 
-// Of couse, you'll usually create action factories instead:
+Of couse, you'll usually create action factories instead:
 
+```js
 const asyncAction = () => (
   (actions, store) => Rx.Observable.of({ type: 'ASYNC_ACTION_FROM_RX' }).delay(1000)
 );
 
 dispatch(asyncAction());
+
+const fetchUserById = (userId) => (
+  (actions) => (
+    Rx.Observable.ajax(`/api/users/${userId}`)
+      .map(
+        (payload) => ({ type: 'FETCH_USER_FULFILLED', payload })
+      )
+      .startWith({ type: 'FETCH_USER_PENDING' })
+  )
+);
+
+dispatch(fetchUserById(123));
 
 ```
 
