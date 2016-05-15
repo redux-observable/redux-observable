@@ -1,0 +1,28 @@
+language: node_js
+sudo: false
+node_js:
+  - '4.2.2'
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-4.8
+    - g++-4.8
+
+cache:
+  directories:
+    - node_modules
+
+env:
+  global:
+  - CXX=g++-4.8
+
+before_install:
+  - npm install -g npm@3
+install:
+  - npm install
+
+script:
+  - npm test
