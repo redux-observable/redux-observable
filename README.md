@@ -1,6 +1,6 @@
 <img title="redux-observable logo" src="https://cloud.githubusercontent.com/assets/762949/15234285/e84cc032-1864-11e6-9fb5-ced867249343.png" width="360">
 
-# redux-observable (beta) [![Build Status](https://travis-ci.org/blesh/redux-observable.svg?branch=master)](https://travis-ci.org/blesh/redux-observable)
+# redux-observable (beta) [![Build Status](https://travis-ci.org/blesh/redux-observable.svg?branch=master)](https://travis-ci.org/blesh/redux-observable) [![npm version](https://badge.fury.io/js/redux-observable.svg)](https://badge.fury.io/js/redux-observable)
 
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions and more.
