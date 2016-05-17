@@ -61,7 +61,7 @@ dispatch(() => (function* () {
 }()));
 ```
 
-Of couse, you'll usually create action factories instead:
+Of course, you'll usually create action factories instead:
 
 ```js
 const asyncAction = () => (
