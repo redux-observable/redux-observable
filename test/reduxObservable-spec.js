@@ -10,6 +10,30 @@ import $$observable from 'symbol-observable';
 const { Observable } = Rx;
 
 describe('reduxObservable', () => {
+  it('should accept a processor argument that wires up a stream of actions to a stream of actions', () => {
+    const reducer = (state = [], action) => state.concat(action);
+
+    const middleware = reduxObservable((actions, store) =>
+      Observable.merge(
+        actions.ofType('FIRE_1').mapTo({ type: 'ACTION_1' }),
+        actions.ofType('FIRE_2').mapTo({ type: 'ACTION_2' })
+      )
+    );
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'FIRE_1' });
+    store.dispatch({ type: 'FIRE_2' });
+
+    expect(store.getState()).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'FIRE_1' },
+      { type: 'ACTION_1' },
+      { type: 'FIRE_2' },
+      { type: 'ACTION_2' }
+    ]);
+  });
+
   it('should intercept and process actions', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
@@ -141,8 +165,8 @@ describe('reduxObservable', () => {
       expect(store.getState()).to.deep.equal([
         { type: '@@redux/INIT' },
         { type: 'ASYNC_ACTION_1' },
-        { type: 'ASYNC_ACTION_ABORT_MERGED' },
-        { type: 'ASYNC_ACTION_ABORT' }
+        { type: 'ASYNC_ACTION_ABORT' },
+        { type: 'ASYNC_ACTION_ABORT_MERGED' }
       ]);
       done();
     }, 100);
