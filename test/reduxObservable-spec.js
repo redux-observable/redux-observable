@@ -170,4 +170,24 @@ describe('reduxObservable', () => {
       done();
     }, 100);
   });
+
+  it('should pass options.extraArguments', (done) => {
+    const reducer = (state = [], action) => state.concat(action);
+
+    const options = { extraArguments: ['foo', 'bar'] };
+    const middleware = reduxObservable(options);
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch((_, __, foo, bar) => Observable.of({ type: 'ACTION', payload: `${foo}${bar}` }));
+
+    // HACKY: but should work until we use TestScheduler.
+    setTimeout(() => {
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'ACTION', payload: 'foobar' },
+      ]);
+      done();
+    }, 100);
+  });
 });
