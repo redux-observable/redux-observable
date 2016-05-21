@@ -24,28 +24,55 @@ describe('ActionsObservable', () => {
     });
   });
 
-  it('should have a ofType operator that filters by action type', () => {
-    let actions = new Subject();
-    let actionsObs = new ActionsObservable(actions);
-    let lulz = [];
-    let haha = [];
+  describe('ofType operator', () => {
+    it('should filter by action type', () => {
+      let actions = new Subject();
+      let actionsObs = new ActionsObservable(actions);
+      let lulz = [];
+      let haha = [];
 
-    actionsObs.ofType('LULZ').subscribe(x => lulz.push(x));
-    actionsObs.ofType('HAHA').subscribe(x => haha.push(x));
+      actionsObs.ofType('LULZ').subscribe(x => lulz.push(x));
+      actionsObs.ofType('HAHA').subscribe(x => haha.push(x));
 
-    actions.next({ type: 'LULZ', i: 0 });
+      actions.next({ type: 'LULZ', i: 0 });
 
-    expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }]);
-    expect(haha).to.deep.equal([]);
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }]);
+      expect(haha).to.deep.equal([]);
 
-    actions.next({ type: 'LULZ', i: 1 });
+      actions.next({ type: 'LULZ', i: 1 });
 
-    expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
-    expect(haha).to.deep.equal([]);
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(haha).to.deep.equal([]);
 
-    actions.next({ type: 'HAHA', i: 0 });
+      actions.next({ type: 'HAHA', i: 0 });
 
-    expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
-    expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
+    });
+
+    it('should filter by multiple action types', () => {
+      let actions = new Subject();
+      let actionsObs = new ActionsObservable(actions);
+      let lulz = [];
+      let haha = [];
+
+      actionsObs.ofType('LULZ', 'LARF').subscribe(x => lulz.push(x));
+      actionsObs.ofType('HAHA').subscribe(x => haha.push(x));
+
+      actions.next({ type: 'LULZ', i: 0 });
+
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }]);
+      expect(haha).to.deep.equal([]);
+
+      actions.next({ type: 'LARF', i: 1 });
+
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LARF', i: 1 }]);
+      expect(haha).to.deep.equal([]);
+
+      actions.next({ type: 'HAHA', i: 0 });
+
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LARF', i: 1 }]);
+      expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
+    });
   });
 });
