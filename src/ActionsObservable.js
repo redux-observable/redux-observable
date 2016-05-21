@@ -13,7 +13,19 @@ export class ActionsObservable extends Observable {
     return observable;
   }
 
-  ofType(key) {
-    return this::filter((action) => action.type === key);
+  ofType(...keys) {
+    return this::filter(({ type }) => {
+      const len = keys.length;
+      if (len === 1) {
+        return type === keys[0];
+      } else {
+        for (let i = 0; i < len; i++) {
+          if (keys[i] === type) {
+            return true;
+          }
+        }
+      }
+      return false;
+    });
   }
 }
