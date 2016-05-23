@@ -15,6 +15,7 @@
   "typings": "./index.d.ts",
   "files": [
     "lib",
+    "index.d.ts",
     "README.md",
     "LICENSE"
   ],
