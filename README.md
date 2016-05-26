@@ -82,7 +82,7 @@ const fetchUserById = (userId) => (
 
 dispatch(fetchUserById(123));
 
-// If you find it more readable, you certainly can omit all the those
+// If you find it more readable, you certainly can omit all those
 // arrow function parenthesis (or use regular functions)
 
 const fetchUserById = userId =>
