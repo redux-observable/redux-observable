@@ -9,7 +9,7 @@ export const fetchUser = () => (
     // Delaying to emulate an async request, like Rx.Observable.ajax('/api/path')
     .delay(1000)
     // When our request comes back, we transform it into an action
-    // that is then automatically dispatched by the middleware
+    // which the redux-observable middleware will then dispatch
     .map(
       payload => ({ type: FETCH_USER_FULFILLED, payload })
     )
