@@ -21,5 +21,5 @@ export declare class ActionsObservable<T> extends Observable<T> {
   // property with a type signature of `any`
   // since `key` is being compared with an `Action`'s `type`, `key` has a type
   // signature of `any`
-  ofType(key: any);
+  ofType(...key: any[]);
 }
