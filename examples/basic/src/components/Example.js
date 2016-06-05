@@ -13,9 +13,9 @@ const Example = ({ user, fetchUser, abortFetchUser }) => (
 
 const mapStateToProps = ({ user }) => ({ user });
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchUser: () => dispatch(fetchUser()),
-  abortFetchUser: () => dispatch(abortFetchUser())
-});
+const mapDispatchToProps = {
+  fetchUser,
+  abortFetchUser
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Example);
