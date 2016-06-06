@@ -5,7 +5,7 @@ export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
 export const FETCH_USER_ABORTED = 'FETCH_USER_ABORTED';
 
 export const fetchUser = () => (
-  (actions, store) => Rx.Observable.of({ id: 1, name: 'Bilbo Baggins', timestamp: new Date() })
+  (actions, store) => Rx.Observable.ajax('json-server/db.json')
     // Delaying to emulate an async request, like Rx.Observable.ajax('/api/path')
     .delay(1000)
     // When our request comes back, we transform it into an action
