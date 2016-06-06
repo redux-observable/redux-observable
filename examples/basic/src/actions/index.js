@@ -3,9 +3,10 @@ import * as Rx from 'rxjs';
 export const FETCH_USER_PENDING = 'FETCH_USER_PENDING';
 export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
 export const FETCH_USER_ABORTED = 'FETCH_USER_ABORTED';
+const BASE_URL = 'http://localhost:3000/items/';
 
 export const fetchUser = () => (
-  (actions, store) => Rx.Observable.ajax('json-server/db.json')
+  (actions, store) => Rx.Observable.ajax(BASE_URL)
     // Delaying to provide enough time to cancel manually
     .delay(1000)
     // When our request comes back, we transform it into an action
