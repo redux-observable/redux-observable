@@ -18,7 +18,11 @@ NOTE: This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have 
 as well.
 
 ```sh
-npm install --save redux-observable
+npm link
+
+cd examples/basic
+npm install
+npm start
 ```
 
 ## Usage
