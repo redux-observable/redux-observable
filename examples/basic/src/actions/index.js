@@ -7,8 +7,6 @@ const BASE_URL = 'http://localhost:3000/items/';
 
 export const fetchUser = () => (
   (actions, store) => Rx.Observable.ajax(BASE_URL)
-    // Delaying to provide enough time to cancel manually
-    .delay(1000)
     // When our request comes back, we transform it into an action
     // which the redux-observable middleware will then dispatch
     .map(
