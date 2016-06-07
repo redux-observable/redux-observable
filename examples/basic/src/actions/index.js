@@ -3,7 +3,7 @@ import * as Rx from 'rxjs';
 export const FETCH_USER_PENDING = 'FETCH_USER_PENDING';
 export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
 export const FETCH_USER_ABORTED = 'FETCH_USER_ABORTED';
-const BASE_URL = 'http://localhost:3000/items/';
+const BASE_URL = 'http://localhost:3000/user/';
 
 export const fetchUser = () => (
   (actions, store) => Rx.Observable.ajax.getJSON(BASE_URL)
