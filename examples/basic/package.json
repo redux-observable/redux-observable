@@ -20,7 +20,7 @@
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
-    "redux-observable": "^0.6.0",
+    "redux-observable": "*",
     "rxjs": "^5.0.0-beta.7"
   },
   "devDependencies": {
