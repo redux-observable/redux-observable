@@ -6,7 +6,7 @@ export const FETCH_USER_ABORTED = 'FETCH_USER_ABORTED';
 const BASE_URL = 'http://localhost:3000/items/';
 
 export const fetchUser = () => (
-  (actions, store) => Rx.Observable.ajax(BASE_URL)
+  (actions, store) => Rx.Observable.ajax.getJSON(BASE_URL)
     // When our request comes back, we transform it into an action
     // which the redux-observable middleware will then dispatch
     .map(
