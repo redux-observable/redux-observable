@@ -3,11 +3,10 @@ import * as Rx from 'rxjs';
 export const FETCH_USER_PENDING = 'FETCH_USER_PENDING';
 export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
 export const FETCH_USER_ABORTED = 'FETCH_USER_ABORTED';
+const BASE_URL = 'http://localhost:3000/user/';
 
 export const fetchUser = () => (
-  (actions, store) => Rx.Observable.of({ id: 1, name: 'Bilbo Baggins', timestamp: new Date() })
-    // Delaying to emulate an async request, like Rx.Observable.ajax('/api/path')
-    .delay(1000)
+  (actions, store) => Rx.Observable.ajax.getJSON(BASE_URL)
     // When our request comes back, we transform it into an action
     // which the redux-observable middleware will then dispatch
     .map(
