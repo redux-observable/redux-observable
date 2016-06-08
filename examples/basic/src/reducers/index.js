@@ -7,7 +7,7 @@ const user = (state = { isLoading: false }, action) => {
       return { ...state, isLoading: true };
 
     case FETCH_USER_FULFILLED:
-      return { ...state, isLoading: false, ...action.payload };
+      return { ...state, isLoading: false, ...action.payload, timestamp: new Date() };
 
     case FETCH_USER_ABORTED:
       return { ...state, isLoading: false };

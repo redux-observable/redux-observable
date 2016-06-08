@@ -1,12 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { reduxObservable } from 'redux-observable';
-import rootReducer from './reducers';
+import configureStore from './store/configure-store';
 import Example from './components/Example';
 
-const store = createStore(rootReducer, applyMiddleware(reduxObservable()));
+const store = configureStore();
 
 render(
   <Provider store={store}>
