@@ -1,4 +1,4 @@
-<p align="center"><img title="redux-observable logo" src="https://cloud.githubusercontent.com/assets/762949/16136007/0918a29e-33dc-11e6-84ba-688170264e27.png" width="360"></p>
+<p align="center"><img title="redux-observable logo" src="https://cloud.githubusercontent.com/assets/762949/16137092/014c42e2-33e5-11e6-908b-28bf19ac50ea.png" width="360"></p>
 
 # redux-observable (beta) [![Build Status](https://travis-ci.org/redux-observable/redux-observable.svg?branch=master)](https://travis-ci.org/redux-observable/redux-observable) [![npm version](https://badge.fury.io/js/redux-observable.svg)](https://badge.fury.io/js/redux-observable)
 
