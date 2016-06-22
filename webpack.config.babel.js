@@ -12,6 +12,19 @@ const config = {
     library: 'ReduxObservable',
     libraryTarget: 'umd'
   },
+  externals: {
+    'rxjs/Observable': 'Rx',
+    'rxjs/Subject': 'Rx',
+    'rxjs/observable/from': {
+      root: ['Rx', 'Observable', 'prototype'],
+    },
+    'rxjs/operator/filter': {
+      root: ['Rx', 'Observable', 'prototype']
+    },
+    'rxjs/observable/merge': {
+      root: ['Rx', 'Observable'],
+    },
+  },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
