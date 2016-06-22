@@ -15,7 +15,7 @@ const config = {
   },
   externals: {
     ...createRxJSExternals(),
-    'redux': {
+    redux: {
       root: 'Redux',
       commonjs2: 'redux',
       commonjs: 'redux',
