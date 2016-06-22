@@ -1,8 +1,13 @@
 import { Middleware } from 'redux';
-import { Observable } from 'rxjs/Observable';
+import { Observable, Subscribable } from 'rxjs/Observable';
 import { Operator } from 'rxjs/Operator';
+import { Store } from 'redux';
 
-export declare function reduxObservable(): Middleware;
+export interface Processor<T, S> {
+  (action$?: ActionsObservable<T>, store?: Store<S>): Subscribable<T>
+}
+
+export declare function reduxObservable<T, S>(processor?: Processor<T, S>): Middleware;
 
 // ./node_modules/rxjs/Observable.d.ts
 export declare class ActionsObservable<T> extends Observable<T> {
@@ -21,5 +26,5 @@ export declare class ActionsObservable<T> extends Observable<T> {
   // property with a type signature of `any`
   // since `key` is being compared with an `Action`'s `type`, `key` has a type
   // signature of `any`
-  ofType(...key: any[]);
+  ofType(...key: any[]): ActionsObservable<T>;
 }
