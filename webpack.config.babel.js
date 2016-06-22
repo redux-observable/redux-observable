@@ -16,7 +16,7 @@ const config = {
     'rxjs/Observable': 'Rx',
     'rxjs/Subject': 'Rx',
     'rxjs/observable/from': {
-      root: ['Rx', 'Observable', 'prototype'],
+      root: ['Rx', 'Observable'],
     },
     'rxjs/operator/filter': {
       root: ['Rx', 'Observable', 'prototype']
