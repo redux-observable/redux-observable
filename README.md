@@ -5,6 +5,8 @@
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions and more.
 
+### Warning: we've recently introduced a new "Process Manager" feature that will soon _replace_ the thunk-style documented below. Extensive documentation on this is in the works, subscribe to [Issue #44](https://github.com/redux-observable/redux-observable/issues/44) to be notified when they are up!
+
 - Dispatch a function that returns an observable of actions, a promise of action or iterable of actions.
 - Function is provided a stream of all future actions, useful for composition with the current dispatched observable, especially for cancellation.
   (think things like `takeUntil` or `zip`)
