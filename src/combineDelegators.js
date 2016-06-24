@@ -1,4 +1,3 @@
-import { merge } from 'rxjs/observable/merge';
 import { Subject } from 'rxjs/subject';
 
 /**
@@ -15,4 +14,4 @@ export const combineDelegators = (...delegators) => {
   delegator.addDelegator = (newDelegator) => dynamicDelegators$.next(newDelegator);
 
   return delegator;
-}
+};
