@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/subject';
+import { Subject } from 'rxjs/Subject';
 
 /**
   merges all delegators into a single delegator.
