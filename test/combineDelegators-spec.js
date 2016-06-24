@@ -10,6 +10,8 @@ describe('combineDelegators', () => {
       actions.ofType('ACTION1')::map(action => ({ type: 'DELEGATED1', action, store }));
     let delegator2 = (actions, store) =>
       actions.ofType('ACTION2')::map(action => ({ type: 'DELEGATED2', action, store }));
+    let delegatorDynamic = (actions, store) =>
+      actions.ofType('ACTION3')::map(action => ({ type: 'DELEGATED_DYNAMIC', action, store }));
 
     let delegator = combineDelegators(
       delegator1,
@@ -27,9 +29,14 @@ describe('combineDelegators', () => {
     subject.next({ type: 'ACTION1' });
     subject.next({ type: 'ACTION2' });
 
+    delegator.addDelegator(delegatorDynamic);
+
+    subject.next({ type: 'ACTION3' });
+
     expect(delegatedActions).to.deep.equal([
       { type: 'DELEGATED1', action: { type: 'ACTION1' }, store },
       { type: 'DELEGATED2', action: { type: 'ACTION2' }, store },
+      { type: 'DELEGATED_DYNAMIC', action: { type: 'ACTION3' }, store },
     ]);
   });
 });
