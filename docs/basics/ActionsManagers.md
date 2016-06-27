@@ -152,15 +152,12 @@ const incrementIfOddManager = (action$, store) => (
 dispatch(incrementIfOdd());
 ```
 
-Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is. While it's not a common pattern for Managers to need, Redux does support a stream of state changes:
+Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is. While it's not a common pattern for Managers to need, the Redux actually supports being converted to a stream of changes:
 
 ```js
-// You may need a Symbol.observable polyfill
-// like this if you aren't using one already
-import 'symbol-observable';
 
 const offlineStateManager = (_, store) =>
-  store[Symbol.observable)()
+  Observable.of(store)
     .do(state => localStorage.setItem('state', state))
     .ignoreElements(); // we have no actions to emit
 ```
