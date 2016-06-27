@@ -19,6 +19,13 @@ The actions you emit will be immediately dispatched through the normal `store.di
 
 > The pattern of handling side effects this way is similar to the *process manager* pattern, [often](http://kellabyte.com/2012/05/30/clarifying-the-saga-pattern/) [incorrectly](https://msdn.microsoft.com/en-us/library/jj591569.aspx) described as a *saga*. If you're familiar with [redux-saga](http://yelouafi.github.io/redux-saga/), redux-observable is very similar. But because it uses RxJS it is much more declarative and you utilize and expand your existing RxJS abilities.
 
+Keep in mind that letting an incoming action pass through transparently will create an infinite loop:
+
+```js
+const actionManager = (action$) => action$;
+```
+
+
 ## A Basic Example
 
 Let's start with a simple Actions Manager example:
