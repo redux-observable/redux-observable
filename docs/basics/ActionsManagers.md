@@ -48,7 +48,7 @@ dispatch({ type: 'PING' });
 dispatch({ type: 'PONG' });
 ```
 
-> Actions Managers run alongside the normal Redux dispatch channel, so you cannot "swallow" an action. When you map one action to another, you're not preventing the original action from reaching the reducers.
+> Actions Managers run alongside the normal Redux dispatch channel, so you cannot "swallow" an incoming action. When you map one of those actions to another, you're not preventing the original action from reaching the reducers.
 
 The real power starts to reveal itself when you need to do something asynchronous. Let's say you want to dispatch `PONG` 1 second after receiving the `PING`:
 
