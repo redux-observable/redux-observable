@@ -1,0 +1,17 @@
+{
+  "gitbook": "2.4.3",
+  "title": "redux-observable",
+  "structure": {
+    "summary": "docs/README.md"
+  },
+  "plugins": ["edit-link", "prism", "-highlight", "github", "anker-enable"],
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/redux-observable/redux-observable/tree/master",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/redux-observable/redux-observable/"
+    }
+  }
+}

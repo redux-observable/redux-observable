@@ -1,11 +1,9 @@
-<p align="center"><img title="redux-observable logo" src="https://cloud.githubusercontent.com/assets/762949/16137092/014c42e2-33e5-11e6-908b-28bf19ac50ea.png" width="360"></p>
+<p align="center"><img title="redux-observable logo" src="https://cloud.githubusercontent.com/assets/762949/15234285/e84cc032-1864-11e6-9fb5-ced867249343.png" width="360"></p>
 
 # redux-observable (beta) [![Build Status](https://travis-ci.org/redux-observable/redux-observable.svg?branch=master)](https://travis-ci.org/redux-observable/redux-observable) [![npm version](https://badge.fury.io/js/redux-observable.svg)](https://badge.fury.io/js/redux-observable)
 
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions and more.
-
-### Warning: we've recently introduced a new "Process Manager" feature that will soon _replace_ the thunk-style documented below. Extensive documentation on this is in the works, subscribe to [Issue #44](https://github.com/redux-observable/redux-observable/issues/44) to be notified when they are up!
 
 - Dispatch a function that returns an observable of actions, a promise of action or iterable of actions.
 - Function is provided a stream of all future actions, useful for composition with the current dispatched observable, especially for cancellation.
