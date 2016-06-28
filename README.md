@@ -1,9 +1,11 @@
 <img title="logo" src="logo/logo-small.gif" width="128" style="vertical-align: middle;">
 <img title="redux-observable" src="logo/logo-text-small.png" width="526" style="vertical-align: middle; margin-left: 20px; margin-top: -13px;">
 
-[![build status](https://img.shields.io/travis/reactjs/redux/master.svg?style=flat-square)](https://travis-ci.org/redux-observable/redux-observable)
-[![npm version](https://img.shields.io/npm/v/redux-observable.svg?style=flat-square)](https://www.npmjs.com/package/redux)
-[![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg?style=flat-square)](https://www.npmjs.com/package/redux)
+[![build status](https://img.shields.io/travis/reactjs/redux/master.svg)](https://travis-ci.org/redux-observable/redux-observable)
+[![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux)
+[![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux)
+[![code climate](https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg)](https://codeclimate.com/github/redux-observable/redux-observable)
+
 
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions and more.
