@@ -1,9 +1,14 @@
-<p align="center"><img title="redux-observable logo" src="https://cloud.githubusercontent.com/assets/762949/15234285/e84cc032-1864-11e6-9fb5-ced867249343.png" width="360"></p>
+<img title="logo" src="logo/logo-small.gif" width="128" style="vertical-align: middle;">
+<img title="redux-observable" src="logo/logo-text-small.png" width="526" style="vertical-align: middle; margin-left: 20px; margin-top: -13px;">
 
-# redux-observable (beta) [![Build Status](https://travis-ci.org/redux-observable/redux-observable.svg?branch=master)](https://travis-ci.org/redux-observable/redux-observable) [![npm version](https://badge.fury.io/js/redux-observable.svg)](https://badge.fury.io/js/redux-observable)
+[![build status](https://img.shields.io/travis/reactjs/redux/master.svg?style=flat-square)](https://travis-ci.org/redux-observable/redux-observable)
+[![npm version](https://img.shields.io/npm/v/redux-observable.svg?style=flat-square)](https://www.npmjs.com/package/redux)
+[![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg?style=flat-square)](https://www.npmjs.com/package/redux)
 
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions and more.
+
+### Warning: we've recently introduced a new "Process Manager" feature that will soon _replace_ the thunk-style documented below. Extensive documentation on this is in the works, subscribe to [Issue #44](https://github.com/redux-observable/redux-observable/issues/44) to be notified when they are up!
 
 - Dispatch a function that returns an observable of actions, a promise of action or iterable of actions.
 - Function is provided a stream of all future actions, useful for composition with the current dispatched observable, especially for cancellation.
