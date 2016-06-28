@@ -22,7 +22,8 @@ The actions you emit will be immediately dispatched through the normal `store.di
 Keep in mind that letting an incoming action pass through transparently will create an infinite loop:
 
 ```js
-const actionManager = (action$) => action$;
+// DO NOT DO THIS
+const actionManager = (action$) => action$; // creates infinite loop
 ```
 
 
