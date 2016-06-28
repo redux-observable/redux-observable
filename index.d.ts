@@ -1,6 +1,7 @@
-import { Middleware } from 'redux';
-import { Observable } from 'rxjs/Observable';
+import { Middleware, Action, Store } from 'redux';
+import { Observable, ObservableInput } from 'rxjs/Observable';
 import { Operator } from 'rxjs/Operator';
+import { AnonymousSubscription } from 'rxjs/Subscription';
 
 export declare function reduxObservable(): Middleware;
 
@@ -22,4 +23,13 @@ export declare class ActionsObservable<T> extends Observable<T> {
   // since `key` is being compared with an `Action`'s `type`, `key` has a type
   // signature of `any`
   ofType(...key: any[]);
+}
+
+declare type ObservableThunk<S> = (actions: Observable<Action>, store: Store<S>) => ObservableInput<Action>; 
+
+declare module "redux" {
+  interface Dispatch<S> {
+    (observable: Observable<Action>): AnonymousSubscription;
+    (observableFn: { thunk: ObservableThunk<S>; }): AnonymousSubscription;
+  }
 }
