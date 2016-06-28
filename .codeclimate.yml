@@ -1,3 +1,5 @@
+JavaScript: true
+
 exclude_paths:
 - "examples/"
 - "test/"
