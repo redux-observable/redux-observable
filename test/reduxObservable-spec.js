@@ -41,8 +41,8 @@ describe('reduxObservable', () => {
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    store.dispatch(() => Observable.of({ type: 'ASYNC_ACTION_1' }).delay(10));
-    store.dispatch(() => Observable.of({ type: 'ASYNC_ACTION_2' }).delay(20));
+    store.dispatch(Observable.of({ type: 'ASYNC_ACTION_1' }).delay(10));
+    store.dispatch(Observable.of({ type: 'ASYNC_ACTION_2' }).delay(20));
 
     // HACKY: but should work until we use TestScheduler.
     setTimeout(() => {
@@ -62,8 +62,8 @@ describe('reduxObservable', () => {
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    store.dispatch(() => Promise.resolve({ type: 'ASYNC_ACTION_1' }));
-    store.dispatch(() => Promise.resolve({ type: 'ASYNC_ACTION_2' }));
+    store.dispatch({ thunk: () => Promise.resolve({ type: 'ASYNC_ACTION_1' }) });
+    store.dispatch({ thunk: () => Promise.resolve({ type: 'ASYNC_ACTION_2' }) });
 
     // HACKY: but should work until we use TestScheduler.
     setTimeout(() => {
@@ -83,10 +83,10 @@ describe('reduxObservable', () => {
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    store.dispatch(() => (function *() {
+    store.dispatch({ thunk: () => (function *() {
       yield { type: 'ASYNC_ACTION_1' };
       yield { type: 'ASYNC_ACTION_2' };
-    })());
+    })() });
 
     // HACKY: but should work until we use TestScheduler.
     setTimeout(() => {
@@ -108,7 +108,7 @@ describe('reduxObservable', () => {
 
     let finalized = false;
 
-    store.dispatch(() => ({
+    store.dispatch({
       [$$observable]() {
         return {
           subscribe(observer) {
@@ -124,7 +124,7 @@ describe('reduxObservable', () => {
           }
         };
       }
-    }));
+    });
 
     // HACKY: but should work until we use TestScheduler.
     setTimeout(() => {
@@ -146,7 +146,7 @@ describe('reduxObservable', () => {
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    store.dispatch(
+    store.dispatch({ thunk:
       (actions) => Observable.of({ type: 'ASYNC_ACTION_2' })
         .delay(10)
         .takeUntil(actions.filter(action => action.type === 'ASYNC_ACTION_ABORT'))
@@ -156,7 +156,7 @@ describe('reduxObservable', () => {
             .take(1)
         )
         .startWith({ type: 'ASYNC_ACTION_1' })
-    );
+    });
 
     store.dispatch({ type: 'ASYNC_ACTION_ABORT' });
 
@@ -179,8 +179,8 @@ describe('reduxObservable', () => {
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    const action2 = (actions) => Observable.of({ type: 'ASYNC_ACTION_2' });
-    const action1 = (actions) => Observable.of({ type: 'ASYNC_ACTION_1' }, action2);
+    const action2 = { thunk: (actions) => Observable.of({ type: 'ASYNC_ACTION_2' }) };
+    const action1 = { thunk: (actions) => Observable.of({ type: 'ASYNC_ACTION_1' }, action2) };
 
     store.dispatch(action1);
 

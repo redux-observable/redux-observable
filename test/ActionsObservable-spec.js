@@ -18,10 +18,10 @@ describe('ActionsObservable', () => {
 
     let store = createStore(reducer, applyMiddleware(middleware));
 
-    store.dispatch((arg1) => {
+    store.dispatch({ thunk: (arg1) => {
       expect(arg1).to.be.an.instanceof(ActionsObservable);
       return of({ type: 'WEEE' });
-    });
+    } });
   });
 
   describe('ofType operator', () => {
