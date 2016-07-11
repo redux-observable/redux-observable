@@ -1,23 +1,23 @@
 # Setting Up The Middleware
 
-Now that we know what [Actions Managers](ActionsManagers.md) are, we need to provide them to the redux-observable middleware so they can start listening for actions.
+Now that we know what [Epics](Epics.md) are, we need to provide them to the redux-observable middleware so they can start listening for actions.
 
-## Root Action Manager
+## Root Epic
 
-Just like redux requiring a single root Reducer, redux-observable also requires you to have a single root Action Manager. As we [learned previously](ActionsManagers.md), we can use `combineManagers()` accomplish this.
+Just like redux requiring a single root Reducer, redux-observable also requires you to have a single root Epic. As we [learned previously](Epics.md), we can use `combineEpics()` accomplish this.
 
-One common pattern is to import all your Managers into a single file, which then combined root Manager along with your root Reducer.
+One common pattern is to import all your Epics into a single file, which then combined root Epic along with your root Reducer.
 
 ### redux/modules/root.js
 
 ```js
-import { combineManagers } from 'redux-observable';
-import ping, { pingManager } from './ping';
-import users, { fetchUserManager } from './users';
+import { combineEpics } from 'redux-observable';
+import ping, { pingEpic } from './ping';
+import users, { fetchUserEpic } from './users';
 
-export const rootManager = combineManagers(
-  pingManager,
-  fetchUserManager
+export const rootEpic = combineEpics(
+  pingEpic,
+  fetchUserEpic
 );
 
 export const rootReducer = combineReducers({
@@ -30,13 +30,13 @@ export const rootReducer = combineReducers({
 
 ## Configuring The Store
 
-Now you'll want to create an instance of the redux-observable middleware, passing along our newly created root Manager. 
+Now you'll want to create an instance of the redux-observable middleware, passing along our newly created root Epic. 
 
 ```js
-import { createManagerMiddleware } from 'redux-observable';
-import { rootManager } from './modules/root';
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic } from './modules/root';
 
-const managerMiddleware = createManagerMiddleware(rootManager);
+const epicMiddleware = createEpicMiddleware(rootEpic);
 ```
 
 When you put that together with your existing Store configuration, it will look something like this:
@@ -45,14 +45,16 @@ When you put that together with your existing Store configuration, it will look 
 
 ```js
 import { createStore, applyMiddleware, compose } from 'redux';
-import { createManagerMiddleware } from 'redux-observable';
-import { rootManager, rootReducer } from './modules/root';
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic, rootReducer } from './modules/root';
+
+const epicMiddleware = createEpicMiddleware(rootEpic);
 
 export default function configureStore() {
   const store = createStore(
     rootReducer,
-	applyMiddleware(createManagerMiddleware(rootManager))
-  );
+	  applyMiddleware(epicMiddleware)
+);
 
   return store;
 }

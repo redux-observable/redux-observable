@@ -1,11 +1,16 @@
 {
-  "gitbook": "^2.4.3",
+  "gitbook": "^3.0.0",
   "title": "redux-observable",
-  "structure": {
-    "summary": "docs/README.md"
+  "styles": {
+    "website": "styles/website.css"
   },
-  "plugins": ["edit-link", "prism", "-highlight", "github", "anker-enable"],
+  "plugins": ["edit-link", "prism", "github", "anker-enable"],
   "pluginsConfig": {
+    "sharing": {
+      "google": false,
+      "facebook": false,
+      "twitter": false
+    },
     "edit-link": {
       "base": "https://github.com/redux-observable/redux-observable/tree/master",
       "label": "Edit This Page"

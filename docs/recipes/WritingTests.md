@@ -2,19 +2,19 @@
 
 If you haven't already set up testing for regular Redux, you'll want to head over to [their documentation](http://redux.js.org/docs/recipes/WritingTests.html) first to familiarize yourself since nearly all of it is applicable.
 
-The most flexible approach is to mock the entire Redux store and replace the root Actions Manager between each test.
+The most flexible approach is to mock the entire Redux store and replace the root Epic between each test.
 
 ```js
 import nock from 'nock';
 import expect from 'expect';
 import configureMockStore from 'redux-mock-store';
-import { createManagerMiddleware } from 'redux-observable';
-import { fetchUserManager, fetchUser, FETCH_USER } from '../../redux/modules/user';
+import { createEpicMiddleware } from 'redux-observable';
+import { fetchUserEpic, fetchUser, FETCH_USER } from '../../redux/modules/user';
 
-const reduxObservable = createManagerMiddleware();
-const mockStore = configureMockStore([reduxObservable]);
+const epicMiddleware = createEpicMiddleware();
+const mockStore = configureMockStore([epicMiddleware]);
 
-describe('fetchUserManager', () => {
+describe('fetchUserEpic', () => {
   let action$;
   let store;
 
@@ -22,7 +22,7 @@ describe('fetchUserManager', () => {
     nock.cleanAll();
     action$ = new Subject();
     store = mockStore();
-    reduxObservable.replaceManager(fetchUserManager);
+    reduxObservable.replaceEpic(fetchUserEpic);
   });
 
   it('produces the user model', () => {
