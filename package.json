@@ -12,7 +12,7 @@
     "build:tests": "rm -rf temp && babel test -d temp",
     "clean": "rimraf lib temp dist",
     "check": "npm run lint && npm run test",
-    "test": "npm run lint && npm run build && npm run build_tests && mocha temp && npm run test_typings",
+    "test": "npm run lint && npm run build && npm run build:tests && mocha temp && npm run test:typings",
     "test:typings": "tsc test/typings.ts --outFile temp/typings.js --target ES2015 --moduleResolution node",
     "prepublish": "npm run clean && npm run lint && npm test",
     "docs:clean": "rimraf _book",
