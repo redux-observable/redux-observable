@@ -1,6 +1,6 @@
 /* globals describe it */
 import { expect } from 'chai';
-import { ActionsObservable, reduxObservable } from '../';
+import { ActionsObservable, createEpicMiddleware } from '../';
 import { createStore, applyMiddleware } from 'redux';
 import { of } from 'rxjs/observable/of';
 import { Subject } from 'rxjs/Subject';
@@ -11,7 +11,7 @@ describe('ActionsObservable', () => {
   });
 
   it('should be the type provided to a dispatched function', () => {
-    let middleware = reduxObservable();
+    let middleware = createEpicMiddleware();
     let reducer = (state, action) => {
       return state;
     };

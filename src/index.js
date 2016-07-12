@@ -1,3 +1,3 @@
-export { reduxObservable } from './reduxObservable';
+export { createEpicMiddleware } from './createEpicMiddleware';
 export { ActionsObservable } from './ActionsObservable';
-export { combineDelegators } from './combineDelegators';
+export { combineEpics } from './combineEpics';

@@ -2,16 +2,20 @@ import { Subject } from 'rxjs/Subject';
 import { from } from 'rxjs/observable/from';
 import { ActionsObservable } from './ActionsObservable';
 
-export function reduxObservable(processor) {
+export function createEpicMiddleware(epic) {
   let actions = new Subject();
   let actionsObs = new ActionsObservable(actions);
 
   let middleware = (store) => (next) => {
-    if (processor) {
-      processor(actionsObs, store).subscribe(store.dispatch);
+    if (epic) {
+      epic(actionsObs, store).subscribe(store.dispatch);
     }
     return (action) => {
       if (typeof action === 'function') {
+        if (typeof console !== 'undefined' && typeof console.warn !== 'undefined') {
+          console.warn('DEPRECATION: Using thunkservables with redux-observable is now deprecated in favor of the new "Epics" feature. See https://github.com/redux-observable/redux-observable/blob/docs/docs/SUMMARY.md');
+        }
+
         let obs = from(action(actionsObs, store));
         let sub = obs.subscribe(store.dispatch);
         return sub;

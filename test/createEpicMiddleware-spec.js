@@ -1,7 +1,8 @@
 /* globals describe it */
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
-import { reduxObservable } from '../';
+import { createEpicMiddleware } from '../';
 import * as Rx from 'rxjs';
 import Promise from 'promise';
 import 'babel-polyfill';
@@ -9,16 +10,16 @@ import $$observable from 'symbol-observable';
 
 const { Observable } = Rx;
 
-describe('reduxObservable', () => {
-  it('should accept a processor argument that wires up a stream of actions to a stream of actions', () => {
+describe('createEpicMiddleware', () => {
+  it('should accept a epic argument that wires up a stream of actions to a stream of actions', () => {
     const reducer = (state = [], action) => state.concat(action);
-
-    const middleware = reduxObservable((actions, store) =>
+    const epic = (actions, store) =>
       Observable.merge(
         actions.ofType('FIRE_1').mapTo({ type: 'ACTION_1' }),
         actions.ofType('FIRE_2').mapTo({ type: 'ACTION_2' })
-      )
-    );
+      );
+
+    const middleware = createEpicMiddleware(epic);
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -34,10 +35,27 @@ describe('reduxObservable', () => {
     ]);
   });
 
+  it('emit warning that thunkservable are deprecated', () => {
+    sinon.spy(console, 'warn');
+
+    const reducer = (state = [], action) => state.concat(action);
+    const middleware = createEpicMiddleware();
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch(() => Observable.of({ type: 'ASYNC_ACTION_1' }));
+
+    expect(console.warn.calledOnce).to.equal(true);
+    expect(
+      console.warn.calledWith('DEPRECATION: Using thunkservables with redux-observable is now deprecated in favor of the new "Epics" feature. See https://github.com/redux-observable/redux-observable/blob/docs/docs/SUMMARY.md')
+    ).to.equal(true);
+
+    console.warn.restore();
+  });
+
   it('should intercept and process actions', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = reduxObservable();
+    const middleware = createEpicMiddleware();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -58,7 +76,7 @@ describe('reduxObservable', () => {
   it('should work dispatched functions that return a promise', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = reduxObservable();
+    const middleware = createEpicMiddleware();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -79,7 +97,7 @@ describe('reduxObservable', () => {
   it('should work with iterators/generators', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = reduxObservable();
+    const middleware = createEpicMiddleware();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -102,7 +120,7 @@ describe('reduxObservable', () => {
   it('should work with observablesque arguments', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = reduxObservable();
+    const middleware = createEpicMiddleware();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -142,7 +160,7 @@ describe('reduxObservable', () => {
   it('should emit POJO actions to the actions Subject', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = reduxObservable();
+    const middleware = createEpicMiddleware();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
@@ -175,7 +193,7 @@ describe('reduxObservable', () => {
   it('should store.dispatch onNext to allow async actions to emit other async actions', (done) => {
     const reducer = (state = [], action) => state.concat(action);
 
-    const middleware = reduxObservable();
+    const middleware = createEpicMiddleware();
 
     const store = createStore(reducer, applyMiddleware(middleware));
 

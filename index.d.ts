@@ -2,7 +2,7 @@ import { Middleware } from 'redux';
 import { Observable } from 'rxjs/Observable';
 import { Operator } from 'rxjs/Operator';
 
-export declare function reduxObservable(): Middleware;
+export declare function createEpicMiddleware(): Middleware;
 
 // ./node_modules/rxjs/Observable.d.ts
 export declare class ActionsObservable<T> extends Observable<T> {
