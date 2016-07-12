@@ -1,0 +1,22 @@
+{
+  "gitbook": "^3.0.0",
+  "title": "redux-observable",
+  "styles": {
+    "website": "styles/website.css"
+  },
+  "plugins": ["edit-link", "prism", "github", "anker-enable"],
+  "pluginsConfig": {
+    "sharing": {
+      "google": false,
+      "facebook": false,
+      "twitter": false
+    },
+    "edit-link": {
+      "base": "https://github.com/redux-observable/redux-observable/tree/master",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/redux-observable/redux-observable/"
+    }
+  }
+}
