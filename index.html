@@ -1,0 +1,514 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <title>README · redux-observable</title>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.1.1">
+        
+        
+        
+    
+    <link rel="stylesheet" href="redux-observable/gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="redux-observable/gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="redux-observable/gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="redux-observable/gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="redux-observable/gitbook/gitbook-plugin-theme-api/theme-api.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="redux-observable/gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="redux-observable/gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="redux-observable/basics/" />
+    
+    
+    <link rel="prev" href="redux-observable/" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">Table of Contents</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="redux-observable/">
+            
+                <a href="redux-observable/">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2" data-path="./">
+            
+                <a href="./">
+            
+                    
+                    README
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="redux-observable/basics/">
+            
+                <a href="redux-observable/basics/">
+            
+                    
+                    Basics
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="redux-observable/basics/ActionsManagers.html">
+            
+                <a href="redux-observable/basics/ActionsManagers.html">
+            
+                    
+                    Actions Managers
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="redux-observable/basics/SettingUpTheMiddleware.html">
+            
+                <a href="redux-observable/basics/SettingUpTheMiddleware.html">
+            
+                    
+                    Settings Up The Middleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="redux-observable/recipes/">
+            
+                <a href="redux-observable/recipes/">
+            
+                    
+                    Recipes
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="redux-observable/recipes/WritingTests.html">
+            
+                <a href="redux-observable/recipes/WritingTests.html">
+            
+                    
+                    Writing Tests
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="redux-observable/FAQ.html">
+            
+                <a href="redux-observable/FAQ.html">
+            
+                    
+                    FAQ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="redux-observable/api/">
+            
+                <a href="redux-observable/api/">
+            
+                    
+                    API Reference
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="redux-observable/api/combineManagers.html">
+            
+                <a href="redux-observable/api/combineManagers.html">
+            
+                    
+                    combineManagers
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="redux-observable/CHANGELOG.md">
+            
+                <span>
+            
+                    
+                    CHANGELOG
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="redux-observable" >README</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <p><img title="logo" src="logo/logo-small.gif" width="128" style="vertical-align: middle;">
+<img title="redux-observable" src="logo/logo-text-small.png" width="526" style="vertical-align: middle; margin-left: 20px; margin-top: -13px;"></p>
+<p><a href="https://travis-ci.org/redux-observable/redux-observable" target="_blank"><img src="https://img.shields.io/travis/reactjs/redux/master.svg" alt="build status"></a>
+<a href="https://www.npmjs.com/package/redux" target="_blank"><img src="https://img.shields.io/npm/v/redux-observable.svg" alt="npm version"></a>
+<a href="https://www.npmjs.com/package/redux" target="_blank"><img src="https://img.shields.io/npm/dm/redux-observable.svg" alt="npm downloads"></a>
+<a href="https://codeclimate.com/github/redux-observable/redux-observable" target="_blank"><img src="https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg" alt="code climate"></a></p>
+<p><a href="http://github.com/ReactiveX/RxJS" target="_blank">RxJS 5</a>-based middleware for
+<a href="http://github.com/reactjs/redux" target="_blank">Redux</a>. Compose and cancel async actions and more.</p>
+<h3 id="warning-weve-recently-introduced-a-new-process-manager-feature-that-will-soon-replace-the-thunk-style-documented-below-extensive-documentation-on-this-is-in-the-works-subscribe-to-issue-44-to-be-notified-when-they-are-up">Warning: we&apos;ve recently introduced a new &quot;Process Manager&quot; feature that will soon <em>replace</em> the thunk-style documented below. Extensive documentation on this is in the works, subscribe to <a href="https://github.com/redux-observable/redux-observable/issues/44" target="_blank">Issue #44</a> to be notified when they are up!</h3>
+<ul>
+<li>Dispatch a function that returns an observable of actions, a promise of action or iterable of actions.</li>
+<li>Function is provided a stream of all future actions, useful for composition with the current dispatched observable, especially for cancellation.
+(think things like <code>takeUntil</code> or <code>zip</code>)</li>
+<li>Function is also provided a reference to the store which can be used to get the state or even dispatch.</li>
+</ul>
+<p><a href="https://medium.com/@benlesh/redux-observable-ec0b00d2eb52" target="_blank">Read about it on Medium</a></p>
+<h2 id="install">Install</h2>
+<p>NOTE: This has a peer dependencies of <code>rxjs@5.0.*</code> and <code>redux</code>, which will have to be installed
+as well.</p>
+<pre><code class="lang-sh">npm install --save redux-observable
+</code></pre>
+<h2 id="usage">Usage</h2>
+<h3 id="basic">Basic</h3>
+<p>Add the middlware to your redux store:</p>
+<pre><code class="lang-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> createStore<span class="token punctuation">,</span> applyMiddleware <span class="token punctuation">}</span> from <span class="token string">&apos;redux&apos;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> reduxObservable <span class="token punctuation">}</span> from <span class="token string">&apos;redux-observable&apos;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>
+  rootReducer<span class="token punctuation">,</span>
+  <span class="token comment" spellcheck="true">// Notice that we invoke `reduxObservable()` before passing it!</span>
+  <span class="token function">applyMiddleware</span><span class="token punctuation">(</span><span class="token function">reduxObservable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>With redux-observable, you can dispatch any function that returns an observable,
+a promise, an observable-like object or an iterable; we call this a &quot;thunkservable&quot;.</p>
+<p>Your thunkservable emits a stream of actions.</p>
+<p>Here are several examples:</p>
+<pre><code class="lang-js"><span class="token comment" spellcheck="true">// using RxJS</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Rx<span class="token punctuation">.</span>Observable<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;ASYNC_ACTION_FROM_RX&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// using a Promise</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;ASYNC_ACTION_FROM_PROMISE&apos;</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// using an Array of actions</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">[</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;ACTION_1&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;ACTION_2&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">// using a generator of actions</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span><span class="token keyword">function</span><span class="token operator">*</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">10</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">yield</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;SOME_GENERATED_ACTION&apos;</span><span class="token punctuation">,</span> value<span class="token punctuation">:</span> i <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Of course, you&apos;ll usually create action factories instead:</p>
+<pre><code class="lang-js"><span class="token keyword">const</span> asyncAction <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span>
+  <span class="token punctuation">(</span>actions<span class="token punctuation">,</span> store<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Rx<span class="token punctuation">.</span>Observable<span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;ASYNC_ACTION_FROM_RX&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">asyncAction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> fetchUserById <span class="token operator">=</span> <span class="token punctuation">(</span>userId<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span>
+  <span class="token punctuation">(</span>actions<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span>
+    Rx<span class="token punctuation">.</span>Observable<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span>`<span class="token operator">/</span>api<span class="token operator">/</span>users<span class="token operator">/</span>$<span class="token punctuation">{</span>userId<span class="token punctuation">}</span>`<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>
+        <span class="token punctuation">(</span>payload<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;FETCH_USER_FULFILLED&apos;</span><span class="token punctuation">,</span> payload <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">startWith</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;FETCH_USER_PENDING&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">fetchUserById</span><span class="token punctuation">(</span><span class="token number">123</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// If you find it more readable, you certainly can omit all those</span>
+<span class="token comment" spellcheck="true">// arrow function parenthesis (or use regular functions)</span>
+
+<span class="token keyword">const</span> fetchUserById <span class="token operator">=</span> userId <span class="token operator">=</span><span class="token operator">&gt;</span>
+  actions <span class="token operator">=</span><span class="token operator">&gt;</span>
+    Rx<span class="token punctuation">.</span>Observable<span class="token punctuation">.</span><span class="token function">ajax</span><span class="token punctuation">(</span>`<span class="token operator">/</span>api<span class="token operator">/</span>users<span class="token operator">/</span>$<span class="token punctuation">{</span>userId<span class="token punctuation">}</span>`<span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span>payload <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;FETCH_USER_FULFILLED&apos;</span><span class="token punctuation">,</span> payload <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">.</span><span class="token function">startWith</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;FETCH_USER_PENDING&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="cancellation">Cancellation</h4>
+<p>It&apos;s recommended to dispatch an action to cancel your async action with Rx. This can be done
+by leveraging the first argument to your dispatched function, which returns an observable of all <code>actions</code>.
+This observable is an instanceof <code>ActionObservable</code> and has a custom operator <code>ofType</code>. The <code>ofType</code>
+operator can be used to filter down to a set of actions of a particular type. It is essentially an alias
+for <code>filter(action.type === &apos;SOME_TYPE&apos;)</code>. You can use this stream of all actions with operators like
+<code>takeUntil</code> to abort the async action cleanly and via composition.</p>
+<pre><code class="lang-js"><span class="token function">dispatch</span><span class="token punctuation">(</span>
+  <span class="token punctuation">(</span>actions<span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Observable<span class="token punctuation">.</span><span class="token function">timer</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;TIMER_COMPLETE&apos;</span><span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">takeUntil</span><span class="token punctuation">(</span>
+      actions<span class="token punctuation">.</span><span class="token function">ofType</span><span class="token punctuation">(</span><span class="token string">&apos;ABORT_TIMER&apos;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+    <span class="token comment" spellcheck="true">// `actions.ofType(&apos;ABORT_TIMER&apos;)` is equivalent to</span>
+    <span class="token comment" spellcheck="true">// `actions.filter(action =&gt; action.type === &apos;ABORT_TIMER&apos;)`</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// elsewhere in your code you can abort with a simple dispatch</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;ABORT_TIMER&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>You can also cancel an async dispatch by using the return value from your dispatch, which is an
+Rx Subscription. This works well for other types that don&apos;t have cancellation, like promises, but
+internally will really use &quot;disinterest&quot; to stop the resolved value from propagating.</p>
+<pre><code class="lang-js"><span class="token keyword">let</span> subscription <span class="token operator">=</span> <span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=</span><span class="token operator">&gt;</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;DELAYED_ACTION&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment" spellcheck="true">// will stop DELAYED_ACTION from firing</span>
+subscription<span class="token punctuation">.</span><span class="token function">unsubscribe</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h3 id="other-api-notes">Other API Notes</h3>
+<p>The second argument to your dispatched function will be the <code>store</code> instance itself. This gives you
+the ability to <code>getState()</code> on your store in case you need to assert some condition before dispatching your
+next async message. It also gives you the ability to <code>dispatch()</code> explicitly.</p>
+<h3 id="basic-dispatch-type-signature">Basic Dispatch Type Signature</h3>
+<p>If it helps to think about it this way, in a TypeScript-style type definition, the dispatch function would
+look like this when used to dispatch an action asynchronously:</p>
+<pre><code class="lang-TypeScript">dispatch = ((actions?: Observable<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Action</span><span class="token punctuation">&gt;</span></span>, store?: ReduxStore) =&gt; Observable<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>Action</span><span class="token punctuation">&gt;</span></span>) =&gt; Subscription;
+</code></pre>
+<h3 id="example">Example</h3>
+<p>A full example is available in <a href="examples/basic">examples/basic</a></p>
+<hr>
+<h5 id="incompatible-w-redux-thunk">Incompatible w/ redux-thunk</h5>
+<p>Since redux-observable uses dispached functions, this middlware is <em>incompatible with redux-thunk</em>. At this time, this is unavoidable since providing the function a stream of future actions for cancellation is imperative.</p>
+<p>:shipit:</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"README","level":"1.2","depth":1,"next":{"title":"Basics","level":"1.3","depth":1,"path":"basics/README.md","ref":"basics/README.md","articles":[{"title":"Actions Managers","level":"1.3.1","depth":2,"path":"basics/ActionsManagers.md","ref":"basics/ActionsManagers.md","articles":[]},{"title":"Settings Up The Middleware","level":"1.3.2","depth":2,"path":"basics/SettingUpTheMiddleware.md","ref":"basics/SettingUpTheMiddleware.md","articles":[]}]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["theme-api","edit-link","prism","-highlight","github","anker-enable","livereload"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"pluginsConfig":{"theme-api":{"theme":"dark"}},"github":{"url":"https://github.com/redux-observable/redux-observable/"},"livereload":{},"anker-enable":{},"search":{},"lunr":{"maxIndexSize":1000000},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-api":{"languages":[],"split":true,"theme":"light"},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/redux-observable/redux-observable/tree/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"README.md"},"variables":{},"title":"redux-observable","gitbook":"^3.0.0"},"file":{"path":"../README.md","mtime":"2016-06-30T06:59:50.000Z","type":"markdown"},"gitbook":{"version":"3.1.1","time":"2016-06-30T07:06:45.156Z"},"basePath":"redux-observable","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="redux-observable/gitbook/gitbook.js"></script>
+    <script src="redux-observable/gitbook/theme.js"></script>
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-anker-enable/anker.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-livereload/plugin.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+        
+        <script src="redux-observable/gitbook/gitbook-plugin-theme-api/theme-api.js"></script>
+        
+    
+
+    </body>
+</html>
+
