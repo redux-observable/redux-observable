@@ -13,7 +13,7 @@ export function createEpicMiddleware(epic) {
     return (action) => {
       if (typeof action === 'function') {
         if (typeof console !== 'undefined' && typeof console.warn !== 'undefined') {
-          console.warn('DEPRECATION: Using thunkservables with redux-observable is now deprecated in favor of the new "Epics" feature. See https://github.com/redux-observable/redux-observable/blob/docs/docs/SUMMARY.md');
+          console.warn('DEPRECATION: Using thunkservables with redux-observable is now deprecated in favor of the new "Epics" feature. See http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-deprecated');
         }
 
         let obs = from(action(actionsObs, store));
