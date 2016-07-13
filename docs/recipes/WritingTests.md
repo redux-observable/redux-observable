@@ -11,7 +11,7 @@ import configureMockStore from 'redux-mock-store';
 import { createEpicMiddleware } from 'redux-observable';
 import { fetchUserEpic, fetchUser, FETCH_USER } from '../../redux/modules/user';
 
-const epicMiddleware = createEpicMiddleware();
+const epicMiddleware = createEpicMiddleware(fetchUserEpic);
 const mockStore = configureMockStore([epicMiddleware]);
 
 describe('fetchUserEpic', () => {
@@ -22,7 +22,7 @@ describe('fetchUserEpic', () => {
     nock.cleanAll();
     action$ = new Subject();
     store = mockStore();
-    reduxObservable.replaceEpic(fetchUserEpic);
+    epicMiddleware.replaceEpic(fetchUserEpic);
   });
 
   it('produces the user model', () => {
