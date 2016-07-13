@@ -1,3 +1,21 @@
+<a name="0.7.0"></a>
+# 0.7.0 (2016-07-13)
+
+We have brand new docs! http://redux-observable.js.org/
+
+### BREAKING CHANGES
+
+* thunkservables: We are deprecating thunkservables in favor of the new
+process managers called "Epics". See
+http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-deprecated
+for more information on Epics.
+* API renames: Creating the middleware is now done with
+`createEpicMiddleware(rootEpic)` instead of `red
+uxObservable(rootEpic)` and `combineEpics()` has been renamed
+`combineEpics()`
+* middleware: dispatched actions will now occur _before_ the actions created by synchronous observable side effects.
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/redux-observable/redux-observable/compare/0.5.0...v0.6.0) (2016-05-26)
 
@@ -9,7 +27,7 @@
 
 ### Features
 
-* **combineDelegators:** add a method to combine different delegators to make it easier to create a rootDelegator ([da2eeaf](https://github.com/redux-observable/redux-observable/commit/da2eeaf))
+* **combineEpics:** add a method to combine different epics to make it easier to create a rootDelegator ([da2eeaf](https://github.com/redux-observable/redux-observable/commit/da2eeaf))
 * **ofType:** now accepts multiple types to filter for ([9027d1c](https://github.com/redux-observable/redux-observable/commit/9027d1c))
 
 
