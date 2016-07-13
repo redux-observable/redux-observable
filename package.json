@@ -14,7 +14,7 @@
     "check": "npm run lint && npm run test",
     "test": "npm run lint && npm run build && npm run build:tests && mocha temp && npm run test:typings",
     "test:typings": "tsc test/typings.ts --outFile temp/typings.js --target ES2015 --moduleResolution node",
-    "prepublish": "npm run clean && npm run lint && npm test && scripts/prepublish.sh",
+    "shipit": "npm run clean && npm run lint && npm test && scripts/preprepublish.sh && npm publish",
     "docs:clean": "rimraf _book",
     "docs:prepare": "gitbook install",
     "docs:build": "npm run docs:prepare && gitbook build -g redux-observable/redux-observable && cp logo/favicon.ico _book/gitbook/images",
