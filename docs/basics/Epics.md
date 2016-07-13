@@ -161,15 +161,7 @@ dispatch(incrementIfOdd());
 ```
 > When an Epic receives an action, it has already been run through your reducers and the state updated, if needed.
 
-Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is. While it's not a common pattern for Epics to need, the Redux actually supports being converted to a stream of changes:
-
-```js
-
-const offlineStateEpic = (_, store) =>
-  Observable.of(store)
-    .do(state => localStorage.setItem('state', state))
-    .ignoreElements(); // we have no actions to emit
-```
+Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is.
 
 ## Combining Epics
 
