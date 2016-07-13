@@ -1,5 +1,5 @@
-<img title="logo" src="logo/logo-small.gif" width="128">
-<img title="redux-observable" src="logo/logo-text-small.png" width="554">
+<img title="logo" src="logo/logo-small.gif" width="16.5%">
+<img title="redux-observable" src="logo/logo-text-small.png" width="72%">
 
 [![build status](https://img.shields.io/travis/reactjs/redux/master.svg)](https://travis-ci.org/redux-observable/redux-observable)
 [![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux)
