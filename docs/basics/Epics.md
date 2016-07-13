@@ -165,7 +165,7 @@ Remember, `store.getState()` is just an imperative, synchronous API. You cannot 
 
 ## Combining Epics
 
-Finally, redux-observable provides a utility called [`combineEpics()`](../api/combineEpics.md) that allows you to easily combine multiple Action Epics into a single one:
+Finally, redux-observable provides a utility called [`combineEpics()`](../api/combineEpics.md) that allows you to easily combine multiple Epics into a single one:
 
 ```js
 import { combineEpics } from 'redux-observable';
