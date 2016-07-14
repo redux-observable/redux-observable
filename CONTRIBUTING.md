@@ -26,6 +26,37 @@ On both websites, it is a good idea to structure your code and question in a way
 
 Please keep in mind that people spend their free time trying to help you. You can make it easier for them if you provide versions of the relevant libraries and a runnable small project reproducing your issue. You can put your code on [JSBin](http://jsbin.com) or, for bigger projects, on GitHub. Make sure all the necessary dependencies are declared in `package.json` so anyone can run `npm install && npm start` and reproduce your issue.
 
+### Sending a Pull Request
+
+For non-trivial changes, please open an issue with a proposal for a new feature or refactoring before starting on the work. We don’t want you to waste your efforts on a pull request that we won’t want to accept.
+
+On the other hand, sometimes the best way to start a conversation *is* to send a pull request. Use your best judgment!
+
+In general, the contribution workflow looks like this:
+
+* Open a new issue in the [Issue tracker](https://github.com/redux-observable/redux-observable/issues).
+* Fork the repo.
+* Create a new feature branch based off the `master` branch.
+* Make sure all tests pass and there are no linting errors.
+* Submit a pull request, referencing any issues it addresses.
+
+**Commit messages should follow the [conventional-changelog-standard](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md).** (the same used by [RxJS](https://github.com/ReactiveX/rxjs) and [Angular 2](https://github.com/angular/angular))
+
+e.g.
+
+```
+fix(actions): Emit actions to ActionsSubject recursively9
+
+Closes #1528
+```
+
+Please try to keep your pull request focused in scope and avoid including unrelated commits.
+
+After you have submitted your pull request, we’ll try to get back to you as soon as possible. We may suggest some changes or improvements.
+
+Thank you for contributing!
+
+
 ## Development
 
 Visit the [issue tracker](https://github.com/redux-observable/redux-observable/issues) to find a list of open issues that need attention.
@@ -81,6 +112,26 @@ To only run tests:
 npm run test
 ```
 
+### Publishing to NPM
+
+There are several tasks needed to publish a new version, but thankfully we automate all of them into a single command:
+
+```
+npm run shipit
+```
+
+This will:
+
+* Confirm passing linting and tests
+* Prompt you for the new version number to publish
+* Bump package.json with that new number
+* Generate CHANGELOG.md
+* Commit those changes to package.json and CHANGELOG.md
+* Push a tag of this release
+* And finally publish to NPM
+
+_Using this command when you do not have all the required permissions is unsupported and probably has unexpected behavior._
+
 ### Docs
 
 Improvements to the documentation are always welcome. In the docs we abide by typographic rules, so instead of ' you should use ’. Same goes for “ ” and dashes (—) where appropriate. These rules only apply to the text, not to code blocks.
@@ -124,52 +175,3 @@ To remove previously built documentation, run the following:
 ```
 npm run docs:clean
 ```
-
-### Examples
-
-redux-observable comes with [official examples](http://redux-observable.js.org/docs/introduction/Examples) to demonstrate various concepts and best practices.
-
-When adding a new example, please adhere to the style and format of the existing examples, and try to reuse as much code as possible.  For example, `index.html`, `server.js`, and `webpack.config.js` can typically be reused.
-
-#### Building and Testing the Examples
-
-To build and test the official redux-observable examples, run the following:
-
-```
-npm run build:examples
-npm run test:examples
-```
-
-Not all examples have tests. If you see an example project without tests, you are very welcome to add them in a way consistent with the examples that have tests.
-
-Please visit the [Examples page](http://redux-observable.js.org/docs/introduction/Examples.html) for information on running individual examples.
-
-### Sending a Pull Request
-
-For non-trivial changes, please open an issue with a proposal for a new feature or refactoring before starting on the work. We don’t want you to waste your efforts on a pull request that we won’t want to accept.
-
-On the other hand, sometimes the best way to start a conversation *is* to send a pull request. Use your best judgement!
-
-In general, the contribution workflow looks like this:
-
-* Open a new issue in the [Issue tracker](https://github.com/redux-observable/redux-observable/issues).
-* Fork the repo.
-* Create a new feature branch based off the `master` branch.
-* Make sure all tests pass and there are no linting errors.
-* Submit a pull request, referencing any issues it addresses.
-
-**Commit messages should follow the [conventional-changelog-standard](https://github.com/bcoe/conventional-changelog-standard/blob/master/convention.md).** (the same used by [RxJS](https://github.com/ReactiveX/rxjs) and [Angular 2](https://github.com/angular/angular))
-
-e.g.
-
-```
-fix(actions): Emit actions to ActionsSubject recursively9
-
-Closes #1528
-```
-
-Please try to keep your pull request focused in scope and avoid including unrelated commits.
-
-After you have submitted your pull request, we’ll try to get back to you as soon as possible. We may suggest some changes or improvements.
-
-Thank you for contributing!
