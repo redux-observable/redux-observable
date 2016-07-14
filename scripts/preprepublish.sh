@@ -11,9 +11,7 @@ if [[ -z $(git status -uno --porcelain) ]]; then
     git add package.json CHANGELOG.md;
     git commit -m "chore(publish): ${VERSION}";
     git tag "${VERSION}";
-    git push origin : "${VERSION}";
-    echo "DONE";
-    exit 1;
+    git push origin "${VERSION}";
   else
     git checkout -f package.json CHANGELOG.md;
     echo "Cancelled publish by your request!";
