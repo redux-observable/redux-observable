@@ -1,3 +1,13 @@
+<a name="0.7.2"></a>
+## [0.7.2](https://github.com/redux-observable/redux-observable/compare/v0.7.1...v0.7.2) (2016-07-14)
+
+
+### Bug Fixes
+
+* **Typings:** Correct that createEpicMiddleware() only accepts a single Epic ([1d5e2ec](https://github.com/redux-observable/redux-observable/commit/1d5e2ec))
+
+
+
 <a name="0.7.1"></a>
 ## [0.7.1](https://github.com/redux-observable/redux-observable/compare/v0.7.0...v0.7.1) (2016-07-14)
 
