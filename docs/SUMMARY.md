@@ -8,5 +8,6 @@
   * [Writing Tests](recipes/WritingTests.md)
 * [FAQ](FAQ.md)
 * [API Reference](api/SUMMARY.md)
+  * [createEpicMiddleware](api/createEpicMiddleware.md)
   * [combineEpics](api/combineEpics.md)
 * [CHANGELOG](/CHANGELOG.md)
