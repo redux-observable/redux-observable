@@ -1,25 +1,17 @@
-import { Middleware } from 'redux';
+import { Middleware, MiddlewareAPI, Action } from 'redux';
 import { Observable } from 'rxjs/Observable';
 import { Operator } from 'rxjs/Operator';
 
-export declare function createEpicMiddleware(): Middleware;
-
-// ./node_modules/rxjs/Observable.d.ts
-export declare class ActionsObservable<T> extends Observable<T> {
-
-  // ./node_modules/rxjs/Observable.d.ts specifies an `Observable`'s `source`
-  // property like so: `protected source: Observable<any>;`
-  // since `actionsSubject` is being assigned to an `Observable`'s `source`
-  // property it is being given the type: `Observable<any>`
-  constructor(actionsSubject: Observable<any>);
-
-  // ./node_modules/rxjs/Observable.d.ts specifies operators as generics like so
-  // `protected operator: Operator<any, T>;`
-  lift(operator: Operator<any, T>);
-
-  // ./node_modules/redux/index.d.ts specifies `Action` as having a `type`
-  // property with a type signature of `any`
-  // since `key` is being compared with an `Action`'s `type`, `key` has a type
-  // signature of `any`
+export declare class ActionsObservable extends Observable<Action> {
+  constructor(actionsSubject: Observable<Action>);
+  lift(operator: Operator<any, Action>);
   ofType(...key: any[]);
 }
+
+export declare interface Epic {
+  (action$: ActionsObservable, store: MiddlewareAPI<any>): Observable<Action>;
+}
+
+export declare function createEpicMiddleware(...epics: Epic[]): Middleware;
+
+export declare function combineEpics(...epics: Epic[]): Epic;
