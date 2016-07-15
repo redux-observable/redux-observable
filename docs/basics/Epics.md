@@ -89,7 +89,7 @@ const pingEpic = action$ =>
     .mapTo({ type: 'PONG' });
 ```
 
-<a class="jsbin-embed" href="http://jsbin.com/vayoho/embed?js,output">View this demo on JSbin</a><script src="http://static.jsbin.com/js/embed.min.js?3.37.0"></script>
+<a class="jsbin-embed" href="https://jsbin.com/vayoho/embed?js,output">View this demo on JSbin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## A Real World Example
 
@@ -136,7 +136,7 @@ const users = (state = {}, action) => {
 };
 ```
 
-<a class="jsbin-embed" href="http://jsbin.com/jopuza/embed?js,output">View this demo on JSbin</a><script src="http://static.jsbin.com/js/embed.min.js?3.37.0"></script>
+<a class="jsbin-embed" href="https://jsbin.com/jopuza/embed?js,output">View this demo on JSbin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## Accessing the Store's State
 
@@ -167,7 +167,7 @@ dispatch(incrementIfOdd());
 
 Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is.
 
-<a class="jsbin-embed" href="http://jsbin.com/somuvur/embed?js,output">View this demo on JSbin</a><script src="http://static.jsbin.com/js/embed.min.js?3.37.0"></script>
+<a class="jsbin-embed" href="https://jsbin.com/somuvur/embed?js,output">View this demo on JSbin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## Combining Epics
 
