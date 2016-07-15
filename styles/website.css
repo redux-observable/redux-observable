@@ -1,3 +1,7 @@
 .gitbook-link {
   display: none !important;
 }
+
+.page-inner {
+  max-width: 1100px;
+}
