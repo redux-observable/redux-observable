@@ -89,20 +89,23 @@ const pingEpic = action$ =>
     .mapTo({ type: 'PONG' });
 ```
 
+<a class="jsbin-embed" href="http://jsbin.com/vayoho/embed?js,output">View this demo on JSbin</a><script src="http://static.jsbin.com/js/embed.min.js?3.37.0"></script>
+
 ## A Real World Example
 
 Now that we have a general idea of what an Epic looks like, let's continue with a more real-world example:
 
 ```js
-// action creator
+// action creators
 const fetchUser = username => ({ type: FETCH_USER, payload: username });
+const fetchUserFulfilled = payload => ({ type: FETCH_USER_FULFILLED, payload });
 
 // epic
 const fetchUserEpic = action$ =>
   action$.ofType(FETCH_USER)
     .mergeMap(action =>
       ajax.getJSON(`https://api.github.com/users/${action.payload}`)
-        .map(response => ({ type: FETCH_USER_FULFILLED, payload: response }))
+        .map(fetchUserFulfilled)
     );
     
 // later...
@@ -120,7 +123,7 @@ You can then update your Store's state in response to that `FETCH_USER_FULFILLED
 ```js
 const users = (state = {}, action) => {
   switch (action.type) {
-    case 'FETCH_USER_FULFILLED':
+    case FETCH_USER_FULFILLED:
       return {
         ...state,
         // `login` is the username
@@ -132,6 +135,8 @@ const users = (state = {}, action) => {
   }
 };
 ```
+
+<a class="jsbin-embed" href="http://jsbin.com/jopuza/embed?js,output">View this demo on JSbin</a><script src="http://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## Accessing the Store's State
 
@@ -147,14 +152,13 @@ With this, you can call `store.getState()` to synchronously access the current s
 const INCREMENT = 'INCREMENT';
 const INCREMENT_IF_ODD = 'INCREMENT_IF_ODD';
 
-const incrementIfOdd = () => ({ type: INCREMENT_IF_ODD });
 const increment = () => ({ type: INCREMENT });
+const incrementIfOdd = () => ({ type: INCREMENT_IF_ODD });
 
-const incrementIfOddEpic = (action$, store) => (
+const incrementIfOddEpic = (action$, store) =>
   action$.ofType(INCREMENT_IF_ODD)
     .filter(() => store.getState().counter % 2 === 0)
     .map(increment);
-);
 
 // later...
 dispatch(incrementIfOdd());
@@ -162,6 +166,8 @@ dispatch(incrementIfOdd());
 > When an Epic receives an action, it has already been run through your reducers and the state updated, if needed.
 
 Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is.
+
+<a class="jsbin-embed" href="http://jsbin.com/somuvur/embed?js,output">View this demo on JSbin</a><script src="http://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## Combining Epics
 
