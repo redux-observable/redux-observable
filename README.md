@@ -38,6 +38,7 @@ To see redux-observable in action, here's a very simple JSBin to play around wit
 * [API Reference](docs/api/SUMMARY.md)
   * [createEpicMiddleware](docs/api/createEpicMiddleware.md)
   * [combineEpics](docs/api/combineEpics.md)
+  * [EpicMiddleware](docs/api/EpicMiddleware.md)
 * [CHANGELOG](CHANGELOG.md)
 
 :shipit:

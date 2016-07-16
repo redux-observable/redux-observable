@@ -6,7 +6,7 @@ Now that we know what [Epics](Epics.md) are, we need to provide them to the redu
 
 Just like redux requiring a single root Reducer, redux-observable also requires you to have a single root Epic. As we [learned previously](Epics.md), we can use `combineEpics()` to accomplish this.
 
-One common pattern is to import all your Epics into a single file, which then combined root Epic along with your root Reducer.
+One common pattern is to import all your Epics into a single file, which then exports the root Epic, along with your root Reducer.
 
 ### redux/modules/root.js
 

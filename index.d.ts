@@ -12,6 +12,10 @@ export declare interface Epic {
   (action$: ActionsObservable, store: MiddlewareAPI<any>): Observable<Action>;
 }
 
-export declare function createEpicMiddleware(rootEpic: Epic): Middleware;
+export interface EpicMiddleware extends Middleware {
+  replaceEpic(nextEpic: Epic): void;
+}
+
+export declare function createEpicMiddleware(rootEpic: Epic): EpicMiddleware;
 
 export declare function combineEpics(...epics: Epic[]): Epic;

@@ -13,10 +13,10 @@ const { Observable } = Rx;
 describe('createEpicMiddleware', () => {
   it('should accept a epic argument that wires up a stream of actions to a stream of actions', () => {
     const reducer = (state = [], action) => state.concat(action);
-    const epic = (actions, store) =>
+    const epic = (action$, store) =>
       Observable.merge(
-        actions.ofType('FIRE_1').mapTo({ type: 'ACTION_1' }),
-        actions.ofType('FIRE_2').mapTo({ type: 'ACTION_2' })
+        action$.ofType('FIRE_1').mapTo({ type: 'ACTION_1' }),
+        action$.ofType('FIRE_2').mapTo({ type: 'ACTION_2' })
       );
 
     const middleware = createEpicMiddleware(epic);
@@ -32,6 +32,56 @@ describe('createEpicMiddleware', () => {
       { type: 'ACTION_1' },
       { type: 'FIRE_2' },
       { type: 'ACTION_2' }
+    ]);
+  });
+
+  it('should allow you to replace the root epic with middleware.replaceEpic(epic)', () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic1 = action$ =>
+      Observable.merge(
+        Observable.of({ type: 'EPIC_1' }),
+        action$.ofType('FIRE_1').mapTo({ type: 'ACTION_1' }),
+        action$.ofType('FIRE_2').mapTo({ type: 'ACTION_2' }),
+        action$.ofType('FIRE_GENERIC').mapTo({ type: 'EPIC_1_GENERIC' })
+      );
+    const epic2 = action$ =>
+      Observable.merge(
+        Observable.of({ type: 'EPIC_2' }),
+        action$.ofType('FIRE_3').mapTo({ type: 'ACTION_3' }),
+        action$.ofType('FIRE_4').mapTo({ type: 'ACTION_4' }),
+        action$.ofType('FIRE_GENERIC').mapTo({ type: 'EPIC_2_GENERIC' })
+      );
+
+    const middleware = createEpicMiddleware(epic1);
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'FIRE_1' });
+    store.dispatch({ type: 'FIRE_2' });
+    store.dispatch({ type: 'FIRE_GENERIC' });
+
+    middleware.replaceEpic(epic2);
+
+    store.dispatch({ type: 'FIRE_3' });
+    store.dispatch({ type: 'FIRE_4' });
+    store.dispatch({ type: 'FIRE_GENERIC' });
+
+    expect(store.getState()).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'EPIC_1' },
+      { type: 'FIRE_1' },
+      { type: 'ACTION_1' },
+      { type: 'FIRE_2' },
+      { type: 'ACTION_2' },
+      { type: 'FIRE_GENERIC' },
+      { type: 'EPIC_1_GENERIC' },
+      { type: 'EPIC_2' },
+      { type: 'FIRE_3' },
+      { type: 'ACTION_3' },
+      { type: 'FIRE_4' },
+      { type: 'ACTION_4' },
+      { type: 'FIRE_GENERIC' },
+      { type: 'EPIC_2_GENERIC' },
     ]);
   });
 
@@ -165,11 +215,11 @@ describe('createEpicMiddleware', () => {
     const store = createStore(reducer, applyMiddleware(middleware));
 
     store.dispatch(
-      (actions) => Observable.of({ type: 'ASYNC_ACTION_2' })
+      (action$) => Observable.of({ type: 'ASYNC_ACTION_2' })
         .delay(10)
-        .takeUntil(actions.filter(action => action.type === 'ASYNC_ACTION_ABORT'))
+        .takeUntil(action$.filter(action => action.type === 'ASYNC_ACTION_ABORT'))
         .merge(
-          actions
+          action$
             .map(action => ({ type: action.type + '_MERGED' }))
             .take(1)
         )
@@ -197,8 +247,8 @@ describe('createEpicMiddleware', () => {
 
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    const action2 = (actions) => Observable.of({ type: 'ASYNC_ACTION_2' });
-    const action1 = (actions) => Observable.of({ type: 'ASYNC_ACTION_1' }, action2);
+    const action2 = (action$) => Observable.of({ type: 'ASYNC_ACTION_2' });
+    const action1 = (action$) => Observable.of({ type: 'ASYNC_ACTION_1' }, action2);
 
     store.dispatch(action1);
 

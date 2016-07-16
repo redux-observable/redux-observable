@@ -10,4 +10,5 @@
 * [API Reference](docs/api/SUMMARY.md)
   * [createEpicMiddleware](docs/api/createEpicMiddleware.md)
   * [combineEpics](docs/api/combineEpics.md)
+  * [EpicMiddleware](docs/api/EpicMiddleware.md)
 * [CHANGELOG](/CHANGELOG.md)
