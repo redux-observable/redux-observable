@@ -2,12 +2,12 @@
 <img title="redux-observable" src="logo/logo-text-small.png" width="72%">
 
 [![build status](https://img.shields.io/travis/reactjs/redux/master.svg)](https://travis-ci.org/redux-observable/redux-observable)
-[![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux)
-[![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux)
+[![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
+[![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![code climate](https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg)](https://codeclimate.com/github/redux-observable/redux-observable)
 
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
-[Redux](http://github.com/reactjs/redux). Compose and cancel async actions and more.
+[Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
 
 ## Install
 
