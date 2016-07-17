@@ -15,12 +15,10 @@ const epicMiddleware = createEpicMiddleware(fetchUserEpic);
 const mockStore = configureMockStore([epicMiddleware]);
 
 describe('fetchUserEpic', () => {
-  let action$;
   let store;
 
   afterEach(() => {
     nock.cleanAll();
-    action$ = new Subject();
     store = mockStore();
     epicMiddleware.replaceEpic(fetchUserEpic);
   });
