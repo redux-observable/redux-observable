@@ -1,7 +1,3 @@
 .gitbook-link {
   display: none !important;
 }
-
-iframe[src^="https://jsbin.com/"] {
-  border: none !important;
-}
