@@ -29,6 +29,8 @@ const actionEpic = (action$) => action$; // creates infinite loop
 
 ## A Basic Example
 
+> redux-observable does not automatically add every RxJS operator to the `Observable` prototype. Because [there are many ways to add them](https://github.com/ReactiveX/rxjs#installation-and-usage), our examples will not include any imports. If you want to add every operator, put `import 'rxjs';` to your entry `index.js`.
+
 Let's start with a simple Epic example:
 
 ```js

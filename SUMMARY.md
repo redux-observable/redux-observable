@@ -7,6 +7,7 @@
 * [Recipes](docs/recipes/SUMMARY.md)
   * [Writing Tests](docs/recipes/WritingTests.md)
 * [FAQ](docs/FAQ.md)
+* [Troubleshooting](docs/Troubleshooting.md)
 * [API Reference](docs/api/SUMMARY.md)
   * [createEpicMiddleware](docs/api/createEpicMiddleware.md)
   * [combineEpics](docs/api/combineEpics.md)
