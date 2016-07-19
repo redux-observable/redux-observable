@@ -12,6 +12,8 @@
 
 ## Install
 
+[![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed
 as well. **It is not currently compatible with RxJS v4**
 
