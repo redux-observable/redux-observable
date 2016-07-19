@@ -34,6 +34,8 @@ To see redux-observable in action, here's a very simple JSBin to play around wit
   * [Epics](docs/basics/Epics.md)
   * [Settings Up The Middleware](docs/basics/SettingUpTheMiddleware.md)
 * [Recipes](docs/recipes/SUMMARY.md)
+  * [Cancellation](docs/recipes/Cancellation.md)
+  * [Error Handling](docs/recipes/ErrorHandling.md)
   * [Writing Tests](docs/recipes/WritingTests.md)  
 * [FAQ](docs/FAQ.md)
 * [Troubleshooting](docs/Troubleshooting.md)

@@ -5,6 +5,8 @@
   * [Epics](basics/Epics.md)
   * [Settings Up The Middleware](basics/SettingUpTheMiddleware.md)
 * [Recipes](recipes/SUMMARY.md)
+  * [Cancellation](recipes/Cancellation.md)
+  * [Error Handling](recipes/ErrorHandling.md)
   * [Writing Tests](recipes/WritingTests.md)
 * [FAQ](FAQ.md)
 * [Troubleshooting](Troubleshooting.md)
