@@ -5,6 +5,7 @@
 [![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![code climate](https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg)](https://codeclimate.com/github/redux-observable/redux-observable)
+[![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
@@ -41,5 +42,11 @@ To see redux-observable in action, here's a very simple JSBin to play around wit
   * [combineEpics](docs/api/combineEpics.md)
   * [EpicMiddleware](docs/api/EpicMiddleware.md)
 * [CHANGELOG](CHANGELOG.md)
+
+## Discuss
+
+[![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+Everyone is welcome on our [Gitter channel](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)!
 
 :shipit:
