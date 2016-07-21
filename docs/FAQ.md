@@ -2,7 +2,7 @@
 
 > Because redux-observable usage heavily depends on RxJS, most of your questions will likely be RxJS questions not specific to redux-observable itself. We strongly encourage you to seek help for these from the RxJS community at large.
 > 
-> If your redux-observable question isn't yet listed here, please [use Stack Overflow](http://stackoverflow.com/questions/tagged/redux) first. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
+> If your redux-observable question isn't yet listed here, please [use Stack Overflow](http://stackoverflow.com/questions/tagged/redux-observable) first. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
 
 ## Table of Contents
 
