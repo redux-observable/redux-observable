@@ -19,13 +19,14 @@ as well. **It is not currently compatible with RxJS v4**
 npm install --save redux-observable
 ```
 
-## JSBin
+## JSBin Examples
 
 To see redux-observable in action, here's a very simple JSBin to play around with:
 
-* [Using Raw HTML APIs](https://jsbin.com/vayoho/edit?js,output)
+* [Using Raw HTML APIs](http://jsbin.com/vayoho/edit?js,output)
 * [Using React](http://jsbin.com/jexomi/edit?js,output)
-* Using Angular (TODO)
+* [Using Angular v1](http://jsbin.com/laviti/edit?js,output)
+* Using Angular v2 (TODO)
 * Using Ember (TODO)
 
 ## Documentation
@@ -37,6 +38,7 @@ To see redux-observable in action, here's a very simple JSBin to play around wit
   * [Cancellation](docs/recipes/Cancellation.md)
   * [Error Handling](docs/recipes/ErrorHandling.md)
   * [Writing Tests](docs/recipes/WritingTests.md)  
+  * [Usage with UI Frameworks](docs/recipes/UsageWithUIFrameworks.md)
 * [FAQ](docs/FAQ.md)
 * [Troubleshooting](docs/Troubleshooting.md)
 * [API Reference](docs/api/SUMMARY.md)

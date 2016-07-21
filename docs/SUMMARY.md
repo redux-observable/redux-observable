@@ -8,6 +8,7 @@
   * [Cancellation](recipes/Cancellation.md)
   * [Error Handling](recipes/ErrorHandling.md)
   * [Writing Tests](recipes/WritingTests.md)
+  * [Usage with UI Frameworks](recipes/UsageWithUIFrameworks.md)
 * [FAQ](FAQ.md)
 * [Troubleshooting](Troubleshooting.md)
 * [API Reference](api/SUMMARY.md)
