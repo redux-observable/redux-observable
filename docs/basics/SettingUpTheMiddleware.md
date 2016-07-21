@@ -55,7 +55,28 @@ export default function configureStore() {
     rootReducer,
 	applyMiddleware(epicMiddleware)
   );
+  
 
   return store;
 }
 ```
+
+## Redux DevTools
+
+If you're using the Redux DevTools Extension, you'll need to invoke `window.devToolsExtension.updateStore(store)`, otherwise your Epics will not receive any actions you dispatch using the DevTools UI.
+
+```js
+const epicMiddleware = createEpicMiddleware(pingEpic);
+
+const store = createStore(pingReducer,
+  compose(
+    applyMiddleware(epicMiddleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  )
+);
+
+if (window.devToolsExtension) {
+  window.devToolsExtension.updateStore(store);
+}
+```
+This is required to get around a limitation of Redux, but is [planned to be fixed soon](https://github.com/reactjs/redux/pull/1702).

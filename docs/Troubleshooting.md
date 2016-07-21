@@ -63,6 +63,11 @@ const myEpic = action$ => { // MISSING EXPLICIT RETURN!
   action$.ofType(...).etc(...)
 };
 ```
+
+### Actions dispatched from Redux DevTools do not reach Epics
+
+This is caused by a current limitation of Redux, but [there is a workaround available](basics/SettingUpTheMiddleware.md#redux-devtools).
+
 * * *
 
 ## Something else doesn’t work
