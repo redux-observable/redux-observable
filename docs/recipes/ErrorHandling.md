@@ -18,7 +18,7 @@ const fetchUserEpic = action$ =>
     );
 ```
 
-Here we placed the `.catch()` after inside our `.mergeMap()`, but after after our AJAX call; this is important because if we let the error reach the `action$.ofType()`, it will terminate it and no longer listen for new actions.
+Here we placed the `.catch()` inside our `.mergeMap()`, but after our AJAX call; this is important because if we let the error reach the `action$.ofType()`, it will terminate it and no longer listen for new actions.
 
 ***
 
