@@ -9,6 +9,8 @@
   * [Error Handling](recipes/ErrorHandling.md)
   * [Writing Tests](recipes/WritingTests.md)
   * [Usage with UI Frameworks](recipes/UsageWithUIFrameworks.md)
+  * [Hot Module Replacement](recipes/HotModuleReplacement.md)
+  * [Adding New Epics Asynchronously](recipes/AddingNewEpicsAsynchronously.md)
 * [FAQ](FAQ.md)
 * [Troubleshooting](Troubleshooting.md)
 * [API Reference](api/SUMMARY.md)
