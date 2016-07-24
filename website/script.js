@@ -19,3 +19,8 @@ gitbook.push(function () {
     delete window.jsbinified;
   });
 });
+
+
+((window.gitter = {}).chat = {}).options = {
+  room: 'redux-observable/redux-observable'
+};

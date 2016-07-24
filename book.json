@@ -16,7 +16,7 @@
       "url": "https://github.com/redux-observable/redux-observable/"
     },
     "addcssjs": {
-      "js": ["website/script.js"],
+      "js": ["website/script.js", "https://sidecar.gitter.im/dist/sidecar.v1.js"],
       "css": ["website/style.css"]
     }
   }
