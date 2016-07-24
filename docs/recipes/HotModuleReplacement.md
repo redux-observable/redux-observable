@@ -16,7 +16,7 @@ if (module.hot) {
 }
 ```
 
-To mitigate the aforementioned issues, when you call `replaceEpic` an `@@redux-observable/EPIC_END` action is dispatched before the replacement actually happens. This gives you a **synchronous** opportunity to do any cleanup you need. You choose to listen for this action in your Epic itself or in you reducer, where ever it makes the most sense.
+When you call `replaceEpic` an `@@redux-observable/EPIC_END` action is dispatched before the replacement actually happens. This gives you a **synchronous** opportunity to do any cleanup you may need. You can choose to listen for this action in your Epic itself or in you reducer, where ever it makes the most sense.
 
 #### Inside your Reducer
 
@@ -25,6 +25,8 @@ import { EPIC_END } from 'redux-observable';
 
 const userIsPending = (state = false, action) => {
   switch (action.type) {
+    // Listen for the Epic ending to put things
+    // back into a safe state
 	case EPIC_END:
 	case FETCH_USER_FULFILLED:
 	case FETCH_USER_CANCELLED:
@@ -43,6 +45,7 @@ const userIsPending = (state = false, action) => {
 
 ```js
 import { EPIC_END } from 'redux-observable';
+import { race } from 'rxjs/observable/race';
 
 // Race between the AJAX call and an EPIC_END.
 // If the EPIC_END, emit a cancel action to
