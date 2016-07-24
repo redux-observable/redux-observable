@@ -1,7 +1,7 @@
 # Epics
 
 >##### Not familiar with Observables/RxJS v5?
-> redux-observable requires an understanding of Observables with RS v5. If you're new to Reactive Programming with S v5, head over to [http://reactivex.io/rxjs/](http://reactivex.io/rxjs/) to familiarize yourself first.
+> redux-observable requires an understanding of Observables with RxJS v5. If you're new to Reactive Programming with RxJS v5, head over to [http://reactivex.io/rxjs/](http://reactivex.io/rxjs/) to familiarize yourself first.
 
 An **Epic** is the core primitive of redux-observable.
 
