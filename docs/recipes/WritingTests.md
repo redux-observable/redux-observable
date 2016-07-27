@@ -19,9 +19,12 @@ const mockStore = configureMockStore([epicMiddleware]);
 describe('fetchUserEpic', () => {
   let store;
 
+  beforeEach(() => {
+    store = mockStore();
+  });
+
   afterEach(() => {
     nock.cleanAll();
-    store = mockStore();
     epicMiddleware.replaceEpic(fetchUserEpic);
   });
 
