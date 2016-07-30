@@ -13,7 +13,7 @@
 ## Install
 
 This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed
-as well. **It is not currently compatible with RxJS v4**
+as well. Support for RxJS v4 can temporarily be provided by [an optional adapter](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4).
 
 ```sh
 npm install --save redux-observable

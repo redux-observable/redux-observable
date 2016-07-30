@@ -13,19 +13,17 @@
 ## General
 
 <a id="general-rxjs-v4"></a>
-### Does this work with RxJS 4/most.js/bacon.js? 
+### Does this work with RxJS 4/most.js/bacon.js/etc? 
 
 ##### RxJS v4
 
-Not out of box. We'd love to provide an elegant solution for this soon; ideally [RxJS v4 would add interop with `Symbol.observable`](https://github.com/Reactive-Extensions/RxJS/issues/1225).
+Not out of box, but we provide an adapter [redux-observable-adapter-rxjs-v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4) you can install to add support temporarily while you transition to RxJS v5. Please upgrade to v5 as soon as possible as we do not plan to support this long-term.
 
 ##### most.js
-
-We believe so, but this is currently unconfirmed! (please let us know) [most.js supports interop](https://github.com/cujojs/most/blob/master/docs/api.md#draft-es-observable-interop) with the proposed ECMAScript Observable spec which RxJS builds on top of.
-
 ##### bacon.js
+##### etc.
 
-Not out of box. Some work has been done to make [bacon.js support](https://github.com/baconjs/bacon.js/issues/633) the `Symbol.observable` interop point.
+It should be possible for you to create an adapter to add support. See [redux-observable-adapter-rxjs-v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4) for reference.
 
 <a id="miscellaneous-thunkservables-deprecated"></a>
 ### Why were thunkservables deprecated? 
