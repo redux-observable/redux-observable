@@ -3,7 +3,7 @@
 * [README](/README.md)
 * [Basics](basics/SUMMARY.md)
   * [Epics](basics/Epics.md)
-  * [Settings Up The Middleware](basics/SettingUpTheMiddleware.md)
+  * [Setting Up The Middleware](basics/SettingUpTheMiddleware.md)
 * [Recipes](recipes/SUMMARY.md)
   * [Cancellation](recipes/Cancellation.md)
   * [Error Handling](recipes/ErrorHandling.md)
