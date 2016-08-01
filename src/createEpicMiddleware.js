@@ -5,9 +5,20 @@ import { switchMap } from 'rxjs/operator/switchMap';
 import { ActionsObservable } from './ActionsObservable';
 import { EPIC_END } from './EPIC_END';
 
-export function createEpicMiddleware(epic) {
-  const actionsSubject = new Subject();
-  const action$ = new ActionsObservable(actionsSubject);
+const defaultAdapter = {
+  input: action$ => action$,
+  output: action$ => action$
+};
+
+const defaultOptions = {
+  adapter: defaultAdapter
+};
+
+export function createEpicMiddleware(epic, { adapter = defaultAdapter } = defaultOptions) {
+  const input$ = new Subject();
+  const action$ = adapter.input(
+    new ActionsObservable(input$)
+  );
   const epic$ = new BehaviorSubject(epic);
   let store;
 
@@ -16,7 +27,7 @@ export function createEpicMiddleware(epic) {
 
     return next => {
       if (typeof epic === 'function') {
-        epic$::switchMap(epic => epic(action$, store))
+        epic$::switchMap(epic => adapter.output(epic(action$, store)))
           .subscribe(store.dispatch);
       }
 
@@ -30,7 +41,7 @@ export function createEpicMiddleware(epic) {
           return out$.subscribe(store.dispatch);
         } else {
           const result = next(action);
-          actionsSubject.next(action);
+          input$.next(action);
           return result;
         }
       };

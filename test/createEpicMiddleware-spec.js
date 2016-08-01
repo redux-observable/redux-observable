@@ -273,4 +273,24 @@ describe('createEpicMiddleware', () => {
       done();
     }, 100);
   });
+
+  it('supports an adapter for Epic input/output', () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = input => input + 1;
+
+    const adapter = {
+      input: () => 1,
+      output: value => of({
+        type: value + 1
+      })
+    };
+    const middleware = createEpicMiddleware(epic, { adapter });
+
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    expect(store.getState()).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 3 }
+    ]);
+  });
 });
