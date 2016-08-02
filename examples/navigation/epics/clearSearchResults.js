@@ -1,0 +1,11 @@
+import { LOCATION_CHANGE } from 'react-router-redux';
+import * as ActionTypes from '../actionTypes';
+
+export default action$ =>
+  action$.ofType(LOCATION_CHANGE)
+    .filter(({ payload }) =>
+      payload.pathname === '/' && !!!payload.query.q
+    )
+    .mapTo({
+      type: ActionTypes.CLEARED_RESULTS
+    });
