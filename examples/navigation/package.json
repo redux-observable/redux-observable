@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/redux-observable/redux-observable.git"
   },
-  "author": "",
+  "author": "Gus Vargas",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/redux-observable/redux-observable/issues"
