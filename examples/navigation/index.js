@@ -1,3 +1,11 @@
+/*
+  redux-observable does not automatically add every RxJS operator to
+  the Observable prototype. Because there are many ways to add them,
+  our examples will not include any imports. If you want to add every
+  operator, put import 'rxjs'; in your entry index.js.
+
+  More info: https://github.com/ReactiveX/rxjs#installation-and-usage
+ */
 import 'rxjs';
 import React from 'react';
 import ReactDOM from 'react-dom';
