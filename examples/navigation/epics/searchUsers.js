@@ -9,7 +9,9 @@ export default function searchUsers(action$) {
       payload.pathname === '/' && !!payload.query.q
     );
   return Observable.merge(
-    searchIntents$.mapTo({ type: ActionTypes.SEARCHED_USERS }),
+    searchIntents$.map(() => ({
+      type: ActionTypes.SEARCHED_USERS
+    })),
     searchIntents$
       .switchMap(({ payload: { query: { q } } }) =>
         Observable.timer(800) // debouncing

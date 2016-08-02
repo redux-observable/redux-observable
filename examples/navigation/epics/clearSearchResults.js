@@ -6,6 +6,6 @@ export default action$ =>
     .filter(({ payload }) =>
       payload.pathname === '/' && !!!payload.query.q
     )
-    .mapTo({
+    .map(() => ({
       type: ActionTypes.CLEARED_RESULTS
-    });
+    }));

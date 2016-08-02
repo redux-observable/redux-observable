@@ -11,5 +11,5 @@ export default function adminAccess(action$) {
     .map(hasAccess)
     .filter(access => !access)
     .delay(2000)
-    .mapTo(push('/'));
+    .map(() => push('/'));
 }
