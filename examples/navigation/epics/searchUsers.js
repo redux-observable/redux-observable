@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import * as ActionTypes from '../actionTypes';
