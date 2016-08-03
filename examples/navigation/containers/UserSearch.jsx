@@ -9,10 +9,6 @@ function onSearch(query) {
   return push(`?q=${query}`);
 }
 
-function onSelect(user) {
-  return push(`repos/${user}`);
-}
-
 const UserSearch = ({
   query = '',
   results,
@@ -35,7 +31,6 @@ const UserSearch = ({
     <UserSearchResults
       results={results}
       loading={searchInFlight}
-      onSelect={onSelect}
     />
   </div>
 );

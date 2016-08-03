@@ -3,8 +3,7 @@ import { Link } from 'react-router';
 
 export default function UserSearchResults({
   results,
-  loading,
-  onSelect
+  loading
 }) {
   return (
     <ul style={{
