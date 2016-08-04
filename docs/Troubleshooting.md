@@ -1,6 +1,12 @@
-# Troubleshooting
+# Troubleshooting [![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 This is a place to share common problems and solutions to them.  
+
+> If your problem isn't yet listed here or you need other help, please use [Stack Overflow](stackoverflow.com/questions/tagged/redux-observable) first with the `redux-observable` tag. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
+>
+> You can also get help in our public [Gitter channel](https://gitter.im/redux-observable/redux-observable)!
+
 
 * * *
 
