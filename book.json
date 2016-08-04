@@ -3,6 +3,9 @@
   "title": "redux-observable",
   "plugins": ["edit-link", "prism", "github", "anker-enable", "addcssjs"],
   "pluginsConfig": {
+    "theme-default": {
+      "showLevel": true
+    },
     "sharing": {
       "google": false,
       "facebook": false,
