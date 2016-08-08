@@ -19,6 +19,8 @@ as well. Support for RxJS v4 can temporarily be provided by [an optional adapter
 npm install --save redux-observable
 ```
 
+**IMPORTANT:** redux-observable does not add any of the RxJS operators to the `Observable.prototype` so you will need to import the ones you use or import all of them in your entry file. [Learn more](http://redux-observable.js.org/docs/Troubleshooting.html#rxjs-operators-are-missing-eg-typeerror-actionoftypeswitchmap-is-not-a-function).
+
 ## JSBin Examples
 
 To see redux-observable in action, here's a very simple JSBin to play around with:
