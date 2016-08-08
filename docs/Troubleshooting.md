@@ -3,7 +3,7 @@
 
 This is a place to share common problems and solutions to them.  
 
-> If your problem isn't yet listed here or you need other help, please use [Stack Overflow](stackoverflow.com/questions/tagged/redux-observable) first with the `redux-observable` tag. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
+> If your problem isn't yet listed here or you need other help, please use [Stack Overflow](http://stackoverflow.com/questions/tagged/redux-observable) first with the `redux-observable` tag. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
 >
 > You can also get help in our public [Gitter channel](https://gitter.im/redux-observable/redux-observable)!
 
