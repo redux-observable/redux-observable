@@ -1,4 +1,4 @@
-import * as ActionTypes from '../actionTypes';
+import * as ActionTypes from '../ActionTypes';
 
 export default function searchInFlight(state = false, action) {
   switch (action.type) {

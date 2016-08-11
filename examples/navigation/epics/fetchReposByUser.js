@@ -1,7 +1,7 @@
 import { merge } from 'rxjs/observable/merge';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { ajax } from 'rxjs/observable/dom/ajax';
-import * as ActionTypes from '../actionTypes';
+import * as ActionTypes from '../ActionTypes';
 
 // Hack since react-router-redux doesn't hook
 // into react-router to grab parsed params.

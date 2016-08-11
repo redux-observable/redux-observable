@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { ajax } from 'rxjs/observable/dom/ajax';
-import * as ActionTypes from '../actionTypes';
+import * as ActionTypes from '../ActionTypes';
 
 export default function searchUsers(action$) {
   const searchIntents$ = action$.ofType(LOCATION_CHANGE)
