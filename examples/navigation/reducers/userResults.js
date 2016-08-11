@@ -1,4 +1,4 @@
-import * as ActionTypes from '../actionTypes';
+import * as ActionTypes from '../ActionTypes';
 
 const initialState = [];
 export default function userResults(state = initialState, action) {

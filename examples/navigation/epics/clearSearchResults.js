@@ -1,5 +1,5 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
-import * as ActionTypes from '../actionTypes';
+import * as ActionTypes from '../ActionTypes';
 
 export default action$ =>
   action$.ofType(LOCATION_CHANGE)

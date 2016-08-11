@@ -1,4 +1,4 @@
-import * as ActionTypes from '../actionTypes';
+import * as ActionTypes from '../ActionTypes';
 
 export default function reposByUser(state = {}, action) {
   switch (action.type) {
