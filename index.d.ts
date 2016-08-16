@@ -4,8 +4,8 @@ import { Operator } from 'rxjs/Operator';
 
 export declare class ActionsObservable extends Observable<Action> {
   constructor(actionsSubject: Observable<Action>);
-  lift(operator: Operator<any, Action>);
-  ofType(...key: any[]);
+  lift(operator: Operator<any, Action>) : ActionsObservable;
+  ofType(...key: any[]) : ActionsObservable;
 }
 
 export declare interface Epic {
