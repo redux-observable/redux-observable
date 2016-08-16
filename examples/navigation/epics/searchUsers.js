@@ -5,10 +5,9 @@ import { receiveUsers } from '../actions';
 import { ajax } from 'rxjs/observable/dom/ajax';
 
 export default function searchUsers(action$) {
-  const searchIntents$ = action$.ofType(ActionTypes.SEARCHED_USERS)
+  return action$.ofType(ActionTypes.SEARCHED_USERS)
     .map(action => action.payload.query)
-    .filter(q => !!q);
-  return searchIntents$
+    .filter(q => !!q)
     .switchMap(q =>
       Observable.timer(800) // debounce
         .takeUntil(action$.ofType(ActionTypes.CLEARED_SEARCH_RESULTS))
