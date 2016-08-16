@@ -1,11 +1,7 @@
-import { LOCATION_CHANGE } from 'react-router-redux';
 import * as ActionTypes from '../ActionTypes';
+import { clearSearchResults } from '../actions';
 
 export default action$ =>
-  action$.ofType(LOCATION_CHANGE)
-    .filter(({ payload }) =>
-      payload.pathname === '/' && !!!payload.query.q
-    )
-    .map(() => ({
-      type: ActionTypes.CLEARED_RESULTS
-    }));
+  action$.ofType(ActionTypes.SEARCHED_USERS)
+    .filter(action => !!!action.payload.query)
+    .map(clearSearchResults);

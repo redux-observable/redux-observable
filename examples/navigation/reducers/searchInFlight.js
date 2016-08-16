@@ -5,8 +5,7 @@ export default function searchInFlight(state = false, action) {
     case ActionTypes.SEARCHED_USERS:
       return true;
     case ActionTypes.RECEIVED_USERS:
-    case ActionTypes.CLEARED_RESULTS:
-    case ActionTypes.SEARCHED_USERS_FAILED:
+    case ActionTypes.CLEARED_SEARCH_RESULTS:
       return false;
     default:
       return state;

@@ -1,31 +1,21 @@
 import { Observable } from 'rxjs/Observable';
-import { LOCATION_CHANGE } from 'react-router-redux';
-import { ajax } from 'rxjs/observable/dom/ajax';
+import { replace } from 'react-router-redux';
 import * as ActionTypes from '../ActionTypes';
+import { receiveUsers } from '../actions';
+import { ajax } from 'rxjs/observable/dom/ajax';
 
 export default function searchUsers(action$) {
-  const searchIntents$ = action$.ofType(LOCATION_CHANGE)
-    .filter(({ payload }) =>
-      payload.pathname === '/' && !!payload.query.q
-    )
-    .map(action => action.payload.query.q);
-  return Observable.merge(
-    searchIntents$.map(() => ({
-      type: ActionTypes.SEARCHED_USERS
-    })),
-    searchIntents$
-      .switchMap(q =>
-        Observable.timer(800) // debouncing
-          .takeUntil(action$.ofType(ActionTypes.CLEARED_RESULTS))
-          .mergeMapTo(
-            ajax.getJSON(`https://api.github.com/search/users?q=${q}`)
-          )
-          .map(res => ({
-            type: ActionTypes.RECEIVED_USERS,
-            payload: {
-              users: res.items
-            }
-          }))
-      )
-  );
+  const searchIntents$ = action$.ofType(ActionTypes.SEARCHED_USERS)
+    .map(action => action.payload.query)
+    .filter(q => !!q);
+  return searchIntents$
+    .switchMap(q => Observable.timer(800)
+      .takeUntil(action$.ofType(ActionTypes.CLEARED_SEARCH_RESULTS))
+      .mergeMap(() => Observable.merge(
+        Observable.of(replace(`?q=${q}`)),
+        ajax.getJSON(`https://api.github.com/search/users?q=${q}`)
+          .map(res => res.items)
+          .map(receiveUsers)
+      ))
+    );
 };
