@@ -1,3 +1,13 @@
+<a name="0.9.1"></a>
+## [0.9.1](https://github.com/redux-observable/redux-observable/compare/v0.9.0...v0.9.1) (2016-08-17)
+
+
+### Bug Fixes
+
+* **typings:** add explicit return types inside ActionsObservable ([95b4ce4](https://github.com/redux-observable/redux-observable/commit/95b4ce4)), closes [#96](https://github.com/redux-observable/redux-observable/issues/96)
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/redux-observable/redux-observable/compare/v0.8.0...v0.9.0) (2016-08-01)
 
