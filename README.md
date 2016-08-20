@@ -12,7 +12,7 @@
 
 ## Install
 
-This has a peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed
+This has peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed
 as well. Support for RxJS v4 can temporarily be provided by [an optional adapter](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4).
 
 ```sh
