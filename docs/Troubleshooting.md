@@ -76,7 +76,8 @@ This is caused by a current limitation of Redux, but [there is a workaround avai
 
 ### this is set to Window
 
-This might be caused because you tried to use a class method for the epic:
+If you are organizing your epics into a class. (E.g. in order to benefit from Angular 2 dependency injection), you might have made the mistake of using class methods:
+
 ```ts
 class TooFancy {
   constructor(private somethingInjected:SomethingInjected)
