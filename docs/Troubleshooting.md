@@ -74,6 +74,29 @@ const myEpic = action$ => { // MISSING EXPLICIT RETURN!
 
 This is caused by a current limitation of Redux, but [there is a workaround available](basics/SettingUpTheMiddleware.md#redux-devtools).
 
+### this is set to Window
+
+If you are organizing your epics into a class. (E.g. in order to benefit from Angular 2 dependency injection), you might have made the mistake of using class methods:
+
+```ts
+class TooFancy {
+  constructor(private somethingInjected:SomethingInjected)
+  checkAutoLogin (action$: Observable<IPayloadAction>) {
+    console.log(this); // Is Window! when called from redux-observable
+  }
+}
+```
+follow the docs and:
+```ts
+class TooFancy {
+  constructor(private somethingInjected:SomethingInjected)
+  checkAutoLogin =  (action$: Observable<IPayloadAction>) => {
+    console.log(this); // YOu can access somethingInjected
+  }
+}
+```
+See https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions (Arrow functions used as methods)
+
 * * *
 
 ## Something else doesn’t work
