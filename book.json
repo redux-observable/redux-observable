@@ -1,11 +1,11 @@
 {
   "gitbook": "^3.0.0",
   "title": "redux-observable",
-  "styles": {
-    "website": "styles/website.css"
-  },
-  "plugins": ["edit-link", "prism", "github", "anker-enable"],
+  "plugins": ["edit-link", "prism", "github", "anker-enable", "addcssjs"],
   "pluginsConfig": {
+    "theme-default": {
+      "showLevel": true
+    },
     "sharing": {
       "google": false,
       "facebook": false,
@@ -17,6 +17,10 @@
     },
     "github": {
       "url": "https://github.com/redux-observable/redux-observable/"
+    },
+    "addcssjs": {
+      "js": ["website/script.js", "https://sidecar.gitter.im/dist/sidecar.v1.js"],
+      "css": ["website/style.css"]
     }
   }
 }

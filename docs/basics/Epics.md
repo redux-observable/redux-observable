@@ -1,7 +1,7 @@
 # Epics
 
 >##### Not familiar with Observables/RxJS v5?
-> redux-observable requires an understanding of Observables with RS v5. If you're new to Reactive Programming with S v5, head over to [http://reactivex.io/rxjs/](http://reactivex.io/rxjs/) to familiarize yourself first.
+> redux-observable requires an understanding of Observables with RxJS v5. If you're new to Reactive Programming with RxJS v5, head over to [http://reactivex.io/rxjs/](http://reactivex.io/rxjs/) to familiarize yourself first.
 
 An **Epic** is the core primitive of redux-observable.
 
@@ -28,6 +28,11 @@ const actionEpic = (action$) => action$; // creates infinite loop
 
 
 ## A Basic Example
+
+> **IMPORTANT:** redux-observable does not add any of the RxJS operators to the `Observable.prototype` so you will need to import the ones you use or import all of them in your entry file.
+> 
+> Because there are many ways to add them, our examples will not include any imports. If you want to add every operator, put `import 'rxjs';` in your entry `index.js`. [Learn more](http://redux-observable.js.org/docs/Troubleshooting.html#rxjs-operators-are-missing-eg-typeerror-actionoftypeswitchmap-is-not-a-function).
+
 
 Let's start with a simple Epic example:
 
@@ -89,7 +94,11 @@ const pingEpic = action$ =>
     .mapTo({ type: 'PONG' });
 ```
 
-<a class="jsbin-embed" href="https://jsbin.com/vayoho/embed?js,output&height=500px">View this demo on JSbin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
+***
+
+### Try It Live!
+
+<a class="jsbin-embed" href="https://jsbin.com/vayoho/embed?js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## A Real World Example
 
@@ -136,7 +145,11 @@ const users = (state = {}, action) => {
 };
 ```
 
-<a class="jsbin-embed" href="https://jsbin.com/jopuza/embed?js,output&height=500px">View this demo on JSbin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
+***
+
+### Try It Live!
+
+<a class="jsbin-embed" style="border: none;" href="https://jsbin.com/jopuza/embed?js,output&height=500px&class=foo">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## Accessing the Store's State
 
@@ -167,7 +180,11 @@ dispatch(incrementIfOdd());
 
 Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is.
 
-<a class="jsbin-embed" href="https://jsbin.com/somuvur/embed?js,output&height=500px">View this demo on JSbin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
+***
+
+### Try It Live!
+
+<a class="jsbin-embed" href="https://jsbin.com/somuvur/embed?js,output&height=500px">View this demo on JSBinn</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## Combining Epics
 

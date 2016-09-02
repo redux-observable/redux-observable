@@ -1,3 +1,34 @@
+<a name="0.9.1"></a>
+## [0.9.1](https://github.com/redux-observable/redux-observable/compare/v0.9.0...v0.9.1) (2016-08-17)
+
+
+### Bug Fixes
+
+* **typings:** add explicit return types inside ActionsObservable ([95b4ce4](https://github.com/redux-observable/redux-observable/commit/95b4ce4)), closes [#96](https://github.com/redux-observable/redux-observable/issues/96)
+
+
+
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/redux-observable/redux-observable/compare/v0.8.0...v0.9.0) (2016-08-01)
+
+
+### Features
+
+* **Adapters:** Adds support for Epic input/output adapters. This allows us to support RxJS v4 via [redux-observable-adapter-rxjs-v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4) ([#85](https://github.com/redux-observable/redux-observable/issues/85)) ([a662cdf](https://github.com/redux-observable/redux-observable/commit/a662cdf))
+
+
+
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/redux-observable/redux-observable/compare/v0.7.2...v0.8.0) (2016-07-24)
+
+
+### Features
+
+* **replaceEpic:** Added middleware method to replace the root Epic. Useful for code splitting and hot reloading ([a8f458d](https://github.com/redux-observable/redux-observable/commit/a8f458d))
+* **replaceEpic:** Dispatches an EPIC_END action when you replaceEpic() ([#75](https://github.com/redux-observable/redux-observable/issues/75)) ([fef6f80](https://github.com/redux-observable/redux-observable/commit/fef6f80))
+
+
+
 <a name="0.7.2"></a>
 ## [0.7.2](https://github.com/redux-observable/redux-observable/compare/v0.7.1...v0.7.2) (2016-07-14)
 
