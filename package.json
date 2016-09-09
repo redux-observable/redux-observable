@@ -77,7 +77,7 @@
     "chai": "^3.5.0",
     "conventional-changelog-cli": "1.2.0",
     "cross-env": "^2.0.0",
-    "eslint": "^3.2.2",
+    "eslint": "^3.5.0",
     "gitbook-cli": "^2.3.0",
     "gitbook-plugin-addcssjs": "1.0.2",
     "gitbook-plugin-anker-enable": "0.0.4",
