@@ -1,0 +1,6 @@
+{
+  "globalDependencies": {
+    "chai": "registry:dt/chai#3.4.0+20160601211834",
+    "es6-shim": "registry:dt/es6-shim#0.31.2+20160602141504"
+  }
+}
