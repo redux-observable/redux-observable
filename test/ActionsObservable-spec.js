@@ -1,8 +1,6 @@
 /* globals describe it */
 import { expect } from 'chai';
-import { ActionsObservable, createEpicMiddleware } from '../';
-import { createStore, applyMiddleware } from 'redux';
-import { of } from 'rxjs/observable/of';
+import { ActionsObservable } from '../';
 import { Subject } from 'rxjs/Subject';
 
 describe('ActionsObservable', () => {
@@ -17,20 +15,6 @@ describe('ActionsObservable', () => {
 
     expect(action$).to.be.an.instanceof(ActionsObservable);
     expect(output).to.deep.equal([{ type: 'FIRST', type: 'SECOND' }]);
-  });
-
-  it('should be the type provided to a dispatched function', () => {
-    let middleware = createEpicMiddleware();
-    let reducer = (state, action) => {
-      return state;
-    };
-
-    let store = createStore(reducer, applyMiddleware(middleware));
-
-    store.dispatch((arg1) => {
-      expect(arg1).to.be.an.instanceof(ActionsObservable);
-      return of({ type: 'WEEE' });
-    });
   });
 
   describe('ofType operator', () => {
