@@ -1,3 +1,14 @@
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/redux-observable/redux-observable/compare/v0.9.1...v0.10.0) (2016-09-11)
+
+
+### BREAKING CHANGE (maybe)
+
+* **typings:** TypeScript users: Added generics to createEpicMiddleware so developer defines what redux Actions look like ([#105](https://github.com/redux-observable/redux-observable/issues/105)) ([7b4214f](https://github.com/redux-observable/redux-observable/commit/7b4214f)). Previously, the behavior was rather restrictive so while it's unlikely going to break anyone's code, it technically is a breaking change.
+
+
+
+
 <a name="0.9.1"></a>
 ## [0.9.1](https://github.com/redux-observable/redux-observable/compare/v0.9.0...v0.9.1) (2016-08-17)
 
