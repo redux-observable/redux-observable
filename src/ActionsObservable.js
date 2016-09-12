@@ -1,7 +1,12 @@
 import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 import { filter } from 'rxjs/operator/filter';
 
 export class ActionsObservable extends Observable {
+  static of(...actions) {
+    return new this(of(...actions));
+  }
+
   constructor(actionsSubject) {
     super();
     this.source = actionsSubject;
