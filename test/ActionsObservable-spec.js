@@ -12,11 +12,11 @@ describe('ActionsObservable', () => {
 
   it('should support ActionsObservable.of(...actions)', () => {
     const output = [];
-    const action$ = ActionsObservable.of({ type: 'FIRST', type: 'SECOND' });
+    const action$ = ActionsObservable.of({ type: 'FIRST' }, { type: 'SECOND' });
     action$.subscribe(x => output.push(x));
 
     expect(action$).to.be.an.instanceof(ActionsObservable);
-    expect(output).to.deep.equal([{ type: 'FIRST', type: 'SECOND' }]);
+    expect(output).to.deep.equal([{ type: 'FIRST' }, { type: 'SECOND' }]);
   });
 
   it('should be the type provided to a dispatched function', () => {
