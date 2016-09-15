@@ -1,3 +1,23 @@
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/redux-observable/redux-observable/compare/0.10.0...v0.11.0) (2016-09-15)
+
+
+### Code Refactoring
+
+* **thunkservables:** Removed support for thunkservables ([e55428f](https://github.com/redux-observable/redux-observable/commit/e55428f))
+
+
+### Features
+
+* **ActionsObservable.of:** Added support for ActionsObservable.of(...actions) as shorthand, mostly useful for testing Epics ([25f50d0](https://github.com/redux-observable/redux-observable/commit/25f50d0)), closes [#98](https://github.com/redux-observable/redux-observable/issues/98)
+
+
+### BREAKING CHANGES
+
+* thunkservables: Support for thunkservables has been removed, replaced by Epics. You may now use redux-thunk in tandem with redux-observable.  [Read more](http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-removed)
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/redux-observable/redux-observable/compare/v0.9.1...v0.10.0) (2016-09-11)
 
