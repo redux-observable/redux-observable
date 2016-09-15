@@ -57,4 +57,14 @@ To see redux-observable in action, here's a very simple JSBin to play around wit
 
 Everyone is welcome on our [Gitter channel](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)!
 
+## Custom Emoji
+
+##### Save this:
+
+<img src="https://cloud.githubusercontent.com/assets/762949/18562188/905876f6-7b37-11e6-8677-f9dd091490f6.gif" width="22" height="22" />
+
+Add the redux-observable spinning logo to your Slack channel! [Slack Instructions](https://get.slack.help/hc/en-us/articles/206870177-Create-custom-emoji)
+
+***
+
 :shipit:
