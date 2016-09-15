@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs/Subject';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { from } from 'rxjs/observable/from';
+import { map } from 'rxjs/operator/map';
 import { switchMap } from 'rxjs/operator/switchMap';
 import { ActionsObservable } from './ActionsObservable';
 import { EPIC_END } from './EPIC_END';
@@ -15,6 +15,10 @@ const defaultOptions = {
 };
 
 export function createEpicMiddleware(epic, { adapter = defaultAdapter } = defaultOptions) {
+  if (typeof epic !== 'function') {
+    throw new TypeError('You must provide a root Epic to createEpicMiddleware');
+  }
+
   const input$ = new Subject();
   const action$ = adapter.input(
     new ActionsObservable(input$)
@@ -26,30 +30,25 @@ export function createEpicMiddleware(epic, { adapter = defaultAdapter } = defaul
     store = _store;
 
     return next => {
-      if (typeof epic === 'function') {
-        epic$::switchMap(epic => adapter.output(epic(action$, store)))
-          .subscribe(store.dispatch);
-      }
+      epic$
+        ::map(epic => epic(action$, store))
+        ::switchMap(action$ => adapter.output(action$))
+        .subscribe(store.dispatch);
 
       return action => {
-        if (typeof action === 'function') {
-          if (typeof console !== 'undefined' && typeof console.warn !== 'undefined') {
-            console.warn('DEPRECATION: Using thunkservables with redux-observable is now deprecated in favor of the new "Epics" feature. See http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-deprecated');
-          }
-
-          const out$ = from(action(action$, store));
-          return out$.subscribe(store.dispatch);
-        } else {
-          const result = next(action);
-          input$.next(action);
-          return result;
-        }
+        const result = next(action);
+        input$.next(action);
+        return result;
       };
     };
   };
 
   epicMiddleware.replaceEpic = epic => {
+    // gives the previous root Epic a last chance
+    // to do some clean up
     store.dispatch({ type: EPIC_END });
+    // switches to the new root Epic, synchronously terminating
+    // the previous one
     epic$.next(epic);
   };
 
