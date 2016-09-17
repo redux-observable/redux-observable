@@ -24,3 +24,16 @@ gitbook.push(function () {
 ((window.gitter = {}).chat = {}).options = {
   room: 'redux-observable/redux-observable'
 };
+
+// Quantcast Analytics
+window._qevents = window._qevents || [];
+
+(function () {
+  var script = document.createElement('script');
+  script.src = (document.location.protocol == 'https:' ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
+  script.async = true;
+  script.type = 'text/javascript';
+  document.body.appendChild(script);
+})();
+
+_qevents.push({ qacct:'p-gm1A_eU4dRuUY' });
