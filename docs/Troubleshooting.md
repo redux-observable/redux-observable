@@ -78,7 +78,7 @@ This is caused by a current limitation of Redux, but [there is a workaround avai
 
 If you are organizing your epics into a class. (E.g. in order to benefit from Angular 2 dependency injection), you might have made the mistake of using class methods:
 
-```ts
+```typescript
 class TooFancy {
   constructor(private somethingInjected:SomethingInjected)
   checkAutoLogin (action$: Observable<IPayloadAction>) {
@@ -87,7 +87,8 @@ class TooFancy {
 }
 ```
 follow the docs and:
-```ts
+
+```typescript
 class TooFancy {
   constructor(private somethingInjected:SomethingInjected)
   checkAutoLogin =  (action$: Observable<IPayloadAction>) => {
@@ -95,6 +96,7 @@ class TooFancy {
   }
 }
 ```
+
 See https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions (Arrow functions used as methods)
 
 * * *
