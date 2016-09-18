@@ -1,7 +1,6 @@
 window.gitbook = window.gitbook || [];
 
 gitbook.push(function () {
-
   gitbook.events.on('page.change', function () {
     // We use a slightly different styling so that
     // the normal window scrollbar is used, so we need

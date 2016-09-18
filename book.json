@@ -1,5 +1,5 @@
 {
-  "gitbook": "^3.0.0",
+  "gitbook": "^3.1.1",
   "title": "redux-observable",
   "plugins": ["edit-link", "prism", "github", "anker-enable", "addcssjs"],
   "pluginsConfig": {
