@@ -1,3 +1,13 @@
+<a name="0.12.0"></a>
+# [0.12.0](https://github.com/redux-observable/redux-observable/compare/v0.11.0...v0.12.0) (2016-09-22)
+
+
+### Features
+
+* **combineEpics:** combineEpics() now transparently passes along _any_ arguments, not just action$, store. ([ee3efbf](https://github.com/redux-observable/redux-observable/commit/ee3efbf))
+
+
+
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/redux-observable/redux-observable/compare/0.10.0...v0.11.0) (2016-09-15)
 
