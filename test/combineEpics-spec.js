@@ -1,5 +1,6 @@
 /* globals describe it */
 import { expect } from 'chai';
+import sinon from 'sinon';
 import { combineEpics, ActionsObservable } from '../';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operator/map';
@@ -31,5 +32,23 @@ describe('combineEpics', () => {
       { type: 'DELEGATED1', action: { type: 'ACTION1' }, store },
       { type: 'DELEGATED2', action: { type: 'ACTION2' }, store },
     ]);
+  });
+
+  it('should pass along every argument arbitrarily', () => {
+    const epic1 = sinon.stub();
+    const epic2 = sinon.stub();
+
+    const rootEpic = combineEpics(
+      epic1,
+      epic2
+    );
+
+    rootEpic(1, 2, 3, 4);
+
+    expect(epic1.callCount).to.equal(1);
+    expect(epic2.callCount).to.equal(1);
+
+    expect(epic1.firstCall.args).to.deep.equal([1, 2, 3, 4]);
+    expect(epic2.firstCall.args).to.deep.equal([1, 2, 3, 4]);
   });
 });
