@@ -1,0 +1,4 @@
+<!-- Please mark these boxes to confirm -->
+
+- [ ] I have read the [Contributor Guide](https://github.com/redux-observable/redux-observable/blob/master/CONTRIBUTING.md)
+- [ ] My commit messages are in [conventional-changelog-standard](https://github.com/redux-observable/redux-observable/blob/master/CONTRIBUTING.md#sending-a-pull-request) format.
