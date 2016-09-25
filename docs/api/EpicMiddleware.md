@@ -14,7 +14,7 @@ To create it, pass your root [Epic](../basics/Epics.md) to [`createEpicMiddlewar
 
 Replaces the epic currently used by the middleware.
 
-It is an advanced API. You might need this if your app implements code splitting, and you want to load some of the epics dynamically or you implement use hot reloading.
+It is an advanced API. You might need this if your app implements code splitting and you want to load some of the epics dynamically or you're using hot reloading.
 
 #### Arguments
 
