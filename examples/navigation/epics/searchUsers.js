@@ -9,13 +9,8 @@ export default function searchUsers(action$) {
     .map(action => action.payload.query)
     .filter(q => !!q)
     .switchMap(q =>
-      Observable.timer(800) // debounce
+      ajax.getJSON(`https://api.github.com/search/users?q=${q}`)
         .takeUntil(action$.ofType(ActionTypes.CLEARED_SEARCH_RESULTS))
-        .mergeMap(() => Observable.merge(
-          Observable.of(replace(`?q=${q}`)),
-          ajax.getJSON(`https://api.github.com/search/users?q=${q}`)
-            .map(res => res.items)
-            .map(receiveUsers)
-        ))
-    );
+        .map(res => receiveUsers(res.items))
+        .startWith(replace(`?q=${q}`)));
 };

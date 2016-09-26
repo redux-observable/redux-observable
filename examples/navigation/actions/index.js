@@ -1,6 +1,15 @@
 import * as ActionTypes from '../ActionTypes';
 
-export function searchUsers(query) {
+export function searchedUsersDebounced(query) {
+  return {
+    type: ActionTypes.SEARCHED_USERS_DEBOUNCED,
+    payload: {
+      query
+    }
+  };
+}
+
+export function searchedUsers(query) {
   return {
     type: ActionTypes.SEARCHED_USERS,
     payload: {

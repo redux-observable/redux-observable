@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import UserSearchInput from '../components/UserSearchInput';
 import UserSearchResults from '../components/UserSearchResults';
-import { searchUsers } from '../actions';
+import { searchedUsersDebounced } from '../actions';
 
 class UserSearch extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class UserSearch extends React.Component {
   }
 
   handleUserSearch(query) {
-    this.props.searchUsers(query);
+    this.props.searchedUsersDebounced(query);
   }
 
   render() {
@@ -60,5 +60,5 @@ export default connect(
     results: userResults,
     searchInFlight
   }),
-  { searchUsers }
+  { searchedUsersDebounced }
 )(UserSearch);

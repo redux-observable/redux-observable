@@ -8,9 +8,9 @@ export default function adminAccess(action$) {
     // If you wanted to do an actual access check you
     // could do so here then filter by failed checks.
     .delay(2000)
-    .mergeMap(() => Observable.merge(
-      Observable.of(accessDenied()),
-      Observable.timer(2000)
-        .map(() => push('/'))
-    ));
+    .mergeMap(() =>
+      Observable.of(push('/'))
+       .delay(2000)
+       .startWith(accessDenied())
+   );
 }
