@@ -15,12 +15,6 @@ class UserSearch extends React.Component {
     this.handleUserSearch(this.props.query);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.query !== nextProps.query) {
-      this.handleUserSearch(nextProps.query);
-    }
-  }
-
   handleUserSearch(query) {
     this.props.searchedUsersDebounced(query);
   }
