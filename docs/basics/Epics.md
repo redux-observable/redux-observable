@@ -2,6 +2,9 @@
 
 >##### Not familiar with Observables/RxJS v5?
 > redux-observable requires an understanding of Observables with RxJS v5. If you're new to Reactive Programming with RxJS v5, head over to [http://reactivex.io/rxjs/](http://reactivex.io/rxjs/) to familiarize yourself first.
+> 
+> redux-observable (because of RxJS) truly shines the most for complex async/side effects. While most people will use redux-observable all of them, if you're not already comfortable with RxJS you might consider using [redux-thunk](https://github.com/gaearon/redux-thunk) for simple side effects and then use redux-observable for the complex stuff. That way you can remain productive and learn RxJS as you go.
+
 
 An **Epic** is the core primitive of redux-observable.
 
