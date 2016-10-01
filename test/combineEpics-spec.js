@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { combineEpics, ActionsObservable } from '../';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operator/map';
+import { toArray } from 'rxjs/operator/toArray';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
@@ -34,21 +35,23 @@ describe('combineEpics', () => {
     ]);
   });
 
-  it('should pass along every argument arbitrarily', () => {
-    const epic1 = sinon.stub();
-    const epic2 = sinon.stub();
+  it('should pass along every argument arbitrarily', (done) => {
+    const epic1 = sinon.stub().returns(['first']);
+    const epic2 = sinon.stub().returns(['second']);
 
     const rootEpic = combineEpics(
       epic1,
       epic2
     );
 
-    rootEpic(1, 2, 3, 4);
+    rootEpic(1, 2, 3, 4)::toArray().subscribe(values => {
+      expect(values).to.deep.equal(['first', 'second']);
 
-    expect(epic1.callCount).to.equal(1);
-    expect(epic2.callCount).to.equal(1);
+      expect(epic1.callCount).to.equal(1);
+      expect(epic2.callCount).to.equal(1);
 
-    expect(epic1.firstCall.args).to.deep.equal([1, 2, 3, 4]);
-    expect(epic2.firstCall.args).to.deep.equal([1, 2, 3, 4]);
+      expect(epic1.firstCall.args).to.deep.equal([1, 2, 3, 4]);
+      expect(epic2.firstCall.args).to.deep.equal([1, 2, 3, 4]);
+    });
   });
 });
