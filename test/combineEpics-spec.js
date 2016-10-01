@@ -52,6 +52,8 @@ describe('combineEpics', () => {
 
       expect(epic1.firstCall.args).to.deep.equal([1, 2, 3, 4]);
       expect(epic2.firstCall.args).to.deep.equal([1, 2, 3, 4]);
+
+      done();
     });
   });
 });
