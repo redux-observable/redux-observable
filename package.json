@@ -93,7 +93,6 @@
     "sinon": "1.17.6",
     "typescript": "^2.0.3",
     "typings": "1.4.0",
-    "webpack": "^1.13.1",
-    "webpack-rxjs-externals": "~0.0.3"
+    "webpack": "^2.1.0-beta.25"
   }
 }
