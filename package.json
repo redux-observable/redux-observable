@@ -1,6 +1,6 @@
 {
   "name": "redux-observable",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "description": "RxJS based middleware for Redux. Compose and cancel async actions and more.",
   "main": "lib/index.js",
   "scripts": {

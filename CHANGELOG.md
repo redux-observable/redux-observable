@@ -1,3 +1,13 @@
+<a name="0.12.1"></a>
+## [0.12.1](https://github.com/redux-observable/redux-observable/compare/v0.12.0...v0.12.1) (2016-10-04)
+
+
+### Bug Fixes
+
+* **UMD:** bump webpack-rxjs-externals to correct UMD generation ([3535b3d](https://github.com/redux-observable/redux-observable/commit/3535b3d)), closes [#127](https://github.com/redux-observable/redux-observable/issues/127)
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/redux-observable/redux-observable/compare/v0.11.0...v0.12.0) (2016-09-22)
 
