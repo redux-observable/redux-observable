@@ -30,7 +30,7 @@ export const rootReducer = combineReducers({
 
 ## Configuring The Store
 
-Now you'll want to create an instance of the redux-observable middleware, passing along our newly created root Epic. 
+Now you'll want to create an instance of the redux-observable middleware, passing along our newly created root Epic.
 
 ```js
 import { createEpicMiddleware } from 'redux-observable';
@@ -63,20 +63,16 @@ export default function configureStore() {
 
 ## Redux DevTools
 
-If you're using the Redux DevTools Extension, you'll need to invoke `window.devToolsExtension.updateStore(store)`, otherwise your Epics will not receive any actions you dispatch using the DevTools UI.
+To enable Redux DevTools Extension, just use `window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__` or [import `redux-devtools-extension` npm package](https://github.com/zalmoxisus/redux-devtools-extension#13-use-redux-devtools-extension-package-from-npm).
 
 ```js
 const epicMiddleware = createEpicMiddleware(pingEpic);
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(pingReducer,
-  compose(
-    applyMiddleware(epicMiddleware),
-    window.devToolsExtension ? window.devToolsExtension() : f => f
+  composeEnhancers(
+    applyMiddleware(epicMiddleware)
   )
 );
-
-if (window.devToolsExtension) {
-  window.devToolsExtension.updateStore(store);
-}
 ```
-This is required to get around a limitation of Redux, but is [planned to be fixed soon](https://github.com/reactjs/redux/pull/1702).

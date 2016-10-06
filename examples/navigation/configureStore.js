@@ -8,14 +8,14 @@ import rootEpic from './epics';
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
 export default function configureStore() {
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   const store = createStore(
     rootReducer,
-    compose(
+    composeEnhancers(
       applyMiddleware(
         epicMiddleware,
         routerMiddleware(browserHistory)
-      ),
-      window.devToolsExtension ? window.devToolsExtension() : f => f
+      )
     )
   );
   return store;
