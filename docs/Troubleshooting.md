@@ -70,10 +70,6 @@ const myEpic = action$ => { // MISSING EXPLICIT RETURN!
 };
 ```
 
-### Actions dispatched from Redux DevTools do not reach Epics
-
-This is caused by a current limitation of Redux, but [there is a workaround available](basics/SettingUpTheMiddleware.md#redux-devtools).
-
 ### this is set to Window
 
 If you are organizing your epics into a class. (E.g. in order to benefit from Angular 2 dependency injection), you might have made the mistake of using class methods:
