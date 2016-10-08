@@ -16,18 +16,20 @@ You can think of it of having roughly this type signature:
 function (action$: Observable<Action>, store: Store): Observable<Action>;
 ```
 
-While you'll most commonly produce actions out in response to some action you received in, keep in mind that's not actually a requirement! Once you're inside your Epic, use any Observable patterns you desire as long as anything output from the outermost stream is an action.
+While you'll most commonly produce actions out in response to some action you received in, that's not actually a requirement! Once you're inside your Epic, use any Observable patterns you desire as long as anything output from the final, returned stream, is an action.
 
 The actions you emit will be immediately dispatched through the normal `store.dispatch()`, so under the hood redux-observable effectively does `epic(actions$, store).subscribe(store.dispatch)`
 
-> The pattern of handling side effects this way is similar to the "*process manager*" pattern, sometimes called a ["*saga*"](https://msdn.microsoft.com/en-us/library/jj591569.aspx), but the original definition of [saga is not truly applicable](http://kellabyte.com/2012/05/30/clarifying-the-saga-pattern/). If you're familiar with [redux-saga](http://yelouafi.github.io/redux-saga/), redux-observable is very similar. But because it uses RxJS it is much more declarative and you utilize and expand your existing RxJS abilities.
+Epics run alongside the normal Redux dispatch channel, **after** the reducers have already received them--so you cannot "swallow" an incoming action. Actions always run through your reducers _before_ your Epics even receive them.
 
-Keep in mind that letting an incoming action pass through transparently will create an infinite loop:
+If you let an incoming action pass through, it will create an infinite loop:
 
 ```js
 // DO NOT DO THIS
 const actionEpic = (action$) => action$; // creates infinite loop
 ```
+
+> The pattern of handling side effects this way is similar to the "*process manager*" pattern, sometimes called a ["*saga*"](https://msdn.microsoft.com/en-us/library/jj591569.aspx), but the original definition of [saga is not truly applicable](http://kellabyte.com/2012/05/30/clarifying-the-saga-pattern/). If you're familiar with [redux-saga](http://yelouafi.github.io/redux-saga/), redux-observable is very similar. But because it uses RxJS it is much more declarative and you utilize and expand your existing RxJS abilities.
 
 
 ## A Basic Example
@@ -57,7 +59,7 @@ dispatch({ type: 'PING' });
 dispatch({ type: 'PONG' });
 ```
 
-> Epics run alongside the normal Redux dispatch channel, after the reducers have received them, so you cannot "swallow" an incoming action. When you map one of those actions to another, you're not preventing the original action from reaching the reducers; that action has already been through them!
+> REMEMBER: Epics run alongside the normal Redux dispatch channel, **after** the reducers have already received them. When you map an action to another one, **you are not** preventing the original action from reaching the reducers; that action has already been through them!
 
 The real power starts to reveal itself when you need to do something asynchronous. Let's say you want to dispatch `PONG` 1 second after receiving the `PING`:
 
@@ -156,11 +158,15 @@ const users = (state = {}, action) => {
 
 ## Accessing the Store's State
 
-Your Epics receive a second argument, the Redux store itself.
+Your Epics receive a second argument, a light version of Redux store.
 
 ```js
-function (action$: Observable<Action>, store: Store): Observable<Action>;
+type LightStore = { getState: Function, dispatch: Function };
+
+function (action$: ActionsObservable<Action>, store: LightStore ): ActionsObservable<Action>;
 ```
+
+> This is not a true reference to the full store object. It only contains `store.getState()` and `store.dispatch()`; it [does not currently](https://github.com/reactjs/redux/issues/1833) support `Observable.from(store)`.
 
 With this, you can call `store.getState()` to synchronously access the current state:
 
@@ -179,9 +185,9 @@ const incrementIfOddEpic = (action$, store) =>
 // later...
 dispatch(incrementIfOdd());
 ```
-> When an Epic receives an action, it has already been run through your reducers and the state updated, if needed.
+> REMEMBER: When an Epic receives an action, it has already been run through your reducers and the state updated.
 
-Remember, `store.getState()` is just an imperative, synchronous API. You cannot treat it as a stream as-is.
+Using `store.dispatch()` inside your Epic is a handy escape hatch for quick hacks, but use it sparingly. It's considered an anti-pattern and we may remove it from future releases.
 
 ***
 
