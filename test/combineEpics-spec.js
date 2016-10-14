@@ -9,9 +9,9 @@ import { toArray } from 'rxjs/operator/toArray';
 describe('combineEpics', () => {
   it('should combine epics', () => {
     let epic1 = (actions, store) =>
-      actions.ofType('ACTION1')::map(action => ({ type: 'DELEGATED1', action, store }));
+      map.call(actions.ofType('ACTION1'), action => ({ type: 'DELEGATED1', action, store }));
     let epic2 = (actions, store) =>
-      actions.ofType('ACTION2')::map(action => ({ type: 'DELEGATED2', action, store }));
+      map.call(actions.ofType('ACTION2'), action => ({ type: 'DELEGATED2', action, store }));
 
     let epic = combineEpics(
       epic1,
@@ -44,7 +44,7 @@ describe('combineEpics', () => {
       epic2
     );
 
-    rootEpic(1, 2, 3, 4)::toArray().subscribe(values => {
+    toArray.call(rootEpic(1, 2, 3, 4)).subscribe(values => {
       expect(values).to.deep.equal(['first', 'second']);
 
       expect(epic1.callCount).to.equal(1);

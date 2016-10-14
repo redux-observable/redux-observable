@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { filter } from 'rxjs/operator/filter';
+import { $$filter } from './operators';
 
 export class ActionsObservable extends Observable {
   static of(...actions) {
@@ -19,7 +19,7 @@ export class ActionsObservable extends Observable {
   }
 
   ofType(...keys) {
-    return this::filter(({ type }) => {
+    return this[$$filter](({ type }) => {
       const len = keys.length;
       if (len === 1) {
         return type === keys[0];
