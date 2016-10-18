@@ -29,8 +29,8 @@ describe('createEpicMiddleware', () => {
     const reducer = (state = [], action) => state.concat(action);
     const epic = (action$, store) =>
       mergeStatic(
-        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
-        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' })
+        mapTo.call(action$.ofType('FIRE_1'), { type: 'ACTION_1' }),
+        mapTo.call(action$.ofType('FIRE_2'), { type: 'ACTION_2' })
       );
 
     const middleware = createEpicMiddleware(epic);
@@ -54,17 +54,17 @@ describe('createEpicMiddleware', () => {
     const epic1 = action$ =>
       mergeStatic(
         of({ type: 'EPIC_1' }),
-        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
-        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' }),
-        action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_1_GENERIC' }),
-        action$.ofType(EPIC_END)::mapTo({ type: 'CLEAN_UP_AISLE_3' })
+        mapTo.call(action$.ofType('FIRE_1'), { type: 'ACTION_1' }),
+        mapTo.call(action$.ofType('FIRE_2'), { type: 'ACTION_2' }),
+        mapTo.call(action$.ofType('FIRE_GENERIC'), { type: 'EPIC_1_GENERIC' }),
+        mapTo.call(action$.ofType(EPIC_END), { type: 'CLEAN_UP_AISLE_3' })
       );
     const epic2 = action$ =>
       mergeStatic(
         of({ type: 'EPIC_2' }),
-        action$.ofType('FIRE_3')::mapTo({ type: 'ACTION_3' }),
-        action$.ofType('FIRE_4')::mapTo({ type: 'ACTION_4' }),
-        action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_2_GENERIC' })
+        mapTo.call(action$.ofType('FIRE_3'), { type: 'ACTION_3' }),
+        mapTo.call(action$.ofType('FIRE_4'), { type: 'ACTION_4' }),
+        mapTo.call(action$.ofType('FIRE_GENERIC'), { type: 'EPIC_2_GENERIC' })
       );
 
     const middleware = createEpicMiddleware(epic1);

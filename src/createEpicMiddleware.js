@@ -1,6 +1,5 @@
 import { Subject } from 'rxjs/Subject';
-import { map } from 'rxjs/operator/map';
-import { switchMap } from 'rxjs/operator/switchMap';
+import { $$map, $$switchMap } from './operators';
 import { ActionsObservable } from './ActionsObservable';
 import { EPIC_END } from './EPIC_END';
 
@@ -30,8 +29,8 @@ export function createEpicMiddleware(epic, { adapter = defaultAdapter } = defaul
 
     return next => {
       epic$
-        ::map(epic => epic(action$, store))
-        ::switchMap(action$ => adapter.output(action$))
+        [$$map](epic => epic(action$, store))
+        [$$switchMap](action$ => adapter.output(action$))
         .subscribe(store.dispatch);
 
       // Setup initial root epic
