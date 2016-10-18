@@ -12,14 +12,31 @@
 
 ## Install
 
-This has peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed
-as well. Support for RxJS v4 can temporarily be provided by [an optional adapter](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4).
+This has peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed as well.
 
 ```bash
 npm install --save redux-observable
 ```
 
 **IMPORTANT:** redux-observable does not add any of the RxJS operators to the `Observable.prototype` so you will need to import the ones you use or import all of them in your entry file. [Learn more](http://redux-observable.js.org/docs/Troubleshooting.html#rxjs-operators-are-missing-eg-typeerror-actionoftypeswitchmap-is-not-a-function).
+
+##### Adapters
+
+You can use other stream libraries (other than RxJS v5) by using an Adapter.
+
+* [RxJS v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4)
+* [most.js](https://github.com/redux-observable/redux-observable-adapter-most)
+
+You can write your own adapter too:
+
+```js
+const adapter = {
+  input: input$ => /* convert Observable to your preferred stream library */,
+  output: output$ => /* convert your preferred stream back to an Observable */
+};
+```
+
+See the existing adapters for examples. Keep in mind that while you still need RxJS v5 installed, redux-observable only pulls in the minimum amount of RxJS it needs internally--it doesn't import _all_ of RxJS. 
 
 ##### UMD
 
