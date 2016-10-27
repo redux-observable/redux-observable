@@ -34,7 +34,6 @@ describe('createEpicMiddleware', () => {
       );
 
     const middleware = createEpicMiddleware(epic);
-
     const store = createStore(reducer, applyMiddleware(middleware));
 
     store.dispatch({ type: 'FIRE_1' });
@@ -47,6 +46,25 @@ describe('createEpicMiddleware', () => {
       { type: 'FIRE_2' },
       { type: 'ACTION_2' }
     ]);
+  });
+
+  it('should throw if you don\'t provide a rootEpic', () => {
+    expect(() => {
+      createEpicMiddleware();
+    }).to.throw('You must provide a root Epic to createEpicMiddleware');
+
+    expect(() => {
+      createEpicMiddleware({});
+    }).to.throw('You must provide a root Epic to createEpicMiddleware');
+  });
+
+  it('should throw if you provide a root epic that doesn\'t return anything', () => {
+    const rootEpic = () => {};
+    const epicMiddleware = createEpicMiddleware(rootEpic);
+
+    expect(() => {
+      createStore(() => {}, applyMiddleware(epicMiddleware));
+    }).to.throw('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
   });
 
   it('should allow you to replace the root epic with middleware.replaceEpic(epic)', () => {
