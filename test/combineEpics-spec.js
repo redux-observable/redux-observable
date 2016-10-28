@@ -8,21 +8,21 @@ import { toArray } from 'rxjs/operator/toArray';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
-    let epic1 = (actions, store) =>
+    const epic1 = (actions, store) =>
       actions.ofType('ACTION1')::map(action => ({ type: 'DELEGATED1', action, store }));
-    let epic2 = (actions, store) =>
+    const epic2 = (actions, store) =>
       actions.ofType('ACTION2')::map(action => ({ type: 'DELEGATED2', action, store }));
 
-    let epic = combineEpics(
+    const epic = combineEpics(
       epic1,
       epic2
     );
 
-    let store = { I: 'am', a: 'store' };
-    let subject = new Subject();
-    let actions = new ActionsObservable(subject);
-    let result = epic(actions, store);
-    let emittedActions = [];
+    const store = { I: 'am', a: 'store' };
+    const subject = new Subject();
+    const actions = new ActionsObservable(subject);
+    const result = epic(actions, store);
+    const emittedActions = [];
 
     result.subscribe(emittedAction => emittedActions.push(emittedAction));
 
@@ -55,5 +55,15 @@ describe('combineEpics', () => {
 
       done();
     });
+  });
+
+  it('should return a new epic that, when called, errors if one of the combined epics doesn\'t return anything', () => {
+    const epic1 = () => [];
+    const epic2 = () => {};
+    const rootEpic = combineEpics(epic1, epic2);
+
+    expect(() => {
+      rootEpic();
+    }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
   });
 });

@@ -30,8 +30,14 @@ export function createEpicMiddleware(epic, { adapter = defaultAdapter } = defaul
 
     return next => {
       epic$
-        ::map(epic => epic(action$, store))
-        ::switchMap(action$ => adapter.output(action$))
+        ::map(epic => {
+          const output$ = epic(action$, store);
+          if (!output$) {
+            throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
+          }
+          return output$;
+        })
+        ::switchMap(output$ => adapter.output(output$))
         .subscribe(store.dispatch);
 
       // Setup initial root epic
