@@ -13,16 +13,18 @@ import { mergeStatic } from 'rxjs/operator/merge';
 import { mapTo } from 'rxjs/operator/mapTo';
 
 describe('createEpicMiddleware', () => {
-  it('should provide epics a stream of action$ in and the "lite" store', () => {
+  it('should provide epics a stream of action$ in and the "lite" store', (done) => {
     const reducer = (state = [], action) => state.concat(action);
     const epic = sinon.stub().returns(empty());
     const epicMiddleware = createEpicMiddleware(epic);
     const mockMiddleware = store => next => action => {
-      expect(epic).to.have.been.calledOnce();
+      expect(epic.calledOnce).to.equal(true);
       expect(epic.firstCall.args[0]).to.be.instanceOf(ActionsObservable);
       expect(epic.firstCall.args[1]).to.equal(store);
+      done();
     };
-    createStore(reducer, applyMiddleware(epicMiddleware, mockMiddleware));
+    const store = createStore(reducer, applyMiddleware(epicMiddleware, mockMiddleware));
+    store.dispatch({ type: 'FIRST_ACTION_TO_TRIGGER_MIDDLEWARE' });
   });
 
   it('should accept an epic that wires up action$ input to action$ out', () => {
