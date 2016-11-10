@@ -10,6 +10,8 @@
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
 
+[https://redux-observable.js.org](https://redux-observable.js.org)
+
 ## Install
 
 This has peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed as well.
@@ -60,23 +62,7 @@ To see redux-observable in action, here's a very simple JSBin to play around wit
 
 ## Documentation
 
-* [Basics](docs/basics/SUMMARY.md)
-  * [Epics](docs/basics/Epics.md)
-  * [Setting Up The Middleware](docs/basics/SettingUpTheMiddleware.md)
-* [Recipes](docs/recipes/SUMMARY.md)
-  * [Cancellation](docs/recipes/Cancellation.md)
-  * [Error Handling](docs/recipes/ErrorHandling.md)
-  * [Writing Tests](docs/recipes/WritingTests.md)  
-  * [Usage with UI Frameworks](docs/recipes/UsageWithUIFrameworks.md)
-  * [Hot Module Replacement](docs/recipes/HotModuleReplacement.md)
-  * [Adding New Epics Asynchronously](docs/recipes/AddingNewEpicsAsynchronously.md)
-* [FAQ](docs/FAQ.md)
-* [Troubleshooting](docs/Troubleshooting.md)
-* [API Reference](docs/api/SUMMARY.md)
-  * [createEpicMiddleware](docs/api/createEpicMiddleware.md)
-  * [combineEpics](docs/api/combineEpics.md)
-  * [EpicMiddleware](docs/api/EpicMiddleware.md)
-* [CHANGELOG](CHANGELOG.md)
+### [https://redux-observable.js.org](https://redux-observable.js.org)
 
 ## Discuss
 
