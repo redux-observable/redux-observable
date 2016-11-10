@@ -66,6 +66,7 @@ export default function configureStore() {
 To enable Redux DevTools Extension, just use `window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__` or [import `redux-devtools-extension` npm package](https://github.com/zalmoxisus/redux-devtools-extension#13-use-redux-devtools-extension-package-from-npm).
 
 ```js
+import { compose } from 'redux'; // and your other imports from before
 const epicMiddleware = createEpicMiddleware(pingEpic);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
