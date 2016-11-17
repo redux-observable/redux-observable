@@ -17,6 +17,15 @@ describe('ActionsObservable', () => {
     expect(output).to.deep.equal([{ type: 'FIRST' }, { type: 'SECOND' }]);
   });
 
+  it('should support ActionsObservable.from(...actions, scheduler)', () => {
+    const output = [];
+    const action$ = ActionsObservable.from([{ type: 'FIRST' }, { type: 'SECOND' }]);
+    action$.subscribe(x => output.push(x));
+
+    expect(action$).to.be.an.instanceof(ActionsObservable);
+    expect(output).to.deep.equal([{ type: 'FIRST' }, { type: 'SECOND' }]);
+  });
+
   describe('ofType operator', () => {
     it('should filter by action type', () => {
       let actions = new Subject();
