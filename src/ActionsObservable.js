@@ -7,6 +7,11 @@ export class ActionsObservable extends Observable {
     return new this(of(...actions));
   }
 
+  static from(actions, scheduler) {
+    const input$ = Observable.from(actions, scheduler);
+    return new this(input$);
+  }
+
   constructor(actionsSubject) {
     super();
     this.source = actionsSubject;
