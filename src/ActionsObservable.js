@@ -1,5 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { from } from 'rxjs/observable/from';
 import { filter } from 'rxjs/operator/filter';
 
 export class ActionsObservable extends Observable {
@@ -8,8 +9,7 @@ export class ActionsObservable extends Observable {
   }
 
   static from(actions, scheduler) {
-    const input$ = Observable.from(actions, scheduler);
-    return new this(input$);
+    return new this(from(actions, scheduler));
   }
 
   constructor(actionsSubject) {

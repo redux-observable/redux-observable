@@ -19,7 +19,7 @@ describe('ActionsObservable', () => {
 
   it('should support ActionsObservable.from(...actions, scheduler)', () => {
     const output = [];
-    const action$ = ActionsObservable.of([{ type: 'FIRST' }, { type: 'SECOND' }]);
+    const action$ = ActionsObservable.from([{ type: 'FIRST' }, { type: 'SECOND' }]);
     action$.subscribe(x => output.push(x));
 
     expect(action$).to.be.an.instanceof(ActionsObservable);
