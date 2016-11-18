@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { createStore, applyMiddleware } from 'redux';
 import { Observable } from 'rxjs/Observable';
+import { asap } from 'rxjs/scheduler/asap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/map';
@@ -59,10 +60,6 @@ const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6);
 const epicMiddleware1: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>(rootEpic1);
 const epicMiddleware2 = createEpicMiddleware(rootEpic2);
 
-// should be a constructor that returns an observable
-const input$ = Observable.create(() => {});
-const action$: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
-
 const reducer = (state = [], action) => state.concat(action);
 const store = createStore(
   reducer,
@@ -114,5 +111,10 @@ expect(store.getState()).to.deep.equal([
   { "type": "sixth", "payload": "sixth-payload" },
   { "type": "sixth", "payload": "sixth-payload" }
 ]);
+
+const input$ = Observable.create(() => {});
+const action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
+const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asap);
+const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asap);
 
 console.log('typings.ts: OK');
