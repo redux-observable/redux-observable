@@ -1,3 +1,14 @@
+<a name="0.12.2"></a>
+## [0.12.2](https://github.com/redux-observable/redux-observable/compare/v0.12.1...v0.12.2) (2016-11-18)
+
+
+### Features
+
+* **ActionsObservable:** `ActionsObservable.from()` now correctly returns an ActionsObservable as expected ([#149](https://github.com/redux-observable/redux-observable/issues/149)) ([fd393a1](https://github.com/redux-observable/redux-observable/commit/fd393a1))
+* **typings:** Adds type definitions for ActionsObservable.from/of ([0cba557](https://github.com/redux-observable/redux-observable/commit/0cba557))
+
+
+
 <a name="0.12.1"></a>
 ## [0.12.1](https://github.com/redux-observable/redux-observable/compare/v0.12.0...v0.12.1) (2016-10-04)
 
