@@ -24,9 +24,13 @@ export class ActionsObservable extends Observable {
   }
 
   ofType(...keys) {
-    return this::filter(({ type }) => {
+    return this::filter((action) => {
+      const { type } = action;
       const len = keys.length;
       if (len === 1) {
+        if (typeof keys[0] === 'function') {
+          return keys[0](action);
+        }
         return type === keys[0];
       } else {
         for (let i = 0; i < len; i++) {
