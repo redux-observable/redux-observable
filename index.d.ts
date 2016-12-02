@@ -35,6 +35,15 @@ export interface EpicMiddleware<T> extends Middleware {
   replaceEpic(nextEpic: Epic<T>): void;
 }
 
-export declare function createEpicMiddleware<T>(rootEpic: Epic<T>): EpicMiddleware<T>;
+interface Adapter { 
+  input: (input$: Observable<any>) => any;
+  output: (output$: any) => Observable<any>;
+}
+
+interface Options {
+  adapter?: Adapter;
+}
+
+export declare function createEpicMiddleware<T>(rootEpic: Epic<T>, options?: Options): EpicMiddleware<T>;
 
 export declare function combineEpics<T>(...epics: Epic<T>[]): Epic<T>;
