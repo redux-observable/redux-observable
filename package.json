@@ -13,7 +13,7 @@
     "clean": "rimraf lib temp dist",
     "check": "npm run lint && npm run test",
     "test": "npm run lint && npm run build && npm run build:tests && mocha temp && npm run test:typings",
-    "test:typings": "typings install && tsc index.d.ts typings/index.d.ts test/typings.ts --outDir temp --target ES5 --moduleResolution node && cd temp && node typings.js",
+    "test:typings": "tsc index.d.ts test/typings.ts --outDir temp --target ES5 --moduleResolution node && cd temp && node typings.js",
     "shipit": "npm run clean && npm run build && npm run lint && npm test && scripts/preprepublish.sh && npm publish",
     "docs:clean": "rimraf _book",
     "docs:prepare": "gitbook install",
@@ -65,6 +65,11 @@
     "rxjs": "^5.0.0-beta.10"
   },
   "devDependencies": {
+    "@types/chai": "^3.4.34",
+    "@types/es6-shim": "^0.31.32",
+    "@types/mocha": "^2.2.33",
+    "@types/redux": "^3.6.0",
+    "@types/sinon": "^1.16.32",
     "babel-cli": "^6.11.4",
     "babel-eslint": "^7.0.0",
     "babel-loader": "^6.2.4",
@@ -91,8 +96,7 @@
     "rimraf": "^2.5.4",
     "rxjs": "^5.0.0-beta.10",
     "sinon": "1.17.6",
-    "typescript": "^2.0.3",
-    "typings": "2.0.0",
+    "typescript": "^2.1.4",
     "webpack": "^1.13.1",
     "webpack-rxjs-externals": "~0.0.4"
   }
