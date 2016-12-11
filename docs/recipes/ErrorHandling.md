@@ -1,6 +1,6 @@
 # Error Handling
 
-Handling errors in side effects like AJAX calls is a common requirement of Epics. While there are several ways of doing this depending on your requirements, the most common way is to simply catch them inside your Epic and and emit an action with the error information so you can display or log it.
+Handling errors in side effects like AJAX calls is a common requirement of Epics. While there are several ways of doing this depending on your requirements, the most common way is to simply catch them inside your Epic and emit an action with the error information so you can display or log it.
 
 This can be done with the `.catch()` RxJS operator:
 
