@@ -1,7 +1,7 @@
 /* globals describe it */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { combineEpics, ActionsObservable } from '../';
+import { combineEpics, ActionsObservable } from '../src';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operator/map';
 import { toArray } from 'rxjs/operator/toArray';

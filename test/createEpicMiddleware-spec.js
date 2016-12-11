@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware, ActionsObservable, EPIC_END } from '../';
+import { createEpicMiddleware, ActionsObservable, EPIC_END } from '../src';
 // We need to import the operators separately and not add them to the Observable
 // prototype, otherwise we might accidentally cover-up that the source we're
 // testing uses an operator that it does not import!
