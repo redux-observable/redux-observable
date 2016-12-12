@@ -4,7 +4,9 @@ import sinon from 'sinon';
 import { combineEpics, ActionsObservable } from '../src';
 import { Subject } from 'rxjs/Subject';
 import { map } from 'rxjs/operator/map';
+import { of } from 'rxjs/observable/of';
 import { toArray } from 'rxjs/operator/toArray';
+import { Observable } from 'rxjs/Observable';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
@@ -36,8 +38,8 @@ describe('combineEpics', () => {
   });
 
   it('should pass along every argument arbitrarily', (done) => {
-    const epic1 = sinon.stub().returns(['first']);
-    const epic2 = sinon.stub().returns(['second']);
+    const epic1 = sinon.stub().returns(Observable::of('first'));
+    const epic2 = sinon.stub().returns(Observable::of('second'));
 
     const rootEpic = combineEpics(
       epic1,
@@ -58,12 +60,25 @@ describe('combineEpics', () => {
   });
 
   it('should return a new epic that, when called, errors if one of the combined epics doesn\'t return anything', () => {
-    const epic1 = () => [];
+    const epic1 = (actions) => actions.ofType('ACTION1')::map(_ => 'DELEGATED1');
     const epic2 = () => {};
-    const rootEpic = combineEpics(epic1, epic2);
 
     expect(() => {
-      rootEpic();
+      const rootEpic = combineEpics(epic1, epic2);
+      const actions = new ActionsObservable(new Subject());
+      rootEpic(actions, {});
+    }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
+  });
+
+  it('should return a new epic that, when called, errors if one of the compined epics doesn\'t return subscribable', () => {
+    const epic1 = (actions) => actions.ofType('ACTION1')::map(_ => 'DELEGATED1');
+    const epic2 = (actions) => ({});
+
+    const rootEpic = combineEpics(epic1, epic2);
+    const actions = new ActionsObservable(new Subject());
+
+    expect(() => {
+      rootEpic(actions, {});
     }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
   });
 });
