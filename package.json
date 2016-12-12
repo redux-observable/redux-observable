@@ -100,5 +100,8 @@
     "typescript": "^2.1.4",
     "webpack": "^1.13.1",
     "webpack-rxjs-externals": "~0.0.4"
+  },
+  "dependencies": {
+    "symbol-observable": "^1.0.4"
   }
 }
