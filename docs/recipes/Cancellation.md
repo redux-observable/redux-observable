@@ -14,7 +14,7 @@ const fetchUserEpic = action$ =>
     );
 ```
 
-Here we placed the `.takeUntil()` after inside our `.mergeMap()`, but after our AJAX call; this is important because we want to cancel only the AJAX request, not stop the Epic from listening for any future actions.
+Here we placed the `.takeUntil()` inside our `.mergeMap()`, but after our AJAX call; this is important because we want to cancel only the AJAX request, not stop the Epic from listening for any future actions.
 
 ***
 
