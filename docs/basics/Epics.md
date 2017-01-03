@@ -118,7 +118,7 @@ const fetchUserEpic = action$ =>
   action$.ofType(FETCH_USER)
     .mergeMap(action =>
       ajax.getJSON(`https://api.github.com/users/${action.payload}`)
-        .map(fetchUserFulfilled)
+        .map(response => fetchUserFulfilled(response))
     );
     
 // later...
@@ -179,7 +179,7 @@ const incrementIfOdd = () => ({ type: INCREMENT_IF_ODD });
 const incrementIfOddEpic = (action$, store) =>
   action$.ofType(INCREMENT_IF_ODD)
     .filter(() => store.getState().counter % 2 === 1)
-    .map(increment);
+    .map(() => increment());
 
 // later...
 dispatch(incrementIfOdd());

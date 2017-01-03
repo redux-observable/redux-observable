@@ -9,7 +9,7 @@ const fetchUserEpic = action$ =>
   action$.ofType(FETCH_USER)
     .mergeMap(action =>
 	  ajax.getJSON(`/api/users/${action.payload}`)
-        .map(fetchUserFulfilled)
+        .map(response => fetchUserFulfilled(response))
         .catch(error => Observable.of({
         	type: FETCH_USER_REJECTED,
         	payload: error.xhr.response,
