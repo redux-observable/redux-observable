@@ -8,13 +8,6 @@ class ReposByUser extends React.Component {
     this.props.requestReposByUser(this.props.params.user);
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { user } = this.props.params;
-    if (user !== nextProps.params.user) {
-      this.props.requestReposByUser(user);
-    }
-  }
-
   render() {
     const {
       reposByUser,
