@@ -68,7 +68,6 @@
     "@types/chai": "^3.4.34",
     "@types/es6-shim": "^0.31.32",
     "@types/mocha": "^2.2.33",
-    "@types/redux": "^3.6.0",
     "@types/sinon": "^1.16.32",
     "babel-cli": "^6.11.4",
     "babel-eslint": "^7.0.0",
