@@ -27,10 +27,10 @@ export class ActionsObservable extends Observable {
     return this::filter(({ type }) => {
       const len = keys.length;
       if (len === 1) {
-        return type === keys[0];
+        return type === keys[0].toString();
       } else {
         for (let i = 0; i < len; i++) {
-          if (keys[i] === type) {
+          if (keys[i].toString() === type) {
             return true;
           }
         }
