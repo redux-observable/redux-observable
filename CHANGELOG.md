@@ -1,3 +1,19 @@
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/redux-observable/redux-observable/compare/v0.12.2...v0.13.0) (2017-01-20)
+
+
+### Bug Fixes
+
+* **typings:** adds store type to Epic ([#174](https://github.com/redux-observable/redux-observable/issues/174)) ([ca4b163](https://github.com/redux-observable/redux-observable/commit/ca4b163)), closes [#172](https://github.com/redux-observable/redux-observable/issues/172)
+* **typings:** Enable second parameter for the createEpicMiddleware ([25ac601](https://github.com/redux-observable/redux-observable/commit/25ac601))
+
+
+### BREAKING CHANGES
+
+* typings: TypeScript users only, the type interface for Epics now requires a second generic argument, your store's state interface. `interface Epic<ActionShape, StateShape>`. If you don't to strictly type your state, you can pass `any`
+
+
+
 <a name="0.12.2"></a>
 ## [0.12.2](https://github.com/redux-observable/redux-observable/compare/v0.12.1...v0.12.2) (2016-11-18)
 
