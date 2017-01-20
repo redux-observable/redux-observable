@@ -23,16 +23,16 @@ export declare class ActionsObservable<T> extends Observable<T> {
   static from<T, R>(ish: ArrayLike<T>, scheduler?: Scheduler): ActionsObservable<R>;
 
   constructor(input$: Observable<T>);
-  lift(operator: Operator<any, T>) : ActionsObservable<T>;
-  ofType(...key: any[]) : ActionsObservable<T>;
+  lift(operator: Operator<any, T>): ActionsObservable<T>;
+  ofType(...key: any[]): ActionsObservable<T>;
 }
 
-export declare interface Epic<T> {
-  (action$: ActionsObservable<T>, store: MiddlewareAPI<any>): Observable<T>;
+export declare interface Epic<T, S> {
+  (action$: ActionsObservable<T>, store: MiddlewareAPI<S>): Observable<T>;
 }
 
-export interface EpicMiddleware<T> extends Middleware {
-  replaceEpic(nextEpic: Epic<T>): void;
+export interface EpicMiddleware<T, S> extends Middleware {
+  replaceEpic(nextEpic: Epic<T, S>): void;
 }
 
 interface Adapter { 
@@ -44,6 +44,6 @@ interface Options {
   adapter?: Adapter;
 }
 
-export declare function createEpicMiddleware<T>(rootEpic: Epic<T>, options?: Options): EpicMiddleware<T>;
+export declare function createEpicMiddleware<T, S>(rootEpic: Epic<T, S>, options?: Options): EpicMiddleware<T, S>;
 
-export declare function combineEpics<T>(...epics: Epic<T>[]): Epic<T>;
+export declare function combineEpics<T, S>(...epics: Epic<T, S>[]): Epic<T, S>;
