@@ -109,6 +109,8 @@ const pingEpic = action$ =>
 Now that we have a general idea of what an Epic looks like, let's continue with a more real-world example:
 
 ```js
+import { ajax } from 'rxjs/observable/dom/ajax';
+
 // action creators
 const fetchUser = username => ({ type: FETCH_USER, payload: username });
 const fetchUserFulfilled = payload => ({ type: FETCH_USER_FULFILLED, payload });

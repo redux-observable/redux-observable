@@ -5,6 +5,8 @@ Handling errors in side effects like AJAX calls is a common requirement of Epics
 This can be done with the `.catch()` RxJS operator:
 
 ```js
+import { ajax } from 'rxjs/observable/dom/ajax';
+
 const fetchUserEpic = action$ =>
   action$.ofType(FETCH_USER)
     .mergeMap(action =>
