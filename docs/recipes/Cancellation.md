@@ -5,6 +5,8 @@ Cancelling some async side effects is a common requirement of Epics. While there
 This can be done with the [`.takeUntil()`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-takeUntil) RxJS operator:
 
 ```js
+import { ajax } from 'rxjs/observable/dom/ajax';
+
 const fetchUserEpic = action$ =>
   action$.ofType(FETCH_USER)
     .mergeMap(action =>
@@ -34,6 +36,8 @@ You can achieve that using the aptly named [`race`](reactivex.io/rxjs/class/es6/
 Say we that when someone dispatches `FETCH_USER` we make an AJAX call, but if someone dispatches `FETCH_USER_CANCELLED` we cancel that pending AJAX request and instead emit a totally different action to increment some counter:
 
 ```js
+import { ajax } from 'rxjs/observable/dom/ajax';
+
 const fetchUserEpic = action$ =>
   action$.ofType(FETCH_USER)
     .mergeMap(action =>
