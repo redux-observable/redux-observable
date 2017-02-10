@@ -5,3 +5,6 @@ temp
 dist
 _book
 typings
+.vscode
+coverage
+.nyc_output

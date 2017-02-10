@@ -1,6 +1,6 @@
 /* globals describe it */
 import { expect } from 'chai';
-import { ActionsObservable } from '../';
+import { ActionsObservable } from '../src';
 import { Subject } from 'rxjs/Subject';
 
 describe('ActionsObservable', () => {
