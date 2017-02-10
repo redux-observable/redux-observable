@@ -14,7 +14,7 @@
 
 ## Install
 
-This has peer dependencies of `rxjs@5.0.*` and `redux`, which will have to be installed as well.
+This has peer dependencies of `rxjs@5.x.x` and `redux`, which will have to be installed as well.
 
 ```bash
 npm install --save redux-observable
