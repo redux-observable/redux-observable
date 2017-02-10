@@ -1,5 +1,5 @@
 import webpack from 'webpack';
-import createRxJSExternals from 'webpack-rxjs-externals';
+import webpackRxjsExternals from 'webpack-rxjs-externals';
 
 const env = process.env.NODE_ENV;
 
@@ -13,15 +13,15 @@ const config = {
     library: 'ReduxObservable',
     libraryTarget: 'umd'
   },
-  externals: {
-    ...createRxJSExternals(),
+  externals: [
+    webpackRxjsExternals(), {
     redux: {
       root: 'Redux',
       commonjs2: 'redux',
       commonjs: 'redux',
       amd: 'redux'
     }
-  },
+  }],
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
