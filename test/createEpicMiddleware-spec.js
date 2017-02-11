@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware, ActionsObservable, EPIC_END } from '../';
+import { createEpicMiddleware, combineEpics, ActionsObservable, EPIC_END } from '../';
 // We need to import the operators separately and not add them to the Observable
 // prototype, otherwise we might accidentally cover-up that the source we're
 // testing uses an operator that it does not import!
@@ -140,5 +140,82 @@ describe('createEpicMiddleware', () => {
       { type: '@@redux/INIT' },
       { type: 3 }
     ]);
+  });
+
+  it('should not pass third argument to epic if no dependencies provided', () => {
+    const reducer = (state = [], action) => state;
+    const epic = sinon.spy(action$ => action$);
+
+    const middleware = createEpicMiddleware(epic);
+
+    createStore(reducer, applyMiddleware(middleware));
+    expect(epic.firstCall.args.length).to.deep.equal(2);
+  });
+
+  it('should inject dependencies into a single epic', () => {
+    const reducer = (state = [], action) => state;
+    const epic = sinon.spy(action$ => action$);
+
+    const middleware = createEpicMiddleware(epic, { dependencies: 'deps' });
+
+    createStore(reducer, applyMiddleware(middleware));
+    expect(epic.firstCall.args.length).to.deep.equal(3);
+    expect(epic.firstCall.args[2]).to.deep.equal('deps');
+  });
+
+  it('should pass literally anything provided as dependencies, even `undefined`', () => {
+    const reducer = (state = [], action) => state;
+    const epic = sinon.spy(action$ => action$);
+
+    const middleware = createEpicMiddleware(epic, { dependencies: undefined });
+
+    createStore(reducer, applyMiddleware(middleware));
+    expect(epic.firstCall.args.length).to.deep.equal(3);
+    expect(epic.firstCall.args[2]).to.deep.equal(undefined);
+  });
+
+  it('should inject dependencies into combined epics', () => {
+    const reducer = (state = [], action) => state;
+    const epic = sinon.spy((action$, store, { foo, bar }) => {
+      expect(foo).to.equal('bar');
+      expect(bar).to.equal('foo');
+      return action$;
+    });
+
+    const rootEpic = combineEpics(
+      epic,
+      epic,
+      combineEpics(
+        epic,
+        combineEpics(
+          epic,
+          epic
+        )
+      )
+    );
+
+    const middleware = createEpicMiddleware(rootEpic, { dependencies: { foo: 'bar', bar: 'foo' } });
+
+    createStore(reducer, applyMiddleware(middleware));
+
+    expect(epic.called).to.equal(true);
+    expect(epic.callCount).to.equal(5);
+  });
+
+  it('should call epics with all additional arguments, not just dependencies', () => {
+    const reducer = (state = [], action) => state;
+    const epic = sinon.spy((action$, store, deps, arg1, arg2) => {
+      expect(deps).to.equal('deps');
+      expect(arg1).to.equal('first');
+      expect(arg2).to.equal('second');
+      return action$;
+    });
+
+    const rootEpic = (...args) => combineEpics(epic)(...args, 'first', 'second');
+
+    const middleware = createEpicMiddleware(rootEpic, { dependencies: 'deps' });
+
+    createStore(reducer, applyMiddleware(middleware));
+    expect(epic.called).to.equal(true);
   });
 });
