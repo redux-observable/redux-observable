@@ -31,7 +31,7 @@ Here we placed the `.takeUntil()` inside our [`.mergeMap()`](http://reactivex.io
 
 Sometimes you want to cancel some side effect (like an AJAX call) but _also_ do something else, like emit a totally different action.
 
-You can achieve that using the aptly named [`race`](reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-race) operator. It allows you to literally "race" between streams; whichever one emits a value first, wins! The losing streams are unsubscribed, cancelling anything they were doing.
+You can achieve that using the aptly named [`race`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-race) operator. It allows you to literally "race" between streams; whichever one emits a value first, wins! The losing streams are unsubscribed, cancelling anything they were doing.
 
 Say we that when someone dispatches `FETCH_USER` we make an AJAX call, but if someone dispatches `FETCH_USER_CANCELLED` we cancel that pending AJAX request and instead emit a totally different action to increment some counter:
 
