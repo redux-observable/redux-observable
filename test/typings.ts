@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, MiddlewareAPI } from 'redux';
 import { Observable } from 'rxjs/Observable';
 import { asap } from 'rxjs/scheduler/asap';
 import 'rxjs/add/observable/of';
@@ -59,6 +59,26 @@ const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6);
 
 const epicMiddleware1: EpicMiddleware<FluxStandardAction, any> = createEpicMiddleware<FluxStandardAction, any>(rootEpic1);
 const epicMiddleware2 = createEpicMiddleware(rootEpic2);
+
+interface CustomEpic<T, S, U> {
+  (action$: ActionsObservable<T>, store: MiddlewareAPI<S>, api: U): Observable<T>;
+}
+
+const customEpic: CustomEpic<FluxStandardAction, any, number> = (action$, store, some) =>
+  action$.ofType('CUSTOM1')
+    .map(({ type, payload }) => ({
+      type: 'custom1',
+      payload
+    }));
+
+const customEpic2 = (action$, store, some) =>
+  action$.ofType('CUSTOM2')
+    .map(({ type, payload }) => ({
+      type: 'custom2',
+      payload
+    }));
+
+const combinedCustomEpics = combineEpics<CustomEpic<FluxStandardAction, any, any>>(customEpic, customEpic2);
 
 const reducer = (state = [], action) => state.concat(action);
 const store = createStore(

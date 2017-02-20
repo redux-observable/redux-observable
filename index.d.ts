@@ -35,7 +35,7 @@ export interface EpicMiddleware<T, S> extends Middleware {
   replaceEpic(nextEpic: Epic<T, S>): void;
 }
 
-interface Adapter { 
+interface Adapter {
   input: (input$: Observable<any>) => any;
   output: (output$: any) => Observable<any>;
 }
@@ -47,3 +47,4 @@ interface Options {
 export declare function createEpicMiddleware<T, S>(rootEpic: Epic<T, S>, options?: Options): EpicMiddleware<T, S>;
 
 export declare function combineEpics<T, S>(...epics: Epic<T, S>[]): Epic<T, S>;
+export declare function combineEpics<E>(...epics: E[]): E;
