@@ -7,9 +7,9 @@
 1. *`rootEpic: Epic`*: The root [Epic](../basics/Epics.md)
 2. *`[options: Object]`*: The optional configuration. Options:
     * *`dependencies`*: If given, it will be injected as the 3rd argument to all epics.
-    * *`adapter`*: An adapter object which can transform the input / output `Observable`s. Options:
-       * *`input: ActionsObservable => Observable`*: Transforms the input `Observable` (transformation takes place *before* it is passed to the root epic).
-       * *`output: Observable => Observable`*: Transforms the output `Observable` (transformation takes place *after* the root epic returned it).
+    * *`adapter`*: An adapter object which can transform the input / output streams provided to your epics. Usually used to adapt a stream library other than RxJS v5, like [adapter-rxjs-v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4) or [adapter-most](https://github.com/redux-observable/redux-observable-adapter-most) Options:
+       * *`input: ActionsObservable => any`*: Transforms the input stream of actions, `ActionsObservable` that is passed to your root Epic (transformation takes place *before* it is passed to the root epic).
+       * *`output: any => Observable`*: Transforms the return value of root Epic (transformation takes place *after* the root epic returned it).
 
 #### Returns
 

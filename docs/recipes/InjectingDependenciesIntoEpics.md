@@ -1,55 +1,79 @@
 # Injecting Dependencies Into Epics
 
-Sometimes you might want to have some dependencies injected into your epics. Things that you might want to mock in tests fall into this category.
+Injecting your dependencies into your Epics can help with testing.
 
-Let's say you want to interact with the network. You could use the `ajax` method directly from `rxjs`:
+Let's say you want to interact with the network. You could use the `ajax` helpers directly from `rxjs`:
 
 ```js
-import { ajax } from 'rxjs/observable/dom/ajax'
+import { ajax } from 'rxjs/observable/dom/ajax';
 
-export const fetchUsersEpic = action$ => action$.ofType('FETCH_USERS_REQUESTED')
-  .flatMap(() => ajax.getJSON('https://my.api.com/users'))
-  .map(response => ({ type: 'FETCH_USERS_COMPLETED', payload: response }))
+const fetchUserEpic = (action$, store) =>
+  action$.ofType('FETCH_USER')
+    .mergeMap(({ payload }) =>
+      ajax.getJSON(`/api/users/${payload}`)
+        .map(response => ({
+          type: 'FETCH_USER_FULFILLED',
+          payload: response
+        }))
+    );
 ```
 
-But there is a problem with this approach: how interacting with the network happens is now hardcoded into your epic. There is no way of mocking the `ajax.getJSON` method, and test if the _epic_ is actually doing what it should (without involving direct interaction with the API)!
+But there is a problem with this approach: Your file containing the epic imports its dependency directly, so mocking it is much more difficult.
 
-### injecting dependencies
+One approach might be to mock `window.XMLHttpRequest`, but this is a lot more work and now you're not just testing your Epic, you're testing that RxJS correctly uses XMLHttpRequest a certain way when in fact that shouldn't be the goal of your test.
+
+### Injecting dependencies
 
 To inject dependencies you can use `createEpicMiddleware`'s `dependencies` configuration option:
 
 ```js
-import { createEpicMiddleware, combineEpics } from 'redux-observable'
-import { ajax } from 'rxjs/observable/dom/ajax'
-import { fetchUsersEpic } from './fetchUsers'
+import { createEpicMiddleware, combineEpics } from 'redux-observable';
+import { ajax } from 'rxjs/observable/dom/ajax';
+import rootEpic from './somewhere';
 
-export const epicMiddleware = createEpicMiddleware(
-  combineEpics(
-    fetchUsersEpic,
-    // other epics ...
-  ),
-  { dependencies: { ajax } }
-)
+const epicMiddleware = createEpicMiddleware(rootEpic, {
+  dependencies: { getJSON: ajax.getJSON }
+});
 ```
 
-With this in mind you can rewrite your epic without importing and using `ajax` directly, and just rely on the given `dependencies` object:
+Anything you provide will then be passed as the third argument to all your Epics, after the store.
+
+Now your Epic can use the injected `getJSON`, instead of importing it itself:
 
 ```js
-export const fetchUsersEpic = (action$, _ /* store */, { ajax }) => action$.ofType('FETCH_USERS_REQUESTED')
-  .flatMap(() => ajax.getJSON('https://my.api.com'))
-  .map(response => ({ type: 'FETCH_USERS_COMPLETED', payload: response }))
+// Notice the third argument is our injected dependencies!
+const fetchUserEpic = (action$, store, { getJSON }) =>
+  action$.ofType('FETCH_USER')
+    .mergeMap(() =>
+      getJSON(`/api/users/${payload}`)
+        .map(response => ({
+          type: 'FETCH_USER_FULFILLED',
+          payload: response
+        }))
+    );
+
 ```
 
-And in your test you can easily mock `ajax`:
+To test, you can just call your Epic directly, passing in a mock for `getJSON`:
 
 ```js
-import { fetchUsersEpic } from './fetchUsers'
+import { ActionsObservable } from 'redux-observable';
+import { fetchUserEpic } from './somewhere/fetchUserEpic';
 
-const store = ...
-const mockAjax = ...
-const action = { type: 'FETCH_USERS_REQUESTED' }
+const mockResponse = { name: 'Bilbo Baggins' };
+const action$ = ActionsObservable.of({ type: 'FETCH_USERS_REQUESTED' });
+const store = null; // not needed for this epic
+const dependencies = {
+  getJSON: url => Observable.of(mockResponse)
+};
 
-const resultObservable = fetchUsersEpic(Observable.of(action), store, { ajax: mockAjax })
-
-// assertions
+// Adapt this example to your test framework and specific use cases
+fetchUserEpic(action$, store, dependencies)
+  .toArray() // buffers all emitted actions until your Epic naturally completes()
+  .subscribe(actions => {
+    assertDeepEqual(actions, [{
+      type: 'FETCH_USER_FULFILLED',
+      payload: mockResponse
+    }]);
+  });
 ```

@@ -9,10 +9,11 @@
 ## [Recipes](docs/recipes/SUMMARY.md)
 * [Cancellation](docs/recipes/Cancellation.md)
 * [Error Handling](docs/recipes/ErrorHandling.md)
+* [Injecting Dependencies Into Epics](docs/recipes/InjectingDependenciesIntoEpics.md)
 * [Writing Tests](docs/recipes/WritingTests.md)
 * [Usage with UI Frameworks](docs/recipes/UsageWithUIFrameworks.md)
-* [Hot Module Replacement](docs/recipes/HotModuleReplacement.md)
 * [Adding New Epics Asynchronously](docs/recipes/AddingNewEpicsAsynchronously.md)
+* [Hot Module Replacement](docs/recipes/HotModuleReplacement.md)
 
 ## Help
 * [FAQ](docs/FAQ.md)
