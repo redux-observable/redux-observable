@@ -5,6 +5,11 @@
 #### Arguments
 
 1. *`rootEpic: Epic`*: The root [Epic](../basics/Epics.md)
+2. *`[options: Object]`*: The optional configuration. Options:
+    * *`dependencies`*: If given, it will be injected as the 3rd argument to all epics.
+    * *`adapter`*: An adapter object which can transform the input / output `Observable`s. Options:
+       * *`input: ActionsObservable => Observable`*: Transforms the input `Observable` (transformation takes place *before* it is passed to the root epic).
+       * *`output: Observable => Observable`*: Transforms the output `Observable` (transformation takes place *after* the root epic returned it).
 
 #### Returns
 
