@@ -1,3 +1,30 @@
+<a name="0.14.0"></a>
+# [0.14.0](https://github.com/redux-observable/redux-observable/compare/v0.13.0...v0.14.0) (2017-03-02)
+
+
+### Bug Fixes
+
+* **typings:** Add custom epic overload to combineEpics ([#197](https://github.com/redux-observable/redux-observable/issues/197)) ([88c0bf9](https://github.com/redux-observable/redux-observable/commit/88c0bf9))
+
+
+### Chores
+
+* **rxjs:** update rxjs to v5 non-beta ([#191](https://github.com/redux-observable/redux-observable/issues/191)) ([857e8d0](https://github.com/redux-observable/redux-observable/commit/857e8d0))
+
+
+### Features
+
+* **build:** es modules ([#201](https://github.com/redux-observable/redux-observable/issues/201)) ([c4318ec](https://github.com/redux-observable/redux-observable/commit/c4318ec))
+* **dependencies:** Added explicit dependencies option to createEpicMiddleware ([#193](https://github.com/redux-observable/redux-observable/issues/193)) ([7e2a479](https://github.com/redux-observable/redux-observable/commit/7e2a479)), closes [#163](https://github.com/redux-observable/redux-observable/issues/163)
+
+
+### BREAKING CHANGES
+
+* rxjs: RxJS v5 non-beta (e.g. 5.1.0) is now required. Upgrading from rxjs 5
+beta to latest should be easy in most cases.
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0](https://github.com/redux-observable/redux-observable/compare/v0.12.2...v0.13.0) (2017-01-20)
 
