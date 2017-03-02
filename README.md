@@ -80,4 +80,6 @@ Add the redux-observable spinning logo to your Slack channel! [Slack Instruction
 
 ***
 
+*redux-observable is a community-driven project and is not officially affiliated with Netflix.
+
 :shipit:
