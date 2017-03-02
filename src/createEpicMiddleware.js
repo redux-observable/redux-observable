@@ -13,13 +13,16 @@ const defaultOptions = {
   adapter: defaultAdapter
 };
 
-export function createEpicMiddleware(epic, { adapter = defaultAdapter } = defaultOptions) {
+export function createEpicMiddleware(epic, options = defaultOptions) {
   if (typeof epic !== 'function') {
     throw new TypeError('You must provide a root Epic to createEpicMiddleware');
   }
 
+  // even though we used default param, we need to merge the defaults
+  // inside the options object as well in case they declare only some
+  options = { ...defaultOptions, ...options };
   const input$ = new Subject();
-  const action$ = adapter.input(
+  const action$ = options.adapter.input(
     new ActionsObservable(input$)
   );
   const epic$ = new Subject();
@@ -31,13 +34,17 @@ export function createEpicMiddleware(epic, { adapter = defaultAdapter } = defaul
     return next => {
       epic$
         ::map(epic => {
-          const output$ = epic(action$, store);
+          const output$ = ('dependencies' in options)
+            ? epic(action$, store, options.dependencies)
+            : epic(action$, store);
+
           if (!output$) {
             throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
           }
+
           return output$;
         })
-        ::switchMap(output$ => adapter.output(output$))
+        ::switchMap(output$ => options.adapter.output(output$))
         .subscribe(store.dispatch);
 
       // Setup initial root epic
