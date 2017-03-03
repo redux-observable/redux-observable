@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { createStore, applyMiddleware, MiddlewareAPI } from 'redux';
 import { Observable } from 'rxjs/Observable';
+import { ajax } from 'rxjs/observable/dom/ajax';
 import { asap } from 'rxjs/scheduler/asap';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/mapTo';
@@ -77,6 +78,10 @@ const customEpic2 = (action$, store, some) =>
       type: 'custom2',
       payload
     }));
+
+const customEpicMiddleware: EpicMiddleware<FluxStandardAction, any> = createEpicMiddleware<FluxStandardAction, any>(rootEpic1, {
+  dependencies: { getJSON: ajax.getJSON }
+});
 
 const combinedCustomEpics = combineEpics<CustomEpic<FluxStandardAction, any, any>>(customEpic, customEpic2);
 
