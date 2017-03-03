@@ -9,7 +9,7 @@ export declare class ActionsObservable<T> extends Observable<T> {
    * because we would need non-final position spread params e.g.
    *   `static of<T>(...items: T, scheduler?: Scheduler): ActionsObservable<T>`
    * which isn't possible in either JavaScript or TypeScript. So instead, we
-   * provide safe typing for up to 6 items, following by a scheduler. 
+   * provide safe typing for up to 6 items, following by a scheduler.
    */
   static of<T>(item1: T, scheduler?: Scheduler): ActionsObservable<T>;
   static of<T>(item1: T, item2: T, scheduler?: Scheduler): ActionsObservable<T>;
@@ -42,6 +42,7 @@ interface Adapter {
 
 interface Options {
   adapter?: Adapter;
+  dependencies: { [key:string]: any }
 }
 
 export declare function createEpicMiddleware<T, S>(rootEpic: Epic<T, S>, options?: Options): EpicMiddleware<T, S>;
