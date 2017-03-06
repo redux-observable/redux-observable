@@ -23,7 +23,8 @@ export declare class ActionsObservable<T> extends Observable<T> {
   static from<T, R>(ish: ArrayLike<T>, scheduler?: Scheduler): ActionsObservable<R>;
 
   constructor(input$: Observable<T>);
-  lift(operator: Operator<any, T>): ActionsObservable<T>;
+  lift<R>(operator: Operator<T, R>): ActionsObservable<R>;
+  ofType(...key: string[]): ActionsObservable<T>;
   ofType(...key: any[]): ActionsObservable<T>;
 }
 
