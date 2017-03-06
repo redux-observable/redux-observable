@@ -43,7 +43,7 @@ interface Adapter {
 
 interface Options {
   adapter?: Adapter;
-  dependencies: { [key:string]: any }
+  dependencies?: { [key: string]: any } | any;
 }
 
 export declare function createEpicMiddleware<T, S>(rootEpic: Epic<T, S>, options?: Options): EpicMiddleware<T, S>;
