@@ -155,7 +155,7 @@ const users = (state = {}, action) => {
 
 ### Try It Live!
 
-<a class="jsbin-embed" href="http://jsbin.com/quwova/5/embed?html,js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.40.2"></script>
+<a class="jsbin-embed" href="https://jsbin.com/quwova/5/embed?html,js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.40.2"></script>
 
 ## Accessing the Store's State
 
