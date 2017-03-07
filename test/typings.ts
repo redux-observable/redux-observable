@@ -11,6 +11,10 @@ import 'rxjs/add/operator/mergeMap';
 import { createEpicMiddleware, Epic, combineEpics,
   EpicMiddleware, ActionsObservable } from '../';
 
+interface State {
+  foo: string
+}
+
 interface FluxStandardAction {
   type: string | symbol | any;
   payload?: any;
@@ -18,74 +22,74 @@ interface FluxStandardAction {
   meta?: any
 }
 
-const epic1: Epic<FluxStandardAction, any> = (action$: ActionsObservable<FluxStandardAction>, store) =>
+const epic1: Epic<FluxStandardAction, State> = (action$, store) =>
   action$.ofType('FIRST')
     .mapTo({
       type: 'first',
       payload: store.getState()
     });
 
-const epic2: Epic<FluxStandardAction, any> = (action$, store) =>
+const epic2: Epic<FluxStandardAction, State> = (action$, store) =>
   action$.ofType('SECOND', 'NEVER')
     .mapTo('second')
     .mergeMap(type => Observable.of({ type }));
 
-const epic3: Epic<FluxStandardAction, any> = action$ =>
+const epic3: Epic<FluxStandardAction, State> = action$ =>
   action$.ofType('THIRD')
     .mapTo({
       type: 'third'
     });
 
-const epic4: Epic<FluxStandardAction, any> = () =>
+const epic4: Epic<FluxStandardAction, State> = () =>
   Observable.of({
     type: 'fourth'
   });
 
-const epic5: Epic<FluxStandardAction, any> = (action$, store) =>
+const epic5: Epic<FluxStandardAction, State> = (action$, store) =>
   action$.ofType('FIFTH')
-    .flatMap(({ type, payload }) => Observable.of({
+    .mergeMap(({ type, payload }) => Observable.of({
       type: 'fifth',
       payload
     }));
 
-const epic6 = (action$, store) =>
+const epic6: Epic<FluxStandardAction, State> = (action$, store) =>
   action$.ofType('SIXTH')
     .map(({ type, payload }) => ({
       type: 'sixth',
       payload
     }));
 
-const rootEpic1: Epic<FluxStandardAction, any> = combineEpics<FluxStandardAction, any>(epic1, epic2, epic3, epic4, epic5, epic6);
+const rootEpic1: Epic<FluxStandardAction, State> = combineEpics<FluxStandardAction, State>(epic1, epic2, epic3, epic4, epic5, epic6);
 const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6);
 
-const epicMiddleware1: EpicMiddleware<FluxStandardAction, any> = createEpicMiddleware<FluxStandardAction, any>(rootEpic1);
+const epicMiddleware1: EpicMiddleware<FluxStandardAction, State> = createEpicMiddleware<FluxStandardAction, State>(rootEpic1);
 const epicMiddleware2 = createEpicMiddleware(rootEpic2);
 
 interface CustomEpic<T, S, U> {
   (action$: ActionsObservable<T>, store: MiddlewareAPI<S>, api: U): Observable<T>;
 }
 
-const customEpic: CustomEpic<FluxStandardAction, any, number> = (action$, store, some) =>
+const customEpic: CustomEpic<FluxStandardAction, State, number> = (action$, store, some) =>
   action$.ofType('CUSTOM1')
     .map(({ type, payload }) => ({
       type: 'custom1',
       payload
     }));
 
-const customEpic2 = (action$, store, some) =>
+const customEpic2: CustomEpic<FluxStandardAction, State, number> = (action$, store, some) =>
   action$.ofType('CUSTOM2')
     .map(({ type, payload }) => ({
       type: 'custom2',
       payload
     }));
 
-const customEpicMiddleware: EpicMiddleware<FluxStandardAction, any> = createEpicMiddleware<FluxStandardAction, any>(rootEpic1, {
+const customEpicMiddleware: EpicMiddleware<FluxStandardAction, State> = createEpicMiddleware<FluxStandardAction, State>(rootEpic1, {
   dependencies: { getJSON: ajax.getJSON }
 });
 
-const combinedCustomEpics = combineEpics<CustomEpic<FluxStandardAction, any, any>>(customEpic, customEpic2);
+const combinedCustomEpics = combineEpics<CustomEpic<FluxStandardAction, State, number>>(customEpic, customEpic2);
 
-const reducer = (state = [], action) => state.concat(action);
+const reducer = (state: Array<FluxStandardAction> = [], action: FluxStandardAction) => state.concat(action);
 const store = createStore(
   reducer,
   applyMiddleware(epicMiddleware1, epicMiddleware2)
