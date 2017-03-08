@@ -1,3 +1,15 @@
+<a name="0.14.1"></a>
+## [0.14.1](https://github.com/redux-observable/redux-observable/compare/v0.14.0...v0.14.1) (2017-03-08)
+
+
+### Bug Fixes
+
+* **typings:** Add dependencies to middleware options. ([#207](https://github.com/redux-observable/redux-observable/issues/207)) ([fb911a8](https://github.com/redux-observable/redux-observable/commit/fb911a8))
+* **typings:** dependencies type can now be anything, not just a POJO ([70ded6d](https://github.com/redux-observable/redux-observable/commit/70ded6d))
+* **typings:** lift now uses correct return type, instead of ([#208](https://github.com/redux-observable/redux-observable/issues/208)) ([b4690bf](https://github.com/redux-observable/redux-observable/commit/b4690bf)), closes [#187](https://github.com/redux-observable/redux-observable/issues/187)
+
+
+
 <a name="0.14.0"></a>
 # [0.14.0](https://github.com/redux-observable/redux-observable/compare/v0.13.0...v0.14.0) (2017-03-02)
 
