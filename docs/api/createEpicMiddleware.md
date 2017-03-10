@@ -1,4 +1,4 @@
-# `createEpicMiddleware(rootEpic)`
+# `createEpicMiddleware(rootEpic, [options])`
 
 `createEpicMiddleware()` is used to create an instance of the actual redux-observable middleware. You provide a single, root Epic.
 
