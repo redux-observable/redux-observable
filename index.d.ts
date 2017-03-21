@@ -50,3 +50,5 @@ export declare function createEpicMiddleware<T, S>(rootEpic: Epic<T, S>, options
 
 export declare function combineEpics<T, S>(...epics: Epic<T, S>[]): Epic<T, S>;
 export declare function combineEpics<E>(...epics: E[]): E;
+
+export declare function transformEpic<T, S>(epic: Epic<T, S>, transformer: Epic<T, S>): Epic<T, S>;
