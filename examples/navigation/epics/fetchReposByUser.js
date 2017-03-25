@@ -1,8 +1,7 @@
-import { ajax } from 'rxjs/observable/dom/ajax';
 import * as ActionTypes from '../ActionTypes';
 import { receiveUserRepos } from '../actions';
 
-export default function fetchReposByUser(action$) {
+export default function fetchReposByUser(action$, _, { ajax }) {
   return action$.ofType(ActionTypes.REQUESTED_USER_REPOS)
     .map(action => action.payload.user)
     .switchMap(user =>

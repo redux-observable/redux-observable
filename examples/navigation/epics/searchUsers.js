@@ -2,9 +2,8 @@ import { Observable } from 'rxjs/Observable';
 import { replace } from 'react-router-redux';
 import * as ActionTypes from '../ActionTypes';
 import { receiveUsers } from '../actions';
-import { ajax } from 'rxjs/observable/dom/ajax';
 
-export default function searchUsers(action$) {
+export default function searchUsers(action$, _, { ajax }) {
   return action$.ofType(ActionTypes.SEARCHED_USERS)
     .map(action => action.payload.query)
     .filter(q => !!q)
