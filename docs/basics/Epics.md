@@ -9,7 +9,7 @@ An **Epic** is the core primitive of redux-observable.
 
 It is a function which takes a stream of actions and returns a stream of actions. **Actions in, actions out.**
 
-You can think of it of having roughly this type signature:
+It has roughly this type signature:
 
 ```js
 function (action$: Observable<Action>, store: Store): Observable<Action>;
@@ -60,7 +60,7 @@ dispatch({ type: 'PONG' });
 
 > REMEMBER: Epics run alongside the normal Redux dispatch channel, **after** the reducers have already received them. When you map an action to another one, **you are not** preventing the original action from reaching the reducers; that action has already been through them!
 
-The real power starts to reveal itself when you need to do something asynchronous. Let's say you want to dispatch `PONG` 1 second after receiving the `PING`:
+The real power comes when you need to do something asynchronous. Let's say you want to dispatch `PONG` 1 second after receiving the `PING`:
 
 ```js
 const pingEpic = action$ =>
@@ -89,7 +89,7 @@ const pingReducer = (state = { isPinging: false }, action) => {
 };
 ```
 
-Since filtering by a specific action type is so common, the actions stream redux-observable gives you is a special `ActionsObservable` which has a custom `ofType()` operator to reduce that boilerplate:
+Since filtering by a specific action type is so common, the `action$` stream has an `ofType()` operator to reduce that boilerplate:
 
 ```js
 const pingEpic = action$ =>
@@ -131,7 +131,7 @@ dispatch(fetchUser('torvalds'));
 
 We have a standard Redux action creator `fetchUser`, but also a corresponding Epic to orchestrate the actual AJAX call. When that AJAX call comes back, we map the response to a `FETCH_USER_FULFILLED` action.
 
-> Remember, Epics take stream of **actions in** and return a stream of **actions out**. If the RxJS operators and behavior shown so far is unfamiliar to you, you'll definitely want to take some time to [dive deeper into RxJS](http://reactivex.io/rxjs/) before proceeding.
+> Remember, Epics take a stream of **actions in** and return a stream of **actions out**. If the RxJS operators and behavior shown so far is unfamiliar to you, you'll definitely want to take some time to [dive deeper into RxJS](http://reactivex.io/rxjs/) before proceeding.
 
 You can then update your Store's state in response to that `FETCH_USER_FULFILLED` action:
 
