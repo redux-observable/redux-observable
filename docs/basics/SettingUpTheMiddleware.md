@@ -4,9 +4,9 @@ Now that we know what [Epics](Epics.md) are, we need to provide them to the redu
 
 ## Root Epic
 
-Just like redux requiring a single root Reducer, redux-observable also requires you to have a single root Epic. As we [learned previously](Epics.md), we can use `combineEpics()` to accomplish this.
+Similar to redux requiring a single root Reducer, redux-observable requires a single root Epic. As we [learned previously](Epics.md), we can use `combineEpics()` to accomplish this.
 
-One common pattern is to import all your Epics into a single file, which then exports the root Epic, along with your root Reducer.
+We recommend importing all of your Epics into a single file, which then exports the root Epic and the root Reducer.
 
 ### redux/modules/root.js
 
@@ -31,7 +31,7 @@ export const rootReducer = combineReducers({
 
 ## Configuring The Store
 
-Now you'll want to create an instance of the redux-observable middleware, passing along our newly created root Epic.
+Now create an instance of the redux-observable middleware, passing in the newly created root Epic.
 
 ```js
 import { createEpicMiddleware } from 'redux-observable';
@@ -40,7 +40,7 @@ import { rootEpic } from './modules/root';
 const epicMiddleware = createEpicMiddleware(rootEpic);
 ```
 
-When you put that together with your existing Store configuration, it will look something like this:
+Integrate the code above with your existing Store configuration so that it looks like this:
 
 ### redux/configureStore.js
 
