@@ -44,7 +44,7 @@ Now your Epic can use the injected `getJSON`, instead of importing it itself:
 // Notice the third argument is our injected dependencies!
 const fetchUserEpic = (action$, store, { getJSON }) =>
   action$.ofType('FETCH_USER')
-    .mergeMap(() =>
+    .mergeMap(({ payload }) =>
       getJSON(`/api/users/${payload}`)
         .map(response => ({
           type: 'FETCH_USER_FULFILLED',
