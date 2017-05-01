@@ -45,10 +45,12 @@ In general, the contribution workflow looks like this:
 e.g.
 
 ```
-fix(actions): Emit actions to ActionsSubject recursively9
+fix(actions): Emit actions to ActionsSubject recursively
 
 Closes #1528
 ```
+
+The most common are `docs` (all doc edits, even example code corrections), `fix` (actual library bugfixes), `feat` (new features).
 
 Please try to keep your pull request focused in scope and avoid including unrelated commits.
 
