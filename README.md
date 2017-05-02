@@ -6,6 +6,7 @@
 [![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![code climate](https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg)](https://codeclimate.com/github/redux-observable/redux-observable)
+[![Greenkeeper badge](https://badges.greenkeeper.io/redux-observable/redux-observable.svg)](https://greenkeeper.io/)
 
 [RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
@@ -13,8 +14,6 @@
 [https://redux-observable.js.org](https://redux-observable.js.org)
 
 ## Install
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/redux-observable/redux-observable.svg)](https://greenkeeper.io/)
 
 This has peer dependencies of `rxjs@5.x.x` and `redux`, which will have to be installed as well.
 
