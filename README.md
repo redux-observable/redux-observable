@@ -14,6 +14,8 @@
 
 ## Install
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/redux-observable/redux-observable.svg)](https://greenkeeper.io/)
+
 This has peer dependencies of `rxjs@5.x.x` and `redux`, which will have to be installed as well.
 
 ```bash
