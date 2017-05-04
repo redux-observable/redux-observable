@@ -27,13 +27,13 @@ Here we placed the `.takeUntil()` inside our [`.mergeMap()`](http://reactivex.io
 <a class="jsbin-embed" href="https://jsbin.com/fivaca/embed?js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 
-## Cancel and do something else (e.g. emit a different action)
+## Cancel and Do Something Else (Emit a Different Action)
 
-Sometimes you want to cancel some side effect (like an AJAX call) but _also_ do something else, like emit a totally different action.
+Sometimes you want to not only cancel a side effect (such as an AJAX call), _but also_ do something else, like emit a totally different action.
 
-You can achieve that using the aptly named [`race`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-race) operator. It allows you to literally "race" between streams; whichever one emits a value first, wins! The losing streams are unsubscribed, cancelling anything they were doing.
+You can achieve that using the aptly named [`race`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-race) operator. It allows you to literally "race" between streams; whichever one emits a value first wins! The losing streams are unsubscribed, cancelling any operation they were performing.
 
-Say we that when someone dispatches `FETCH_USER` we make an AJAX call, but if someone dispatches `FETCH_USER_CANCELLED` we cancel that pending AJAX request and instead emit a totally different action to increment some counter:
+For example, let's say that we make an AJAX call when someone dispatches `FETCH_USER`, but if someone dispatches `FETCH_USER_CANCELLED` we cancel that pending AJAX request and instead emit a totally different action - in this case, to increment a counter:
 
 ```js
 import { ajax } from 'rxjs/observable/dom/ajax';
@@ -51,6 +51,6 @@ const fetchUserEpic = action$ =>
     );
 ```
 
-We also need to use `.take(1)`, because we only want to listen for the cancellation action once, while we're racing the AJAX call.
+We also need to use `.take(1)`, because we only want to listen for the cancellation action _once_ while we're racing the AJAX call.
 
-> This is very powerful, but remember to ask yourself if, instead of dispatching a different action, could the original cancellation action be used by your reducers already in an idiomatic way? i.e. is it more clean to rely on a single action or have two unrelated ones to show better intent. Cases vary.
+> This brings up a worthwhile consideration: instead of following up on the cancellation event with a separate action, could you just idiomatically repurpose the original cancellation action being absorbed by your reducers? In other words, is it better to rely on a single action that triggers both the cancellation itself, and what happens afterward, or to define two unrelated actions that reflect your intent? Optimal use cases vary from one implementation to another.
