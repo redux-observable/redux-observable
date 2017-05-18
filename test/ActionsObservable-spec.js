@@ -76,5 +76,44 @@ describe('ActionsObservable', () => {
       expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LARF', i: 1 }]);
       expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
     });
+
+    it('should handle action creator with a toString', () => {
+      let actions = new Subject();
+      let actionsObs = new ActionsObservable(actions);
+      let lulz = [];
+      let haha = [];
+
+      const createAction = (type) => {
+        const actionCreator = () => {
+          const action = {
+            type
+          };
+          return action;
+        };
+
+        actionCreator.toString = () => type.toString();
+        return actionCreator;
+      };
+      const doLulz = createAction('LULZ');
+      const doHaha = createAction('HAHA');
+
+      actionsObs.ofType(doLulz).subscribe(x => lulz.push(x));
+      actionsObs.ofType(doHaha).subscribe(x => haha.push(x));
+
+      actions.next({ type: 'LULZ', i: 0 });
+
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }]);
+      expect(haha).to.deep.equal([]);
+
+      actions.next({ type: 'LULZ', i: 1 });
+
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(haha).to.deep.equal([]);
+
+      actions.next({ type: 'HAHA', i: 0 });
+
+      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
+    });
   });
 });
