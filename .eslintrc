@@ -1,5 +1,8 @@
 {
   "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
+  },
   "rules": {
     // Enforces getter/setter pairs in objects
     "accessor-pairs": 0,
