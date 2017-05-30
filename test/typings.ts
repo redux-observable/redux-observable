@@ -7,6 +7,19 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/mapTo';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
+import 'rxjs/add/operator/delay';
+import 'rxjs/add/operator/concatMap';
+import 'rxjs/add/observable/range';
+import 'rxjs/add/operator/last';
+import 'rxjs/add/operator/toPromise';
+
+const sleep = () =>
+  Observable.range(0, 10)
+  .concatMap(a => Observable.of(a).delay(0))
+  .last()
+  .toPromise()
+
+declare var process: any;
 
 import { createEpicMiddleware, Epic, combineEpics,
   EpicMiddleware, ActionsObservable } from '../';
@@ -95,55 +108,65 @@ const store = createStore(
   applyMiddleware(epicMiddleware1, epicMiddleware2)
 );
 
-epicMiddleware1.replaceEpic(rootEpic2);
-epicMiddleware2.replaceEpic(rootEpic1)
+(async () => {
+  try {
 
-store.dispatch({ type: 'FIRST' });
-store.dispatch({ type: 'SECOND' });
-store.dispatch({ type: 'FIFTH', payload: 'fifth-payload' });
-store.dispatch({ type: 'SIXTH', payload: 'sixth-payload' });
+    await sleep();
 
-expect(store.getState()).to.deep.equal([
-  { "type": "@@redux/INIT" },
-  { "type": "fourth" },
-  { "type": "fourth" },
-  { "type": "@@redux-observable/EPIC_END" },
-  { "type": "fourth" },
-  { "type": "@@redux-observable/EPIC_END" },
-  { "type": "fourth" },
-  { "type": "FIRST" },
-  { "type": "first",
-    "payload": [
+    epicMiddleware1.replaceEpic(rootEpic2);
+    epicMiddleware2.replaceEpic(rootEpic1);
+
+    store.dispatch({ type: 'FIRST' });
+    store.dispatch({ type: 'SECOND' });
+    store.dispatch({ type: 'FIFTH', payload: 'fifth-payload' });
+    store.dispatch({ type: 'SIXTH', payload: 'sixth-payload' });
+
+    expect(store.getState()).to.deep.equal([
       { "type": "@@redux/INIT" },
       { "type": "fourth" },
       { "type": "fourth" },
       { "type": "@@redux-observable/EPIC_END" },
       { "type": "fourth" },
-      { "type": "@@redux-observable/EPIC_END" }
-    ]
-  },
-  { "type": "first",
-    "payload": [
-      { "type": "@@redux/INIT" },
+      { "type": "@@redux-observable/EPIC_END" },
       { "type": "fourth" },
-      { "type": "fourth" },
-      { "type": "@@redux-observable/EPIC_END" }
-    ]
-  },
-  { "type": "SECOND" },
-  { "type": "second" },
-  { "type": "second" },
-  { "type": "FIFTH", "payload": "fifth-payload" },
-  { "type": "fifth", "payload": "fifth-payload" },
-  { "type": "fifth", "payload": "fifth-payload" },
-  { "type": "SIXTH", "payload": "sixth-payload" },
-  { "type": "sixth", "payload": "sixth-payload" },
-  { "type": "sixth", "payload": "sixth-payload" }
-]);
+      { "type": "FIRST" },
+      { "type": "first",
+        "payload": [
+          { "type": "@@redux/INIT" },
+          { "type": "fourth" },
+          { "type": "fourth" },
+          { "type": "@@redux-observable/EPIC_END" },
+          { "type": "fourth" },
+          { "type": "@@redux-observable/EPIC_END" }
+        ]
+      },
+      { "type": "first",
+        "payload": [
+          { "type": "@@redux/INIT" },
+          { "type": "fourth" },
+          { "type": "fourth" },
+          { "type": "@@redux-observable/EPIC_END" }
+        ]
+      },
+      { "type": "SECOND" },
+      { "type": "second" },
+      { "type": "second" },
+      { "type": "FIFTH", "payload": "fifth-payload" },
+      { "type": "fifth", "payload": "fifth-payload" },
+      { "type": "fifth", "payload": "fifth-payload" },
+      { "type": "SIXTH", "payload": "sixth-payload" },
+      { "type": "sixth", "payload": "sixth-payload" },
+      { "type": "sixth", "payload": "sixth-payload" }
+    ]);
 
-const input$ = Observable.create(() => {});
-const action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
-const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asap);
-const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asap);
+    const input$ = Observable.create(() => {});
+    const action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
+    const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asap);
+    const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asap);
 
-console.log('typings.ts: OK');
+    console.log('typings.ts: OK');
+  } catch(e) {
+    console.error(e);
+    process.exit(1);
+  }
+})()

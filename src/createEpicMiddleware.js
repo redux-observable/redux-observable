@@ -1,6 +1,11 @@
 import { Subject } from 'rxjs/Subject';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { map } from 'rxjs/operator/map';
 import { switchMap } from 'rxjs/operator/switchMap';
+import { mergeAll } from 'rxjs/operator/mergeAll';
+import { window } from 'rxjs/operator/window';
+import { startWith } from 'rxjs/operator/startWith';
+import { zipStatic } from 'rxjs/operator/zip';
 import { ActionsObservable } from './ActionsObservable';
 import { EPIC_END } from './EPIC_END';
 
@@ -11,6 +16,52 @@ const defaultAdapter = {
 
 const defaultOptions = {
   adapter: defaultAdapter
+};
+
+class SluiceGate {
+  static createClosed() {
+    return new this(false);
+  }
+  static createOpen() {
+    return new this(true);
+  }
+  constructor(isOpen) {
+    if (typeof isOpen !== 'boolean') {
+      throw new TypeError('SluiceGate constructor expects one boolean argument.');
+    }
+    this._is_open = isOpen;
+    this._open = new Subject();
+    this._close = new Subject();
+  }
+  sluice(input) {
+    return zipStatic(
+      input::window(this._close)::map(
+        (w) => {
+          const rep = new ReplaySubject();
+          w.subscribe(rep);
+          return rep;
+        }
+      ),
+      (this._is_open ? this._open::startWith({}) : this._open),
+      (w, _) => w,
+    )::mergeAll();
+  }
+  open() {
+    if (!this._is_open) {
+      this._open.next({});
+      this._is_open = true;
+    }
+  }
+  close() {
+    if (this._is_open) {
+      this._close.next({});
+      this._is_open = false;
+    }
+  }
+}
+
+const sluice = function (gate) {
+  return gate.sluice(this);
 };
 
 export function createEpicMiddleware(epic, options = defaultOptions) {
@@ -26,6 +77,7 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
     new ActionsObservable(input$)
   );
   const epic$ = new Subject();
+  const outputGate = SluiceGate.createClosed();
   let store;
 
   const epicMiddleware = _store => {
@@ -45,10 +97,14 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
           return output$;
         })
         ::switchMap(output$ => options.adapter.output(output$))
+        ::sluice(outputGate)
         .subscribe(store.dispatch);
 
       // Setup initial root epic
       epic$.next(epic);
+      // wait with any calls to store.dispatch until middleware
+      // initialization is complete
+      setTimeout(() => outputGate.open());
 
       return action => {
         const result = next(action);
@@ -64,7 +120,9 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
     store.dispatch({ type: EPIC_END });
     // switches to the new root Epic, synchronously terminating
     // the previous one
+    outputGate.close();
     epic$.next(epic);
+    outputGate.open();
   };
 
   return epicMiddleware;

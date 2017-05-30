@@ -11,6 +11,18 @@ import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
 import { mergeStatic } from 'rxjs/operator/merge';
 import { mapTo } from 'rxjs/operator/mapTo';
+import { startWith } from 'rxjs/operator/startWith';
+import { delay } from 'rxjs/operator/delay';
+import { concatMap } from 'rxjs/operator/concatMap';
+import { range } from 'rxjs/observable/range';
+import { last } from 'rxjs/operator/last';
+import { toPromise } from 'rxjs/operator/toPromise';
+
+const sleep = () =>
+  range(0, 10)
+  ::concatMap(a => of(a)::delay(0))
+  ::last()
+  ::toPromise();
 
 describe('createEpicMiddleware', () => {
   it('should provide epics a stream of action$ in and the "lite" store', (done) => {
@@ -27,7 +39,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'FIRST_ACTION_TO_TRIGGER_MIDDLEWARE' });
   });
 
-  it('should accept an epic that wires up action$ input to action$ out', () => {
+  it('should accept an epic that wires up action$ input to action$ out', async () => {
     const reducer = (state = [], action) => state.concat(action);
     const epic = (action$, store) =>
       mergeStatic(
@@ -37,6 +49,7 @@ describe('createEpicMiddleware', () => {
 
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
+    await sleep();
 
     store.dispatch({ type: 'FIRE_1' });
     store.dispatch({ type: 'FIRE_2' });
@@ -47,6 +60,66 @@ describe('createEpicMiddleware', () => {
       { type: 'ACTION_1' },
       { type: 'FIRE_2' },
       { type: 'ACTION_2' }
+    ]);
+  });
+
+  it('should not swallow actions returned using .startWith()', async () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = (action$, store) =>
+      action$.ofType('FIRE')
+        ::mapTo({ type: 'ACTION' })
+        ::startWith({ type: 'FIRE' });
+
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+    await sleep();
+
+    expect(store.getState()).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'FIRE' },
+      { type: 'ACTION' },
+    ]);
+  });
+
+  it('should not swallow actions returned using .of() #1', async () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = (action$, store) =>
+      // 2 versions of this test because some things used to break
+      // or work depending on the order of arguments to mergeStatic
+      mergeStatic(
+        action$.ofType('FIRE')::mapTo({ type: 'ACTION' }),
+        of({ type: 'FIRE' }),
+      );
+
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+    await sleep();
+
+    expect(store.getState()).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'FIRE' },
+      { type: 'ACTION' },
+    ]);
+  });
+
+  it('should not swallow actions returned using .of() #2', async () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = (action$, store) =>
+      // 2 versions of this test because some things used to break
+      // or work depending on the order of arguments to mergeStatic
+      mergeStatic(
+        of({ type: 'FIRE' }),
+        action$.ofType('FIRE')::mapTo({ type: 'ACTION' }),
+      );
+
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+    await sleep();
+
+    expect(store.getState()).to.deep.equal([
+      { type: '@@redux/INIT' },
+      { type: 'FIRE' },
+      { type: 'ACTION' },
     ]);
   });
 
@@ -69,60 +142,135 @@ describe('createEpicMiddleware', () => {
     }).to.throw('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
   });
 
-  it('should allow you to replace the root epic with middleware.replaceEpic(epic)', () => {
-    const reducer = (state = [], action) => state.concat(action);
-    const epic1 = action$ =>
-      mergeStatic(
-        of({ type: 'EPIC_1' }),
-        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
-        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' }),
-        action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_1_GENERIC' }),
-        action$.ofType(EPIC_END)::mapTo({ type: 'CLEAN_UP_AISLE_3' })
-      );
-    const epic2 = action$ =>
-      mergeStatic(
-        of({ type: 'EPIC_2' }),
-        action$.ofType('FIRE_3')::mapTo({ type: 'ACTION_3' }),
-        action$.ofType('FIRE_4')::mapTo({ type: 'ACTION_4' }),
-        action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_2_GENERIC' })
-      );
+  describe('middleware.replaceEpic(epic)', () => {
+    it('should allow you to replace the root epic', async () => {
+      const reducer = (state = [], action) => state.concat(action);
+      const epic1 = action$ =>
+        mergeStatic(
+          of({ type: 'EPIC_1' }),
+          action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
+          action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' }),
+          action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_1_GENERIC' }),
+          action$.ofType(EPIC_END)::mapTo({ type: 'CLEAN_UP_AISLE_3' })
+        );
+      const epic2 = action$ =>
+        mergeStatic(
+          of({ type: 'EPIC_2' }),
+          action$.ofType('FIRE_3')::mapTo({ type: 'ACTION_3' }),
+          action$.ofType('FIRE_4')::mapTo({ type: 'ACTION_4' }),
+          action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_2_GENERIC' })
+        );
 
-    const middleware = createEpicMiddleware(epic1);
+      const middleware = createEpicMiddleware(epic1);
 
-    const store = createStore(reducer, applyMiddleware(middleware));
+      const store = createStore(reducer, applyMiddleware(middleware));
+      await sleep();
 
-    store.dispatch({ type: 'FIRE_1' });
-    store.dispatch({ type: 'FIRE_2' });
-    store.dispatch({ type: 'FIRE_GENERIC' });
+      store.dispatch({ type: 'FIRE_1' });
+      store.dispatch({ type: 'FIRE_2' });
+      store.dispatch({ type: 'FIRE_GENERIC' });
 
-    middleware.replaceEpic(epic2);
+      middleware.replaceEpic(epic2);
 
-    store.dispatch({ type: 'FIRE_3' });
-    store.dispatch({ type: 'FIRE_4' });
-    store.dispatch({ type: 'FIRE_GENERIC' });
+      store.dispatch({ type: 'FIRE_3' });
+      store.dispatch({ type: 'FIRE_4' });
+      store.dispatch({ type: 'FIRE_GENERIC' });
 
-    expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
-      { type: 'EPIC_1' },
-      { type: 'FIRE_1' },
-      { type: 'ACTION_1' },
-      { type: 'FIRE_2' },
-      { type: 'ACTION_2' },
-      { type: 'FIRE_GENERIC' },
-      { type: 'EPIC_1_GENERIC' },
-      { type: EPIC_END },
-      { type: 'CLEAN_UP_AISLE_3' },
-      { type: 'EPIC_2' },
-      { type: 'FIRE_3' },
-      { type: 'ACTION_3' },
-      { type: 'FIRE_4' },
-      { type: 'ACTION_4' },
-      { type: 'FIRE_GENERIC' },
-      { type: 'EPIC_2_GENERIC' },
-    ]);
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'EPIC_1' },
+        { type: 'FIRE_1' },
+        { type: 'ACTION_1' },
+        { type: 'FIRE_2' },
+        { type: 'ACTION_2' },
+        { type: 'FIRE_GENERIC' },
+        { type: 'EPIC_1_GENERIC' },
+        { type: EPIC_END },
+        { type: 'CLEAN_UP_AISLE_3' },
+        { type: 'EPIC_2' },
+        { type: 'FIRE_3' },
+        { type: 'ACTION_3' },
+        { type: 'FIRE_4' },
+        { type: 'ACTION_4' },
+        { type: 'FIRE_GENERIC' },
+        { type: 'EPIC_2_GENERIC' },
+      ]);
+    });
+
+    it('should not swallow actions returned using .startWith()', async () => {
+      const reducer = (state = [], action) => state.concat(action);
+      const dummyEpic = action$ => empty();
+      const epic = (action$, store) =>
+        action$.ofType('FIRE')
+          ::mapTo({ type: 'ACTION' })
+          ::startWith({ type: 'FIRE' });
+
+      const middleware = createEpicMiddleware(dummyEpic);
+      const store = createStore(reducer, applyMiddleware(middleware));
+      await sleep();
+
+      middleware.replaceEpic(epic);
+
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: EPIC_END },
+        { type: 'FIRE' },
+        { type: 'ACTION' },
+      ]);
+    });
+
+    it('should not swallow actions returned using .of #1', async () => {
+      const reducer = (state = [], action) => state.concat(action);
+      const dummyEpic = action$ => empty();
+      const epic = (action$, store) =>
+        // 2 versions of this test because some things used to break
+        // or work depending on the order of arguments to mergeStatic
+        mergeStatic(
+          action$.ofType('FIRE')::mapTo({ type: 'ACTION' }),
+          of({ type: 'FIRE' }),
+        );
+
+      const middleware = createEpicMiddleware(dummyEpic);
+      const store = createStore(reducer, applyMiddleware(middleware));
+      await sleep();
+
+      middleware.replaceEpic(epic);
+
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: EPIC_END },
+        { type: 'FIRE' },
+        { type: 'ACTION' },
+      ]);
+    });
+
+    it('should not swallow actions returned using .of #2', async () => {
+      const reducer = (state = [], action) => state.concat(action);
+      const dummyEpic = action$ => empty();
+      const epic = (action$, store) =>
+        // 2 versions of this test because some things used to break
+        // or work depending on the order of arguments to mergeStatic
+        mergeStatic(
+          of({ type: 'FIRE' }),
+          action$.ofType('FIRE')::mapTo({ type: 'ACTION' }),
+        );
+
+      const middleware = createEpicMiddleware(dummyEpic);
+      const store = createStore(reducer, applyMiddleware(middleware));
+      await sleep();
+
+      middleware.replaceEpic(epic);
+
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: EPIC_END },
+        { type: 'FIRE' },
+        { type: 'ACTION' },
+      ]);
+    });
   });
 
-  it('supports an adapter for Epic input/output', () => {
+  it('supports an adapter for Epic input/output', async () => {
     const reducer = (state = [], action) => state.concat(action);
     const epic = input => input + 1;
 
@@ -135,6 +283,7 @@ describe('createEpicMiddleware', () => {
     const middleware = createEpicMiddleware(epic, { adapter });
 
     const store = createStore(reducer, applyMiddleware(middleware));
+    await sleep();
 
     expect(store.getState()).to.deep.equal([
       { type: '@@redux/INIT' },
