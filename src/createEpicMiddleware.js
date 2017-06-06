@@ -3,15 +3,7 @@ import { map } from 'rxjs/operator/map';
 import { switchMap } from 'rxjs/operator/switchMap';
 import { ActionsObservable } from './ActionsObservable';
 import { EPIC_END } from './EPIC_END';
-
-const defaultAdapter = {
-  input: action$ => action$,
-  output: action$ => action$
-};
-
-const defaultOptions = {
-  adapter: defaultAdapter
-};
+import { defaultOptions } from './defaults';
 
 export function createEpicMiddleware(epic, options = defaultOptions) {
   if (typeof epic !== 'function') {
