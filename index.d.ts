@@ -46,7 +46,7 @@ interface Options<D = any> {
   dependencies?: D;
 }
 
-export declare function createEpicMiddleware<T, S, D = any>(rootEpic: Epic<T, S, D>, options?: Options): EpicMiddleware<T, S, D>;
+export declare function createEpicMiddleware<T, S, D = any>(rootEpic: Epic<T, S, D>, options?: Options<D>): EpicMiddleware<T, S, D>;
 
 export declare function combineEpics<T, S, D = any>(...epics: Epic<T, S, D>[]): Epic<T, S, D>;
 export declare function combineEpics<E>(...epics: E[]): E;
