@@ -3,7 +3,7 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore } from 'redux';
-import { createEpicEnhancer, combineEpics, ActionsObservable, EPIC_END } from '../';
+import { createEpicEnhancer, combineEpics, ActionsObservable, EPIC_INIT, EPIC_END } from '../';
 // We need to import the operators separately and not add them to the Observable
 // prototype, otherwise we might accidentally cover-up that the source we're
 // testing uses an operator that it does not import!
@@ -11,6 +11,7 @@ import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
 import { mergeStatic } from 'rxjs/operator/merge';
 import { mapTo } from 'rxjs/operator/mapTo';
+import { startWith } from 'rxjs/operator/startWith';
 
 describe('createEpicEnhancer', () => {
   it('should provide epics a stream of action$ in and the "lite" store', (done) => {
@@ -38,9 +39,9 @@ describe('createEpicEnhancer', () => {
 
     store.dispatch({ type: 'FIRE_1' });
     store.dispatch({ type: 'FIRE_2' });
-
     expect(store.getState()).to.deep.equal([
       { type: '@@redux/INIT' },
+      { type: EPIC_INIT },
       { type: 'FIRE_1' },
       { type: 'ACTION_1' },
       { type: 'FIRE_2' },
@@ -101,6 +102,7 @@ describe('createEpicEnhancer', () => {
 
     expect(store.getState()).to.deep.equal([
       { type: '@@redux/INIT' },
+      { type: EPIC_INIT },
       { type: 'EPIC_1' },
       { type: 'FIRE_1' },
       { type: 'ACTION_1' },
@@ -110,6 +112,7 @@ describe('createEpicEnhancer', () => {
       { type: 'EPIC_1_GENERIC' },
       { type: EPIC_END },
       { type: 'CLEAN_UP_AISLE_3' },
+      { type: EPIC_INIT },
       { type: 'EPIC_2' },
       { type: 'FIRE_3' },
       { type: 'ACTION_3' },
@@ -136,13 +139,14 @@ describe('createEpicEnhancer', () => {
 
     expect(store.getState()).to.deep.equal([
       { type: '@@redux/INIT' },
+      { type: EPIC_INIT },
       { type: 3 }
     ]);
   });
 
   it('should not pass third argument to epic if no dependencies provided', () => {
     const reducer = (state = [], action) => state;
-    const epic = sinon.spy(action$ => action$);
+    const epic = sinon.spy(action$ => action$.ofType('FOO'));
 
     const epicEnhancer = createEpicEnhancer(epic);
 
@@ -152,7 +156,7 @@ describe('createEpicEnhancer', () => {
 
   it('should inject dependencies into a single epic', () => {
     const reducer = (state = [], action) => state;
-    const epic = sinon.spy(action$ => action$);
+    const epic = sinon.spy(action$ => action$.ofType('FOO'));
 
     const epicEnhancer = createEpicEnhancer(epic, { dependencies: 'deps' });
 
@@ -163,7 +167,7 @@ describe('createEpicEnhancer', () => {
 
   it('should pass literally anything provided as dependencies, even `undefined`', () => {
     const reducer = (state = [], action) => state;
-    const epic = sinon.spy(action$ => action$);
+    const epic = sinon.spy(action$ => action$.ofType('FOO'));
 
     const epicEnhancer = createEpicEnhancer(epic, { dependencies: undefined });
 
@@ -177,7 +181,7 @@ describe('createEpicEnhancer', () => {
     const epic = sinon.spy((action$, store, { foo, bar }) => {
       expect(foo).to.equal('bar');
       expect(bar).to.equal('foo');
-      return action$;
+      return action$.ofType('FOO');
     });
 
     const rootEpic = combineEpics(
@@ -206,7 +210,7 @@ describe('createEpicEnhancer', () => {
       expect(deps).to.equal('deps');
       expect(arg1).to.equal('first');
       expect(arg2).to.equal('second');
-      return action$;
+      return action$.ofType('FOO');
     });
 
     const rootEpic = (...args) => combineEpics(epic)(...args, 'first', 'second');
@@ -215,5 +219,22 @@ describe('createEpicEnhancer', () => {
 
     createStore(reducer, epicEnhancer);
     expect(epic.called).to.equal(true);
+  });
+
+  it('should return actions emitted by epics on startup back to epics', () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const init = 'INIT_MY_EPIC';
+    const expectedType = 'MY_INIT_DONE';
+    const epic = action$ => action$.ofType(init)
+      ::mapTo({ type: expectedType })
+      ::startWith({ type: init });
+    const epicEnhancer = createEpicEnhancer(epic);
+    const store = createStore(reducer, epicEnhancer);
+
+    const actions = (store.getState()).slice(-2);
+    expect(actions[0]).to.not.equal(undefined);
+    expect(actions[0].type, 'first action').to.equal(init);
+    expect(actions[1]).to.not.equal(undefined);
+    expect(actions[1].type, 'second action').to.equal(expectedType);
   });
 });
