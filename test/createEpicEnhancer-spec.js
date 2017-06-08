@@ -2,7 +2,7 @@
 import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicEnhancer, combineEpics, ActionsObservable, EPIC_INIT, EPIC_END } from '../';
 // We need to import the operators separately and not add them to the Observable
 // prototype, otherwise we might accidentally cover-up that the source we're
@@ -53,6 +53,36 @@ describe('createEpicEnhancer', () => {
       { type: 'FIRE_2' },
       { type: 'ACTION_2' }
     ]);
+  });
+
+  it('should play nice with dispatch modifying middleware', () => {
+    const thunk = (dispatch) => {
+      dispatch({ type: 'IN_THUNK' });
+    };
+    const epic = action$ => action$
+      .ofType('IN_THUNK')
+      ::mapTo({ type: 'IN_EPIC' });
+    const middleware = ({ dispatch }) => next => action => {
+      if (typeof action === 'function') {
+        return action(dispatch);
+      }
+      return next(action);
+    };
+    const reducer = (state = [], action) => state.concat(action);
+    const store = createStore(
+      reducer,
+      compose(
+        applyMiddleware(middleware),
+        createEpicEnhancer(epic)
+      )
+    );
+
+    store.dispatch(thunk);
+    const actions = (store.getState()).slice(-2);
+    expect(actions[0]).to.not.equal(undefined);
+    expect(actions[0].type).to.equal('IN_THUNK');
+    expect(actions[1]).to.not.equal(undefined);
+    expect(actions[1].type).to.equal('IN_EPIC');
   });
 
   it('should throw if you don\'t provide a rootEpic', () => {

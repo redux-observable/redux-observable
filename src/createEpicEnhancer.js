@@ -38,10 +38,7 @@ export function createEpicEnhancer(epic, options = defaultOptions) {
       // we dequeue actions, one per dispatch on the call stack,
       // this ensures that actions are always FIFO and preserves the order
       // of actions between reducers and epics
-      const nextAction = actionsQueue.shift();
-      if (nextAction && nextAction.type) {
-        input$.next(nextAction);
-      }
+      input$.next(actionsQueue.shift());
       return result;
     };
 
