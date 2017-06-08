@@ -10,8 +10,14 @@ import { createEpicEnhancer, combineEpics, ActionsObservable, EPIC_INIT, EPIC_EN
 import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
 import { mergeStatic } from 'rxjs/operator/merge';
+import { map } from 'rxjs/operator/map';
 import { mapTo } from 'rxjs/operator/mapTo';
 import { startWith } from 'rxjs/operator/startWith';
+import { toArray } from 'rxjs/operator/toArray';
+import { skipUntil } from 'rxjs/operator/skipUntil';
+import { take } from 'rxjs/operator/take';
+import { from } from 'rxjs/observable/from';
+import { filter } from 'rxjs/operator/filter';
 
 describe('createEpicEnhancer', () => {
   it('should provide epics a stream of action$ in and the "lite" store', (done) => {
@@ -236,5 +242,83 @@ describe('createEpicEnhancer', () => {
     expect(actions[0].type, 'first action').to.equal(init);
     expect(actions[1]).to.not.equal(undefined);
     expect(actions[1].type, 'second action').to.equal(expectedType);
+  });
+
+  it('should preserve the order of actions between epics and reducers with nested dispatch calls', () => {
+    const PING = 'PING';
+    const PONG = 'PONG';
+    const SUM = 'SUM';
+
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = action$ => action$
+      ::skipUntil(action$.ofType(EPIC_INIT))
+      ::take(5)
+      ::toArray()
+      ::map(actions => ({
+        type: SUM,
+        actions
+      }));
+
+    const epicEnhancer = createEpicEnhancer(epic);
+
+    const store = createStore(reducer, epicEnhancer);
+    from(store)
+      ::map(actions => actions[actions.length - 1])
+      ::filter(action => action.type === PING)
+      ::take(2)
+      ::mapTo({ type: PONG })
+      .subscribe(store.dispatch);
+
+    store.dispatch({ type: PING });
+    store.dispatch({ type: PING });
+
+    const reducerActions = store.getState();
+    // remove redux INIT
+    // this is never seen by epics or middleware
+    reducerActions.shift();
+    const epicSum = reducerActions.pop();
+    expect(epicSum.type).to.equal(SUM);
+    expect(epicSum.actions).to.deep.equal(reducerActions);
+  });
+
+  it('should preserve the order of actions with deeply nested dispatch calls', () => {
+    const PING = 'PING';
+    const PONG = 'PONG';
+    const SUM = 'SUM';
+    const totalNestedCalls = 11;
+
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = action$ => action$
+      ::skipUntil(action$.ofType(EPIC_INIT))
+      ::take(totalNestedCalls)
+      ::toArray()
+      ::map(actions => ({
+        type: SUM,
+        actions
+      }));
+
+    const epicEnhancer = createEpicEnhancer(epic);
+
+    const store = createStore(reducer, epicEnhancer);
+    from(store)
+      ::map(actions => actions[actions.length - 1])
+      ::take(totalNestedCalls - 1)
+      ::filter(action => (
+        action.type === PING ||
+        action.type === PONG
+      ))
+      ::map(({ type }) => type === PING ? PONG : PING)
+      ::map((type, count) => ({ type, count }))
+      .subscribe(store.dispatch);
+
+    store.dispatch({ type: PING });
+
+    const reducerActions = store.getState();
+    // remove redux INIT
+    // this is never seen by epics or middleware
+    reducerActions.shift();
+    const epicSum = reducerActions.pop();
+    expect(epicSum.type).to.equal(SUM);
+    expect(epicSum.actions).to.deep.equal(reducerActions);
   });
 });

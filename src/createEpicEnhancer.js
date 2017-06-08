@@ -22,11 +22,25 @@ export function createEpicEnhancer(epic, options = defaultOptions) {
     const _action$ = new ActionsObservable(input$);
     const action$ = options.adapter.input(_action$);
 
+    const actionsQueue = [];
     const dispatch = action => {
+      // enqueue action before passing to reducers/middleware
+      actionsQueue.push(action);
       // let action hit reducers and other middleware first
+      // note the follow caveats:
+      // 1. middleware may call dispatch synchronously before
+      //    this function call resolves
+      // 2. state changes will update store subscribers which
+      //    may cause a synchronous call to dispatch before this call resolves
       const result = store.dispatch(action);
-      if (action && action.type) {
-        input$.next(action);
+      // at this point we may have many nested
+      // dispatch calls on the call stack
+      // we dequeue actions, one per dispatch on the call stack,
+      // this ensures that actions are always FIFO and preserves the order
+      // of actions between reducers and epics
+      const nextAction = actionsQueue.shift();
+      if (nextAction && nextAction.type) {
+        input$.next(nextAction);
       }
       return result;
     };
