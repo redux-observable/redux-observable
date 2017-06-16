@@ -5,7 +5,7 @@ import { ActionsObservable } from './ActionsObservable';
 import { EPIC_INIT } from './EPIC_INIT';
 import { EPIC_END } from './EPIC_END';
 import { defaultOptions } from './defaults';
-import { cacheUntilType } from './cacheUntilType';
+import { queueUntilType } from './queueUntilType';
 import { mergeStatic } from 'rxjs/operator/merge';
 import { first } from 'rxjs/operator/first';
 
@@ -71,7 +71,7 @@ export function createEpicEnhancer(epic, options = defaultOptions) {
         // before subscribing to input$, to loop back into the epics
         // this happens synchronously
         // all future actions are passed through
-        ::cacheUntilType(EPIC_INIT);
+        ::queueUntilType(EPIC_INIT);
       })
       .subscribe(dispatch);
 
@@ -89,7 +89,7 @@ export function createEpicEnhancer(epic, options = defaultOptions) {
 
     epic$.next(epic);
 
-    // we dispatch INIT to open up the cacheUntilType operator
+    // we dispatch INIT to open up the queueUntilType operator
     dispatch({ type: EPIC_INIT });
 
     return {
