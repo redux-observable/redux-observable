@@ -59,7 +59,7 @@ To see redux-observable in action, here's a very simple JSBin to play around wit
 * [Using React](http://jsbin.com/jexomi/edit?js,output)
 * [Using Angular v1](http://jsbin.com/laviti/edit?js,output)
 * Using Angular v2 (TODO)
-* Using Ember (TODO)
+* [Using Ember](https://ember-twiddle.com/093ee4aa271123a84f4eb21f3670b655)
 
 ## Documentation
 
