@@ -50,3 +50,5 @@ export declare function createEpicMiddleware<T, S>(rootEpic: Epic<T, S>, options
 
 export declare function combineEpics<T, S>(...epics: Epic<T, S>[]): Epic<T, S>;
 export declare function combineEpics<E>(...epics: E[]): E;
+
+export declare const EPIC_END: '@@redux-observable/EPIC_END';
