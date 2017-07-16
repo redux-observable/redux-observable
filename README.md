@@ -12,7 +12,8 @@
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
 
 [https://redux-observable.js.org](https://redux-observable.js.org)
-[https://redux-observable.js.org 中文版](https://redux-observable-cn.js.org/)
+
+[https://redux-observable-cn.js.org](https://redux-observable-cn.js.org) 中文版(非官方)
 
 
 ## Install
