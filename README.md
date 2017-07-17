@@ -13,6 +13,8 @@
 
 [https://redux-observable.js.org](https://redux-observable.js.org)
 
+[https://redux-observable-cn.js.org](https://redux-observable-cn.js.org) 中文版(非官方)
+
 ## Install
 
 This has peer dependencies of `rxjs@5.x.x` and `redux`, which will have to be installed as well.
