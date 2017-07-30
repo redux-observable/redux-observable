@@ -25,6 +25,7 @@ export declare class ActionsObservable<T> extends Observable<T> {
   constructor(input$: Observable<T>);
   lift<R>(operator: Operator<T, R>): ActionsObservable<R>;
   ofType(...key: string[]): ActionsObservable<T>;
+  ofType<A extends string>(...key: A[]): ActionsObservable<T>;
   ofType(...key: any[]): ActionsObservable<T>;
 }
 
