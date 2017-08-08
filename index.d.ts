@@ -28,12 +28,12 @@ export declare class ActionsObservable<T> extends Observable<T> {
   ofType(...key: any[]): ActionsObservable<T>;
 }
 
-export declare interface Epic<T, S> {
-  (action$: ActionsObservable<T>, store: MiddlewareAPI<S>): Observable<T>;
+export declare interface Epic<T, S, D = any> {
+  (action$: ActionsObservable<T>, store: MiddlewareAPI<S>, dependencies: D): Observable<T>;
 }
 
-export interface EpicMiddleware<T, S> extends Middleware {
-  replaceEpic(nextEpic: Epic<T, S>): void;
+export interface EpicMiddleware<T, S, D = any> extends Middleware {
+  replaceEpic(nextEpic: Epic<T, S, D>): void;
 }
 
 interface Adapter {
@@ -41,12 +41,12 @@ interface Adapter {
   output: (output$: any) => Observable<any>;
 }
 
-interface Options {
+interface Options<D = any> {
   adapter?: Adapter;
-  dependencies?: { [key: string]: any } | any;
+  dependencies?: D;
 }
 
-export declare function createEpicMiddleware<T, S>(rootEpic: Epic<T, S>, options?: Options): EpicMiddleware<T, S>;
+export declare function createEpicMiddleware<T, S, D = any>(rootEpic: Epic<T, S, D>, options?: Options<D>): EpicMiddleware<T, S, D>;
 
-export declare function combineEpics<T, S>(...epics: Epic<T, S>[]): Epic<T, S>;
+export declare function combineEpics<T, S, D = any>(...epics: Epic<T, S, D>[]): Epic<T, S, D>;
 export declare function combineEpics<E>(...epics: E[]): E;

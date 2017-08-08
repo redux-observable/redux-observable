@@ -22,6 +22,10 @@ interface FluxStandardAction {
   meta?: any
 }
 
+interface Dependencies {
+  func(value: string): string;
+}
+
 const epic1: Epic<FluxStandardAction, State> = (action$, store) =>
   action$.ofType('FIRST')
     .mapTo({
@@ -59,11 +63,22 @@ const epic6: Epic<FluxStandardAction, State> = (action$, store) =>
       payload
     }));
 
-const rootEpic1: Epic<FluxStandardAction, State> = combineEpics<FluxStandardAction, State>(epic1, epic2, epic3, epic4, epic5, epic6);
-const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6);
+const epic7: Epic<FluxStandardAction, State, Dependencies> = (action$, store, dependencies) =>
+  action$.ofType('SEVENTH')
+    .map(({ type, payload}) => ({
+      type: 'seventh',
+      payload: dependencies.func(payload)
+    }));
 
-const epicMiddleware1: EpicMiddleware<FluxStandardAction, State> = createEpicMiddleware<FluxStandardAction, State>(rootEpic1);
-const epicMiddleware2 = createEpicMiddleware(rootEpic2);
+const rootEpic1: Epic<FluxStandardAction, State> = combineEpics<FluxStandardAction, State>(epic1, epic2, epic3, epic4, epic5, epic6, epic7);
+const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6, epic7);
+
+const dependencies: Dependencies = {
+  func(value: string) { return `func-${value}`}
+}
+
+const epicMiddleware1: EpicMiddleware<FluxStandardAction, State> = createEpicMiddleware<FluxStandardAction, State>(rootEpic1, { dependencies });
+const epicMiddleware2 = createEpicMiddleware(rootEpic2, { dependencies });
 
 interface CustomEpic<T, S, U> {
   (action$: ActionsObservable<T>, store: MiddlewareAPI<S>, api: U): Observable<T>;
@@ -102,6 +117,7 @@ store.dispatch({ type: 'FIRST' });
 store.dispatch({ type: 'SECOND' });
 store.dispatch({ type: 'FIFTH', payload: 'fifth-payload' });
 store.dispatch({ type: 'SIXTH', payload: 'sixth-payload' });
+store.dispatch({ type: 'SEVENTH', payload: 'seventh-payload' });
 
 expect(store.getState()).to.deep.equal([
   { "type": "@@redux/INIT" },
@@ -138,7 +154,10 @@ expect(store.getState()).to.deep.equal([
   { "type": "fifth", "payload": "fifth-payload" },
   { "type": "SIXTH", "payload": "sixth-payload" },
   { "type": "sixth", "payload": "sixth-payload" },
-  { "type": "sixth", "payload": "sixth-payload" }
+  { "type": "sixth", "payload": "sixth-payload" },
+  { "type": "SEVENTH", "payload": "seventh-payload" },
+  { "type": "seventh", "payload": "func-seventh-payload" },
+  { "type": "seventh", "payload": "func-seventh-payload" }
 ]);
 
 const input$ = Observable.create(() => {});
