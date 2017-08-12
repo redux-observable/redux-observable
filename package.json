@@ -100,7 +100,7 @@
     "rxjs": "^5.0.0",
     "sinon": "^2.3.3",
     "typescript": "^2.1.4",
-    "webpack": "^2.2.1",
+    "webpack": "^3.5.4",
     "webpack-rxjs-externals": "~1.0.0"
   }
 }
