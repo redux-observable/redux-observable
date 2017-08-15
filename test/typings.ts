@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createStore, applyMiddleware, MiddlewareAPI } from 'redux';
+import { createStore, applyMiddleware, MiddlewareAPI, Action } from 'redux';
 import { Observable } from 'rxjs/Observable';
 import { ajax } from 'rxjs/observable/dom/ajax';
 import { asap } from 'rxjs/scheduler/asap';
@@ -80,7 +80,7 @@ const dependencies: Dependencies = {
 const epicMiddleware1: EpicMiddleware<FluxStandardAction, State> = createEpicMiddleware<FluxStandardAction, State>(rootEpic1, { dependencies });
 const epicMiddleware2 = createEpicMiddleware(rootEpic2, { dependencies });
 
-interface CustomEpic<T, S, U> {
+interface CustomEpic<T extends Action, S, U> {
   (action$: ActionsObservable<T>, store: MiddlewareAPI<S>, api: U): Observable<T>;
 }
 
