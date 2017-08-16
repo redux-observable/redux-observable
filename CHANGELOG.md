@@ -1,3 +1,13 @@
+<a name="0.16.0"></a>
+# [0.16.0](https://github.com/redux-observable/redux-observable/compare/v0.15.0...v0.16.0) (2017-08-16)
+
+
+### Bug Fixes
+
+* **types:** Constrain ActionsObservable type param ([#289](https://github.com/redux-observable/redux-observable/issues/289)) ([2144e7d](https://github.com/redux-observable/redux-observable/commit/2144e7d))
+
+
+
 <a name="0.15.0"></a>
 # [0.15.0](https://github.com/redux-observable/redux-observable/compare/v0.14.0...v0.15.0) (2017-08-08)
 
