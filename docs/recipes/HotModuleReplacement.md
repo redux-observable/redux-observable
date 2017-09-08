@@ -10,7 +10,7 @@ const epicMiddleware = createEpicMiddleware(rootEpic);
 
 if (module.hot) {
   module.hot.accept('./where-ever-they-are', () => {
-    const rootEpic = require('./where-ever-the-are').default;
+    const rootEpic = require('./where-ever-they-are').default;
     epicMiddleware.replaceEpic(rootEpic);
   });
 }
