@@ -95,6 +95,28 @@ class TooFancy {
 
 See https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions (Arrow functions used as methods)
 
+### It seems like the epics are not executing 
+
+You might be doing a `subscribe` in one of your epics: 
+
+```js
+const myEpic = action$ => { // performing side effect with .subscribe!
+  return action$.ofType(...)
+  .subscribe(item => console.log(item));
+};
+```
+
+This happens because subscribe doesn't return a promise itself. When you want to perform side effects based on actions, without the need to return an observable from your epic containing downstream actions, you can follow this pattern:
+
+```js
+const myEpic = action$ => {
+  return action$.ofType(...).map(...)
+  .do(item => console.log(item))
+  .ignoreElements();
+};
+```
+
+
 * * *
 
 ## Something else doesn’t work
