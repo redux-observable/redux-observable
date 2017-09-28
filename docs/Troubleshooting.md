@@ -1,7 +1,7 @@
 # Troubleshooting [![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 
-This is a place to share common problems and solutions to them.  
+This is a place to share common problems and solutions to them.
 
 > If your problem isn't yet listed here or you need other help, please use [Stack Overflow](http://stackoverflow.com/questions/tagged/redux-observable) first with the `redux-observable` tag. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
 >
@@ -95,32 +95,42 @@ class TooFancy {
 
 See https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions (Arrow functions used as methods)
 
-### It seems like the epics are not executing 
+### It seems like your epics are not responding to actions
 
-You might be doing a `subscribe` in one of your epics: 
+You might be returning the result of calling `subscribe` on an `Observable` from one of your epics.
 
 ```js
-const myEpic = action$ => { // performing side effect with .subscribe!
+const myEpic = action$ => {
   return action$.ofType(...)
+  // performing side effect with .subscribe!
   .subscribe(item => console.log(item));
 };
 ```
 
-This happens because subscribe doesn't return a promise itself. When you want to perform side effects based on actions, without the need to return an observable from your epic containing downstream actions, you can follow this pattern:
+The problem with this is that calling `subscribe` on an `Observable` does not return another `Observable`.
+All epics should return an `Observable`.
+
+If you want your epic to be "read-only", meaning you want it to perform side-effects
+without producing any downstream actions, you can use the following pattern.
+
+This approach returns an empty `Observable` from the epic.
 
 ```js
 const myEpic = action$ => {
-  return action$.ofType(...).map(...)
+  return action$.ofType(...)
+  .map(...)
   .do(item => console.log(item))
   .ignoreElements();
 };
 ```
 
 
+
+
 * * *
 
 ## Something else doesn’t work
 
-If you think your issue is a bug with redux-observable, [create an issue](https://github.com/redux-observable/redux-observable/issues);  
+If you think your issue is a bug with redux-observable, [create an issue](https://github.com/redux-observable/redux-observable/issues);
 
 If you figure it out, [edit this document](https://github.com/redux-observable/redux-observable/edit/master/docs/Troubleshooting.md) as a courtesy to the next person having the same problem.
