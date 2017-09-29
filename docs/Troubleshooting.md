@@ -109,11 +109,10 @@ const myEpic = action$ => {
 
 The problem with this is that calling `subscribe` on an `Observable` does not return another `Observable`.
 All epics should return an `Observable`.
+If you ran into this issue and want to learn more about it, read through this issue: https://github.com/redux-observable/redux-observable/issues/263.
 
 If you want your epic to be "read-only", meaning you want it to perform side-effects
 without producing any downstream actions, you can use the following pattern.
-
-This approach returns an empty `Observable` from the epic.
 
 ```js
 const myEpic = action$ => {
@@ -124,7 +123,7 @@ const myEpic = action$ => {
 };
 ```
 
-
+This approach esdsentially returns an empty `Observable` from the epic, which does not cause any downstream actions.
 
 
 * * *
