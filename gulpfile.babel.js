@@ -1,7 +1,7 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 
-gulp.task('build:es', () => {
+gulp.task('build:esm', () => {
   gulp.src('src/**/*.js')
     .pipe(babel({
       babelrc: false,
@@ -13,5 +13,5 @@ gulp.task('build:es', () => {
         'transform-object-rest-spread'
       ]
     }))
-    .pipe(gulp.dest('lib/es'));
+    .pipe(gulp.dest('lib/esm'));
 });
