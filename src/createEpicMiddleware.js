@@ -31,12 +31,20 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
   const epicMiddleware = _store => {
     store = _store;
 
+    const vault = (process.env.NODE_ENV === 'production') ? store : {
+      getState: store.getState,
+      dispatch: (action) => {
+        store.dispatch(action);
+        console.warn(`Your Epic "${epic.name || '<anonymous>'}" called store.dispatch directly. This is an anti-pattern.`);
+      }
+    };
+
     return next => {
       epic$
         ::map(epic => {
           const output$ = ('dependencies' in options)
-            ? epic(action$, store, options.dependencies)
-            : epic(action$, store);
+            ? epic(action$, vault, options.dependencies)
+            : epic(action$, vault);
 
           if (!output$) {
             throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
