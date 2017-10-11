@@ -11,6 +11,8 @@ import { of } from 'rxjs/observable/of';
 import { empty } from 'rxjs/observable/empty';
 import { mergeStatic } from 'rxjs/operator/merge';
 import { mapTo } from 'rxjs/operator/mapTo';
+import { map } from 'rxjs/operator/map';
+import { ignoreElements } from 'rxjs/operator/ignoreElements';
 
 describe('createEpicMiddleware', () => {
   it('should provide epics a stream of action$ in and the "lite" store', (done) => {
@@ -20,11 +22,28 @@ describe('createEpicMiddleware', () => {
     const mockMiddleware = store => next => action => {
       expect(epic.calledOnce).to.equal(true);
       expect(epic.firstCall.args[0]).to.be.instanceOf(ActionsObservable);
-      expect(epic.firstCall.args[1]).to.equal(store);
+      expect(epic.firstCall.args[1].getState).to.equal(store.getState);
       done();
     };
     const store = createStore(reducer, applyMiddleware(epicMiddleware, mockMiddleware));
     store.dispatch({ type: 'FIRST_ACTION_TO_TRIGGER_MIDDLEWARE' });
+  });
+
+  it('should warn about improper use of dispatch function', () => {
+    sinon.spy(console, 'warn');
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = (action$, store) => action$
+      .ofType('PING')
+      ::map(() => store.dispatch({ type: 'PONG' }))
+      ::ignoreElements();
+
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'PING' });
+
+    expect(console.warn.callCount).to.equal(1);
+    console.warn.restore();
   });
 
   it('should accept an epic that wires up action$ input to action$ out', () => {

@@ -13,8 +13,8 @@ const defaultOptions = {
   adapter: defaultAdapter
 };
 
-export function createEpicMiddleware(epic, options = defaultOptions) {
-  if (typeof epic !== 'function') {
+export function createEpicMiddleware(rootEpic, options = defaultOptions) {
+  if (typeof rootEpic !== 'function') {
     throw new TypeError('You must provide a root Epic to createEpicMiddleware');
   }
 
@@ -34,9 +34,17 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
     return next => {
       epic$
         ::map(epic => {
+          const vault = (process.env.NODE_ENV === 'production') ? store : {
+            getState: store.getState,
+            dispatch: (action) => {
+              console.warn(`Your Epic "${epic.name || '<anonymous>'}" called store.dispatch directly. This is an anti-pattern.`);
+              return store.dispatch(action);
+            }
+          };
+
           const output$ = ('dependencies' in options)
-            ? epic(action$, store, options.dependencies)
-            : epic(action$, store);
+            ? epic(action$, vault, options.dependencies)
+            : epic(action$, vault);
 
           if (!output$) {
             throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
@@ -48,7 +56,7 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
         .subscribe(store.dispatch);
 
       // Setup initial root epic
-      epic$.next(epic);
+      epic$.next(rootEpic);
 
       return action => {
         const result = next(action);
@@ -58,13 +66,13 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
     };
   };
 
-  epicMiddleware.replaceEpic = epic => {
+  epicMiddleware.replaceEpic = rootEpic => {
     // gives the previous root Epic a last chance
     // to do some clean up
     store.dispatch({ type: EPIC_END });
     // switches to the new root Epic, synchronously terminating
     // the previous one
-    epic$.next(epic);
+    epic$.next(rootEpic);
   };
 
   return epicMiddleware;
