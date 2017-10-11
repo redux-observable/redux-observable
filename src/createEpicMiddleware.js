@@ -31,17 +31,17 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
   const epicMiddleware = _store => {
     store = _store;
 
-    const vault = (process.env.NODE_ENV === 'production') ? store : {
-      getState: store.getState,
-      dispatch: (action) => {
-        store.dispatch(action);
-        console.warn(`Your Epic "${epic.name || '<anonymous>'}" called store.dispatch directly. This is an anti-pattern.`);
-      }
-    };
-
     return next => {
       epic$
         ::map(epic => {
+          const vault = (process.env.NODE_ENV === 'production') ? store : {
+            getState: store.getState,
+            dispatch: (action) => {
+              store.dispatch(action);
+              console.warn(`Your Epic "${epic.name || '<anonymous>'}" called store.dispatch directly. This is an anti-pattern.`);
+            }
+          };
+
           const output$ = ('dependencies' in options)
             ? epic(action$, vault, options.dependencies)
             : epic(action$, vault);
