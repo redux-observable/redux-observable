@@ -37,8 +37,8 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
           const vault = (process.env.NODE_ENV === 'production') ? store : {
             getState: store.getState,
             dispatch: (action) => {
-              store.dispatch(action);
               console.warn(`Your Epic "${epic.name || '<anonymous>'}" called store.dispatch directly. This is an anti-pattern.`);
+              return store.dispatch(action);
             }
           };
 
