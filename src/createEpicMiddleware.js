@@ -13,8 +13,8 @@ const defaultOptions = {
   adapter: defaultAdapter
 };
 
-export function createEpicMiddleware(epic, options = defaultOptions) {
-  if (typeof epic !== 'function') {
+export function createEpicMiddleware(rootEpic, options = defaultOptions) {
+  if (typeof rootEpic !== 'function') {
     throw new TypeError('You must provide a root Epic to createEpicMiddleware');
   }
 
@@ -56,7 +56,7 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
         .subscribe(store.dispatch);
 
       // Setup initial root epic
-      epic$.next(epic);
+      epic$.next(rootEpic);
 
       return action => {
         const result = next(action);
@@ -66,13 +66,13 @@ export function createEpicMiddleware(epic, options = defaultOptions) {
     };
   };
 
-  epicMiddleware.replaceEpic = epic => {
+  epicMiddleware.replaceEpic = rootEpic => {
     // gives the previous root Epic a last chance
     // to do some clean up
     store.dispatch({ type: EPIC_END });
     // switches to the new root Epic, synchronously terminating
     // the previous one
-    epic$.next(epic);
+    epic$.next(rootEpic);
   };
 
   return epicMiddleware;
