@@ -42,7 +42,8 @@ describe('createEpicMiddleware', () => {
 
     store.dispatch({ type: 'PING' });
 
-    expect(console.warn.called).to.equal(true);
+    expect(console.warn.callCount).to.equal(1);
+    console.warn.restore();
   });
 
   it('should accept an epic that wires up action$ input to action$ out', () => {
