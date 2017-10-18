@@ -31,6 +31,7 @@ Epics use RxJS v5 by default. You can use other stream libraries (other than RxJ
 
 * [RxJS v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4)
 * [most.js](https://github.com/redux-observable/redux-observable-adapter-most)
+* [xstream](https://github.com/vic/redux-observable-adapter-xstream)
 
 You can write your own adapter too:
 
