@@ -98,6 +98,20 @@ const pingEpic = action$ =>
     .mapTo({ type: 'PONG' });
 ```
 
+You can also use the `ofType()` operator directly as a [lettable operator](https://github.com/ReactiveX/rxjs/blob/master/doc/lettable-operators.md):
+
+```js
+import { ofType } from 'redux-observable';
+import { delay, mapTo } from 'rxjs/operators'; // rxjs v5.5+
+
+const pingEpic = action$ =>
+  action$.pipe(
+    ofType('PING'),
+    delay(1000), // Asynchronously wait 1000ms then continue
+    mapTo({ type: 'PONG' })
+  );
+```
+
 ***
 
 ### Try It Live!
