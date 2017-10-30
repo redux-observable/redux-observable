@@ -43,6 +43,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'PING' });
 
     expect(console.warn.callCount).to.equal(1);
+    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | DEPRECATION: calling store.dispatch() directly in your Epics is deprecated and will be removed. Instead, emit actions through the Observable your Epic returns.\n\n  https://goo.gl/WWNYSP');
     console.warn.restore();
   });
 

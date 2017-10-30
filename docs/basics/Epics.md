@@ -202,7 +202,7 @@ dispatch(incrementIfOdd());
 ```
 > REMEMBER: When an Epic receives an action, it has already been run through your reducers and the state updated.
 
-Using `store.dispatch()` inside your Epic is a handy escape hatch for quick hacks, but use it sparingly. It's considered an anti-pattern and we may remove it from future releases.
+Using `store.dispatch()` inside your Epic is an anti-pattern and will be removed in v1.0.0 of redux-observable so it's best not to use it.
 
 ***
 
