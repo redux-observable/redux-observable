@@ -14,6 +14,8 @@
 
 The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively; there has even been popular tutorials teaching it as how you use redux-observable. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS.
 
+#### Before
+
 ```js
 const somethingEpic = (action$, store) =>
   action$.ofType(SOMETHING)
@@ -23,6 +25,8 @@ const somethingEpic = (action$, store) =>
         .map(response => ({ type: SUCCESS, response }))
     );
 ```
+
+#### After
 
 ```js
 const somethingEpic = action$ =>
