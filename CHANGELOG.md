@@ -1,3 +1,48 @@
+<a name="0.17.0"></a>
+# [0.17.0](https://github.com/redux-observable/redux-observable/compare/v0.16.0...v0.17.0) (2017-10-31)
+
+
+### Bug Fixes
+
+* **ofType:** don't depend on letProto as it has issues in UMD builds ([150c1d5](https://github.com/redux-observable/redux-observable/commit/150c1d5))
+* **types:** Add type for EPIC_END action type ([#272](https://github.com/redux-observable/redux-observable/issues/272)) ([5e98f2e](https://github.com/redux-observable/redux-observable/commit/5e98f2e)), closes [#271](https://github.com/redux-observable/redux-observable/issues/271)
+
+
+### Features
+
+* **epics:** calling `store.dispatch()` directly inside your epics is now deprecated and will be removed in v1.0.0 ([#346](https://github.com/redux-observable/redux-observable/issues/346)) ([a1ba6a2](https://github.com/redux-observable/redux-observable/commit/a1ba6a2, [#336](https://github.com/redux-observable/redux-observable/issues/336)) ([76ecd33](https://github.com/redux-observable/redux-observable/commit/76ecd33))
+
+The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively; there has even been popular tutorials teaching it as how you use redux-observable. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS.
+
+```js
+const somethingEpic = (action$, store) =>
+  action$.ofType(SOMETHING)
+    .switchMap(() =>
+      ajax('/something')
+        .do(() => store.dispatch({ type: SOMETHING_ELSE }))
+        .map(response => ({ type: SUCCESS, response }))
+    );
+```
+
+```js
+const somethingEpic = action$ =>
+  action$.ofType(SOMETHING)
+    .switchMap(() =>
+      ajax('/something')
+        .mergeMap(response => Observable.of(
+          { type: SOMETHING_ELSE },
+          { type: SUCCESS, response }
+        ))
+    );
+```
+
+`store.dispatch` will be removed from Epics in v1.0.0 of redux-observable. This is unrelated to usage of `store.dispatch` inside your UI components--you will continue to use it there
+
+* **ofType:** Better support for redux-actions ([#348](https://github.com/redux-observable/redux-observable/issues/348)) ([c4d0ccf](https://github.com/redux-observable/redux-observable/commit/c4d0ccf))
+* **ofType:** expose ofType as lettable operator ([#343](https://github.com/redux-observable/redux-observable/issues/343)) ([fb4a5af](https://github.com/redux-observable/redux-observable/commit/fb4a5af)), closes [#186](https://github.com/redux-observable/redux-observable/issues/186)
+
+
+
 <a name="0.16.0"></a>
 # [0.16.0](https://github.com/redux-observable/redux-observable/compare/v0.15.0...v0.16.0) (2017-08-16)
 
