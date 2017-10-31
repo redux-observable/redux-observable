@@ -5,6 +5,7 @@ if [[ -z $(git status -uno --porcelain) ]]; then
   read -p "Enter the new version number: (currently ${VERSION}) " BUMP;
   VERSION="$(npm version $BUMP --no-git-tag-version)";
   conventional-changelog -p angular -i CHANGELOG.md -s;
+  vi CHANGELOG.md;
   git diff package.json CHANGELOG.md;
   read -p "Look good? (y/n) " CONDITION;
   if [ "$CONDITION" == "y" ]; then
