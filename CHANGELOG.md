@@ -10,7 +10,7 @@
 
 ### Features
 
-* **epics:** calling `store.dispatch()` directly inside your epics is now deprecated and will be removed in v1.0.0 ([#346](https://github.com/redux-observable/redux-observable/issues/346)) ([a1ba6a2](https://github.com/redux-observable/redux-observable/commit/a1ba6a2, [#336](https://github.com/redux-observable/redux-observable/issues/336)) ([76ecd33](https://github.com/redux-observable/redux-observable/commit/76ecd33))
+* **epics:** calling `store.dispatch()` directly inside your epics is now deprecated and will be removed in v1.0.0 ([#346](https://github.com/redux-observable/redux-observable/issues/346) [a1ba6a2](https://github.com/redux-observable/redux-observable/commit/a1ba6a2), [#336](https://github.com/redux-observable/redux-observable/issues/336) [76ecd33](https://github.com/redux-observable/redux-observable/commit/76ecd33))
 
 The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively; there has even been popular tutorials teaching it as how you use redux-observable. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS.
 
