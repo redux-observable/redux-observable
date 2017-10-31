@@ -37,7 +37,7 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
           const vault = (process.env.NODE_ENV === 'production') ? store : {
             getState: store.getState,
             dispatch: (action) => {
-              console.warn(`Your Epic "${epic.name || '<anonymous>'}" called store.dispatch directly. This is an anti-pattern.`);
+              require('./utils/console').deprecate('calling store.dispatch() directly in your Epics is deprecated and will be removed. Instead, emit actions through the Observable your Epic returns.\n\n  https://goo.gl/WWNYSP');
               return store.dispatch(action);
             }
           };
