@@ -1,7 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { from } from 'rxjs/observable/from';
-import { letProto } from 'rxjs/operator/let';
 import { ofType } from './operators';
 
 export class ActionsObservable extends Observable {
@@ -25,6 +24,6 @@ export class ActionsObservable extends Observable {
   }
 
   ofType(...keys) {
-    return this::letProto(ofType(...keys));
+    return ofType(...keys)(this);
   }
 }
