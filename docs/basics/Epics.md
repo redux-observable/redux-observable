@@ -98,6 +98,9 @@ const pingEpic = action$ =>
     .mapTo({ type: 'PONG' });
 ```
 
+> Need to match against multiple action types? No problem! `ofType` accepts any number of arguments!
+> `action$.ofType(FIRST, SECOND, THIRD) // FIRST or SECOND or THIRD`
+
 You can also use the `ofType()` operator directly as a [lettable operator](https://github.com/ReactiveX/rxjs/blob/master/doc/lettable-operators.md):
 
 ```js
