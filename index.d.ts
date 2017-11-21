@@ -1,5 +1,6 @@
 import { Middleware, MiddlewareAPI, Action } from 'redux';
-import { Observable, ObservableInput } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
+import { ObservableInput } from 'rxjs/Observable';
 import { Scheduler } from 'rxjs/Scheduler';
 import { Operator } from 'rxjs/Operator';
 
