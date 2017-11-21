@@ -54,14 +54,14 @@ We publish a UMD build inside our npm package. You can use it via the [unpkg](ht
 
 [![Watch a video on redux-observable](http://img.youtube.com/vi/AslncyG8whg/0.jpg)](https://www.youtube.com/watch?v=AslncyG8whg)
 
-## JSBin Examples
+## Online Live Examples
 
-To see redux-observable in action, here's a very simple JSBin to play around with:
+To see redux-observable in action, here's a very simple example to play around with:
 
 * [Using Raw HTML APIs](http://jsbin.com/birogu/edit?js,output)
 * [Using React](http://jsbin.com/jexomi/edit?js,output)
 * [Using Angular v1](http://jsbin.com/laviti/edit?js,output)
-* Using Angular v2 (TODO)
+* [Using Angular v2+](https://stackblitz.com/edit/angular-5o3zyo?file=app%2Fapp.component.ts)
 * [Using Ember](https://ember-twiddle.com/093ee4aa271123a84f4eb21f3670b655)
 
 ## Documentation
