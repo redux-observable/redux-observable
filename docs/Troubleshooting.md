@@ -123,7 +123,7 @@ const myEpic = action$ => {
 };
 ```
 
-This approach esdsentially returns an empty `Observable` from the epic, which does not cause any downstream actions.
+This approach essentially returns an empty `Observable` from the epic, which does not cause any downstream actions.
 
 
 * * *
