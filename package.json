@@ -63,8 +63,8 @@
   },
   "homepage": "https://github.com/redux-observable/redux-observable#README.md",
   "peerDependencies": {
-    "redux": "3.*",
-    "rxjs": "^5.0.0"
+    "redux": ">=3 <4",
+    "rxjs": ">=5 <6"
   },
   "devDependencies": {
     "@types/chai": "^3.4.34",
