@@ -26,7 +26,7 @@ export declare class ActionsObservable<T extends Action> extends Observable<T> {
   lift<R extends Action>(operator: Operator<T, R>): ActionsObservable<R>;
   lift<R>(operator: Operator<T, R>): Observable<R>;
   ofType(...key: T['type'][]): ActionsObservable<T>;
-  ofType<R extends Action = T>(...key: T['type'][]): ActionsObservable<R>;
+  ofType<R extends Action = T>(...key: R['type'][]): ActionsObservable<R>;
 }
 
 export declare interface Epic<T extends Action, S, D = any> {
