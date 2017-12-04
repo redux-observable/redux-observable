@@ -70,7 +70,31 @@ describe('createEpicMiddleware', () => {
     ]);
   });
 
-  it('should throw if you don\'t provide a rootEpic', () => {
+  it('should console error when reducer throw exception', () => {
+    sinon.spy(console, 'error');
+
+    const reducer = (state = [], action) => {
+      switch (action.type) {
+        case 'ACTION_1':
+          throw new Error();
+        default:
+          return state;
+      }
+    };
+    const epic = (action$, store) =>
+      mergeStatic(
+        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
+        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' })
+      );
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'FIRE_1' });
+    expect(console.error.callCount).to.equal(1);
+    console.error.restore();
+  });
+
+  it("should throw if you don't provide a rootEpic", () => {
     expect(() => {
       createEpicMiddleware();
     }).to.throw('You must provide a root Epic to createEpicMiddleware');
