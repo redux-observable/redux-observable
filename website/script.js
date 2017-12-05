@@ -2,6 +2,8 @@ window.gitbook = window.gitbook || [];
 
 gitbook.push(function () {
   gitbook.events.on('page.change', function () {
+    gtag('event', 'page_view', { 'send_to': 'UA-110740387-1' });
+
     // We use a slightly different styling so that
     // the normal window scrollbar is used, so we need
     // to reset the scroll position every time.
@@ -24,15 +26,23 @@ gitbook.push(function () {
   room: 'redux-observable/redux-observable'
 };
 
-// Quantcast Analytics
-window._qevents = window._qevents || [];
-
 (function () {
-  var script = document.createElement('script');
-  script.src = (document.location.protocol == 'https:' ? 'https://secure' : 'http://edge') + '.quantserve.com/quant.js';
-  script.async = true;
-  script.type = 'text/javascript';
-  document.body.appendChild(script);
+  function loadScript(url) {
+    var script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    script.type = 'text/javascript';
+    document.body.appendChild(script);
+  }
+
+  loadScript('https://www.googletagmanager.com/gtag/js?id=UA-110740387-1');
+  loadScript('https://sidecar.gitter.im/dist/sidecar.v1.js');
 })();
 
-_qevents.push({ qacct:'p-gm1A_eU4dRuUY' });
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  dataLayer.push(arguments);
+}
+gtag('js', new Date());
+
+gtag('config', 'UA-110740387-1');
