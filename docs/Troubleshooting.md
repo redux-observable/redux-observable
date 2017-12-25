@@ -125,6 +125,73 @@ const myEpic = action$ => {
 
 This approach essentially returns an empty `Observable` from the epic, which does not cause any downstream actions.
 
+### Typescript: ofType operator won't narrow to proper Observable type
+
+Let's say you have following action types + action creator types:
+
+```ts
+import { Action } from 'redux'
+
+const enum ActionTypes {
+  One = 'ACTION_ONE',
+  Two = 'ACTION_TWO',
+}
+const doOne = (myStr: string): One => ({type: ActionTypes.One, myStr})
+const doTwo = (myBool: boolean): Two => ({type: ActionTypes.Two, myBool})
+
+interface One extends Action {
+  type: ActionTypes.One
+  myStr: string
+}
+interface Two extends Action {
+  type: ActionTypes.Two
+  myBool: boolean
+}
+type Actions = One | Two
+```
+
+When you're using `.ofType` operator for filtering, returned observable won't be correctly narrowed within Type System, because its not capable of doing so yet ( TS 2.6.2 ).
+
+To fix this, you need to explicitly set the generic type, so Typescript understands your intent, and narrows your action stream correctly:
+
+```ts
+// This will let action be `Actions` type, which is wrong
+const epic = (action$: ActionsObservable<Actions>) =>
+  action$
+    .ofType(ActionTypes.One)
+    // action is still type Actions instead of One
+    .map((action) => {...})
+
+// Explicitly set generics fixes the issue
+const epic = (action$: ActionsObservable<Actions>) =>
+  action$
+    .ofType<One>(ActionTypes.One)
+    // action is correctly narrowed to One
+    .map((action) => {...})
+```
+
+Similar issue exists when lettable operators are used ( Rx >=5.5  ).
+
+Again fix is similar by provide explicitly generics
+> this time you need to provide both while epic stream + narrowed type
+
+```ts
+// With lettable operator, ofType won't narrow correctly
+const epic = (action$: ActionsObservable<Actions>) =>
+  action$.pipe(
+    ofType(ActionTypes.One),
+    // action is still type Actions instead of One
+    map((action) => {...})
+  )
+
+// Explicitly set generics fixes the issue
+const epic = (action$: ActionsObservable<Actions>) =>
+  action$.pipe(
+    ofType<Actions,One>(ActionTypes.One),
+    // action is correctly narrowed to One
+    map((action) => {...})
+  )
+```
 
 * * *
 
