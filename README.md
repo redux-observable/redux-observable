@@ -15,6 +15,19 @@
 
 [https://redux-observable-cn.js.org](https://redux-observable-cn.js.org) 中文版(非官方)
 
+# Supporting redux-observable
+
+redux-observable is an independent project with ongoing development and support made possible thanks to donations made by [these awesome backers](https://github.com/vuejs/vue/blob/dev/BACKERS.md). If you'd like to join them, please consider:
+
+- [Become a backer or sponsor on Patreon](https://www.patreon.com/jayphelps).
+- [One-time donation via PayPal](https://www.paypal.me/jayphelps)
+
+<a href="https://www.patreon.com/bePatron?u=901455" alt="Become a Patron"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" /></a>
+
+# Sponsors
+
+> No Platinum, Gold, or Silver sponsors yet. [Become one and your name or logo will be here!](https://www.patreon.com/jayphelps)
+
 ## Install
 
 This has peer dependencies of `rxjs@5.x.x` and `redux`, which will have to be installed as well.
