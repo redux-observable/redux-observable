@@ -17,7 +17,7 @@
 
 # Supporting redux-observable
 
-redux-observable is an independent project with ongoing development and support made possible thanks to donations made by [these awesome backers](BACKERS.md). If you'd like to join them, please consider:
+redux-observable is an independent project with ongoing development and support made possible thanks to donations made by [these awesome backers](BACKERS.md#sponsors). If you'd like to join them, please consider:
 
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/jayphelps).
 - [One-time donation via PayPal](https://www.paypal.me/jayphelps)
