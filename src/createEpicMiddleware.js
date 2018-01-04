@@ -10,7 +10,23 @@ const defaultAdapter = {
 };
 
 const defaultOptions = {
-  adapter: defaultAdapter
+  adapter: defaultAdapter,
+  onError: e => {
+    if (typeof setTimeout === 'function') {
+      setTimeout(() => {
+        // Some versions of RxJS have a bug which causes exceptions thrown inside
+        // a subscribe() to be silently swallowed. So to work around that we always
+        // just rethrow them async https://github.com/ReactiveX/rxjs/issues/2813
+        // Usually exceptions from one of your reducers are what reach here.
+        // If you want to disable it you can override the error
+        // handler option `onError` to rethrow the error synchronously:
+        // createEpicMiddleware(rootEpic, { onError: e => { throw e; } })
+        throw e;
+      });
+    } else {
+      throw e;
+    }
+  }
 };
 
 export function createEpicMiddleware(rootEpic, options = defaultOptions) {
@@ -57,7 +73,7 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
           try {
             store.dispatch(action);
           } catch (err) {
-            console.error(err);
+            options.onError(err);
           }
         });
 

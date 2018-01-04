@@ -70,28 +70,49 @@ describe('createEpicMiddleware', () => {
     ]);
   });
 
-  it('should console error when reducer throw exception', () => {
-    sinon.spy(console, 'error');
+  it('should rethrow error asynchronously when a reducer throws an exception', () => {
+    const clock = sinon.useFakeTimers();
 
     const reducer = (state = [], action) => {
       switch (action.type) {
         case 'ACTION_1':
-          throw new Error();
+          throw new Error('foobar');
         default:
           return state;
       }
     };
     const epic = (action$, store) =>
-      mergeStatic(
-        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
-        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' })
-      );
+      action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' });
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
 
     store.dispatch({ type: 'FIRE_1' });
-    expect(console.error.callCount).to.equal(1);
-    console.error.restore();
+
+    expect(() => clock.tick(0)).to.throw('foobar');
+
+    clock.restore();
+  });
+
+  it('should rethrow error synchronously when a reducer throws an exception and there is no setTimeout', () => {
+    const setTimeout = global.setTimeout;
+    delete global.setTimeout;
+
+    const reducer = (state = [], action) => {
+      switch (action.type) {
+        case 'ACTION_1':
+          throw new Error('foobar');
+        default:
+          return state;
+      }
+    };
+    const epic = (action$, store) =>
+      action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' });
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    expect(() => store.dispatch({ type: 'FIRE_1' })).to.throw('foobar');
+
+    global.setTimeout = setTimeout;
   });
 
   it("should throw if you don't provide a rootEpic", () => {
