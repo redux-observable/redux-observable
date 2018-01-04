@@ -17,7 +17,7 @@
 
 # Supporting redux-observable
 
-redux-observable is an independent project with ongoing development and support made possible thanks to donations made by [these awesome backers](https://github.com/vuejs/vue/blob/dev/BACKERS.md). If you'd like to join them, please consider:
+redux-observable is an independent project with ongoing development and support made possible thanks to donations made by [these awesome backers](BACKERS.md). If you'd like to join them, please consider:
 
 - [Become a backer or sponsor on Patreon](https://www.patreon.com/jayphelps).
 - [One-time donation via PayPal](https://www.paypal.me/jayphelps)
@@ -26,7 +26,7 @@ redux-observable is an independent project with ongoing development and support 
 
 # Sponsors
 
-> No Platinum, Gold, or Silver sponsors yet. [Become one and your name or logo will be here!](https://www.patreon.com/jayphelps)
+> No Platinum, Gold, or Silver sponsors yet. [Become one and your name or logo will be here!](https://www.patreon.com/jayphelps) Help keep Open Source sustainable.
 
 ## Install
 
