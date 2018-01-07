@@ -26,7 +26,11 @@ redux-observable is an independent project with ongoing development and support 
 
 # Sponsors
 
-> No Platinum, Gold, or Silver sponsors yet. [Become one and your name or logo will be here!](https://www.patreon.com/jayphelps) Help keep Open Source sustainable.
+> No Platinum or Gold sponsors yet. [Become one and your name or logo will be here!](https://www.patreon.com/jayphelps) Help keep Open Source sustainable.
+
+## Silver Sponsors ($100+)
+
+- <span style="font-size: 23px; font-weight: bold;">[Kyle Kelley](https://twitter.com/rgbkrk)</span>
 
 ## Install
 
