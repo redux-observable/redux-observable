@@ -25,16 +25,15 @@ export declare class ActionsObservable<T extends Action> extends Observable<T> {
   constructor(input$: Observable<T>);
   lift<R extends Action>(operator: Operator<T, R>): ActionsObservable<R>;
   lift<R>(operator: Operator<T, R>): Observable<R>;
-  ofType(...key: T['type'][]): ActionsObservable<T>;
-  ofType<R extends Action = T>(...key: R['type'][]): ActionsObservable<R>;
+  ofType<R extends T = T>(...key: R['type'][]): ActionsObservable<R>;
 }
 
-export declare interface Epic<T extends Action, S, D = any> {
-  (action$: ActionsObservable<T>, store: MiddlewareAPI<S>, dependencies: D): Observable<T>;
+export declare interface Epic<T extends Action, S, D = any, O extends T = T> {
+  (action$: ActionsObservable<T>, store: MiddlewareAPI<S>, dependencies: D): Observable<O>;
 }
 
-export interface EpicMiddleware<T extends Action, S, D = any> extends Middleware {
-  replaceEpic(nextEpic: Epic<T, S, D>): void;
+export interface EpicMiddleware<T extends Action, S, D = any, O extends T = T> extends Middleware {
+  replaceEpic(nextEpic: Epic<T, S, D, O>): void;
 }
 
 interface Adapter {
@@ -47,11 +46,11 @@ interface Options<D = any> {
   dependencies?: D;
 }
 
-export declare function createEpicMiddleware<T extends Action, S, D = any>(rootEpic: Epic<T, S, D>, options?: Options<D>): EpicMiddleware<T, S, D>;
+export declare function createEpicMiddleware<T extends Action, S, D = any, O extends T = T>(rootEpic: Epic<T, S, D, O>, options?: Options<D>): EpicMiddleware<T, S, D, O>;
 
-export declare function combineEpics<T extends Action, S, D = any>(...epics: Epic<T, S, D>[]): Epic<T, S, D>;
+export declare function combineEpics<T extends Action, S, D = any, O extends T = T>(...epics: Epic<T, S, D, O>[]): Epic<T, S, D, O>;
 export declare function combineEpics<E>(...epics: E[]): E;
 
-export declare function ofType<T extends Action>(...keys: T['type'][]): (source: Observable<T>) => Observable<T>;
+export declare function ofType<T extends Action, R extends T = T>(...keys: T['type'][]): (source: Observable<T>) => Observable<R>;
 
 export declare const EPIC_END: '@@redux-observable/EPIC_END';
