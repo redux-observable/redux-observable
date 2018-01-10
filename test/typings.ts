@@ -80,8 +80,33 @@ const epic8: Epic<FluxStandardAction, State, Dependencies> = (action$, store, de
       }))
     )
 
-const rootEpic1: Epic<FluxStandardAction, State> = combineEpics<FluxStandardAction, State>(epic1, epic2, epic3, epic4, epic5, epic6, epic7, epic8);
-const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6, epic7, epic8);
+interface Epic9_Input {
+  type: "NINTH",
+  payload: string,
+}
+interface Epic9_Output {
+  type: "ninth",
+  payload: string,
+}
+
+const epic9_1: Epic<FluxStandardAction, State, Dependencies, Epic9_Output> = (action$, store, dependencies) =>
+  action$.pipe(
+    ofType<FluxStandardAction, Epic9_Input>('NINTH'),
+    map(({ type, payload }) => ({
+      type: 'ninth' as 'ninth',
+      payload: dependencies.func("ninth-" + payload),
+    }))
+  );
+const epic9_2 = (action$: ActionsObservable<FluxStandardAction>, store: MiddlewareAPI<State>, dependencies: Dependencies) =>
+  action$.pipe(
+    ofType<FluxStandardAction, Epic9_Input>('NINTH'),
+    map(({ type, payload }) => ({
+      type: 'ninth',
+      payload: dependencies.func("ninth-" + payload),
+    } as Epic9_Output))
+  );
+const rootEpic1: Epic<FluxStandardAction, State> = combineEpics<FluxStandardAction, State>(epic1, epic2, epic3, epic4, epic5, epic6, epic7, epic8, epic9_1);
+const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6, epic7, epic8, epic9_2);
 
 const dependencies: Dependencies = {
   func(value: string) { return `func-${value}`}
@@ -129,6 +154,7 @@ store.dispatch({ type: 'FIFTH', payload: 'fifth-payload' });
 store.dispatch({ type: 'SIXTH', payload: 'sixth-payload' });
 store.dispatch({ type: 'SEVENTH', payload: 'seventh-payload' });
 store.dispatch({ type: 'EIGHTH', payload: 'eighth-payload' });
+store.dispatch({ type: 'NINTH', payload: 'ninth-payload' });
 
 expect(store.getState()).to.deep.equal([
   { "type": "@@redux/INIT" },
@@ -171,7 +197,10 @@ expect(store.getState()).to.deep.equal([
   { "type": "seventh", "payload": "func-seventh-payload" },
   { "type": "EIGHTH", "payload": "eighth-payload" },
   { "type": "eighth", "payload": "eighth-payload" },
-  { "type": "eighth", "payload": "eighth-payload" }
+  { "type": "eighth", "payload": "eighth-payload" },
+  { "type": "NINTH", "payload": "ninth-payload" },
+  { "type": "ninth", "payload": "func-ninth-ninth-payload" },
+  { "type": "ninth", "payload": "func-ninth-ninth-payload" },
 ]);
 
 const input$ = Observable.create(() => {});
