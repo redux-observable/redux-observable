@@ -1,17 +1,22 @@
 /* globals describe it */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { combineEpics, ActionsObservable } from '../';
-import { Subject } from 'rxjs/Subject';
-import { map } from 'rxjs/operator/map';
-import { toArray } from 'rxjs/operator/toArray';
+import { combineEpics, ActionsObservable, ofType } from '../';
+import { Subject } from 'rxjs';
+import { map, toArray } from 'rxjs/operators';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
     const epic1 = (actions, store) =>
-      actions.ofType('ACTION1')::map(action => ({ type: 'DELEGATED1', action, store }));
+      actions.pipe(
+        ofType('ACTION1'),
+        map(action => ({ type: 'DELEGATED1', action, store }))
+      );
     const epic2 = (actions, store) =>
-      actions.ofType('ACTION2')::map(action => ({ type: 'DELEGATED2', action, store }));
+      actions.pipe(
+        ofType('ACTION2'),
+        map(action => ({ type: 'DELEGATED2', action, store }))
+      );
 
     const epic = combineEpics(
       epic1,
@@ -44,7 +49,7 @@ describe('combineEpics', () => {
       epic2
     );
 
-    rootEpic(1, 2, 3, 4)::toArray().subscribe(values => {
+    rootEpic(1, 2, 3, 4).pipe(toArray()).subscribe(values => {
       expect(values).to.deep.equal(['first', 'second']);
 
       expect(epic1.callCount).to.equal(1);

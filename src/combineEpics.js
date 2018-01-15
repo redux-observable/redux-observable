@@ -1,4 +1,4 @@
-import { merge } from 'rxjs/observable/merge';
+import { merge } from 'rxjs/create';
 
 /**
   Merges all epics into a single one.

@@ -1,6 +1,6 @@
 /* globals describe it */
 import { expect } from 'chai';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { ofType } from '../';
 
 describe('operators', () => {
