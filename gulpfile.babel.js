@@ -9,7 +9,6 @@ gulp.task('build:esm', () => {
         ['env', { modules: false }]
       ],
       plugins: [
-        'transform-function-bind',
         'transform-object-rest-spread'
       ]
     }))
