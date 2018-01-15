@@ -76,7 +76,6 @@
     "babel-eslint": "^7.0.0",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.11.5",
-    "babel-plugin-transform-function-bind": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-polyfill": "^6.13.0",
     "babel-preset-env": "^1.6.1",
