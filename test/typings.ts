@@ -1,13 +1,9 @@
 import { expect } from 'chai';
 import { createStore, applyMiddleware, MiddlewareAPI, Action } from 'redux';
-import { Observable } from 'rxjs/Observable';
-import { ajax } from 'rxjs/observable/dom/ajax';
-import { map } from 'rxjs/operators/map';
-import { asap } from 'rxjs/scheduler/asap';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/mapTo';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
+import { Observable, Scheduler } from 'rxjs';
+import { ajax } from 'rxjs/ajax';
+import { map, mapTo, mergeMap } from 'rxjs/operators';
+import { of } from "rxjs/create";
 
 import { createEpicMiddleware, Epic, combineEpics,
   EpicMiddleware, ActionsObservable, ofType } from '../';
@@ -28,57 +24,70 @@ interface Dependencies {
 }
 
 const epic1: Epic<FluxStandardAction, State> = (action$, store) =>
-  action$.ofType('FIRST')
-    .mapTo({
+  action$.pipe(
+    ofType('FIRST'),
+    mapTo({
       type: 'first',
       payload: store.getState()
-    });
+    })
+  );
 
 const epic2: Epic<FluxStandardAction, State> = (action$, store) =>
-  action$.ofType('SECOND', 'NEVER')
-    .mapTo('second')
-    .mergeMap(type => Observable.of({ type }));
+  action$.pipe(
+    ofType('SECOND', 'NEVER'),
+    mapTo('second'),
+    mergeMap(type => of({ type }))
+  );
 
 const epic3: Epic<FluxStandardAction, State> = action$ =>
-  action$.ofType('THIRD')
-    .mapTo({
+  action$.pipe(
+    ofType('THIRD'),
+    mapTo({
       type: 'third'
-    });
+    })
+  );
+
 
 const epic4: Epic<FluxStandardAction, State> = () =>
-  Observable.of({
+  of({
     type: 'fourth'
   });
 
 const epic5: Epic<FluxStandardAction, State> = (action$, store) =>
-  action$.ofType('FIFTH')
-    .mergeMap(({ type, payload }) => Observable.of({
+  action$.pipe(
+    ofType('FIFTH'),
+    mergeMap(({ type, payload }) => of({
       type: 'fifth',
       payload
-    }));
+    }))
+  );
 
 const epic6: Epic<FluxStandardAction, State> = (action$, store) =>
-  action$.ofType('SIXTH')
-    .map(({ type, payload }) => ({
+  action$.pipe(
+    ofType('SIXTH'),
+    map(({ type, payload }) => ({
       type: 'sixth',
       payload
-    }));
+    }))
+  );
 
 const epic7: Epic<FluxStandardAction, State, Dependencies> = (action$, store, dependencies) =>
-  action$.ofType('SEVENTH')
-    .map(({ type, payload}) => ({
+  action$.pipe(
+    ofType('SEVENTH'),
+    map(({ type, payload }) => ({
       type: 'seventh',
       payload: dependencies.func(payload)
-    }));
+    }))
+  );
 
 const epic8: Epic<FluxStandardAction, State, Dependencies> = (action$, store, dependencies) =>
-    action$.pipe(
-      ofType('EIGHTH'),
-      map(({ type, payload }) => ({
-        type: 'eighth',
-        payload
-      }))
-    )
+  action$.pipe(
+    ofType('EIGHTH'),
+    map(({ type, payload }) => ({
+      type: 'eighth',
+      payload
+    }))
+  );
 
 interface Epic9_Input {
   type: "NINTH",
@@ -110,7 +119,7 @@ const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6, epic7, 
 
 const dependencies: Dependencies = {
   func(value: string) { return `func-${value}`}
-}
+};
 
 const epicMiddleware1: EpicMiddleware<FluxStandardAction, State> = createEpicMiddleware<FluxStandardAction, State>(rootEpic1, { dependencies });
 const epicMiddleware2 = createEpicMiddleware(rootEpic2, { dependencies });
@@ -120,18 +129,22 @@ interface CustomEpic<T extends Action, S, U> {
 }
 
 const customEpic: CustomEpic<FluxStandardAction, State, number> = (action$, store, some) =>
-  action$.ofType('CUSTOM1')
-    .map(({ type, payload }) => ({
+  action$.pipe(
+    ofType('CUSTOM1'),
+    map(({ type, payload }) => ({
       type: 'custom1',
       payload
-    }));
+    }))
+  );
 
 const customEpic2: CustomEpic<FluxStandardAction, State, number> = (action$, store, some) =>
-  action$.ofType('CUSTOM2')
-    .map(({ type, payload }) => ({
+  action$.pipe(
+    ofType('CUSTOM2'),
+    map(({ type, payload }) => ({
       type: 'custom2',
       payload
-    }));
+    }))
+  );
 
 const customEpicMiddleware: EpicMiddleware<FluxStandardAction, State> = createEpicMiddleware<FluxStandardAction, State>(rootEpic1, {
   dependencies: { getJSON: ajax.getJSON }
@@ -146,7 +159,7 @@ const store = createStore(
 );
 
 epicMiddleware1.replaceEpic(rootEpic2);
-epicMiddleware2.replaceEpic(rootEpic1)
+epicMiddleware2.replaceEpic(rootEpic1);
 
 store.dispatch({ type: 'FIRST' });
 store.dispatch({ type: 'SECOND' });
@@ -205,8 +218,8 @@ expect(store.getState()).to.deep.equal([
 
 const input$ = Observable.create(() => {});
 const action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
-const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asap);
-const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asap);
+const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, Scheduler.asap);
+const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], Scheduler.asap);
 
 {
   // proper type narrowing

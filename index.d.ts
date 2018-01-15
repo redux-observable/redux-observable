@@ -1,7 +1,7 @@
 import { Middleware, MiddlewareAPI, Action } from 'redux';
-import { Observable, ObservableInput } from 'rxjs/Observable';
-import { Scheduler } from 'rxjs/Scheduler';
-import { Operator } from 'rxjs/Operator';
+import { Observable, Operator } from 'rxjs';
+import { Scheduler } from "rxjs/internal/Scheduler";
+import { ObservableInput } from "rxjs/internal/Observable";
 
 export declare class ActionsObservable<T extends Action> extends Observable<T> {
   /**

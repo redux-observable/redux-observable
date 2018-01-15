@@ -3,16 +3,9 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware, combineEpics, ActionsObservable, EPIC_END } from '../';
-// We need to import the operators separately and not add them to the Observable
-// prototype, otherwise we might accidentally cover-up that the source we're
-// testing uses an operator that it does not import!
-import { of } from 'rxjs/observable/of';
-import { empty } from 'rxjs/observable/empty';
-import { mergeStatic } from 'rxjs/operator/merge';
-import { mapTo } from 'rxjs/operator/mapTo';
-import { map } from 'rxjs/operator/map';
-import { ignoreElements } from 'rxjs/operator/ignoreElements';
+import { createEpicMiddleware, combineEpics, ActionsObservable, EPIC_END, ofType } from '../';
+import { of, empty, merge } from 'rxjs/create';
+import { mapTo, map, ignoreElements } from 'rxjs/operators';
 
 describe('createEpicMiddleware', () => {
   it('should provide epics a stream of action$ in and the "lite" store', (done) => {
@@ -48,10 +41,11 @@ describe('createEpicMiddleware', () => {
   it('should warn about improper use of dispatch function', () => {
     sinon.spy(console, 'warn');
     const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, store) => action$
-      .ofType('PING')
-      ::map(() => store.dispatch({ type: 'PONG' }))
-      ::ignoreElements();
+    const epic = (action$, store) => action$.pipe(
+      ofType('PING'),
+      map(() => store.dispatch({ type: 'PONG' })),
+      ignoreElements()
+    );
 
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
@@ -66,9 +60,15 @@ describe('createEpicMiddleware', () => {
   it('should accept an epic that wires up action$ input to action$ out', () => {
     const reducer = (state = [], action) => state.concat(action);
     const epic = (action$, store) =>
-      mergeStatic(
-        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
-        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' })
+      merge(
+        action$.pipe(
+          ofType('FIRE_1'),
+          mapTo({ type: 'ACTION_1' })
+        ),
+        action$.pipe(
+          ofType('FIRE_2'),
+          mapTo({ type: 'ACTION_2' })
+        )
       );
 
     const middleware = createEpicMiddleware(epic);
@@ -98,9 +98,15 @@ describe('createEpicMiddleware', () => {
       }
     };
     const epic = (action$, store) =>
-      mergeStatic(
-        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
-        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' })
+      merge(
+        action$.pipe(
+          ofType('FIRE_1'),
+          mapTo({ type: 'ACTION_1' })
+        ),
+        action$.pipe(
+          ofType('FIRE_2'),
+          mapTo({ type: 'ACTION_2' })
+        )
       );
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
@@ -132,19 +138,40 @@ describe('createEpicMiddleware', () => {
   it('should allow you to replace the root epic with middleware.replaceEpic(epic)', () => {
     const reducer = (state = [], action) => state.concat(action);
     const epic1 = action$ =>
-      mergeStatic(
+      merge(
         of({ type: 'EPIC_1' }),
-        action$.ofType('FIRE_1')::mapTo({ type: 'ACTION_1' }),
-        action$.ofType('FIRE_2')::mapTo({ type: 'ACTION_2' }),
-        action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_1_GENERIC' }),
-        action$.ofType(EPIC_END)::mapTo({ type: 'CLEAN_UP_AISLE_3' })
+        action$.pipe(
+          ofType('FIRE_1'),
+          mapTo({ type: 'ACTION_1' })
+        ),
+        action$.pipe(
+          ofType('FIRE_2'),
+          mapTo({ type: 'ACTION_2' })
+        ),
+        action$.pipe(
+          ofType('FIRE_GENERIC'),
+          mapTo({ type: 'EPIC_1_GENERIC' })
+        ),
+        action$.pipe(
+          ofType(EPIC_END),
+          mapTo({ type: 'CLEAN_UP_AISLE_3' })
+        )
       );
     const epic2 = action$ =>
-      mergeStatic(
+      merge(
         of({ type: 'EPIC_2' }),
-        action$.ofType('FIRE_3')::mapTo({ type: 'ACTION_3' }),
-        action$.ofType('FIRE_4')::mapTo({ type: 'ACTION_4' }),
-        action$.ofType('FIRE_GENERIC')::mapTo({ type: 'EPIC_2_GENERIC' })
+        action$.pipe(
+          ofType('FIRE_3'),
+          mapTo({ type: 'ACTION_3' })
+        ),
+        action$.pipe(
+          ofType('FIRE_4'),
+          mapTo({ type: 'ACTION_4' })
+        ),
+        action$.pipe(
+          ofType('FIRE_GENERIC'),
+          mapTo({ type: 'EPIC_2_GENERIC' })
+        )
       );
 
     const middleware = createEpicMiddleware(epic1);

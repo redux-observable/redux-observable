@@ -1,7 +1,7 @@
 /* globals describe it */
 import { expect } from 'chai';
 import { ActionsObservable } from '../';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 
 describe('ActionsObservable', () => {
   it('should exist', () => {

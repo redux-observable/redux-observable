@@ -1,6 +1,5 @@
-import { Subject } from 'rxjs/Subject';
-import { map } from 'rxjs/operator/map';
-import { switchMap } from 'rxjs/operator/switchMap';
+import { Subject } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
 import { EPIC_END } from './EPIC_END';
 
@@ -36,8 +35,8 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
     store = _store;
 
     return next => {
-      epic$
-        ::map(epic => {
+      epic$.pipe(
+        map(epic => {
           const vault = (process.env.NODE_ENV === 'production') ? store : {
             getState: store.getState,
             dispatch: (action) => {
@@ -55,8 +54,8 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
           }
 
           return output$;
-        })
-        ::switchMap(output$ => options.adapter.output(output$))
+        }),
+        switchMap(output$ => options.adapter.output(output$)))
         .subscribe(action => {
           try {
             store.dispatch(action);
