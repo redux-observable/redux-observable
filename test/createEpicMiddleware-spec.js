@@ -127,12 +127,15 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should throw if you provide a root epic that doesn\'t return anything', () => {
+    sinon.spy(console, 'error');
+
     const rootEpic = () => {};
     const epicMiddleware = createEpicMiddleware(rootEpic);
+    createStore(() => {}, applyMiddleware(epicMiddleware));
 
-    expect(() => {
-      createStore(() => {}, applyMiddleware(epicMiddleware));
-    }).to.throw('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
+    expect(console.error.callCount).to.equal(1);
+    expect(console.error.getCall(0).args[0]).to.equal('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
+    console.error.restore();
   });
 
   it('should allow you to replace the root epic with middleware.replaceEpic(epic)', () => {

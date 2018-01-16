@@ -62,6 +62,9 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
           } catch (err) {
             console.error(err);
           }
+        }, (err) => {
+          console.error(err.message);
+          throw err;
         });
 
       // Setup initial root epic
