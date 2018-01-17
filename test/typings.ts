@@ -208,4 +208,40 @@ const action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<Fl
 const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asap);
 const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asap);
 
+{
+  // proper type narrowing
+  const enum ActionTypes {
+    One = 'ACTION_ONE',
+    Two = 'ACTION_TWO',
+  }
+  const doOne = (myStr: string): One => ({type: ActionTypes.One, myStr})
+  const doTwo = (myBool: boolean): Two => ({type: ActionTypes.Two, myBool})
+
+  interface One extends Action {
+    type: ActionTypes.One
+    myStr: string
+  }
+  interface Two extends Action {
+    type: ActionTypes.Two
+    myBool: boolean
+  }
+  type Actions = One | Two
+
+  // Explicitly set generics fixes the issue
+const epic = (action$: ActionsObservable<Actions>) =>
+  action$
+    .ofType<One>(ActionTypes.One)
+    // action is correctly narrowed to One
+    .map((action) => { console.log(action.myStr) })
+
+// Explicitly set generics fixes the issue
+const epicLettable = (action$: ActionsObservable<Actions>) =>
+  action$.pipe(
+    ofType<Actions,One>(ActionTypes.One),
+    // action is correctly narrowed to One
+    map((action) => { console.log(action.myStr) })
+  );
+
+}
+
 console.log('typings.ts: OK');

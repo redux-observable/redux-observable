@@ -51,6 +51,6 @@ export declare function createEpicMiddleware<T extends Action, S, D = any, O ext
 export declare function combineEpics<T extends Action, S, D = any, O extends T = T>(...epics: Epic<T, S, D, O>[]): Epic<T, S, D, O>;
 export declare function combineEpics<E>(...epics: E[]): E;
 
-export declare function ofType<T extends Action, R extends T = T>(...keys: T['type'][]): (source: Observable<T>) => Observable<R>;
+export declare function ofType<T extends Action, R extends T = T, K extends R['type'] = R['type']>(...key: K[]): (source: Observable<T>) => Observable<R>;
 
 export declare const EPIC_END: '@@redux-observable/EPIC_END';
