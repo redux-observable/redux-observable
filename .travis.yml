@@ -1,9 +1,10 @@
 language: node_js
 node_js:
   - "stable"
-  - "lts"
+  - "lts/*"
 
 script: yarn test
 
 cache:
+  yarn: true
   directories: node_modules
