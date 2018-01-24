@@ -19,12 +19,14 @@ Thank you to everyone who has donated their time, money, and support!
 
 ## Generous Backers ($50+)
 
-- Matt Hargett
+- [Matt Hargett](https://twitter.com/syke)
 
 ## Backers ($10+)
 
-- Kevin Saldana
-- Adam Thomann
-- Daniel Dombrowsky
+- [名辰 洪](https://twitter.com/_JerryHong)
+- [Rakan Nimer](https://twitter.com/rakannimer)
+- [Kevin Saldana](https://twitter.com/kmsaldana1)
+- [Adam Thomann](https://twitter.com/adamthomann)
+- [Daniel Dombrowsky](https://twitter.com/crunchnode)
 
 :shipit:
