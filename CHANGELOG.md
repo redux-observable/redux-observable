@@ -1,3 +1,22 @@
+<a name="0.18.0"></a>
+# [0.18.0](https://github.com/redux-observable/redux-observable/compare/v0.17.0...v0.18.0) (2018-02-07)
+
+
+### Bug Fixes
+
+* **Reducer errors:** log exceptions thrown from `store.dispatch` inside the middleware  ([#379](https://github.com/redux-observable/redux-observable/issues/379)) ([56c1903](https://github.com/redux-observable/redux-observable/commit/56c1903)), closes [#263](https://github.com/redux-observable/redux-observable/issues/263)
+* **typings:** make lettable ofType correctly narrow action type ([#385](https://github.com/redux-observable/redux-observable/issues/385)) ([45d09a7](https://github.com/redux-observable/redux-observable/commit/45d09a7)), closes [#382](https://github.com/redux-observable/redux-observable/issues/382)
+* **typings:** More correct Epic and ofType type refinement for TypeScript users ([#392](https://github.com/redux-observable/redux-observable/issues/392)) ([#396](https://github.com/redux-observable/redux-observable/issues/396)) ([63b2acc](https://github.com/redux-observable/redux-observable/commit/63b2acc))
+* **typings:** More correct ofType type refinement ([#376](https://github.com/redux-observable/redux-observable/issues/376)) ([e850c93](https://github.com/redux-observable/redux-observable/commit/e850c93)), closes [#375](https://github.com/redux-observable/redux-observable/issues/375)
+
+
+### Features
+
+* **dependencies:** Loosen peerDependencies ([#359](https://github.com/redux-observable/redux-observable/issues/359)) ([3140ac2](https://github.com/redux-observable/redux-observable/commit/3140ac2)), closes [#358](https://github.com/redux-observable/redux-observable/issues/358)
+* **ofType:** `ofType()` TypeScript overload that permits narrowing the filtered actions type `action$.ofType<SomeNarrowAction>(someType);` ([#312](https://github.com/redux-observable/redux-observable/issues/312)) ([#370](https://github.com/redux-observable/redux-observable/issues/370)) ([5b62ac5](https://github.com/redux-observable/redux-observable/commit/5b62ac5))
+
+
+
 <a name="0.17.0"></a>
 # [0.17.0](https://github.com/redux-observable/redux-observable/compare/v0.16.0...v0.17.0) (2017-10-31)
 
