@@ -3,7 +3,7 @@ import { createStore, applyMiddleware, MiddlewareAPI, Action } from 'redux';
 import { Observable, Scheduler } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, mapTo, mergeMap } from 'rxjs/operators';
-import { of } from "rxjs/create";
+import { of } from 'rxjs/internal/observable/of';
 
 import { createEpicMiddleware, Epic, combineEpics,
   EpicMiddleware, ActionsObservable, ofType } from '../';

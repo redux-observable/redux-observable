@@ -97,7 +97,7 @@
     "mocha": "^3.0.1",
     "redux": "^3.5.2",
     "rimraf": "^2.5.4",
-    "rxjs": "^6.0.0-alpha.2",
+    "rxjs": "^6.0.0-alpha.3",
     "sinon": "^2.3.3",
     "typescript": "^2.1.4",
     "webpack": "^2.2.1",
