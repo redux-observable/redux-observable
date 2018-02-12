@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { combineEpics, ActionsObservable, ofType } from '../';
-import { Subject } from 'rxjs';
+import { Subject } from 'rxjs/index.js';
 import { map, toArray } from 'rxjs/operators';
 
 describe('combineEpics', () => {
