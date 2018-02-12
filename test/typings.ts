@@ -1,9 +1,8 @@
 import { expect } from 'chai';
 import { createStore, applyMiddleware, MiddlewareAPI, Action } from 'redux';
-import { Observable, Scheduler } from 'rxjs';
+import { Observable, asapScheduler, of } from 'rxjs/index.js';
 import { ajax } from 'rxjs/ajax';
 import { map, mapTo, mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs/internal/observable/of';
 
 import { createEpicMiddleware, Epic, combineEpics,
   EpicMiddleware, ActionsObservable, ofType } from '../';
@@ -218,8 +217,8 @@ expect(store.getState()).to.deep.equal([
 
 const input$ = Observable.create(() => {});
 const action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
-const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, Scheduler.asap);
-const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], Scheduler.asap);
+const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asapScheduler);
+const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asapScheduler);
 
 {
   // proper type narrowing

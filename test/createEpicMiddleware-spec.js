@@ -4,9 +4,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
 import { createEpicMiddleware, combineEpics, ActionsObservable, EPIC_END, ofType } from '../';
-import { of } from 'rxjs/internal/observable/of';
-import { empty } from 'rxjs/internal/observable/empty';
-import { merge } from 'rxjs/internal/observable/merge';
+import { of, empty, merge } from 'rxjs/index.js';
 import { mapTo, map, ignoreElements } from 'rxjs/operators';
 
 describe('createEpicMiddleware', () => {
