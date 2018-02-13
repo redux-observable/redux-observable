@@ -103,8 +103,5 @@
     "typescript": "^2.1.4",
     "webpack": "^2.2.1",
     "webpack-rxjs-externals": "~1.1.0"
-  },
-  "dependencies": {
-    "gitbook-plugin-github": "^2.0.0"
   }
 }
