@@ -6,7 +6,7 @@ gulp.task('build:esm', () => {
     .pipe(babel({
       babelrc: false,
       presets: [
-        ['es2015', { modules: false }]
+        ['env', { modules: false }]
       ],
       plugins: [
         'transform-function-bind',
