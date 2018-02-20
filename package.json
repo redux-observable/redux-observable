@@ -11,7 +11,7 @@
     "build:cjs": "babel src -d lib/cjs",
     "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-observable.js",
     "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-observable.min.js",
-    "build:tests": "rm -rf temp && babel test -d temp",
+    "build:tests": "rimraf temp && babel test -d temp",
     "clean": "rimraf lib temp dist",
     "check": "npm run lint && npm run test",
     "test": "npm run lint && npm run build && npm run build:tests && mocha temp && npm run test:typings",
