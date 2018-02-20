@@ -257,7 +257,9 @@
   "globals": {
     "require": true
   },
-  "ecmaFeatures": {
-    "jsx": true
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
   }
 }
