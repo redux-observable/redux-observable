@@ -19,8 +19,8 @@
 
 redux-observable is an independent project with ongoing development and support made possible thanks to donations made by [these awesome backers](BACKERS.md#sponsors). If you'd like to join them, please consider:
 
-- [Become a backer or sponsor on Patreon](https://www.patreon.com/jayphelps).
-- [One-time donation via PayPal](https://www.paypal.me/jayphelps)
+* [Become a backer or sponsor on Patreon](https://www.patreon.com/jayphelps).
+* [One-time donation via PayPal](https://www.paypal.me/jayphelps)
 
 <a href="https://www.patreon.com/bePatron?u=901455" alt="Become a Patron"><img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" /></a>
 
@@ -30,7 +30,7 @@ redux-observable is an independent project with ongoing development and support 
 
 ## Silver Sponsors ($100+)
 
-- <span style="font-size: 23px; font-weight: bold;">[Kyle Kelley](https://twitter.com/rgbkrk)</span>
+* <span style="font-size: 23px; font-weight: bold;">[Kyle Kelley](https://twitter.com/rgbkrk)</span>
 
 ## Install
 
@@ -99,8 +99,8 @@ Everyone is welcome on our [Gitter channel](https://gitter.im/redux-observable/r
 
 Add the redux-observable spinning logo to your Slack channel! [Slack Instructions](https://get.slack.help/hc/en-us/articles/206870177-Create-custom-emoji)
 
-***
+---
 
-*redux-observable is a community-driven, entirely volunteer project and is not officially affiliated with or sponsored by any company.
+\*redux-observable is a community-driven, entirely volunteer project and is not officially affiliated with or sponsored by any company.
 
 :shipit:

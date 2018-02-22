@@ -4,4 +4,3 @@ These are tutorials to get familiar with the core concepts of redux-observable. 
 
 * [Epics](Epics.md)
 * [Setting Up The Middleware](SettingUpTheMiddleware.md)
-

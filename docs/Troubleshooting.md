@@ -1,14 +1,12 @@
 # Troubleshooting [![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-
 This is a place to share common problems and solutions to them.
 
 > If your problem isn't yet listed here or you need other help, please use [Stack Overflow](http://stackoverflow.com/questions/tagged/redux-observable) first with the `redux-observable` tag. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
 >
 > You can also get help in our public [Gitter channel](https://gitter.im/redux-observable/redux-observable)!
 
-
-* * *
+---
 
 ### RxJS operators are missing! e.g. TypeError: action$.ofType(...).switchMap is not a function
 
@@ -21,12 +19,12 @@ If you want to instead add all operators, you can import the entire library insi
 ```js
 import 'rxjs';
 ```
+
 This will add every core RxJS operator to the `Observable` prototype.
 
 #### Add only the operators you use
 
 tl;dr
-
 
 ```js
 import 'rxjs/add/operator/switchMap';
@@ -42,7 +40,7 @@ There are several ways to do this, so we don't suggest any particular one in the
 
 If you use the `'rxjs/add/operator/name'` technique, you may find it helpful to create a single file where you place all of these so you don't have to import the same operators repeatedly.
 
-* * *
+---
 
 ### TypeError: object is not observable
 
@@ -54,7 +52,7 @@ The following are some examples of that.
 
 The store provided to your Epics is the same one provided by redux to the middleware. It is not a full version of the store, so it does not support the `Symbol.observable` interop point to allow `Observable.from(store)`. You can [learn more about this here](https://github.com/redux-observable/redux-observable/issues/56).
 
-* * *
+---
 
 ### TypeError: Cannot read property 'subscribe' of undefined
 
@@ -76,20 +74,21 @@ If you are organizing your epics into a class. (E.g. in order to benefit from An
 
 ```typescript
 class TooFancy {
-  constructor(private somethingInjected:SomethingInjected)
-  checkAutoLogin (action$: Observable<IPayloadAction>) {
+  constructor(private somethingInjected: SomethingInjected);
+  checkAutoLogin(action$: Observable<IPayloadAction>) {
     console.log(this); // Is Window! when called from redux-observable
   }
 }
 ```
+
 follow the docs and:
 
 ```typescript
 class TooFancy {
-  constructor(private somethingInjected:SomethingInjected)
-  checkAutoLogin =  (action$: Observable<IPayloadAction>) => {
+  constructor(private somethingInjected: SomethingInjected);
+  checkAutoLogin = (action$: Observable<IPayloadAction>) => {
     console.log(this); // YOu can access somethingInjected
-  }
+  };
 }
 ```
 
@@ -130,24 +129,24 @@ This approach essentially returns an empty `Observable` from the epic, which doe
 Let's say you have following action types + action creator types:
 
 ```ts
-import { Action } from 'redux'
+import { Action } from 'redux';
 
 const enum ActionTypes {
   One = 'ACTION_ONE',
-  Two = 'ACTION_TWO',
+  Two = 'ACTION_TWO'
 }
-const doOne = (myStr: string): One => ({type: ActionTypes.One, myStr})
-const doTwo = (myBool: boolean): Two => ({type: ActionTypes.Two, myBool})
+const doOne = (myStr: string): One => ({ type: ActionTypes.One, myStr });
+const doTwo = (myBool: boolean): Two => ({ type: ActionTypes.Two, myBool });
 
 interface One extends Action {
-  type: ActionTypes.One
-  myStr: string
+  type: ActionTypes.One;
+  myStr: string;
 }
 interface Two extends Action {
-  type: ActionTypes.Two
-  myBool: boolean
+  type: ActionTypes.Two;
+  myBool: boolean;
 }
-type Actions = One | Two
+type Actions = One | Two;
 ```
 
 When you're using `.ofType` operator for filtering, returned observable won't be correctly narrowed within Type System, because its not capable of doing so yet ( TS 2.6.2 ).
@@ -170,9 +169,10 @@ const epic = (action$: ActionsObservable<Actions>) =>
     .map((action) => {...})
 ```
 
-Similar issue exists when lettable operators are used ( Rx >=5.5  ).
+Similar issue exists when lettable operators are used ( Rx >=5.5 ).
 
 Again fix is similar by provide explicitly generics
+
 > this time you need to provide both while epic stream + narrowed type
 
 ```ts
@@ -193,7 +193,7 @@ const epic = (action$: ActionsObservable<Actions>) =>
   )
 ```
 
-* * *
+---
 
 ## Something else doesn’t work
 

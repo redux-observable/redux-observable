@@ -3,7 +3,12 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware, combineEpics, ActionsObservable, EPIC_END } from '../';
+import {
+  createEpicMiddleware,
+  combineEpics,
+  ActionsObservable,
+  EPIC_END
+} from '../';
 // We need to import the operators separately and not add them to the Observable
 // prototype, otherwise we might accidentally cover-up that the source we're
 // testing uses an operator that it does not import!
@@ -15,7 +20,7 @@ import { map } from 'rxjs/operator/map';
 import { ignoreElements } from 'rxjs/operator/ignoreElements';
 
 describe('createEpicMiddleware', () => {
-  it('should provide epics a stream of action$ in and the "lite" store', (done) => {
+  it('should provide epics a stream of action$ in and the "lite" store', done => {
     const reducer = (state = [], action) => state.concat(action);
     const epic = sinon.stub().returns(empty());
     const epicMiddleware = createEpicMiddleware(epic);
@@ -25,17 +30,21 @@ describe('createEpicMiddleware', () => {
       expect(epic.firstCall.args[1].getState).to.equal(store.getState);
       done();
     };
-    const store = createStore(reducer, applyMiddleware(epicMiddleware, mockMiddleware));
+    const store = createStore(
+      reducer,
+      applyMiddleware(epicMiddleware, mockMiddleware)
+    );
     store.dispatch({ type: 'FIRST_ACTION_TO_TRIGGER_MIDDLEWARE' });
   });
 
   it('should warn about improper use of dispatch function', () => {
     sinon.spy(console, 'warn');
     const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, store) => action$
-      .ofType('PING')
-      ::map(() => store.dispatch({ type: 'PONG' }))
-      ::ignoreElements();
+    const epic = (action$, store) =>
+      action$
+        .ofType('PING')
+        ::map(() => store.dispatch({ type: 'PONG' }))
+        ::ignoreElements();
 
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
@@ -43,7 +52,9 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'PING' });
 
     expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | DEPRECATION: calling store.dispatch() directly in your Epics is deprecated and will be removed. Instead, emit actions through the Observable your Epic returns.\n\n  https://goo.gl/WWNYSP');
+    expect(console.warn.getCall(0).args[0]).to.equal(
+      'redux-observable | DEPRECATION: calling store.dispatch() directly in your Epics is deprecated and will be removed. Instead, emit actions through the Observable your Epic returns.\n\n  https://goo.gl/WWNYSP'
+    );
     console.warn.restore();
   });
 
@@ -104,13 +115,15 @@ describe('createEpicMiddleware', () => {
     }).to.throw('You must provide a root Epic to createEpicMiddleware');
   });
 
-  it('should throw if you provide a root epic that doesn\'t return anything', () => {
+  it("should throw if you provide a root epic that doesn't return anything", () => {
     const rootEpic = () => {};
     const epicMiddleware = createEpicMiddleware(rootEpic);
 
     expect(() => {
       createStore(() => {}, applyMiddleware(epicMiddleware));
-    }).to.throw('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
+    }).to.throw(
+      'Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!'
+    );
   });
 
   it('should allow you to replace the root epic with middleware.replaceEpic(epic)', () => {
@@ -162,7 +175,7 @@ describe('createEpicMiddleware', () => {
       { type: 'FIRE_4' },
       { type: 'ACTION_4' },
       { type: 'FIRE_GENERIC' },
-      { type: 'EPIC_2_GENERIC' },
+      { type: 'EPIC_2_GENERIC' }
     ]);
   });
 
@@ -172,9 +185,10 @@ describe('createEpicMiddleware', () => {
 
     const adapter = {
       input: () => 1,
-      output: value => of({
-        type: value + 1
-      })
+      output: value =>
+        of({
+          type: value + 1
+        })
     };
     const middleware = createEpicMiddleware(epic, { adapter });
 
@@ -229,16 +243,12 @@ describe('createEpicMiddleware', () => {
     const rootEpic = combineEpics(
       epic,
       epic,
-      combineEpics(
-        epic,
-        combineEpics(
-          epic,
-          epic
-        )
-      )
+      combineEpics(epic, combineEpics(epic, epic))
     );
 
-    const middleware = createEpicMiddleware(rootEpic, { dependencies: { foo: 'bar', bar: 'foo' } });
+    const middleware = createEpicMiddleware(rootEpic, {
+      dependencies: { foo: 'bar', bar: 'foo' }
+    });
 
     createStore(reducer, applyMiddleware(middleware));
 
@@ -255,7 +265,8 @@ describe('createEpicMiddleware', () => {
       return action$;
     });
 
-    const rootEpic = (...args) => combineEpics(epic)(...args, 'first', 'second');
+    const rootEpic = (...args) =>
+      combineEpics(epic)(...args, 'first', 'second');
 
     const middleware = createEpicMiddleware(rootEpic, { dependencies: 'deps' });
 

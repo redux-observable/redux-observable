@@ -8,9 +8,7 @@ import { combineEpics } from 'redux-observable';
 
 const epic$ = new BehaviorSubject(combineEpics(epic1, epic2));
 const rootEpic = (action$, store) =>
-  epic$.mergeMap(epic =>
-    epic(action$, store)
-  );
+  epic$.mergeMap(epic => epic(action$, store));
 
 // sometime later...add another Epic, keeping the state of the old ones...
 epic$.next(asyncEpic1);

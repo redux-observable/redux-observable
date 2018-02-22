@@ -19,18 +19,15 @@ import ReposByUser from './containers/ReposByUser';
 import Admin from './containers/Admin';
 
 const store = configureStore();
-const history = syncHistoryWithStore(
-  browserHistory,
-  store
-);
+const history = syncHistoryWithStore(browserHistory, store);
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
-      <Route path='/' component={App}>
+      <Route path="/" component={App}>
         <IndexRoute component={UserSearch} />
-        <Route path='repos/:user' component={ReposByUser} />
-        <Route path='admin' component={Admin} />
+        <Route path="repos/:user" component={ReposByUser} />
+        <Route path="admin" component={Admin} />
       </Route>
     </Router>
   </Provider>,

@@ -30,7 +30,7 @@ Please keep in mind that people spend their free time trying to help you. You ca
 
 For non-trivial changes, please open an issue with a proposal for a new feature or refactoring before starting on the work. We don’t want you to waste your efforts on a pull request that we won’t want to accept.
 
-On the other hand, sometimes the best way to start a conversation *is* to send a pull request. Use your best judgment!
+On the other hand, sometimes the best way to start a conversation _is_ to send a pull request. Use your best judgment!
 
 In general, the contribution workflow looks like this:
 
@@ -58,7 +58,6 @@ After you have submitted your pull request, we’ll try to get back to you as so
 
 Thank you for contributing!
 
-
 ## Development
 
 Visit the [issue tracker](https://github.com/redux-observable/redux-observable/issues) to find a list of open issues that need attention.
@@ -74,6 +73,7 @@ git clone https://github.com/your-username/redux.git
 #### Building redux-observable
 
 Running the `build` task will create both a CommonJS module-per-module build and a UMD build.
+
 ```
 npm run build
 ```
@@ -87,6 +87,7 @@ npm run build:cjs
 The result will be in the `lib` folder.
 
 To create just a UMD build:
+
 ```
 npm run build:umd
 npm run build:umd:min

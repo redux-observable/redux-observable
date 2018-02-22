@@ -20,12 +20,18 @@ describe('operators', () => {
 
       actions.next({ type: 'LULZ', i: 1 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LULZ', i: 1 }
+      ]);
       expect(haha).to.deep.equal([]);
 
       actions.next({ type: 'HAHA', i: 0 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LULZ', i: 1 }
+      ]);
       expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
     });
 
@@ -44,12 +50,18 @@ describe('operators', () => {
 
       actions.next({ type: 'LARF', i: 1 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LARF', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LARF', i: 1 }
+      ]);
       expect(haha).to.deep.equal([]);
 
       actions.next({ type: 'HAHA', i: 0 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LARF', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LARF', i: 1 }
+      ]);
       expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
     });
 
@@ -110,12 +122,18 @@ describe('operators', () => {
 
       actions.next({ type: LARF_TYPE, i: 1 });
 
-      expect(cache1).to.deep.equal([{ type: LULZ_TYPE, i: 0 }, { type: LARF_TYPE, i: 1 }]);
+      expect(cache1).to.deep.equal([
+        { type: LULZ_TYPE, i: 0 },
+        { type: LARF_TYPE, i: 1 }
+      ]);
       expect(cache2).to.deep.equal([]);
 
       actions.next({ type: HAHA_TYPE, i: 0 });
 
-      expect(cache1).to.deep.equal([{ type: LULZ_TYPE, i: 0 }, { type: LARF_TYPE, i: 1 }]);
+      expect(cache1).to.deep.equal([
+        { type: LULZ_TYPE, i: 0 },
+        { type: LARF_TYPE, i: 1 }
+      ]);
       expect(cache2).to.deep.equal([{ type: HAHA_TYPE, i: 0 }]);
     });
   });

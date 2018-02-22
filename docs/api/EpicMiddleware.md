@@ -6,7 +6,7 @@ To create it, pass your root [Epic](../basics/Epics.md) to [`createEpicMiddlewar
 
 ### EpicMiddleware Methods
 
-- [`replaceEpic(nextEpic)`](#replaceEpic)
+* [`replaceEpic(nextEpic)`](#replaceEpic)
 
 <hr>
 
@@ -18,4 +18,4 @@ It is an advanced API. You might need this if your app implements code splitting
 
 #### Arguments
 
-1. `epic` (*Epic*) The next epic for the middleware to use.
+1. `epic` (_Epic_) The next epic for the middleware to use.

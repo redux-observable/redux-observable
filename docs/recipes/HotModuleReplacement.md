@@ -27,12 +27,12 @@ const userIsPending = (state = false, action) => {
   switch (action.type) {
     // Listen for the Epic ending to put things
     // back into a safe state
-	case EPIC_END:
-	case FETCH_USER_FULFILLED:
-	case FETCH_USER_CANCELLED:
-	  return false;
-	  
-	case FETCH_USER:
+    case EPIC_END:
+    case FETCH_USER_FULFILLED:
+    case FETCH_USER_CANCELLED:
+      return false;
+
+    case FETCH_USER:
       return true;
 
     default:
@@ -51,15 +51,15 @@ import { race } from 'rxjs/observable/race';
 // If the EPIC_END, emit a cancel action to
 // put the store in the correct state
 const fetchUserEpic = action$ =>
-  action$.ofType(FETCH_USER)
-    .mergeMap(action =>
-      race(
-        ajax(`/api/users/${action.payload}`),
-        action$.ofType(EPIC_END)
-          .take(1)
-          .mapTo({ type: FETCH_USER_CANCELLED })
-      )
-    );
+  action$.ofType(FETCH_USER).mergeMap(action =>
+    race(
+      ajax(`/api/users/${action.payload}`),
+      action$
+        .ofType(EPIC_END)
+        .take(1)
+        .mapTo({ type: FETCH_USER_CANCELLED })
+    )
+  );
 ```
 
 If you use `replaceEpic` and have noticed bugs of any kind (or even if it works wonderfully for you!), [please do report them](https://github.com/redux-observable/redux-observable/issues/new) so we can evaluate the future of this feature!

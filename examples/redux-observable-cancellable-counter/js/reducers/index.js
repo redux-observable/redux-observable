@@ -1,9 +1,9 @@
-import { combineReducers } from 'redux'
-import { counter, countdown } from './counter'
+import { combineReducers } from 'redux';
+import { counter, countdown } from './counter';
 
 const rootReducer = combineReducers({
   countdown,
   counter
-})
+});
 
-export default rootReducer
+export default rootReducer;

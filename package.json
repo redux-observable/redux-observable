@@ -5,7 +5,8 @@
   "module": "lib/esm/index.js",
   "main": "lib/cjs/index.js",
   "scripts": {
-    "lint": "eslint src && eslint test",
+    "lint": "npm run prettier && eslint ./src ./test",
+    "prettier": "prettier -l './*.js' './*.ts' './*.md' './src/**/*' './test/**/*' './docs/**/*' './examples/**/*.js'",
     "build": "npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:umd:min",
     "build:esm": "gulp build:esm",
     "build:cjs": "babel src -d lib/cjs",
@@ -96,6 +97,7 @@
     "gulp-babel": "^6.1.2",
     "json-server": "^0.10.0",
     "mocha": "^3.0.1",
+    "prettier": "^1.10.2",
     "redux": "^3.5.2",
     "rimraf": "^2.5.4",
     "rxjs": "^5.5.0",

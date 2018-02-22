@@ -11,15 +11,14 @@ import * as actions from '../actions';
  * @param store
  * @returns {any|*|Observable}
  */
-const searchProducts = (action$) => {
-  return action$
-    .ofType(actions.GET_ALL_PRODUCTS).switchMap(q => {
-      /*
+const searchProducts = action$ => {
+  return action$.ofType(actions.GET_ALL_PRODUCTS).switchMap(q => {
+    /*
        * This example uses the same api of the redux-saga example, thus
         * it adapts a Promise to an Observable.
        */
-      return api.getProducts().map(actions.receiveProducts)
-    });
+    return api.getProducts().map(actions.receiveProducts);
+  });
 };
 
 /**
@@ -28,22 +27,14 @@ const searchProducts = (action$) => {
  * @param store
  * @returns {any|*|Observable}
  */
-const checkout = (action$,store) => {
-  return action$
-    .ofType(actions.CHECKOUT_REQUEST).switchMap(q => {
-      const cart = getCart(store.getState());
-      return api.buyProducts(cart)
-        .map(cart => actions.checkoutSuccess(cart))
-        .catch(error => Observable.of(actions.checkoutFailure(error)))
-    });
+const checkout = (action$, store) => {
+  return action$.ofType(actions.CHECKOUT_REQUEST).switchMap(q => {
+    const cart = getCart(store.getState());
+    return api
+      .buyProducts(cart)
+      .map(cart => actions.checkoutSuccess(cart))
+      .catch(error => Observable.of(actions.checkoutFailure(error)));
+  });
 };
 
-
-export const rootEpic = combineEpics(
-  searchProducts,
-  checkout
-);
-
-
-
-
+export const rootEpic = combineEpics(searchProducts, checkout);

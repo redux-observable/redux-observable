@@ -44,6 +44,6 @@ describe('fetchUserEpic', () => {
 });
 ```
 
-***
+---
 
 If you're particularly adventurous, we've been experimenting with using [RxJS's `TestScheduler`](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md) along with the [marble diagram helpers](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md). [Check out a JSBin example](http://jsbin.com/pufima/edit?js,output). We're not quite ready to "suggest" this approach per say, but we'd love feedback or someone interested in helping pave the way!

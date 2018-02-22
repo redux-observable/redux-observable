@@ -16,10 +16,7 @@ import { combineReducers } from 'redux';
 import ping, { pingEpic } from './ping';
 import users, { fetchUserEpic } from './users';
 
-export const rootEpic = combineEpics(
-  pingEpic,
-  fetchUserEpic
-);
+export const rootEpic = combineEpics(pingEpic, fetchUserEpic);
 
 export const rootReducer = combineReducers({
   ping,
@@ -52,11 +49,7 @@ import { rootEpic, rootReducer } from './modules/root';
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
 export default function configureStore() {
-  const store = createStore(
-    rootReducer,
-	applyMiddleware(epicMiddleware)
-  );
-  
+  const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
 
   return store;
 }
@@ -72,9 +65,8 @@ const epicMiddleware = createEpicMiddleware(pingEpic);
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(pingReducer,
-  composeEnhancers(
-    applyMiddleware(epicMiddleware)
-  )
+const store = createStore(
+  pingReducer,
+  composeEnhancers(applyMiddleware(epicMiddleware))
 );
 ```

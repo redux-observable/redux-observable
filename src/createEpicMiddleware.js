@@ -22,9 +22,7 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
   // inside the options object as well in case they declare only some
   options = { ...defaultOptions, ...options };
   const input$ = new Subject();
-  const action$ = options.adapter.input(
-    new ActionsObservable(input$)
-  );
+  const action$ = options.adapter.input(new ActionsObservable(input$));
   const epic$ = new Subject();
   let store;
 
@@ -34,20 +32,29 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
     return next => {
       epic$
         ::map(epic => {
-          const vault = (process.env.NODE_ENV === 'production') ? store : {
-            getState: store.getState,
-            dispatch: (action) => {
-              require('./utils/console').deprecate('calling store.dispatch() directly in your Epics is deprecated and will be removed. Instead, emit actions through the Observable your Epic returns.\n\n  https://goo.gl/WWNYSP');
-              return store.dispatch(action);
-            }
-          };
+          const vault =
+            process.env.NODE_ENV === 'production'
+              ? store
+              : {
+                  getState: store.getState,
+                  dispatch: action => {
+                    require('./utils/console').deprecate(
+                      'calling store.dispatch() directly in your Epics is deprecated and will be removed. Instead, emit actions through the Observable your Epic returns.\n\n  https://goo.gl/WWNYSP'
+                    );
+                    return store.dispatch(action);
+                  }
+                };
 
-          const output$ = ('dependencies' in options)
-            ? epic(action$, vault, options.dependencies)
-            : epic(action$, vault);
+          const output$ =
+            'dependencies' in options
+              ? epic(action$, vault, options.dependencies)
+              : epic(action$, vault);
 
           if (!output$) {
-            throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
+            throw new TypeError(
+              `Your root Epic "${epic.name ||
+                '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`
+            );
           }
 
           return output$;

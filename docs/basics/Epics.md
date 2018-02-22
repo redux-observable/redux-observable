@@ -1,8 +1,9 @@
 # Epics
 
->##### Not familiar with Observables/RxJS v5?
+> ##### Not familiar with Observables/RxJS v5?
+>
 > redux-observable requires an understanding of Observables with RxJS v5. If you're new to Reactive Programming with RxJS v5, head over to [http://reactivex.io/rxjs/](http://reactivex.io/rxjs/) to familiarize yourself first.
-> 
+>
 > redux-observable (because of RxJS) truly shines the most for complex async/side effects. If you're not already comfortable with RxJS you might consider using [redux-thunk](https://github.com/gaearon/redux-thunk) for simple side effects and then use redux-observable for the complex stuff. That way you can remain productive and learn RxJS as you go. redux-thunk is much simpler to learn and use, but that also means it's far less powerful. Of course, if you already love Rx like we do, you will probably use it for everything!
 
 An **Epic** is the core primitive of redux-observable.
@@ -25,32 +26,29 @@ If you let an incoming action pass through, it will create an infinite loop:
 
 ```js
 // DO NOT DO THIS
-const actionEpic = (action$) => action$; // creates infinite loop
+const actionEpic = action$ => action$; // creates infinite loop
 ```
 
-> The pattern of handling side effects this way is similar to the "*process manager*" pattern, sometimes called a ["*saga*"](https://msdn.microsoft.com/en-us/library/jj591569.aspx), but the original definition of [saga is not truly applicable](http://kellabyte.com/2012/05/30/clarifying-the-saga-pattern/). If you're familiar with [redux-saga](https://redux-saga.github.io/redux-saga/), redux-observable is very similar. But because it uses RxJS it is much more declarative and you utilize and expand your existing RxJS abilities.
-
+> The pattern of handling side effects this way is similar to the "_process manager_" pattern, sometimes called a ["_saga_"](https://msdn.microsoft.com/en-us/library/jj591569.aspx), but the original definition of [saga is not truly applicable](http://kellabyte.com/2012/05/30/clarifying-the-saga-pattern/). If you're familiar with [redux-saga](https://redux-saga.github.io/redux-saga/), redux-observable is very similar. But because it uses RxJS it is much more declarative and you utilize and expand your existing RxJS abilities.
 
 ## A Basic Example
 
 > **IMPORTANT:** redux-observable does not add any of the RxJS operators to the `Observable.prototype` so you will need to import the ones you use or import all of them in your entry file.
-> 
+>
 > Because there are many ways to add them, our examples will not include any imports. If you want to add every operator, put `import 'rxjs';` in your entry `index.js`. [Learn more](http://redux-observable.js.org/docs/Troubleshooting.html#rxjs-operators-are-missing-eg-typeerror-actionoftypeswitchmap-is-not-a-function).
-
 
 Let's start with a simple Epic example:
 
 ```js
 const pingEpic = action$ =>
-  action$.filter(action => action.type === 'PING')
-    .mapTo({ type: 'PONG' });
-    
+  action$.filter(action => action.type === 'PING').mapTo({ type: 'PONG' });
+
 // later...
 dispatch({ type: 'PING' });
 ```
 
 > Noticed how `action$` has a dollar sign at the end? It's simply a common RxJS convention to identify variables that reference a stream.
- 
+
 `pingEpic` will listen for actions of type `PING` and map them to a new action, `PONG`. This example is functionally equivalent to doing this:
 
 ```js
@@ -64,7 +62,8 @@ The real power comes when you need to do something asynchronous. Let's say you w
 
 ```js
 const pingEpic = action$ =>
-  action$.filter(action => action.type === 'PING')
+  action$
+    .filter(action => action.type === 'PING')
     .delay(1000) // Asynchronously wait 1000ms then continue
     .mapTo({ type: 'PONG' });
 
@@ -93,7 +92,8 @@ Since filtering by a specific action type is so common, the `action$` stream has
 
 ```js
 const pingEpic = action$ =>
-  action$.ofType('PING')
+  action$
+    .ofType('PING')
     .delay(1000) // Asynchronously wait 1000ms then continue
     .mapTo({ type: 'PONG' });
 ```
@@ -115,7 +115,7 @@ const pingEpic = action$ =>
   );
 ```
 
-***
+---
 
 ### Try It Live!
 
@@ -134,12 +134,14 @@ const fetchUserFulfilled = payload => ({ type: FETCH_USER_FULFILLED, payload });
 
 // epic
 const fetchUserEpic = action$ =>
-  action$.ofType(FETCH_USER)
+  action$
+    .ofType(FETCH_USER)
     .mergeMap(action =>
-      ajax.getJSON(`https://api.github.com/users/${action.payload}`)
+      ajax
+        .getJSON(`https://api.github.com/users/${action.payload}`)
         .map(response => fetchUserFulfilled(response))
     );
-    
+
 // later...
 dispatch(fetchUser('torvalds'));
 ```
@@ -168,7 +170,7 @@ const users = (state = {}, action) => {
 };
 ```
 
-***
+---
 
 ### Try It Live!
 
@@ -196,18 +198,20 @@ const increment = () => ({ type: INCREMENT });
 const incrementIfOdd = () => ({ type: INCREMENT_IF_ODD });
 
 const incrementIfOddEpic = (action$, store) =>
-  action$.ofType(INCREMENT_IF_ODD)
+  action$
+    .ofType(INCREMENT_IF_ODD)
     .filter(() => store.getState().counter % 2 === 1)
     .map(() => increment());
 
 // later...
 dispatch(incrementIfOdd());
 ```
+
 > REMEMBER: When an Epic receives an action, it has already been run through your reducers and the state updated.
 
 Using `store.dispatch()` inside your Epic is an anti-pattern and will be removed in v1.0.0 of redux-observable so it's best not to use it.
 
-***
+---
 
 ### Try It Live!
 
@@ -220,10 +224,7 @@ Finally, redux-observable provides a utility called [`combineEpics()`](../api/co
 ```js
 import { combineEpics } from 'redux-observable';
 
-const rootEpic = combineEpics(
-  pingEpic,
-  fetchUserEpic
-);
+const rootEpic = combineEpics(pingEpic, fetchUserEpic);
 ```
 
 Note that this is equivalent to:
@@ -231,10 +232,8 @@ Note that this is equivalent to:
 ```js
 import { merge } from 'rxjs/observable/merge';
 
-const rootEpic = (action$, store) => merge(
-  pingEpic(action$, store),
-  fetchUserEpic(action$, store)
-);
+const rootEpic = (action$, store) =>
+  merge(pingEpic(action$, store), fetchUserEpic(action$, store));
 ```
 
 ## Next Steps

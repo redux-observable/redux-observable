@@ -14,14 +14,16 @@ const config = {
     libraryTarget: 'umd'
   },
   externals: [
-    webpackRxjsExternals(), {
-    redux: {
-      root: 'Redux',
-      commonjs2: 'redux',
-      commonjs: 'redux',
-      amd: 'redux'
+    webpackRxjsExternals(),
+    {
+      redux: {
+        root: 'Redux',
+        commonjs2: 'redux',
+        commonjs: 'redux',
+        amd: 'redux'
+      }
     }
-  }],
+  ],
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({

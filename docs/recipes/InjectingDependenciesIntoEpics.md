@@ -8,14 +8,12 @@ Let's say you want to interact with the network. You could use the `ajax` helper
 import { ajax } from 'rxjs/observable/dom/ajax';
 
 const fetchUserEpic = (action$, store) =>
-  action$.ofType('FETCH_USER')
-    .mergeMap(({ payload }) =>
-      ajax.getJSON(`/api/users/${payload}`)
-        .map(response => ({
-          type: 'FETCH_USER_FULFILLED',
-          payload: response
-        }))
-    );
+  action$.ofType('FETCH_USER').mergeMap(({ payload }) =>
+    ajax.getJSON(`/api/users/${payload}`).map(response => ({
+      type: 'FETCH_USER_FULFILLED',
+      payload: response
+    }))
+  );
 ```
 
 But there is a problem with this approach: Your file containing the epic imports its dependency directly, so mocking it is much more difficult.
@@ -43,15 +41,12 @@ Now your Epic can use the injected `getJSON`, instead of importing it itself:
 ```js
 // Notice the third argument is our injected dependencies!
 const fetchUserEpic = (action$, store, { getJSON }) =>
-  action$.ofType('FETCH_USER')
-    .mergeMap(({ payload }) =>
-      getJSON(`/api/users/${payload}`)
-        .map(response => ({
-          type: 'FETCH_USER_FULFILLED',
-          payload: response
-        }))
-    );
-
+  action$.ofType('FETCH_USER').mergeMap(({ payload }) =>
+    getJSON(`/api/users/${payload}`).map(response => ({
+      type: 'FETCH_USER_FULFILLED',
+      payload: response
+    }))
+  );
 ```
 
 To test, you can just call your Epic directly, passing in a mock for `getJSON`:
@@ -71,9 +66,11 @@ const dependencies = {
 fetchUserEpic(action$, store, dependencies)
   .toArray() // buffers all emitted actions until your Epic naturally completes()
   .subscribe(actions => {
-    assertDeepEqual(actions, [{
-      type: 'FETCH_USER_FULFILLED',
-      payload: mockResponse
-    }]);
+    assertDeepEqual(actions, [
+      {
+        type: 'FETCH_USER_FULFILLED',
+        payload: mockResponse
+      }
+    ]);
   });
 ```
