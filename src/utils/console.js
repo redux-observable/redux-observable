@@ -8,3 +8,9 @@ export const deprecate = (typeof console === 'object' && typeof console.warn ===
     }
   }
   : () => {};
+
+export const warn = (typeof console === 'object' && typeof console.warn === 'function')
+  ? msg => {
+    console.warn(`redux-observable | WARNING: ${msg}`);
+  }
+  : () => {};
