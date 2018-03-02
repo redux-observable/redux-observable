@@ -29,6 +29,22 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'FIRST_ACTION_TO_TRIGGER_MIDDLEWARE' });
   });
 
+  it('should warn about reusing the epicMiddleware', () => {
+    sinon.spy(console, 'warn');
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = (action$, store) => action$
+      .ofType('PING')
+      ::map(() => store.dispatch({ type: 'PONG' }))
+      ::ignoreElements();
+
+    const middleware = createEpicMiddleware(epic);
+    createStore(reducer, applyMiddleware(middleware));
+    createStore(reducer, applyMiddleware(middleware));
+    expect(console.warn.callCount).to.equal(1);
+    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\n See https://goo.gl/2GQ7Da');
+    console.warn.restore();
+  });
+
   it('should warn about improper use of dispatch function', () => {
     sinon.spy(console, 'warn');
     const reducer = (state = [], action) => state.concat(action);

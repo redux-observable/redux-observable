@@ -29,6 +29,10 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
   let store;
 
   const epicMiddleware = _store => {
+    if (process.env.NODE_ENV !== 'production' && store) {
+      // https://github.com/redux-observable/redux-observable/issues/389
+      require('./utils/console').warn('this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\n See https://goo.gl/2GQ7Da');
+    }
     store = _store;
 
     return next => {
