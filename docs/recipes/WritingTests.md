@@ -2,7 +2,7 @@
 
 > Testing async code that creates side effects isn't easy. We're still learning the best way to test Epics. If you have found the perfect way, [do share](https://github.com/redux-observable/redux-observable/issues/new)!
 
-If you haven't already set up testing for regular Redux, you'll want to head over to [their documentation](http://redux.js.org/docs/recipes/WritingTests.html) first to familiarize yourself since nearly all of it is applicable.
+If you haven't already set up testing for regular Redux, you'll want to head over to [their documentation](https://redux.js.org/recipes/writing-tests) first to familiarize yourself since nearly all of it is applicable.
 
 One approach is to mock the entire Redux store and replace the root Epic between each test.
 
