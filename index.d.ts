@@ -1,6 +1,5 @@
 import { Middleware, MiddlewareAPI, Action } from 'redux';
-import { Observable, ObservableInput, Operator } from 'rxjs';
-import { Scheduler } from 'rxjs/internal/Scheduler';
+import { Observable, ObservableInput, Operator, SchedulerLike } from 'rxjs';
 
 export declare class ActionsObservable<T extends Action> extends Observable<T> {
   /**
@@ -10,16 +9,16 @@ export declare class ActionsObservable<T extends Action> extends Observable<T> {
    * which isn't possible in either JavaScript or TypeScript. So instead, we
    * provide safe typing for up to 6 items, following by a scheduler.
    */
-  static of<T extends Action>(item1: T, scheduler?: Scheduler): ActionsObservable<T>;
-  static of<T extends Action>(item1: T, item2: T, scheduler?: Scheduler): ActionsObservable<T>;
-  static of<T extends Action>(item1: T, item2: T, item3: T, scheduler?: Scheduler): ActionsObservable<T>;
-  static of<T extends Action>(item1: T, item2: T, item3: T, item4: T, scheduler?: Scheduler): ActionsObservable<T>;
-  static of<T extends Action>(item1: T, item2: T, item3: T, item4: T, item5: T, scheduler?: Scheduler): ActionsObservable<T>;
-  static of<T extends Action>(item1: T, item2: T, item3: T, item4: T, item5: T, item6: T, scheduler?: Scheduler): ActionsObservable<T>;
-  static of<T extends Action>(...array: Array<T | Scheduler>): ActionsObservable<T>;
+  static of<T extends Action>(item1: T, scheduler?: SchedulerLike): ActionsObservable<T>;
+  static of<T extends Action>(item1: T, item2: T, scheduler?: SchedulerLike): ActionsObservable<T>;
+  static of<T extends Action>(item1: T, item2: T, item3: T, scheduler?: SchedulerLike): ActionsObservable<T>;
+  static of<T extends Action>(item1: T, item2: T, item3: T, item4: T, scheduler?: SchedulerLike): ActionsObservable<T>;
+  static of<T extends Action>(item1: T, item2: T, item3: T, item4: T, item5: T, scheduler?: SchedulerLike): ActionsObservable<T>;
+  static of<T extends Action>(item1: T, item2: T, item3: T, item4: T, item5: T, item6: T, scheduler?: SchedulerLike): ActionsObservable<T>;
+  static of<T extends Action>(...array: Array<T | SchedulerLike>): ActionsObservable<T>;
 
-  static from<T extends Action>(ish: ObservableInput<T>, scheduler?: Scheduler): ActionsObservable<T>;
-  static from<T extends Action, R extends Action>(ish: ArrayLike<T>, scheduler?: Scheduler): ActionsObservable<R>;
+  static from<T extends Action>(ish: ObservableInput<T>, scheduler?: SchedulerLike): ActionsObservable<T>;
+  static from<T extends Action, R extends Action>(ish: ArrayLike<T>, scheduler?: SchedulerLike): ActionsObservable<R>;
 
   constructor(input$: Observable<T>);
   lift<R extends Action>(operator: Operator<T, R>): ActionsObservable<R>;
