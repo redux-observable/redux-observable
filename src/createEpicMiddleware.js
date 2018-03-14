@@ -1,4 +1,4 @@
-import { Subject } from 'rxjs/index.js';
+import { Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
 import { EPIC_END } from './EPIC_END';
