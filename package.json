@@ -15,7 +15,7 @@
     "clean": "rimraf lib temp dist",
     "check": "npm run lint && npm run test",
     "test": "npm run lint && npm run build && npm run build:tests && mocha temp && npm run test:typings",
-    "test:typings": "tsc --strict index.d.ts test/typings.ts --outDir temp --target ES5 --moduleResolution node && cd temp && node typings.js",
+    "test:typings": "tsc --strict index.d.ts test/typings.ts --outDir temp --target ES5 --moduleResolution node --lib dom,es2015 && cd temp && node typings.js",
     "shipit": "npm run clean && npm run build && npm run lint && npm test && scripts/preprepublish.sh && npm publish",
     "docs:clean": "rimraf _book",
     "docs:prepare": "gitbook install",
