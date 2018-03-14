@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { createStore, applyMiddleware, MiddlewareAPI, Action } from 'redux';
-import { Observable, asapScheduler, of } from 'rxjs/index.js';
+import { Observable, asapScheduler, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, mapTo, mergeMap } from 'rxjs/operators';
 

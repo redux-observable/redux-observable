@@ -1,4 +1,4 @@
-import { Observable, of, from } from 'rxjs/index.js';
+import { Observable, of, from } from 'rxjs';
 import { ofType } from './operators';
 
 export class ActionsObservable extends Observable {
