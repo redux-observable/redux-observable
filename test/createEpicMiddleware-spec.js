@@ -25,10 +25,11 @@ describe('createEpicMiddleware', () => {
   it('should warn about reusing the epicMiddleware', () => {
     sinon.spy(console, 'warn');
     const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, store) => action$
-      .ofType('PING')
-      ::map(() => store.dispatch({ type: 'PONG' }))
-      ::ignoreElements();
+    const epic = (action$, store) => action$.pipe(
+      ofType('PING'),
+      map(() => store.dispatch({ type: 'PONG' })),
+      ignoreElements(),
+    );
 
     const middleware = createEpicMiddleware(epic);
     createStore(reducer, applyMiddleware(middleware));

@@ -239,15 +239,8 @@ const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<F
   }
   type Actions = One | Two
 
-  // Explicitly set generics fixes the issue
-const epic = (action$: ActionsObservable<Actions>) =>
-  action$
-    .ofType<One>(ActionTypes.One)
-    // action is correctly narrowed to One
-    .map((action) => { console.log(action.myStr) })
-
 // Explicitly set generics fixes the issue
-const epicLettable = (action$: ActionsObservable<Actions>) =>
+const epic = (action$: ActionsObservable<Actions>) =>
   action$.pipe(
     ofType<Actions,One>(ActionTypes.One),
     // action is correctly narrowed to One
