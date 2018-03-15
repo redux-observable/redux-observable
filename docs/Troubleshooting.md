@@ -170,13 +170,13 @@ const epic = (action$: ActionsObservable<Actions>) =>
     .map((action) => {...})
 ```
 
-Similar issue exists when lettable operators are used ( Rx >=5.5  ).
+Similar issue exists when pipeable operators are used ( Rx >=5.5  ).
 
 Again fix is similar by provide explicitly generics
 > this time you need to provide both while epic stream + narrowed type
 
 ```ts
-// With lettable operator, ofType won't narrow correctly
+// With pipeable operator, ofType won't narrow correctly
 const epic = (action$: ActionsObservable<Actions>) =>
   action$.pipe(
     ofType(ActionTypes.One),
