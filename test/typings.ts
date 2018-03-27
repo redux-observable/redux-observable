@@ -100,7 +100,7 @@ interface Epic9_Output {
 
 const epic9_1: Epic<FluxStandardAction, Epic9_Output, State, Dependencies> = (action$, state$, dependencies) =>
   action$.pipe(
-    ofType<FluxStandardAction, Epic9_Input>('NINTH'),
+    ofType('NINTH'),
     map(({ type, payload }) => ({
       type: 'ninth' as 'ninth',
       payload: dependencies.func("ninth-" + payload),
@@ -109,7 +109,7 @@ const epic9_1: Epic<FluxStandardAction, Epic9_Output, State, Dependencies> = (ac
 
 const epic9_2 = (action$: ActionsObservable<FluxStandardAction>, state$: StateObservable<void>, dependencies: Dependencies) =>
   action$.pipe(
-    ofType<FluxStandardAction, Epic9_Input>('NINTH'),
+    ofType('NINTH'),
     map(({ type, payload }) => ({
       type: 'ninth',
       payload: dependencies.func("ninth-" + payload),
@@ -229,6 +229,7 @@ const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<F
   const enum ActionTypes {
     One = 'ACTION_ONE',
     Two = 'ACTION_TWO',
+    Three = 'ACTION_THREE'
   }
   const doOne = (myStr: string): One => ({type: ActionTypes.One, myStr})
   const doTwo = (myBool: boolean): Two => ({type: ActionTypes.Two, myBool})
@@ -241,14 +242,26 @@ const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<F
     type: ActionTypes.Two
     myBool: boolean
   }
-  type Actions = One | Two
+  interface Three extends Action {
+    type: ActionTypes.Three,
+    myBool: number;
+  }
+  type Actions = One | Two | Three;
 
-// Explicitly set generics fixes the issue
-const epic = (action$: ActionsObservable<Actions>) =>
+// Automatically narrow action type
+const epicLettable = (action$: ActionsObservable<Actions>) =>
   action$.pipe(
-    ofType<Actions,One>(ActionTypes.One),
+    ofType(ActionTypes.One),
     // action is correctly narrowed to One
     map((action) => { console.log(action.myStr) })
+  );
+
+// Automatically narrows action type in case of multiple actions
+const epicMultipleLettable = (action$: ActionsObservable<Actions>) =>
+  action$.pipe(
+    ofType(ActionTypes.Two, ActionTypes.Three),
+    // action is correctly narrowed to Two | Three
+    map((action) => { console.log(action.myBool) })
   );
 
 }

@@ -23,7 +23,7 @@ export declare class ActionsObservable<T extends Action> extends Observable<T> {
   constructor(input$: Observable<T>);
   lift<R extends Action>(operator: Operator<T, R>): ActionsObservable<R>;
   lift<R>(operator: Operator<T, R>): Observable<R>;
-  ofType<R extends T = T>(...key: R['type'][]): ActionsObservable<R>;
+  ofType<K extends T['type']>(...key: K[]): ActionsObservable<Extract<T, { type: K }>>;
 }
 
 export declare class StateObservable<S> extends Observable<S> {
@@ -51,4 +51,4 @@ export declare function combineEpics<T extends Action, O extends T = T, S = void
 export declare function combineEpics<E>(...epics: E[]): E;
 export declare function combineEpics(...epics: any[]): any;
 
-export declare function ofType<T extends Action, R extends T = T, K extends R['type'] = R['type']>(...key: K[]): (source: Observable<T>) => Observable<R>;
+export declare function ofType<T extends Action, K extends string>(...key: K[]): (source: Observable<T>) => Observable<Extract<T, { type: K }>>;

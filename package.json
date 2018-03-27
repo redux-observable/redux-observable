@@ -98,7 +98,7 @@
     "rimraf": "^2.5.4",
     "rxjs": "^6.0.0",
     "sinon": "^4.5.0",
-    "typescript": "^2.1.4",
+    "typescript": "^2.8.1",
     "webpack": "^4.5.0",
     "webpack-cli": "^2.0.13",
     "webpack-rxjs-externals": "~2.0.0"
