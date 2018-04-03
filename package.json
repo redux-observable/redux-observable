@@ -4,13 +4,14 @@
   "description": "RxJS based middleware for Redux. Compose and cancel async actions and more.",
   "module": "lib/esm/index.js",
   "main": "lib/cjs/index.js",
+  "sideEffects": false,
   "scripts": {
     "lint": "eslint src && eslint test",
     "build": "npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:umd:min",
     "build:esm": "gulp build:esm",
     "build:cjs": "babel src -d lib/cjs",
-    "build:umd": "cross-env NODE_ENV=development webpack src/index.js dist/redux-observable.js",
-    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js dist/redux-observable.min.js",
+    "build:umd": "cross-env NODE_ENV=development webpack src/index.js -o dist/redux-observable.js",
+    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js -o dist/redux-observable.min.js",
     "build:tests": "rimraf temp && babel test -d temp",
     "clean": "rimraf lib temp dist",
     "check": "npm run lint && npm run test",
@@ -99,7 +100,8 @@
     "rxjs": "^6.0.0-beta.0",
     "sinon": "^2.3.3",
     "typescript": "^2.1.4",
-    "webpack": "^2.2.1",
-    "webpack-rxjs-externals": "~1.1.0"
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
+    "webpack-rxjs-externals": "~2.0.0"
   }
 }
