@@ -4,9 +4,19 @@ import webpackRxjsExternals from 'webpack-rxjs-externals';
 const env = process.env.NODE_ENV;
 
 const config = {
+  mode: env,
   module: {
-    loaders: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [['es2015', { modules: false }]]
+          }
+        }
+      }
     ]
   },
   output: {
@@ -14,14 +24,16 @@ const config = {
     libraryTarget: 'umd'
   },
   externals: [
-    webpackRxjsExternals(), {
-    redux: {
-      root: 'Redux',
-      commonjs2: 'redux',
-      commonjs: 'redux',
-      amd: 'redux'
+    webpackRxjsExternals(),
+    {
+      redux: {
+        root: 'Redux',
+        commonjs2: 'redux',
+        commonjs: 'redux',
+        amd: 'redux'
+      }
     }
-  }],
+  ],
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
@@ -29,18 +41,5 @@ const config = {
     })
   ]
 };
-
-if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false
-      }
-    })
-  );
-}
 
 export default config;
