@@ -1,6 +1,6 @@
 {
   "name": "redux-observable",
-  "version": "0.18.0",
+  "version": "1.0.0-alpha",
   "description": "RxJS based middleware for Redux. Compose and cancel async actions and more.",
   "module": "lib/esm/index.js",
   "main": "lib/cjs/index.js",
@@ -103,5 +103,8 @@
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
     "webpack-rxjs-externals": "~2.0.0"
+  },
+  "dependencies": {
+    "gitbook-plugin-github": "^2.0.0"
   }
 }
