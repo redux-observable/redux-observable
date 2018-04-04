@@ -1,6 +1,7 @@
 import { Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
+import { StateObservable } from './StateObservable';
 import { EPIC_END } from './EPIC_END';
 
 const defaultAdapter = {
@@ -20,6 +21,7 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
   // even though we used default param, we need to merge the defaults
   // inside the options object as well in case they declare only some
   options = { ...defaultOptions, ...options };
+
   const input$ = new Subject();
   const action$ = options.adapter.input(
     new ActionsObservable(input$)
@@ -32,22 +34,16 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
       // https://github.com/redux-observable/redux-observable/issues/389
       require('./utils/console').warn('this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\n See https://goo.gl/2GQ7Da');
     }
+    const stateInput$ = new Subject();
+    const state$ = new StateObservable(stateInput$, _store);
     store = _store;
 
     return next => {
-      epic$.pipe(
+      const result$ = epic$.pipe(
         map(epic => {
-          const vault = (process.env.NODE_ENV === 'production') ? store : {
-            getState: store.getState,
-            dispatch: (action) => {
-              require('./utils/console').deprecate('calling store.dispatch() directly in your Epics is deprecated and will be removed. Instead, emit actions through the Observable your Epic returns.\n\n  https://goo.gl/WWNYSP');
-              return store.dispatch(action);
-            }
-          };
-
           const output$ = ('dependencies' in options)
-            ? epic(action$, vault, options.dependencies)
-            : epic(action$, vault);
+            ? epic(action$, state$, options.dependencies)
+            : epic(action$, state$);
 
           if (!output$) {
             throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
@@ -55,24 +51,26 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
 
           return output$;
         }),
-        switchMap(output$ => options.adapter.output(output$)))
-        .subscribe(action => {
-          try {
-            store.dispatch(action);
-          } catch (err) {
-            console.error(err);
-          }
-        }, (err) => {
-          console.error(err.message);
-          throw err;
-        });
+        switchMap(output$ => options.adapter.output(output$))
+      );
 
-      // Setup initial root epic
+      result$.subscribe(store.dispatch);
+
+      // Setup initial root epic. It's done this way so that
+      // it's possible for them to call replaceEpic later
       epic$.next(rootEpic);
 
       return action => {
+        // Downstream middleware gets the action first,
+        // which includes their reducers, so state is
+        // updated before epics receive the action
         const result = next(action);
+
+        // It's important to update the state$ before we emit
+        // the action because otherwise it would be stale!
+        stateInput$.next(store.getState());
         input$.next(action);
+
         return result;
       };
     };
