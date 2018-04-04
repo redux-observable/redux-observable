@@ -3,9 +3,9 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware, combineEpics, ActionsObservable, EPIC_END, ofType } from '../';
+import { createEpicMiddleware, combineEpics, ActionsObservable, StateObservable, EPIC_END, ofType } from '../';
 import { of, empty, merge } from 'rxjs';
-import { mapTo, map, ignoreElements } from 'rxjs/operators';
+import { mapTo, map, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 
 describe('createEpicMiddleware', () => {
   it('should provide epics a stream of action$ and a stream of state$', (done) => {
@@ -15,7 +15,7 @@ describe('createEpicMiddleware', () => {
     const mockMiddleware = store => next => action => {
       expect(epic.calledOnce).to.equal(true);
       expect(epic.firstCall.args[0]).to.be.instanceOf(ActionsObservable);
-      expect(epic.firstCall.args[1]).to.be.instanceof(StateSubject);
+      expect(epic.firstCall.args[1]).to.be.instanceof(StateObservable);
       done();
     };
     const store = createStore(reducer, applyMiddleware(epicMiddleware, mockMiddleware));
@@ -42,11 +42,21 @@ describe('createEpicMiddleware', () => {
   it('should warn about improper use of dispatch function', () => {
     sinon.spy(console, 'warn');
     const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, state$) => action$.pipe(
+    const epic = (action$, store) => action$.pipe(
       ofType('PING'),
-      map(() => state$.dispatch({ type: 'PONG' })),
+      map(() => store.dispatch({ type: 'PONG' })),
       ignoreElements()
     );
+
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'PING' });
+
+    expect(console.warn.callCount).to.equal(1);
+    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | DEPRECATION: calling store.dispatch() directly in your Epics is deprecated and will be removed. The second argument to your Epic is now a stream of state$ (a StateObservable), instead of the store. Instead of calling store.dispatch() in your Epic, emit actions through the Observable your Epic returns.\n\n  function <T, R, S, D>(action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies?: D): Observable<R>\n\nLearn more: https://redux-observable.js.org/MIGRATION.html');
+    console.warn.restore();
+  });
 
   it('should update state$ after an action goes through reducers but before epics', () => {
     const actions = [];
@@ -60,15 +70,16 @@ describe('createEpicMiddleware', () => {
       }
     };
     const epic = (action$, state$) =>
-      mergeStatic(
-        action$.ofType('PING'),
-        state$::distinctUntilChanged()
-      )
-        ::map(input => ({
+      merge(
+        action$.pipe(ofType('PING')),
+        state$.pipe(distinctUntilChanged())
+      ).pipe(
+        map(input => ({
           type: 'PONG',
           state: state$.value,
           input
-        }));
+        }))
+      );
 
     const epicMiddleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(epicMiddleware));
@@ -115,7 +126,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'PING' });
 
     expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('You accessed state$.value inside one of your Epics, before your reducers have run for the first time, so there is no state yet. You\'ll need to wait until after the first action (@@redux/INIT) is dispatched or by using state$ as an Observable.');
+    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: You accessed state$.value inside one of your Epics, before your reducers have run for the first time, so there is no state yet. You\'ll need to wait until after the first action (@@redux/INIT) is dispatched or by using state$ as an Observable.');
     expect(store.getState()).to.deep.equal([{
       type: '@@redux/INIT'
     }, {
@@ -134,12 +145,14 @@ describe('createEpicMiddleware', () => {
       actions.push(action);
       return state;
     };
-    const epic = (action$, state$) => action$
-      .ofType('PING')
-      ::map(() => ({
-        type: 'RESULT',
-        state: state$.getState()
-      }));
+    const epic = (action$, state$) =>
+      action$.pipe(
+        ofType('PING'),
+        map(() => ({
+          type: 'RESULT',
+          state: state$.getState()
+        }))
+      );
 
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
@@ -147,7 +160,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'PING' });
 
     expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | DEPRECATION: calling store.getState() in your Epics is deprecated and will be removed. The second argument to your Epic is now a stream of state$ (a StateSubject), instead of the store. To imperatively get the current state use state$.value instead of getState(). Alternatively, since it\'s now a stream you can compose and react to state changes.\n\n  function <T, R, S, D>(action$: ActionsObservable<T>, state$: StateSubject<S>, dependencies?: D): Observable<R>\n\nLearn more: https://goo.gl/WWNYSP');
+    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | DEPRECATION: calling store.getState() in your Epics is deprecated and will be removed. The second argument to your Epic is now a stream of state$ (a StateObservable), instead of the store. To imperatively get the current state use state$.value instead of getState(). Alternatively, since it\'s now a stream you can compose and react to state changes.\n\n  function <T, R, S, D>(action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies?: D): Observable<R>\n\nLearn more: https://redux-observable.js.org/MIGRATION.html');
     expect(actions[actions.length - 1].state).to.equal(store.getState());
     console.warn.restore();
   });
@@ -181,7 +194,7 @@ describe('createEpicMiddleware', () => {
     ]);
   });
 
-  it('should not swallow exceptions thrown by reducers', () => {
+  it('exceptions thrown in reducers as part of an epic-dispatched action should go through HostReportErrors', (done) => {
     const reducer = (state = [], action) => {
       switch (action.type) {
         case 'ACTION_1':
@@ -203,10 +216,16 @@ describe('createEpicMiddleware', () => {
       );
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
+    process.prependOnceListener('uncaughtException', (err) => {
+      expect(err.message).to.equal('some error');
+      done();
+    });
 
+    // rxjs v6 does not rethrow synchronously instead emitting on
+    // HostReportErrors e.g. window.onerror or process.on('uncaughtException')
     expect(() => {
       store.dispatch({ type: 'FIRE_1' });
-    }).to.throw('some error');
+    }).to.not.throw('some error');
   });
 
   it('should throw if you don\'t provide a rootEpic', () => {
@@ -219,16 +238,17 @@ describe('createEpicMiddleware', () => {
     }).to.throw('You must provide a root Epic to createEpicMiddleware');
   });
 
-  it('should throw if you provide a root epic that doesn\'t return anything', () => {
+  it('should throw if you provide a root epic that doesn\'t return anything', (done) => {
     sinon.spy(console, 'error');
 
     const rootEpic = () => {};
     const epicMiddleware = createEpicMiddleware(rootEpic);
     createStore(() => {}, applyMiddleware(epicMiddleware));
 
-    expect(console.error.callCount).to.equal(1);
-    expect(console.error.getCall(0).args[0]).to.equal('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
-    console.error.restore();
+    process.prependOnceListener('uncaughtException', (err) => {
+      expect(err.message).to.equal('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
+      done();
+    });
   });
 
   it('should allow you to replace the root epic with middleware.replaceEpic(epic)', () => {

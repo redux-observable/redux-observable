@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
-import { StateSubject } from './StateSubject';
+import { StateObservable } from './StateObservable';
 import { EPIC_END } from './EPIC_END';
 
 const defaultAdapter = {
@@ -34,7 +34,8 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
       // https://github.com/redux-observable/redux-observable/issues/389
       require('./utils/console').warn('this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\n See https://goo.gl/2GQ7Da');
     }
-    const state$ = new StateSubject(_store);
+    const stateInput$ = new Subject();
+    const state$ = new StateObservable(stateInput$, _store);
     store = _store;
 
     return next => {
@@ -67,7 +68,7 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
 
         // It's important to update the state$ before we emit
         // the action because otherwise it would be stale!
-        state$.next(store.getState());
+        stateInput$.next(store.getState());
         input$.next(action);
 
         return result;

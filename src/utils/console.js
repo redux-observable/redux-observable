@@ -1,12 +1,15 @@
 const deprecationsSeen = {};
-
-export const warn = (typeof console === 'object' && typeof console.warn === 'function')
-  ? msg => console.warn(msg)
-  : () => {};
+const consoleWarn = (typeof console === 'object' && typeof console.warn === 'function')
+  ? (...args) => console.warn(...args)
+  : () => { };
 
 export const deprecate = msg => {
   if (!deprecationsSeen[msg]) {
     deprecationsSeen[msg] = true;
-    warn(`redux-observable | DEPRECATION: ${msg}`);
+    consoleWarn(`redux-observable | DEPRECATION: ${msg}`);
   }
+};
+
+export const warn = msg => {
+  consoleWarn(`redux-observable | WARNING: ${msg}`);
 };
