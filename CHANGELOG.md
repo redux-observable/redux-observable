@@ -1,6 +1,18 @@
 <a name="1.0.0-alpha.0"></a>
 # [1.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v1.0.0-alpha.0) (2018-04-04)
 
+Early version alpha, breaking changes are still possible so use as your own risk and make sure to lockdown to exactly semver. Learn more about the migration: https://redux-observable.js.org/MIGRATION.html
+
+### Features
+
+* **createEpicMiddleware:** warn about reusing middleware ([e72661a](https://github.com/redux-observable/redux-observable/commit/e72661a)), closes [#389](https://github.com/redux-observable/redux-observable/issues/389)
+* **state$:** The second argument of an Epic is now a stream of state$, not a store ([#410](https://github.com/redux-observable/redux-observable/issues/410)) ([2ff3f6e](https://github.com/redux-observable/redux-observable/commit/2ff3f6e)), closes [#56](https://github.com/redux-observable/redux-observable/issues/56)
+
+
+
+<a name="1.0.0-alpha.0"></a>
+# [1.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v1.0.0-alpha.0) (2018-04-04)
+
 Early version alpha. Breaking changes are still likely, but feedback welcome!
 
 Learn more: https://redux-observable.js.org/MIGRATION.html
