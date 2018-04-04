@@ -2,7 +2,7 @@
 
 This document is a WIP, but will contain a list of things that are different from the pre-1.0.0 version of redux-observable.
 
-## Displaying an action
+## Dispatching an action
 
 The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS. If you're looking for the ability to directly call dispatch yourself (rather than emit through streams) you may be interested in using an alternative middleware that is less opinionated around RxJS.
 
