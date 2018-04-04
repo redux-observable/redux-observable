@@ -26,5 +26,6 @@
   * [combineEpics](docs/api/combineEpics.md)
   * [EpicMiddleware](docs/api/EpicMiddleware.md)
 
+* [MIGRATION](/MIGRATION.md)
 * [CODE OF CONDUCT](/CODE_OF_CONDUCT.md)
 * [CHANGELOG](/CHANGELOG.md)
