@@ -18,6 +18,12 @@ Please keep in mind that as a pre-release, it's possible breaking changes will b
 
 > The npm `next` version tag will immediately resolve to what ever the latest pre-release version is, e.g. 1.0.0-alpha.0 (or what ever it currently is). Using the above commands, that exact version will get saved in your package.json so that you don't accidentally pick up any _future_ pre-release that may or may not have unexpected breaking changes.
 
+## RxJS v6
+
+Version 1.0.0 of redux-observable requires v6.0.0 of RxJS. As of this writing 6.0-final is not yet released, but you can install the release candidate (rc). Documentation around it is also fairly sparse, but the biggest change is how you import and use operators. The so called "pipeable" operators and more information can be found here: [ReactiveX/rxjs/doc/pipeable-operators.md](https://github.com/ReactiveX/rxjs/blob/master/doc/pipeable-operators.md).
+
+There will likely be a backwards compatibility layer provided with RxJS that will allow you to use the old import-style and prototype-based operators. This _should_ still work with redux-observable, if you have issues definitely file an issue.
+
 ## Dispatching an action
 
 The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS. If you're looking for the ability to directly call dispatch yourself (rather than emit through streams) you may be interested in using an alternative middleware that is less opinionated around RxJS.
@@ -29,7 +35,7 @@ The ability to call `store.dispatch()` inside your Epics was originally provided
 #### Before
 
 ```js
-const somethingEpic = (action$, store) =>
+const somethingEpic = action$ =>
   action$.ofType(SOMETHING)
     .switchMap(() =>
       ajax('/something')
@@ -41,15 +47,19 @@ const somethingEpic = (action$, store) =>
 #### After
 
 ```js
+// Now uses rxjs v6 pipeable operators
 const somethingEpic = action$ =>
-  action$.ofType(SOMETHING)
-    .switchMap(() =>
-      ajax('/something')
-        .mergeMap(response => Observable.of(
+  action$.pipe(
+    ofType(SOMETHING),
+    switchMap(() =>
+      getJSON('/something').pipe(
+        mergeMap(response => of(
           { type: SOMETHING_ELSE },
           { type: SUCCESS, response }
         ))
-    );
+      )
+    )
+  );
 ```
 
 In v1.0.0 `store.dispatch()` is strongly deprecated and will be completely removed in v2.0.0 which will come fairly quickly (if it is not already out by now).
@@ -70,8 +80,8 @@ I expect a majority of people to use the imperative `state$.value` form most of 
 const fetchUserEpic = (action$, store) =>
   action$.ofType(FETCH_USER)
     .mergeMap(action =>
-      getJson(`/users/${action.id}`, { 'Authorization': `Bearer ${store.getState().authToken}` }) // <----- here
-        .map(respose => fetchUserFulfilled(response))
+      ajax(`/users/${action.id}`, { 'Authorization': `Bearer ${store.getState().authToken}` }) // <----- here
+        .map(response => fetchUserFulfilled(response))
     );
 ```
 
@@ -83,8 +93,8 @@ const fetchUserEpic = (action$, state$) =>
   action$.pipe(
     ofType(FETCH_USER),
     mergeMap(action =>
-      getJson(`/users/${action.id}`, { 'Authorization': `Bearer ${state$.value.authToken}` })).pipe( // <----- here
-        map(respose => fetchUserFulfilled(response))
+      ajax(`/users/${action.id}`, { 'Authorization': `Bearer ${state$.value.authToken}` })).pipe( // <----- here
+        map(response => fetchUserFulfilled(response))
       )
     )
   );
