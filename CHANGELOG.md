@@ -1,3 +1,13 @@
+<a name="1.0.0-alpha.1"></a>
+# [1.0.0-alpha.1](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.0...v1.0.0-alpha.1) (2018-04-05)
+
+
+### Bug Fixes
+
+* **typings:** Update type of Epic parameter from store to state$ ([#465](https://github.com/redux-observable/redux-observable/issues/465)) ([6e9430d](https://github.com/redux-observable/redux-observable/commit/6e9430d))
+
+
+
 <a name="1.0.0-alpha.0"></a>
 # [1.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v1.0.0-alpha.0) (2018-04-04)
 
