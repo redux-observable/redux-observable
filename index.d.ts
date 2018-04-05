@@ -39,7 +39,7 @@ export declare class StateObservable<S> extends Observable<S> {
 
 
 export declare interface Epic<T extends Action, S, D = any, O extends T = T> {
-  (action$: ActionsObservable<T>, store: StateObservable<S>, dependencies: D): Observable<O>;
+  (action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies: D): Observable<O>;
 }
 
 export interface EpicMiddleware<T extends Action, S, D = any, O extends T = T> extends Middleware {
