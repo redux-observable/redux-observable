@@ -2,6 +2,22 @@
 
 This document is a WIP, but will contain a list of things that are different from the pre-1.0.0 version of redux-observable.
 
+# Upgrading
+
+[![Latest pre-release version](https://img.shields.io/npm/v/redux-observable/next.svg?label=%22latest%20pre-release%22)](/CHANGELOG.md)
+
+The final version of 1.0.0 is not yet released, but to install the latest pre-release (alpha/beta/rc) you can use:
+
+```
+npm install --save-exact redux-observable@next
+# or
+yarn add redux-observable@next --exact
+```
+
+Please keep in mind that as a pre-release, it's possible breaking changes will be introduced between versions. Feedback is definitely appreciated!
+
+> The npm `next` version tag will immeidately resolve to what ever the latest pre-release version is, e.g. 1.0.0-alpha.0 (or what ever it currently is). Using the above commands, that exact version will get saved in your package.json so that you don't accidentally pick up any _future_ pre-release that may or may not have unexpected breaking changes.
+
 ## Dispatching an action
 
 The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS. If you're looking for the ability to directly call dispatch yourself (rather than emit through streams) you may be interested in using an alternative middleware that is less opinionated around RxJS.
