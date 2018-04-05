@@ -66,7 +66,7 @@ In v1.0.0 `store.dispatch()` is strongly deprecated and will be completely remov
 
 ## Accessing state
 
-As `store.dispatch` is being removed, and since redux-observable has had several years to be used and mature in the wild, it became clear that calling `store.getState()` is useful but there are also usecases to having an Observable of state$ too.
+As `store.dispatch` is being removed, and since redux-observable has had several years to be used and mature in the wild, it became clear that calling `store.getState()` is useful but there are also use cases to having an Observable of state$ too.
 
 In v1.0.0 of redux-observable, the second argument to your Epics is now a custom StateObservable, referred to from now on as `state$`. It has a `value` property that always contains the latest value of your redux state. This can be used in the same imperative way you used to use `store.getState()`.
 
@@ -146,9 +146,9 @@ const fetchUserEpic = (action$, state$) =>
   );
 ```
 
-> Have a cool usecase for state$? Please let us know by opening an issue ticket so we can feature it!
-
 [Learn More](https://github.com/redux-observable/redux-observable/pull/410)
+
+> Have a cool use case for state$? Please let us know by opening an issue ticket so we can feature it!
 
 ***
 
