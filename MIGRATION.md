@@ -16,7 +16,7 @@ yarn add redux-observable@next --exact
 
 Please keep in mind that as a pre-release, it's possible breaking changes will be introduced between versions. Feedback is definitely appreciated!
 
-> The npm `next` version tag will immeidately resolve to what ever the latest pre-release version is, e.g. 1.0.0-alpha.0 (or what ever it currently is). Using the above commands, that exact version will get saved in your package.json so that you don't accidentally pick up any _future_ pre-release that may or may not have unexpected breaking changes.
+> The npm `next` version tag will immediately resolve to what ever the latest pre-release version is, e.g. 1.0.0-alpha.0 (or what ever it currently is). Using the above commands, that exact version will get saved in your package.json so that you don't accidentally pick up any _future_ pre-release that may or may not have unexpected breaking changes.
 
 ## Dispatching an action
 
