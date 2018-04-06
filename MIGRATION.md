@@ -99,16 +99,12 @@ const fetchUserEpic = (action$, state$) =>
     )
   );
 
-// or the "reactive" way, but more verbose
+// or the "reactive" way, but more verbose.
 
 const fetchUserEpic = (action$, state$) =>
   action$.pipe(
     ofType(FETCH_USER),
-    withLatestFrom(
-      state$.pipe(
-        take(1), // We don't want to react to changes in this example
-      )
-    ),
+    withLatestFrom(state$),
     mergeMap(([action, state]) =>
       getJson(`/users/${action.id}`, { 'Authorization': `Bearer ${state.authToken}` }).pipe(
         map(respose => fetchUserFulfilled(response))
