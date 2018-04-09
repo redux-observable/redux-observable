@@ -65,7 +65,7 @@ See the existing adapters for examples. Keep in mind that while you still need R
 
 We publish a UMD build inside our npm package. You can use it via the [unpkg](https://unpkg.com/) CDN:
 
-[https://unpkg.com/redux-observable@latest/dist/redux-observable.min.js](https://unpkg.com/redux-observable@latest/dist/redux-observable.min.js)
+[https://unpkg.com/redux-observable@latest/dist/redux-observable.umd.min.js](https://unpkg.com/redux-observable@latest/dist/redux-observable.umd.min.js)
 
 ## Watch an introduction
 

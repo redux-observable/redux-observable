@@ -2,17 +2,14 @@
   "name": "redux-observable",
   "version": "1.0.0-alpha.1",
   "description": "RxJS based middleware for Redux. Compose and cancel async actions and more.",
-  "module": "lib/esm/index.js",
-  "main": "lib/cjs/index.js",
+  "main": "./lib/redux-observable.cjs.js",
+  "module": "./lib/redux-observable.esm.js",
+  "browser": "./dist/redux-observable.umd.js",
   "sideEffects": false,
   "scripts": {
     "lint": "eslint src && eslint test",
-    "build": "npm run build:esm && npm run build:cjs && npm run build:umd && npm run build:umd:min",
-    "build:esm": "gulp build:esm",
-    "build:cjs": "babel src -d lib/cjs",
-    "build:umd": "cross-env NODE_ENV=development webpack src/index.js -o dist/redux-observable.js",
-    "build:umd:min": "cross-env NODE_ENV=production webpack src/index.js -o dist/redux-observable.min.js",
-    "build:tests": "rimraf temp && babel test -d temp",
+    "build": "rimraf lib && rimraf dist && rollup -c && cross-env NODE_ENV=production rollup -c",
+    "build:tests": "rimraf temp && babel test -d temp && babel src/utils -d lib/utils",
     "clean": "rimraf lib temp dist",
     "check": "npm run lint && npm run test",
     "test": "npm run lint && npm run build && npm run build:tests && mocha temp && npm run test:typings",
@@ -68,13 +65,14 @@
     "rxjs": ">=6.0.0-beta.0 <7"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.44",
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.33",
     "@types/sinon": "^4.3.1",
     "babel-cli": "^6.11.4",
     "babel-core": "^6.26.0",
     "babel-eslint": "^7.0.0",
-    "babel-loader": "^7.0.0",
+    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.11.5",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-polyfill": "^6.13.0",
@@ -91,20 +89,18 @@
     "gitbook-plugin-github": "^3.0.0",
     "gitbook-plugin-prism": "^2.0.1",
     "gitbook-plugin-theme-default": "^1.0.5",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
     "json-server": "^0.10.0",
     "mocha": "^3.0.1",
     "redux": "^3.5.2",
     "rimraf": "^2.5.4",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^3.0.0",
     "rxjs": "^6.0.0-beta.0",
     "sinon": "^2.3.3",
-    "typescript": "^2.1.4",
-    "webpack": "^4.5.0",
-    "webpack-cli": "^2.0.13",
-    "webpack-rxjs-externals": "~2.0.0"
+    "typescript": "^2.1.4"
   },
-  "dependencies": {
-    "gitbook-plugin-github": "^2.0.0"
-  }
+  "dependencies": {}
 }
