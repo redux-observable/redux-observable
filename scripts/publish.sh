@@ -18,7 +18,7 @@ if [[ -z $(git status -uno --porcelain) ]]; then
     read -p "Which dist-tag? (latest) " DIST_TAG;
     DIST_TAG=${DIST_TAG:-latest}
 
-    if [ $BUMP =~ - ] && [ "$DIST_TAG" == "latest" ]; then
+    if [[ "$BUMP" =~ - ]] && [ "$DIST_TAG" == "latest" ]; then
       read -p "Using dist-tag 'latest' for a pre-release. ARE YOU SURE? (y/n) " CONDITION;
 
       if [ "$CONDITION" == "n" ] || [ "$CONDITION" == "" ]; then
