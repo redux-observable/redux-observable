@@ -1,6 +1,6 @@
 {
   "name": "redux-observable",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "RxJS based middleware for Redux. Compose and cancel async actions and more.",
   "main": "./lib/redux-observable.cjs.js",
   "module": "./lib/redux-observable.esm.js",
@@ -100,7 +100,9 @@
     "rollup-plugin-uglify": "^3.0.0",
     "rxjs": "^6.0.0-beta.0",
     "sinon": "^2.3.3",
-    "typescript": "^2.1.4"
-  },
-  "dependencies": {}
+    "typescript": "^2.1.4",
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.13",
+    "webpack-rxjs-externals": "~2.0.0"
+  }
 }
