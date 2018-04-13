@@ -38,11 +38,11 @@ export declare class StateObservable<S> extends Observable<S> {
 }
 
 
-export declare interface Epic<T extends Action, O extends Action = T, S = void, D = any> {
+export declare interface Epic<T extends Action, O extends T, S = void, D = any> {
   (action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies: D): Observable<O>;
 }
 
-export interface EpicMiddleware<T extends Action, O extends Action = T, S = void, D = any> extends Middleware {
+export interface EpicMiddleware<T extends Action, O extends T, S = void, D = any> extends Middleware {
   replaceEpic(nextEpic: Epic<T, O, S, D>): void;
 }
 
@@ -56,9 +56,9 @@ interface Options<D = any> {
   dependencies?: D;
 }
 
-export declare function createEpicMiddleware<T extends Action, O extends Action = T, S = void, D = any>(rootEpic: Epic<T, O, S, D>, options?: Options<D>): EpicMiddleware<T, O, S, D>;
+export declare function createEpicMiddleware<T extends Action, O extends T, S = void, D = any>(rootEpic: Epic<T, O, S, D>, options?: Options<D>): EpicMiddleware<T, O, S, D>;
 
-export declare function combineEpics<T extends Action, O extends Action = T, S = void, D = any>(...epics: Epic<T, O, S, D>[]): Epic<T, O, S, D>;
+export declare function combineEpics<T extends Action, O extends T, S = void, D = any>(...epics: Epic<T, O, S, D>[]): Epic<T, O, S, D>;
 export declare function combineEpics<E>(...epics: E[]): E;
 export declare function combineEpics(...epics: any[]): any;
 
