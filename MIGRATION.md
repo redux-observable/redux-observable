@@ -120,7 +120,7 @@ Since it's a stream, you can do all sorts of cool things:
 // It shows one possible way of having an auto-save feature based on the state
 // changing instead of needing to know all the possible actions that could change
 // that state.
-const fetchUserEpic = (action$, state$) =>
+const autoSaveEpic = (action$, state$) =>
   action$.pipe(
     ofType(AUTO_SAVE_ENABLE),
     exhaustMap(() =>
