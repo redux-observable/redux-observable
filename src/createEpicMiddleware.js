@@ -1,5 +1,5 @@
-import { Subject, from } from 'rxjs';
-import { map, mergeMap, takeUntil } from 'rxjs/operators';
+import { Subject, from, queueScheduler } from 'rxjs';
+import { map, mergeMap, subscribeOn, observeOn, takeUntil } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
 import { StateObservable } from './StateObservable';
 import { EPIC_END } from './EPIC_END';
@@ -59,6 +59,8 @@ export function createEpicMiddleware(rootEpicOrOptions, options = defaultOptions
         return output$;
       }),
       mergeMap(output$ => from(options.adapter.output(output$)).pipe(
+        subscribeOn(queueScheduler),
+        observeOn(queueScheduler),
         takeUntil(replaceEpicSignal$)
       ))
     );

@@ -212,6 +212,57 @@ describe('createEpicMiddleware', () => {
       ]);
     });
 
+    it('should support synchronous emission by epics on start up', () => {
+      const reducer = (state = [], action) => state.concat(action);
+      const epic1 = (action$, state$) => action$.pipe(
+        ofType('ACTION_1'),
+        mapTo({ type: 'ACTION_2' })
+      );
+      const epic2 = (action$, state$) => of({ type: 'ACTION_1' });
+
+      const rootEpic = combineEpics(epic1, epic2);
+
+      const middleware = createEpicMiddleware();
+      const store = createStore(reducer, applyMiddleware(middleware));
+      middleware.run(rootEpic);
+
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'ACTION_1' },
+        { type: 'ACTION_2' }
+      ]);
+    });
+
+    it('should support complex recursively synchronous emissions', () => {
+      const reducer = (state = [], action) => state.concat(action);
+      const epic1 = (action$, state$) => action$.pipe(
+        ofType('ACTION_1', 'ACTION_2'),
+        map(action => ({ type: 'ACTION_3_' + action.type })),
+        startWith({ type: 'ACTION_1' })
+      );
+      const epic2 = (action$, state$) => action$.pipe(
+        ofType('ACTION_1', 'ACTION_2'),
+        map(action => ({ type: 'ACTION_4_' + action.type })),
+        startWith({ type: 'ACTION_2' })
+      );
+
+      const rootEpic = combineEpics(epic1, epic2);
+
+      const middleware = createEpicMiddleware();
+      const store = createStore(reducer, applyMiddleware(middleware));
+      middleware.run(rootEpic);
+
+      expect(store.getState()).to.deep.equal([
+        { type: '@@redux/INIT' },
+        { type: 'ACTION_1' },
+        { type: 'ACTION_2' },
+        { type: 'ACTION_3_ACTION_1' },
+        { type: 'ACTION_4_ACTION_1' },
+        { type: 'ACTION_3_ACTION_2' },
+        { type: 'ACTION_4_ACTION_2' }
+      ]);
+    });
+
     it('exceptions thrown in reducers as part of an epic-dispatched action should go through HostReportErrors', (done) => {
       const reducer = (state = [], action) => {
         switch (action.type) {
