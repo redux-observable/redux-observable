@@ -1,4 +1,8 @@
-const deprecationsSeen = {};
+let deprecationsSeen = {};
+export const resetDeprecationsSeen = () => {
+  deprecationsSeen = {};
+};
+
 const consoleWarn = (typeof console === 'object' && typeof console.warn === 'function')
   ? (...args) => console.warn(...args)
   : () => { };
