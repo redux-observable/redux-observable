@@ -54,7 +54,22 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
         switchMap(output$ => options.adapter.output(output$))
       );
 
-      result$.subscribe(store.dispatch);
+      if (process.env.NODE_ENV !== 'production') {
+        // Check if actions returned from epics contain a property
+        // that only the actions going to epics should have.
+        // If present this indicates an infinite loop
+        result$.pipe(
+          require('rxjs/internal/operators/filter').filter(action => {
+            if (action.hasOwnProperty('@@ReduxObservable🦆') && action.type === action['@@ReduxObservable🦆']) {
+              require('./utils/console').warn(`Infinite loop detected. Action with type "${action.type}" was returned by an epic while it was also part of its input.`);
+              return false;
+            }
+            return true;
+          })
+        ).subscribe(store.dispatch);
+      } else {
+        result$.subscribe(store.dispatch);
+      }
 
       // Setup initial root epic. It's done this way so that
       // it's possible for them to call replaceEpic later
@@ -69,6 +84,16 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
         // It's important to update the state$ before we emit
         // the action because otherwise it would be stale!
         stateInput$.next(store.getState());
+
+        if (process.env.NODE_ENV !== 'production') {
+          // Add a hidden property to actions going to epics.
+          // This property should not be present in actions returned
+          Object.defineProperty(action, '@@ReduxObservable🦆', {
+            enumerable: false,
+            value: action.type,
+          });
+        }
+
         input$.next(action);
 
         return result;
