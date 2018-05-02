@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 import { reducer as reduxFormReducer } from 'redux-form';
 import { SubmissionError } from 'redux-form';
 import { Values } from 'redux-form-website-template';
-import * as bluebird from 'bluebird';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -134,7 +133,7 @@ ReactDOM.render(
       <p>
         Usernames that will pass validation:{' '}
         {ALLOWED_NAMES.map((name, i) =>
-          <span>
+          <span key={name}>
             <code>{name}</code>
             {i === ALLOWED_NAMES.length - 1 ? '' : ', '}
           </span>
