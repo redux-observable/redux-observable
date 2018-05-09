@@ -71,4 +71,28 @@ describe('combineEpics', () => {
       rootEpic();
     }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
   });
+
+  describe('returned epic function name', () => {
+    const epic1 = () => 'named epic';
+    const epic2 = () => 'named epic';
+    const epic3 = () => 'named epic';
+
+    it('should name the new epic with `combineEpics(...epic names)`', () => {
+      const rootEpic = combineEpics(epic1, epic2);
+
+      expect(rootEpic).to.have.property('name').that.equals('combineEpics(epic1, epic2)');
+    });
+
+    it('should annotate combined anonymous epics with `<anonymous>`', () => {
+      const rootEpic = combineEpics(() => 'anonymous', epic2);
+
+      expect(rootEpic).to.have.property('name').that.equals('combineEpics(<anonymous>, epic2)');
+    });
+
+    it('should include all combined epic names in the returned epic', () => {
+      const rootEpic = combineEpics(epic1, epic2, epic3);
+
+      expect(rootEpic).to.have.property('name').that.equals('combineEpics(epic1, epic2, epic3)');
+    });
+  });
 });
