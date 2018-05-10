@@ -421,4 +421,38 @@ describe('createEpicMiddleware', () => {
     createStore(reducer, applyMiddleware(middleware));
     expect(epic.called).to.equal(true);
   });
+
+  it('should warn about inifite loops', () => {
+    sinon.spy(console, 'warn');
+
+    const epic = action$ => action$;
+    const reducer = state => state;
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'ping' });
+
+    expect(console.warn.callCount).to.equal(1);
+    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: Infinite loop detected. Action with type "ping" was returned by an epic while it was also part of its input.');
+
+    console.warn.restore();
+  });
+
+  it('should not warn for no infinite loop', () => {
+    sinon.spy(console, 'warn');
+
+    const epic = action$ => action$.pipe(
+      ofType('ping'),
+      map(action => Object.assign(action, { type: 'pong' }))
+    );
+    const reducer = state => state;
+    const middleware = createEpicMiddleware(epic);
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    store.dispatch({ type: 'ping' });
+
+    expect(console.warn.callCount).to.equal(0);
+
+    console.warn.restore();
+  });
 });
