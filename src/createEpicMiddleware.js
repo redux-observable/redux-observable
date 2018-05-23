@@ -24,9 +24,13 @@ export function createEpicMiddleware(options = defaultOptions) {
   const actionSubject$ = new Subject().pipe(
     observeOn(queueScheduler)
   );
+  const stateSubject$ = new Subject().pipe(
+    observeOn(queueScheduler)
+  );
   const action$ = options.adapter.input(
     new ActionsObservable(actionSubject$)
   );
+  const state$ = new StateObservable(stateSubject$);
   const epic$ = new Subject();
   let store;
 
@@ -36,10 +40,6 @@ export function createEpicMiddleware(options = defaultOptions) {
       require('./utils/console').warn('this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\nLearn more: https://goo.gl/2GQ7Da');
     }
     store = _store;
-    const stateSubject$ = new Subject().pipe(
-      observeOn(queueScheduler)
-    );
-    const state$ = new StateObservable(stateSubject$, _store);
 
     const result$ = epic$.pipe(
       map(epic => {

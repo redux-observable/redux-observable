@@ -12,11 +12,16 @@ export const UNSET_STATE_VALUE = {};
 // requires an initial value (which would be undefined)
 // and if an epic subscribes to it on app boot it would
 // synchronously emit that undefined value incorrectly.
-// We also don't want to expose a Subject to the user at
+// We could use ReplaySubject to get that behavior, but
+// then it wouldn't have the .value property.
+// We also don't want to expose any Subject to the user at
 // all because then they could do `state$.next()` and
 // screw things up and it would just be a footgun.
+// This also allows us to add a warning message for
+// accessing the state$.value property before redux
+// has initialized.
 export class StateObservable extends Observable {
-  constructor(stateSubject, store) {
+  constructor(stateSubject) {
     super(subscriber => {
       const subscription = this.__notifier.subscribe(subscriber);
       if (this.__value !== UNSET_STATE_VALUE && subscription && !subscription.closed) {
@@ -25,12 +30,8 @@ export class StateObservable extends Observable {
       return subscription;
     });
 
-    // If you're reading this, keep in mind that this is
-    // NOT part of the public API and will be removed!
-    this.__store = store;
     this.__value = UNSET_STATE_VALUE;
     this.__notifier = new Subject();
-
     this.__subscription = stateSubject.subscribe(value => {
       // We only want to update state$ if it has actually changed since
       // redux requires reducers use immutability patterns.
@@ -52,19 +53,5 @@ export class StateObservable extends Observable {
     } else {
       return this.__value;
     }
-  }
-
-  getState() {
-    if (process.env.NODE_ENV !== 'production') {
-      require('./utils/console').deprecate('calling store.getState() in your Epics is deprecated and will be removed. The second argument to your Epic is now a stream of state$ (a StateObservable), instead of the store. To imperatively get the current state use state$.value instead of getState(). Alternatively, since it\'s now a stream you can compose and react to state changes.\n\n  function <T, R, S, D>(action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies?: D): Observable<R>\n\nLearn more: https://redux-observable.js.org/MIGRATION.html');
-    }
-    return this.__value;
-  }
-
-  dispatch(...args) {
-    if (process.env.NODE_ENV !== 'production') {
-      require('./utils/console').deprecate('calling store.dispatch() directly in your Epics is deprecated and will be removed. The second argument to your Epic is now a stream of state$ (a StateObservable), instead of the store. Instead of calling store.dispatch() in your Epic, emit actions through the Observable your Epic returns.\n\n  function <T, R, S, D>(action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies?: D): Observable<R>\n\nLearn more: https://redux-observable.js.org/MIGRATION.html');
-    }
-    return this.__store.dispatch(...args);
   }
 }
