@@ -1,0 +1,22 @@
+{
+  "name": "redux-form",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "react-redux": "^5.0.7",
+    "react-scripts": "1.1.4",
+    "redux": "^3",
+    "redux-form": "^7.3.0",
+    "redux-form-website-template": "^0.0.122",
+    "redux-observable": "^0.18.0",
+    "rxjs": "5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

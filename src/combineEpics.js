@@ -3,8 +3,8 @@ import { merge } from 'rxjs';
 /**
   Merges all epics into a single one.
  */
-export const combineEpics = (...epics) => (...args) =>
-  merge(
+export const combineEpics = (...epics) => {
+  const merger = (...args) => merge(
     ...epics.map(epic => {
       const output$ = epic(...args);
       if (!output$) {
@@ -13,3 +13,8 @@ export const combineEpics = (...epics) => (...args) =>
       return output$;
     })
   );
+
+  return Object.defineProperty(merger, 'name', {
+    value: `combineEpics(${epics.map(epic => epic.name || '<anonymous>').join(', ')})`,
+  });
+};

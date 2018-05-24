@@ -25,10 +25,10 @@ interface Dependencies {
 const epic1: Epic<FluxStandardAction, FluxStandardAction, State> = (action$, store$) =>
   action$.pipe(
     ofType('FIRST'),
-    mapTo({
+    map(() => ({
       type: 'first',
       payload: store$.getState()
-    })
+    }))
   );
 
 const epic2: Epic<FluxStandardAction> = action$ =>
@@ -121,8 +121,8 @@ const dependencies: Dependencies = {
   func(value: string) { return `func-${value}`}
 };
 
-const epicMiddleware1: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>(rootEpic1, { dependencies });
-const epicMiddleware2 = createEpicMiddleware(rootEpic2, { dependencies });
+const epicMiddleware1: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>({ dependencies });
+const epicMiddleware2 = createEpicMiddleware({ dependencies });
 
 interface CustomEpic<T extends Action, S, U> {
   (action$: ActionsObservable<T>, store: StateObservable<S>, api: U): Observable<T>;
@@ -146,7 +146,7 @@ const customEpic2: CustomEpic<FluxStandardAction, State, number> = (action$, sto
     }))
   );
 
-const customEpicMiddleware: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>(rootEpic1, {
+const customEpicMiddleware: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>({
   dependencies: { getJSON: ajax.getJSON }
 });
 
@@ -158,8 +158,8 @@ const store = createStore(
   applyMiddleware(epicMiddleware1, epicMiddleware2)
 );
 
-epicMiddleware1.replaceEpic(rootEpic2);
-epicMiddleware2.replaceEpic(rootEpic1);
+epicMiddleware1.run(rootEpic1);
+epicMiddleware1.run(rootEpic2);
 
 store.dispatch({ type: 'FIRST' });
 store.dispatch({ type: 'SECOND' });
@@ -173,19 +173,13 @@ expect(store.getState()).to.deep.equal([
   { "type": "@@redux/INIT" },
   { "type": "fourth" },
   { "type": "fourth" },
-  { "type": "@@redux-observable/EPIC_END" },
-  { "type": "fourth" },
-  { "type": "@@redux-observable/EPIC_END" },
-  { "type": "fourth" },
   { "type": "FIRST" },
   { "type": "first",
     "payload": [
       { "type": "@@redux/INIT" },
       { "type": "fourth" },
       { "type": "fourth" },
-      { "type": "@@redux-observable/EPIC_END" },
-      { "type": "fourth" },
-      { "type": "@@redux-observable/EPIC_END" }
+      { "type": "FIRST" }
     ]
   },
   { "type": "first",
@@ -193,7 +187,15 @@ expect(store.getState()).to.deep.equal([
       { "type": "@@redux/INIT" },
       { "type": "fourth" },
       { "type": "fourth" },
-      { "type": "@@redux-observable/EPIC_END" }
+      { "type": "FIRST" },
+      { "type": "first",
+        "payload": [
+          { "type": "@@redux/INIT" },
+          { "type": "fourth" },
+          { "type": "fourth" },
+          { "type": "FIRST" }
+        ]
+      },
     ]
   },
   { "type": "SECOND" },

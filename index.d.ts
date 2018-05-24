@@ -43,7 +43,7 @@ export declare interface Epic<T extends Action, O extends T = T, S = void, D = a
 }
 
 export interface EpicMiddleware<T extends Action, O extends T = T, S = void, D = any> extends Middleware {
-  replaceEpic(nextEpic: Epic<T, O, S, D>): void;
+  run(rootEpic: Epic<T, O, S, D>): void;
 }
 
 interface Adapter {
@@ -56,12 +56,10 @@ interface Options<D = any> {
   dependencies?: D;
 }
 
-export declare function createEpicMiddleware<T extends Action, O extends T = T, S = void, D = any>(rootEpic: Epic<T, O, S, D>, options?: Options<D>): EpicMiddleware<T, O, S, D>;
+export declare function createEpicMiddleware<T extends Action, O extends T = T, S = void, D = any>(options?: Options<D>): EpicMiddleware<T, O, S, D>;
 
 export declare function combineEpics<T extends Action, O extends T = T, S = void, D = any>(...epics: Epic<T, O, S, D>[]): Epic<T, O, S, D>;
 export declare function combineEpics<E>(...epics: E[]): E;
 export declare function combineEpics(...epics: any[]): any;
 
 export declare function ofType<T extends Action, R extends T = T, K extends R['type'] = R['type']>(...key: K[]): (source: Observable<T>) => Observable<R>;
-
-export declare const EPIC_END: '@@redux-observable/EPIC_END';
