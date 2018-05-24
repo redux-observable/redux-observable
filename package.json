@@ -64,7 +64,7 @@
   },
   "homepage": "https://github.com/redux-observable/redux-observable#README.md",
   "peerDependencies": {
-    "redux": ">=3 <4",
+    "redux": ">=4 <5",
     "rxjs": ">=6.0.0-beta.0 <7"
   },
   "devDependencies": {
@@ -95,7 +95,7 @@
     "gulp-babel": "^6.1.2",
     "json-server": "^0.10.0",
     "mocha": "^3.5.3",
-    "redux": "^3.5.2",
+    "redux": "^4.0.0",
     "rimraf": "^2.5.4",
     "rxjs": "^6.0.0",
     "sinon": "^4.5.0",

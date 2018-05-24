@@ -7,6 +7,7 @@ import { createEpicMiddleware, combineEpics, ActionsObservable, StateObservable,
 import { resetDeprecationsSeen } from '../lib/cjs/utils/console';
 import { of, empty, merge } from 'rxjs';
 import { mapTo, filter, map, mergeMap, startWith, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
+import { initAction } from './initAction';
 
 describe('createEpicMiddleware', () => {
   let spySandbox;
@@ -103,9 +104,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'PING' });
 
     expect(store.getState()).to.equal(2);
-    expect(actions).to.deep.equal([{
-      type: '@@redux/INIT'
-    }, {
+    expect(actions).to.deep.equal([initAction, {
       type: 'PING'
     }, {
       type: 'PONG',
@@ -167,9 +166,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'FIRST' });
 
     expect(store.getState().value).to.equal(8);
-    expect(actions).to.deep.equal([{
-      type: '@@redux/INIT'
-    }, {
+    expect(actions).to.deep.equal([initAction, {
       type: 'FIRST'
     }, {
       type: 'STATE',
@@ -209,9 +206,7 @@ describe('createEpicMiddleware', () => {
 
     expect(console.warn.callCount).to.equal(1);
     expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: You accessed state$.value inside one of your Epics, before your reducers have run for the first time, so there is no state yet. You\'ll need to wait until after the first action (@@redux/INIT) is dispatched or by using state$ as an Observable.');
-    expect(store.getState()).to.deep.equal([{
-      type: '@@redux/INIT'
-    }, {
+    expect(store.getState()).to.deep.equal([initAction, {
       type: 'PONG',
       state: undefined
     }, {
@@ -268,7 +263,7 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'FIRE_2' });
 
     expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
+      initAction,
       { type: 'FIRE_1' },
       { type: 'ACTION_1' },
       { type: 'FIRE_2' },
@@ -291,7 +286,7 @@ describe('createEpicMiddleware', () => {
     middleware.run(rootEpic);
 
     expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
+      initAction,
       { type: 'ACTION_1' },
       { type: 'ACTION_2' }
     ]);
@@ -321,7 +316,7 @@ describe('createEpicMiddleware', () => {
     middleware.run(rootEpic);
 
     expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
+      initAction,
       { type: 'ACTION_1' },
       { type: 'ACTION_2' },
       { type: 'ACTION_3' },
@@ -394,7 +389,7 @@ describe('createEpicMiddleware', () => {
     middleware.run(epic);
 
     expect(store.getState()).to.deep.equal([
-      { type: '@@redux/INIT' },
+      initAction,
       { type: 3 }
     ]);
   });

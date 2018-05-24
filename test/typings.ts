@@ -6,6 +6,7 @@ import { map, mapTo, mergeMap } from 'rxjs/operators';
 
 import { createEpicMiddleware, Epic, combineEpics,
   EpicMiddleware, ActionsObservable, StateObservable, ofType } from '../';
+import { initAction } from './initAction';
 
 interface State {
   foo: string
@@ -170,13 +171,13 @@ store.dispatch({ type: 'EIGHTH', payload: 'eighth-payload' });
 store.dispatch({ type: 'NINTH', payload: 'ninth-payload' });
 
 expect(store.getState()).to.deep.equal([
-  { "type": "@@redux/INIT" },
+  initAction,
   { "type": "fourth" },
   { "type": "fourth" },
   { "type": "FIRST" },
   { "type": "first",
     "payload": [
-      { "type": "@@redux/INIT" },
+      initAction,
       { "type": "fourth" },
       { "type": "fourth" },
       { "type": "FIRST" }
@@ -184,13 +185,13 @@ expect(store.getState()).to.deep.equal([
   },
   { "type": "first",
     "payload": [
-      { "type": "@@redux/INIT" },
+      initAction,
       { "type": "fourth" },
       { "type": "fourth" },
       { "type": "FIRST" },
       { "type": "first",
         "payload": [
-          { "type": "@@redux/INIT" },
+          initAction,
           { "type": "fourth" },
           { "type": "fourth" },
           { "type": "FIRST" }
