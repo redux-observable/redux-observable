@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 // Used as a placeholder value so we can tell
 // whether or not the real state has been set,
@@ -17,24 +17,30 @@ export const UNSET_STATE_VALUE = {};
 // screw things up and it would just be a footgun.
 export class StateObservable extends Observable {
   constructor(stateSubject, store) {
-    super();
-    this.source = stateSubject;
+    super(subscriber => {
+      const subscription = this.__notifier.subscribe(subscriber);
+      if (this.__value !== UNSET_STATE_VALUE && subscription && !subscription.closed) {
+        subscriber.next(this.__value);
+      }
+      return subscription;
+    });
+
     // If you're reading this, keep in mind that this is
     // NOT part of the public API and will be removed!
     this.__store = store;
     this.__value = UNSET_STATE_VALUE;
+    this.__notifier = new Subject();
 
-    this.source.subscribe(value => {
-      this.__value = value;
+    this.__subscription = stateSubject.subscribe(value => {
+      // We only want to update state$ if it has actually changed since
+      // redux requires reducers use immutability patterns.
+      // This is basically what distinctUntilChanged() does but it's so simple
+      // we don't need to pull that code in
+      if (value !== this.__value) {
+        this.__value = value;
+        this.__notifier.next(value);
+      }
     });
-  }
-
-  _subscribe(subscriber) {
-    const subscription = super._subscribe(subscriber);
-    if (this.__value !== UNSET_STATE_VALUE && subscription && !subscription.closed) {
-      subscriber.next(this.__value);
-    }
-    return subscription;
   }
 
   get value() {
@@ -46,12 +52,6 @@ export class StateObservable extends Observable {
     } else {
       return this.__value;
     }
-  }
-
-  lift(operator) {
-    const observable = new StateObservable(this);
-    observable.operator = operator;
-    return observable;
   }
 
   getState() {
