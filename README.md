@@ -4,6 +4,7 @@
 [![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![build status](https://img.shields.io/travis/redux-observable/redux-observable/master.svg)](https://travis-ci.org/redux-observable/redux-observable)
 [![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
+[![pre-release version](https://img.shields.io/npm/v/redux-observable/next.svg?label=%22latest%20pre-release%22)](/CHANGELOG.md)
 [![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![code climate](https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg)](https://codeclimate.com/github/redux-observable/redux-observable)
 [![Greenkeeper badge](https://badges.greenkeeper.io/redux-observable/redux-observable.svg)](https://greenkeeper.io/)
