@@ -36,6 +36,12 @@ describe('createEpicMiddleware', () => {
     store.dispatch({ type: 'FIRST_ACTION_TO_TRIGGER_MIDDLEWARE' });
   });
 
+  it('should throw an error if you provide a function to createEpicMiddleware (used to be rootEpic)', () => {
+    expect(() => {
+      createEpicMiddleware(() => {});
+    }).to.throw(TypeError, 'Providing your root Epic to `createEpicMiddleware(rootEpic)` is no longer supported, instead use `epicMiddleware.run(rootEpic)`\n\nLearn more: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware');
+  });
+
   it('should warn about reusing the epicMiddleware', () => {
     spySandbox.spy(console, 'warn');
     const reducer = (state = [], action) => state.concat(action);
@@ -357,7 +363,7 @@ describe('createEpicMiddleware', () => {
     // HostReportErrors e.g. window.onerror or process.on('uncaughtException')
     expect(() => {
       store.dispatch({ type: 'FIRE_1' });
-    }).to.not.throw('some error');
+    }).to.not.throw();
   });
 
   it('should throw if you provide a root epic that doesn\'t return anything', (done) => {
