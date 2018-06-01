@@ -13,6 +13,10 @@ const defaultOptions = {
 };
 
 export function createEpicMiddleware(options = defaultOptions) {
+  if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
+    throw new TypeError('Providing your root Epic to `createEpicMiddleware(rootEpic)` is no longer supported, instead use `epicMiddleware.run(rootEpic)`\n\nLearn more: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware');
+  }
+
   // even though we used default param, we need to merge the defaults
   // inside the options object as well in case they declare only some
   options = { ...defaultOptions, ...options };
