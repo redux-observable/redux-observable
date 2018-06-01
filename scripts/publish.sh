@@ -27,7 +27,8 @@ if [[ -z $(git status -uno --porcelain) ]]; then
       fi
     fi
 
-    npm publish --tag $DIST_TAG;
+    read -p "Enter 2FA auth token: " AUTH;
+    npm publish --tag $DIST_TAG --otp $AUTH;
   else
     git checkout -f package.json CHANGELOG.md;
     echo "Cancelled publish by your request!";
