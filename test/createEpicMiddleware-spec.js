@@ -60,25 +60,6 @@ describe('createEpicMiddleware', () => {
     expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\nLearn more: https://goo.gl/2GQ7Da');
   });
 
-  it('should warn about improper use of dispatch function', () => {
-    spySandbox.spy(console, 'warn');
-    const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, store) => action$.pipe(
-      ofType('PING'),
-      map(() => store.dispatch({ type: 'PONG' })),
-      ignoreElements()
-    );
-
-    const middleware = createEpicMiddleware();
-    const store = createStore(reducer, applyMiddleware(middleware));
-    middleware.run(epic);
-
-    store.dispatch({ type: 'PING' });
-
-    expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | DEPRECATION: calling store.dispatch() directly in your Epics is deprecated and will be removed. The second argument to your Epic is now a stream of state$ (a StateObservable), instead of the store. Instead of calling store.dispatch() in your Epic, emit actions through the Observable your Epic returns.\n\n  function <T, R, S, D>(action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies?: D): Observable<R>\n\nLearn more: https://redux-observable.js.org/MIGRATION.html');
-  });
-
   it('should update state$ after an action goes through reducers but before epics', () => {
     const actions = [];
     const reducer = (state = 0, action) => {
@@ -111,6 +92,10 @@ describe('createEpicMiddleware', () => {
 
     expect(store.getState()).to.equal(2);
     expect(actions).to.deep.equal([initAction, {
+      type: 'PONG',
+      input: 0,
+      state: 0
+    }, {
       type: 'PING'
     }, {
       type: 'PONG',
@@ -130,6 +115,27 @@ describe('createEpicMiddleware', () => {
       type: 'PONG',
       input: { type: 'PING' },
       state: 2
+    }]);
+  });
+
+  it('should allow accessing state$.value on epic startup', () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = (action$, state$) => of({
+      type: 'PONG',
+      state: state$.value
+    });
+
+    const middleware = createEpicMiddleware();
+    const store = createStore(reducer, applyMiddleware(middleware));
+    middleware.run(epic);
+
+    store.dispatch({ type: 'PING' });
+
+    expect(store.getState()).to.deep.equal([initAction, {
+      type: 'PONG',
+      state: [initAction]
+    }, {
+      type: 'PING'
     }]);
   });
 
@@ -194,57 +200,6 @@ describe('createEpicMiddleware', () => {
       type: 'STATE',
       state: { action: 'STATE', value: 5 }
     }]);
-  });
-
-  it('should warn about accessing state$.value before @@redux/INIT', () => {
-    spySandbox.spy(console, 'warn');
-    const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, state$) => of({
-      type: 'PONG',
-      state: state$.value
-    });
-
-    const middleware = createEpicMiddleware();
-    const store = createStore(reducer, applyMiddleware(middleware));
-    middleware.run(epic);
-
-    store.dispatch({ type: 'PING' });
-
-    expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: You accessed state$.value inside one of your Epics, before your reducers have run for the first time, so there is no state yet. You\'ll need to wait until after the first action (@@redux/INIT) is dispatched or by using state$ as an Observable.');
-    expect(store.getState()).to.deep.equal([initAction, {
-      type: 'PONG',
-      state: undefined
-    }, {
-      type: 'PING'
-    }]);
-  });
-
-  it('should warn about deprecated use of store.getState()', () => {
-    spySandbox.spy(console, 'warn');
-    const actions = [];
-    const reducer = (state = { foo: 'bar' }, action) => {
-      actions.push(action);
-      return state;
-    };
-    const epic = (action$, state$) =>
-      action$.pipe(
-        ofType('PING'),
-        map(() => ({
-          type: 'RESULT',
-          state: state$.getState()
-        }))
-      );
-
-    const middleware = createEpicMiddleware();
-    const store = createStore(reducer, applyMiddleware(middleware));
-    middleware.run(epic);
-
-    store.dispatch({ type: 'PING' });
-
-    expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | DEPRECATION: calling store.getState() in your Epics is deprecated and will be removed. The second argument to your Epic is now a stream of state$ (a StateObservable), instead of the store. To imperatively get the current state use state$.value instead of getState(). Alternatively, since it\'s now a stream you can compose and react to state changes.\n\n  function <T, R, S, D>(action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies?: D): Observable<R>\n\nLearn more: https://redux-observable.js.org/MIGRATION.html');
-    expect(actions[actions.length - 1].state).to.equal(store.getState());
   });
 
   it('should accept an epic that wires up action$ input to action$ out', () => {
