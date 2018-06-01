@@ -1,3 +1,31 @@
+<a name="1.0.0-alpha.3"></a>
+# [1.0.0-alpha.3](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2018-06-01)
+
+
+### Features
+
+* **combineEpics:** verbose combineEpics returned function name ([#480](https://github.com/redux-observable/redux-observable/issues/480)) ([816a916](https://github.com/redux-observable/redux-observable/commit/816a916))
+* **createEpicMiddleware:** schedule emitted actions and epic subscription on the queueScheduler, so that epic order matters less ([d3516bf](https://github.com/redux-observable/redux-observable/commit/d3516bf))
+* **redux:** update to redux v4 ([#501](https://github.com/redux-observable/redux-observable/issues/501)) ([43c2033](https://github.com/redux-observable/redux-observable/commit/43c2033))
+* **state$:** state$ now only emits subsequent values if the state shallowly is different (e.g. prevValue !== nextValue). It still emits the current state immediately on subscribe regardless, as it did before, similar to BehaviorSubject. Closes [#497](https://github.com/redux-observable/redux-observable/issues/497) ([4697047](https://github.com/redux-observable/redux-observable/commit/4697047))
+* **typings:** Make output actions optional ([34a9e12](https://github.com/redux-observable/redux-observable/commit/34a9e12))
+* **typings:** Output actions should extend input actions. ([d109077](https://github.com/redux-observable/redux-observable/commit/d109077))
+* **typings:** Updating typings for more common use-cases. ([0b0efc0](https://github.com/redux-observable/redux-observable/commit/0b0efc0)), closes [#446](https://github.com/redux-observable/redux-observable/issues/446)
+
+
+### BREAKING CHANGES
+
+* **redux:** redux-observable now requires redux v4. The new version of redux is mostly the same, however it required us to change the `createEpicMiddleware` API. See https://redux-observable.js.org/MIGRATION.html
+* **createEpicMiddleware:** You must now provide your rootEpic to `epicMiddleware.run(rootEpic)` instead of passing it to `createEpicMiddleware`. This fixes issues with redux v4 where it's no longer allowed to dispatch actions while middleware is still being setup. See https://redux-observable.js.org/MIGRATION.html
+* **createEpicMiddleware:** `epicMiddleware.replaceEpic` has been removed. A the equivilant behavior can be accomplished by dispatching your own `END` action that your rootEpic is listening for with a `takeUntil`, then providing the next rootEpic to `epicMiddleware.run(nextRootEpic)`. See https://redux-observable.js.org/MIGRATION.html
+* **createEpicMiddleware:** Actions your epics emit are now scheduled using the queueScheduler. This is a bit hard to explain (and understand) but as the name suggests, a queue is used. If the queue is empty, the action is emitted as usual, but if that action causes other actions to be emitted they will be queued up until the call stack of the first action returns.
+
+In a large majority of cases this will have no perceivable impact, but it may affect the order of any complex epic-to-epic communication you have.
+
+The benefit is that actions which are emitted by an epic on start up are not missed by epics which come after it. e.g. With `combineEpics(epic1, epic2)` previously if epic1 emitted on startup, epic2 would not receive that action because it had not yet been set up. See https://redux-observable.js.org/MIGRATION.html
+
+
+
 <a name="1.0.0-alpha.2"></a>
 # [1.0.0-alpha.2](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2018-04-09)
 
