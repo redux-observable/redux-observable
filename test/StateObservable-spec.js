@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { StateObservable } from '../';
 import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 describe('StateObservable', () => {
   let spySandbox;
@@ -75,5 +76,40 @@ describe('StateObservable', () => {
     expect(state$.value).to.equal(second);
     expect(next.callCount).to.equal(2);
     expect(next.getCall(1).args).to.deep.equal([second]);
+  });
+
+  it('works correctly (and does not lift) with operators applied', () => {
+    const input$ = new Subject();
+    const state$ = new StateObservable(input$).pipe(
+      map(d => d.value)
+    );
+    const next = spySandbox.spy();
+    state$.subscribe(next);
+
+    expect(state$.value).to.equal(undefined);
+    expect(next.callCount).to.equal(0);
+
+    const first = { value: 'first' };
+    input$.next(first);
+    // because we piped an operator over it state$ is no longer a StateObservable
+    // it's just a regular Observable and so it loses its `.value` prop
+    expect(state$.value).to.equal(undefined);
+    expect(next.callCount).to.equal(1);
+    expect(next.getCall(0).args).to.deep.equal(['first']);
+
+    input$.next(first);
+    expect(state$.value).to.equal(undefined);
+    expect(next.callCount).to.equal(1);
+
+    first.value = 'something else';
+    input$.next(first);
+    expect(state$.value).to.equal(undefined);
+    expect(next.callCount).to.equal(1);
+
+    const second = { value: 'second' };
+    input$.next(second);
+    expect(state$.value).to.equal(undefined);
+    expect(next.callCount).to.equal(2);
+    expect(next.getCall(1).args).to.deep.equal(['second']);
   });
 });
