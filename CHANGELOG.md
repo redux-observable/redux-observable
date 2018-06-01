@@ -1,3 +1,24 @@
+<a name="1.0.0-beta.0"></a>
+# [1.0.0-beta.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.3...v1.0.0-beta.0) (2018-06-01)
+
+
+### Bug Fixes
+
+* **state$:** initial state is no longer skipped by state$ ([2509605](https://github.com/redux-observable/redux-observable/commit/2509605))
+
+
+### Features
+
+* **rootEpic:** an error is now thrown if you provide your root Epic directly to . See 'https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware' ([4479ac8](https://github.com/redux-observable/redux-observable/commit/4479ac8))
+* **state$:** remove previously deprecated store.dispatch/getState() from epics (NOT from your UI code) ([b352a98](https://github.com/redux-observable/redux-observable/commit/b352a98))
+
+
+### BREAKING CHANGES
+
+* **state$:** previously the second argument to your epics was a "lite" version of the redux store with store.dispatch() and store.getState(), however this has been replaced with a stream of a state$ in v1.0.0 of redux-observable and the old methods were deprecated with warnings in previous alpha versions. This release removes them entirely. See https://redux-observable.js.org/MIGRATION.html
+
+
+
 <a name="1.0.0-alpha.3"></a>
 # [1.0.0-alpha.3](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2018-06-01)
 
