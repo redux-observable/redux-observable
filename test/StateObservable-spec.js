@@ -22,26 +22,24 @@ describe('StateObservable', () => {
 
   it('should mirror the source subject', () => {
     const input$ = new Subject();
-    const state$ = new StateObservable(input$);
+    const state$ = new StateObservable(input$, 'first');
     let result = null;
 
     state$.subscribe(state => {
       result = state;
     });
 
-    expect(result).to.equal(null);
-    input$.next('first');
     expect(result).to.equal('first');
     input$.next('second');
     expect(result).to.equal('second');
+    input$.next('third');
+    expect(result).to.equal('third');
   });
 
   it('should cache last state on the `value` property', () => {
     const input$ = new Subject();
-    const state$ = new StateObservable(input$);
+    const state$ = new StateObservable(input$, 'first');
 
-    expect(state$.value).to.equal(undefined);
-    input$.next('first');
     expect(state$.value).to.equal('first');
     input$.next('second');
     expect(state$.value).to.equal('second');
@@ -49,15 +47,11 @@ describe('StateObservable', () => {
 
   it('should only update when the next value shallowly differs', () => {
     const input$ = new Subject();
-    const state$ = new StateObservable(input$);
+    const first = { value: 'first' };
+    const state$ = new StateObservable(input$, first);
     const next = spySandbox.spy();
     state$.subscribe(next);
 
-    expect(state$.value).to.equal(undefined);
-    expect(next.callCount).to.equal(0);
-
-    const first = { value: 'first' };
-    input$.next(first);
     expect(state$.value).to.equal(first);
     expect(next.callCount).to.equal(1);
     expect(next.getCall(0).args).to.deep.equal([first]);
@@ -79,27 +73,19 @@ describe('StateObservable', () => {
   });
 
   it('works correctly (and does not lift) with operators applied', () => {
+    const first = { value: 'first' };
     const input$ = new Subject();
-    const state$ = new StateObservable(input$).pipe(
+    const state$ = new StateObservable(input$, first).pipe(
       map(d => d.value)
     );
     const next = spySandbox.spy();
     state$.subscribe(next);
 
-    expect(state$.value).to.equal(undefined);
-    expect(next.callCount).to.equal(0);
-
-    const first = { value: 'first' };
-    input$.next(first);
     // because we piped an operator over it state$ is no longer a StateObservable
     // it's just a regular Observable and so it loses its `.value` prop
     expect(state$.value).to.equal(undefined);
     expect(next.callCount).to.equal(1);
     expect(next.getCall(0).args).to.deep.equal(['first']);
-
-    input$.next(first);
-    expect(state$.value).to.equal(undefined);
-    expect(next.callCount).to.equal(1);
 
     first.value = 'something else';
     input$.next(first);

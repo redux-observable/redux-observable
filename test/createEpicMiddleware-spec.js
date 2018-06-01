@@ -92,6 +92,10 @@ describe('createEpicMiddleware', () => {
 
     expect(store.getState()).to.equal(2);
     expect(actions).to.deep.equal([initAction, {
+      type: 'PONG',
+      input: 0,
+      state: 0
+    }, {
       type: 'PING'
     }, {
       type: 'PONG',
@@ -111,6 +115,27 @@ describe('createEpicMiddleware', () => {
       type: 'PONG',
       input: { type: 'PING' },
       state: 2
+    }]);
+  });
+
+  it('should allow accessing state$.value on epic startup', () => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic = (action$, state$) => of({
+      type: 'PONG',
+      state: state$.value
+    });
+
+    const middleware = createEpicMiddleware();
+    const store = createStore(reducer, applyMiddleware(middleware));
+    middleware.run(epic);
+
+    store.dispatch({ type: 'PING' });
+
+    expect(store.getState()).to.deep.equal([initAction, {
+      type: 'PONG',
+      state: [initAction]
+    }, {
+      type: 'PING'
     }]);
   });
 
@@ -174,30 +199,6 @@ describe('createEpicMiddleware', () => {
     }, {
       type: 'STATE',
       state: { action: 'STATE', value: 5 }
-    }]);
-  });
-
-  it('should warn about accessing state$.value before @@redux/INIT', () => {
-    spySandbox.spy(console, 'warn');
-    const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, state$) => of({
-      type: 'PONG',
-      state: state$.value
-    });
-
-    const middleware = createEpicMiddleware();
-    const store = createStore(reducer, applyMiddleware(middleware));
-    middleware.run(epic);
-
-    store.dispatch({ type: 'PING' });
-
-    expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: You accessed state$.value inside one of your Epics, before your reducers have run for the first time, so there is no state yet. You\'ll need to wait until after the first action (@@redux/INIT) is dispatched or by using state$ as an Observable.');
-    expect(store.getState()).to.deep.equal([initAction, {
-      type: 'PONG',
-      state: undefined
-    }, {
-      type: 'PING'
     }]);
   });
 
