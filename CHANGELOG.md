@@ -1,3 +1,13 @@
+<a name="1.0.0-beta.1"></a>
+# [1.0.0-beta.1](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.0...v1.0.0-beta.1) (2018-06-04)
+
+
+### Bug Fixes
+
+* **combineEpics:** combineEpics no longer errors on React Native Android because of readonly `name`  prop setting ([7b4f208](https://github.com/redux-observable/redux-observable/commit/7b4f208))
+
+
+
 <a name="1.0.0-beta.0"></a>
 # [1.0.0-beta.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.3...v1.0.0-beta.0) (2018-06-01)
 
