@@ -28,15 +28,10 @@ export declare class ActionsObservable<T extends Action> extends Observable<T> {
 
 export declare class StateObservable<S> extends Observable<S> {
   source: Subject<S>;
-  constructor(stateSubject: Subject<S>, store: Store<S>);
+  constructor(stateSubject: Subject<S>, initialState: S);
 
   value: S
-
-  // deprecated
-  getState(): S
-  dispatch: Store<S>["dispatch"]
 }
-
 
 export declare interface Epic<T extends Action, O extends T = T, S = void, D = any> {
   (action$: ActionsObservable<T>, state$: StateObservable<S>, dependencies: D): Observable<O>;
