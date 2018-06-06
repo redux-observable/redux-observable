@@ -53,13 +53,7 @@ export function createEpicMiddleware(rootEpic, options = defaultOptions) {
           return output$;
         })
         ::switchMap(output$ => options.adapter.output(output$))
-        .subscribe(action => {
-          try {
-            store.dispatch(action);
-          } catch (err) {
-            console.error(err);
-          }
-        });
+        .subscribe(store.dispatch);
 
       // Setup initial root epic
       epic$.next(rootEpic);

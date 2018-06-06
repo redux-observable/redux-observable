@@ -70,13 +70,11 @@ describe('createEpicMiddleware', () => {
     ]);
   });
 
-  it('should console error when reducer throw exception', () => {
-    sinon.spy(console, 'error');
-
+  it('should rethrow errors when a reducer throws an exception', () => {
     const reducer = (state = [], action) => {
       switch (action.type) {
         case 'ACTION_1':
-          throw new Error();
+          throw new Error('bad stuff');
         default:
           return state;
       }
@@ -89,9 +87,9 @@ describe('createEpicMiddleware', () => {
     const middleware = createEpicMiddleware(epic);
     const store = createStore(reducer, applyMiddleware(middleware));
 
-    store.dispatch({ type: 'FIRE_1' });
-    expect(console.error.callCount).to.equal(1);
-    console.error.restore();
+    expect(() => {
+      store.dispatch({ type: 'FIRE_1' });
+    }).to.throw(Error, 'bad stuff');
   });
 
   it("should throw if you don't provide a rootEpic", () => {
