@@ -2,20 +2,20 @@
 
 An instance of the redux-observable middleware.
 
-To create it, pass your root [Epic](../basics/Epics.md) to [`createEpicMiddleware`](createEpicMiddleware.md).
+To create it, call [`createEpicMiddleware`](createEpicMiddleware.md).
 
 ### EpicMiddleware Methods
 
-- [`replaceEpic(nextEpic)`](#replaceEpic)
+- [`run(rootEpic)`](#run)
 
 <hr>
 
-### <a id='replaceEpic'></a>[`replaceEpic(nextEpic)`](#replaceEpic)
+### <a id='run'></a>[`run(rootEpic)`](#replaceEpic)
 
-Replaces the epic currently used by the middleware.
+Run the middleware with the provided epic.
 
-It is an advanced API. You might need this if your app implements code splitting and you want to load some of the epics dynamically or you're using hot reloading.
+You might need to call this multiple times if your app implements code splitting and you want to load some of the epics dynamically or you're using hot reloading.
 
 #### Arguments
 
-1. `epic` (*Epic*) The next epic for the middleware to use.
+1. `rootEpic` (*Epic*) The epic for the middleware to use.

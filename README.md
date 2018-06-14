@@ -9,7 +9,7 @@
 [![code climate](https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg)](https://codeclimate.com/github/redux-observable/redux-observable)
 [![Greenkeeper badge](https://badges.greenkeeper.io/redux-observable/redux-observable.svg)](https://greenkeeper.io/)
 
-[RxJS 5](http://github.com/ReactiveX/RxJS)-based middleware for
+[RxJS 6](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
 
 [https://redux-observable.js.org](https://redux-observable.js.org)
@@ -40,17 +40,15 @@ redux-observable is an independent project with ongoing development and support 
 
 ## Install
 
-This has peer dependencies of `rxjs@5.x.x` and `redux`, which will have to be installed as well.
+This has peer dependencies of `rxjs@6.x.x` and `redux@4.x.x`, which will have to be installed as well.
 
 ```bash
 npm install --save redux-observable
 ```
 
-**IMPORTANT:** redux-observable does not add any of the RxJS operators to the `Observable.prototype` so you will need to import the ones you use or import all of them in your entry file. [Learn more](http://redux-observable.js.org/docs/Troubleshooting.html#rxjs-operators-are-missing-eg-typeerror-actionoftypeswitchmap-is-not-a-function).
-
 ##### Optional Adapters
 
-Epics use RxJS v5 by default. You can use other stream libraries (other than RxJS v5) by using an Adapter.
+Epics use RxJS v6 by default. You can use other stream libraries (other than RxJS v6) by using an Adapter.
 
 * [RxJS v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4)
 * [most.js](https://github.com/redux-observable/redux-observable-adapter-most)
@@ -65,7 +63,7 @@ const adapter = {
 };
 ```
 
-See the existing adapters for examples. Keep in mind that while you still need RxJS v5 installed, redux-observable only pulls in the minimum amount of RxJS it needs internally--it doesn't import _all_ of RxJS.
+See the existing adapters for examples. Keep in mind that while you still need RxJS v6 installed, redux-observable only pulls in the minimum amount of RxJS it needs internally--it doesn't import _all_ of RxJS.
 
 ##### UMD
 
