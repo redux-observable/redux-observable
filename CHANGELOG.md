@@ -83,6 +83,19 @@ Early version alpha, breaking changes are still possible so use as your own risk
 * **state$:** The second argument of an Epic is now a stream of state$, not a store ([#410](https://github.com/redux-observable/redux-observable/issues/410)) ([2ff3f6e](https://github.com/redux-observable/redux-observable/commit/2ff3f6e)), closes [#56](https://github.com/redux-observable/redux-observable/issues/56)
 
 
+<a name="0.19.0"></a>
+# [0.19.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v0.19.0) (2018-06-06)
+
+
+### Bug Fixes
+
+* **errors:** errors from reducers are no longer caught and logged, instead are rethrown. related [#263](https://github.com/redux-observable/redux-observable/issues/263)#issuecomment-395109222 ([f90f8ef](https://github.com/redux-observable/redux-observable/commit/f90f8ef)), closes [#issuecomment-395109222](https://github.com/redux-observable/redux-observable/issues/issuecomment-395109222)
+
+
+### BREAKING CHANGES
+
+* **errors:** For 0.19.0 errors from reducers are no longer caught and console.error logged, instead they are just rethrown as before. This was a temporary workaround for a bug in rxjs where it would silently swallow errors. That bug has been fixed in 5.5.6+, so it is highly recommended you use _at least_ rxjs@5.5.6+ with this version of redux-observable. However, redux-observable is close to reaching 1.0.0-final which will require rxjs v6 and redux v4, if you'd like to start upgrading to it now you can use redux-observable@next (as of this writing 1.0.0-beta.1)
+
 
 <a name="0.18.0"></a>
 # [0.18.0](https://github.com/redux-observable/redux-observable/compare/v0.17.0...v0.18.0) (2018-02-07)
