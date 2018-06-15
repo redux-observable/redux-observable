@@ -3,8 +3,7 @@ node_js:
   - "stable"
   - "lts/*"
 
-script: yarn test
+script: npm run test
 
 cache:
-  yarn: true
   directories: node_modules
