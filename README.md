@@ -48,25 +48,6 @@ npm install --save redux-observable
 
 **IMPORTANT:** redux-observable does not add any of the RxJS operators to the `Observable.prototype` so you will need to import the ones you use or import all of them in your entry file. [Learn more](http://redux-observable.js.org/docs/Troubleshooting.html#rxjs-operators-are-missing-eg-typeerror-actionoftypeswitchmap-is-not-a-function).
 
-##### Optional Adapters
-
-Epics use RxJS v5 by default. You can use other stream libraries (other than RxJS v5) by using an Adapter.
-
-* [RxJS v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4)
-* [most.js](https://github.com/redux-observable/redux-observable-adapter-most)
-* [xstream](https://github.com/vic/redux-observable-adapter-xstream)
-
-You can write your own adapter too:
-
-```js
-const adapter = {
-  input: input$ => /* convert Observable to your preferred stream library */,
-  output: output$ => /* convert your preferred stream back to an Observable */
-};
-```
-
-See the existing adapters for examples. Keep in mind that while you still need RxJS v5 installed, redux-observable only pulls in the minimum amount of RxJS it needs internally--it doesn't import _all_ of RxJS.
-
 ##### UMD
 
 We publish a UMD build inside our npm package. You can use it via the [unpkg](https://unpkg.com/) CDN:
