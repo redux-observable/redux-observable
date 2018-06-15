@@ -3,23 +3,10 @@ import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
 import { StateObservable } from './StateObservable';
 
-const defaultAdapter = {
-  input: action$ => action$,
-  output: action$ => action$
-};
-
-const defaultOptions = {
-  adapter: defaultAdapter
-};
-
-export function createEpicMiddleware(options = defaultOptions) {
+export function createEpicMiddleware(options = {}) {
   if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
     throw new TypeError('Providing your root Epic to `createEpicMiddleware(rootEpic)` is no longer supported, instead use `epicMiddleware.run(rootEpic)`\n\nLearn more: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware');
   }
-
-  // even though we used default param, we need to merge the defaults
-  // inside the options object as well in case they declare only some
-  options = { ...defaultOptions, ...options };
 
   const epic$ = new Subject();
   let store;
@@ -36,9 +23,7 @@ export function createEpicMiddleware(options = defaultOptions) {
     const stateSubject$ = new Subject().pipe(
       observeOn(queueScheduler)
     );
-    const action$ = options.adapter.input(
-      new ActionsObservable(actionSubject$)
-    );
+    const action$ = new ActionsObservable(actionSubject$);
     const state$ = new StateObservable(stateSubject$, store.getState());
 
     const result$ = epic$.pipe(
@@ -54,7 +39,7 @@ export function createEpicMiddleware(options = defaultOptions) {
         return output$;
       }),
       mergeMap(output$ =>
-        from(options.adapter.output(output$)).pipe(
+        from(output$).pipe(
           subscribeOn(queueScheduler),
           observeOn(queueScheduler)
         )

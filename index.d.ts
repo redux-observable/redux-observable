@@ -41,13 +41,7 @@ export interface EpicMiddleware<T extends Action, O extends T = T, S = void, D =
   run(rootEpic: Epic<T, O, S, D>): void;
 }
 
-interface Adapter {
-  input: (input$: Observable<any>) => any;
-  output: (output$: any) => Observable<any>;
-}
-
 interface Options<D = any> {
-  adapter?: Adapter;
   dependencies?: D;
 }
 

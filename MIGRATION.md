@@ -26,6 +26,8 @@ There will likely be a backwards compatibility layer provided with RxJS that wil
 
 ## Setting up the middleware
 
+### rootEpic
+
 In 1.0.0 you no longer provide your root Epic to `createEpicMiddleware`. Instead, you call `epicMiddleware.run(rootEpic)` on the instance of the middleware _after_ you have created your store with it.
 
 ```ts
@@ -40,6 +42,37 @@ This change was neccesary because in redux v4 you are no longer supposed to disp
 This new API also gives you the ability to easily add Epics later, as in async lazy loading. Subsequent calls of `epicMiddleware.run(epic)` do not replace the previous ones, they are merged together.
 
 The optional configuration/options argument to `createEpicMiddleware` for providing dependencies, adapters, etc is now the first and only argument to `createEpicMiddleware(options)`.
+
+### Adapters
+
+Adapters are no longer supported, but you can achieve the same behavior by applying the transforms in a custom root Epic.
+
+Here's an example of converting the Observables to Most.js streams:
+
+
+```js
+import most from 'most';
+import { from } from 'rxjs';
+
+// a Most.js implementatin of combineEpics
+const combineEpics = (...epics) => (...args) =>
+  most.merge(
+    ...epics.map(epic => epic(...args))
+  );
+
+const rootEpic = (action$, state$, ...rest) => {
+  const epic = combineEpics(epic1, epic2, ...etc);
+  // action$ and state$ are converted from Observables to Most.js streams
+  const output = epic(
+    most.from(action$),
+    most.from(state$),
+    ...rest
+  );
+
+  // convert Most.js stream back to Observable
+  return from(output);
+};
+```
 
 ## Actions emitted by your epics are now scheduled on a queue
 
