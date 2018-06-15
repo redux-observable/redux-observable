@@ -360,8 +360,7 @@ process managers called "Epics". See
 http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-deprecated
 for more information on Epics.
 * API renames: Creating the middleware is now done with
-`createEpicMiddleware(rootEpic)` instead of `red
-uxObservable(rootEpic)` and `combineEpics()` has been renamed
+`createEpicMiddleware(rootEpic)` instead of `reduxObservable(rootEpic)` and `combineDelegators()` has been renamed as
 `combineEpics()`
 * middleware: dispatched actions will now occur _before_ the actions created by synchronous observable side effects.
 
