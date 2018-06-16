@@ -1,3 +1,18 @@
+<a name="1.0.0-beta.2"></a>
+# [1.0.0-beta.2](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2018-06-16)
+
+
+### Features
+
+* **adapters:** remove adapters support ([87a5f86](https://github.com/redux-observable/redux-observable/commit/87a5f86))
+
+
+### BREAKING CHANGES
+
+* **adapters:** Support for adapters has been removed. Adapters were previously used to transform the `action$` Observable into some other stream-library primitive; like Most.js, Bacon, RxJS v4, etc. While rarely used, if you would like this functionality the MIGRATION.md guide gives an example: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware
+
+
+
 <a name="1.0.0-beta.1"></a>
 # [1.0.0-beta.1](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.0...v1.0.0-beta.1) (2018-06-04)
 
