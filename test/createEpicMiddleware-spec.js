@@ -335,26 +335,6 @@ describe('createEpicMiddleware', () => {
     });
   });
 
-  it('supports an adapter for Epic input/output', () => {
-    const reducer = (state = [], action) => state.concat(action);
-    const epic = input => input + 1;
-
-    const adapter = {
-      input: () => 1,
-      output: value => of({
-        type: value + 1
-      })
-    };
-    const middleware = createEpicMiddleware({ adapter });
-    const store = createStore(reducer, applyMiddleware(middleware));
-    middleware.run(epic);
-
-    expect(store.getState()).to.deep.equal([
-      initAction,
-      { type: 3 }
-    ]);
-  });
-
   it('should not pass third argument to epic if no dependencies provided', () => {
     const reducer = (state = [], action) => state;
     const epic = spySandbox.spy(action$ => action$);

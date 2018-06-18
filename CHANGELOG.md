@@ -1,3 +1,18 @@
+<a name="1.0.0-beta.2"></a>
+# [1.0.0-beta.2](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2018-06-16)
+
+
+### Features
+
+* **adapters:** remove adapters support ([87a5f86](https://github.com/redux-observable/redux-observable/commit/87a5f86))
+
+
+### BREAKING CHANGES
+
+* **adapters:** Support for adapters has been removed. Adapters were previously used to transform the `action$` Observable into some other stream-library primitive; like Most.js, Bacon, RxJS v4, etc. While rarely used, if you would like this functionality the MIGRATION.md guide gives an example: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware
+
+
+
 <a name="1.0.0-beta.1"></a>
 # [1.0.0-beta.1](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.0...v1.0.0-beta.1) (2018-06-04)
 
@@ -83,19 +98,18 @@ Early version alpha, breaking changes are still possible so use as your own risk
 * **state$:** The second argument of an Epic is now a stream of state$, not a store ([#410](https://github.com/redux-observable/redux-observable/issues/410)) ([2ff3f6e](https://github.com/redux-observable/redux-observable/commit/2ff3f6e)), closes [#56](https://github.com/redux-observable/redux-observable/issues/56)
 
 
+<a name="0.19.0"></a>
+# [0.19.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v0.19.0) (2018-06-06)
 
-<a name="1.0.0-alpha.0"></a>
-# [1.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v1.0.0-alpha.0) (2018-04-04)
 
-Early version alpha. Breaking changes are still likely, but feedback welcome!
+### Bug Fixes
 
-Learn more: https://redux-observable.js.org/MIGRATION.html
+* **errors:** errors from reducers are no longer caught and logged, instead are rethrown. related [#263](https://github.com/redux-observable/redux-observable/issues/263)#issuecomment-395109222 ([f90f8ef](https://github.com/redux-observable/redux-observable/commit/f90f8ef)), closes [#issuecomment-395109222](https://github.com/redux-observable/redux-observable/issues/issuecomment-395109222)
 
-### Features
 
-* **createEpicMiddleware:** warn about reusing middleware ([e72661a](https://github.com/redux-observable/redux-observable/commit/e72661a)), closes [#389](https://github.com/redux-observable/redux-observable/issues/389)
-* **state$:** The second argument of an Epic is now a stream of state$, not a store ([#410](https://github.com/redux-observable/redux-observable/issues/410)) ([2ff3f6e](https://github.com/redux-observable/redux-observable/commit/2ff3f6e)), closes [#56](https://github.com/redux-observable/redux-observable/issues/56)
+### BREAKING CHANGES
 
+* **errors:** For 0.19.0 errors from reducers are no longer caught and console.error logged, instead they are just rethrown as before. This was a temporary workaround for a bug in rxjs where it would silently swallow errors. That bug has been fixed in 5.5.6+, so it is highly recommended you use _at least_ rxjs@5.5.6+ with this version of redux-observable. However, redux-observable is close to reaching 1.0.0-final which will require rxjs v6 and redux v4, if you'd like to start upgrading to it now you can use redux-observable@next (as of this writing 1.0.0-beta.1)
 
 
 <a name="0.18.0"></a>
@@ -361,8 +375,7 @@ process managers called "Epics". See
 http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-deprecated
 for more information on Epics.
 * API renames: Creating the middleware is now done with
-`createEpicMiddleware(rootEpic)` instead of `red
-uxObservable(rootEpic)` and `combineEpics()` has been renamed
+`createEpicMiddleware(rootEpic)` instead of `reduxObservable(rootEpic)` and `combineDelegators()` has been renamed as
 `combineEpics()`
 * middleware: dispatched actions will now occur _before_ the actions created by synchronous observable side effects.
 

@@ -46,25 +46,6 @@ This has peer dependencies of `rxjs@6.x.x` and `redux@4.x.x`, which will have to
 npm install --save redux-observable
 ```
 
-##### Optional Adapters
-
-Epics use RxJS v6 by default. You can use other stream libraries (other than RxJS v6) by using an Adapter.
-
-* [RxJS v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4)
-* [most.js](https://github.com/redux-observable/redux-observable-adapter-most)
-* [xstream](https://github.com/vic/redux-observable-adapter-xstream)
-
-You can write your own adapter too:
-
-```js
-const adapter = {
-  input: input$ => /* convert Observable to your preferred stream library */,
-  output: output$ => /* convert your preferred stream back to an Observable */
-};
-```
-
-See the existing adapters for examples. Keep in mind that while you still need RxJS v6 installed, redux-observable only pulls in the minimum amount of RxJS it needs internally--it doesn't import _all_ of RxJS.
-
 ##### UMD
 
 We publish a UMD build inside our npm package. You can use it via the [unpkg](https://unpkg.com/) CDN:
