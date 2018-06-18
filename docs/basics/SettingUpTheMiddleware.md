@@ -31,13 +31,31 @@ export const rootReducer = combineReducers({
 
 ## Configuring The Store
 
-Now create an instance of the redux-observable middleware, passing in the newly created root Epic.
+Now create an instance of the redux-observable middleware.
 
 ```js
 import { createEpicMiddleware } from 'redux-observable';
+
+const epicMiddleware = createEpicMiddleware();
+```
+
+Then you pass this to the createStore function from Redux.
+
+```js
+import { createStore, applyMiddleware } from 'redux';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(epicMiddleware)
+);
+```
+
+And after that you call `epicMiddleware.run()` with the rootEpic you created earlier.
+
+```js
 import { rootEpic } from './modules/root';
 
-const epicMiddleware = createEpicMiddleware(rootEpic);
+epicMiddleware.run(rootEpic);
 ```
 
 Integrate the code above with your existing Store configuration so that it looks like this:
@@ -49,14 +67,15 @@ import { createStore, applyMiddleware } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic, rootReducer } from './modules/root';
 
-const epicMiddleware = createEpicMiddleware(rootEpic);
+const epicMiddleware = createEpicMiddleware();
 
 export default function configureStore() {
   const store = createStore(
     rootReducer,
-	applyMiddleware(epicMiddleware)
+    applyMiddleware(epicMiddleware)
   );
   
+  epicMiddleware.run(rootEpic);
 
   return store;
 }
@@ -68,7 +87,7 @@ To enable Redux DevTools Extension, just use `window.__REDUX_DEVTOOLS_EXTENSION_
 
 ```js
 import { compose } from 'redux'; // and your other imports from before
-const epicMiddleware = createEpicMiddleware(pingEpic);
+const epicMiddleware = createEpicMiddleware();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -77,4 +96,6 @@ const store = createStore(pingReducer,
     applyMiddleware(epicMiddleware)
   )
 );
+
+epicMiddleware.run(pingEpic);
 ```

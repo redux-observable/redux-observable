@@ -1,11 +1,10 @@
-# `createEpicMiddleware(rootEpic, [options])`
+# `createEpicMiddleware([options])`
 
-`createEpicMiddleware()` is used to create an instance of the actual redux-observable middleware. You provide a single, root Epic.
+`createEpicMiddleware()` is used to create an instance of the actual redux-observable middleware.
 
 #### Arguments
 
-1. *`rootEpic: Epic`*: The root [Epic](../basics/Epics.md)
-2. *`[options: Object]`*: The optional configuration. Options:
+1. *`[options: Object]`*: The optional configuration. Options:
     * *`dependencies`*: If given, it will be injected as the 3rd argument to all epics.
 
 #### Returns
@@ -21,13 +20,15 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic, rootReducer } from './modules/root';
 
-const epicMiddleware = createEpicMiddleware(rootEpic);
+const epicMiddleware = createEpicMiddleware();
 
 export default function configureStore() {
   const store = createStore(
     rootReducer,
-	applyMiddleware(epicMiddleware)
+    applyMiddleware(epicMiddleware)
   );
+
+  epicMiddleware.run(rootEpic);
 
   return store;
 }

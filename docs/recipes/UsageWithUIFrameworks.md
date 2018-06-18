@@ -9,5 +9,5 @@ Here are some JSBins to get a general feel for how you might use redux-observabl
 * [Using Raw HTML APIs](http://jsbin.com/birogu/edit?js,output)
 * [Using React](http://jsbin.com/jexomi/edit?js,output)
 * [Using Angular v1](http://jsbin.com/laviti/edit?js,output)
-* Using Angular v2 (TODO)
-* Using Ember (TODO)
+* [Using Angular v2+](https://stackblitz.com/edit/angular-5o3zyo?file=app%2Fapp.component.ts)
+* [Using Ember](https://ember-twiddle.com/093ee4aa271123a84f4eb21f3670b655)

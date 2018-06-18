@@ -3,14 +3,13 @@
 If you are doing code splitting or otherwise want to add an Epic to the middleware after the app is already running, you can do this fairly trivially with composition and standard RxJS.
 
 ```js
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { BehaviorSubject } from 'rxjs';
 import { combineEpics } from 'redux-observable';
 
 const epic$ = new BehaviorSubject(combineEpics(epic1, epic2));
-const rootEpic = (action$, store) =>
-  epic$.mergeMap(epic =>
-    epic(action$, store)
-  );
+const rootEpic = (action$, state$) => epic$.pipe(
+  mergeMap(epic => epic(action$, state$))
+);
 
 // sometime later...add another Epic, keeping the state of the old ones...
 epic$.next(asyncEpic1);
