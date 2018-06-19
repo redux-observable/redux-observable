@@ -10,9 +10,11 @@ This is a place to share common problems and solutions to them.
 
 * * *
 
-### RxJS operators are missing! e.g. TypeError: action$.ofType(...).switchMap is not a function
+### RxJS v5 (or rxjs-compat) operators are missing! e.g. TypeError: action$.ofType(...).switchMap is not a function
 
-RxJS supports the ability to [add operators individually](https://github.com/ReactiveX/rxjs#installation-and-usage) so your bundles remain small. redux-observable honors this by having the `ActionsObservable` extend `Observable` but otherwise not adding any of the core operators to the prototype.
+Version v1.0.0 of redux-observable requires RxJS v6, which uses [pipeable operators](https://github.com/ReactiveX/rxjs/blob/master/doc/pipeable-operators.md) instead of prototype-based methods. To aid in migration there is an [rxjs-compat layer that lets you use the old v5 APIs](https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md).
+
+So if you're using rxjs-compat (or using a pre-1.0 version of redux-observable), and still getting an error like this where an operator is missing, you most likely need to import the operator you're looking for. RxJS supports the ability to [add operators individually](https://github.com/ReactiveX/rxjs#installation-and-usage) so your bundles remain small.
 
 #### Add all operators
 
@@ -44,18 +46,6 @@ If you use the `'rxjs/add/operator/name'` technique, you may find it helpful to 
 
 * * *
 
-### TypeError: object is not observable
-
-This almost always means somewhere you're passing an object to an RxJS operator that isn't observable-like. That means it's not an Observable, Promise, Array, doesn't support `Symbol.observable`, etc.
-
-The following are some examples of that.
-
-#### (action$, store) => Observable.from(store)
-
-The store provided to your Epics is the same one provided by redux to the middleware. It is not a full version of the store, so it does not support the `Symbol.observable` interop point to allow `Observable.from(store)`. You can [learn more about this here](https://github.com/redux-observable/redux-observable/issues/56).
-
-* * *
-
 ### TypeError: Cannot read property 'subscribe' of undefined
 
 This almost always means you're using an operator somewhere that expects to be provided with an observable but you instead did not give it anything at all. Often, you may be passing a variable but it is unknowingly set to `undefined`, so step through a debugger to confirm.
@@ -66,7 +56,7 @@ Usually this means you're not returning an observable from one or more of your E
 
 ```js
 const myEpic = action$ => { // MISSING EXPLICIT RETURN!
-  action$.ofType(...).etc(...)
+  action$.pipe(ofType(...), etc(...))
 };
 ```
 
@@ -101,8 +91,9 @@ You might be returning the result of calling `subscribe` on an `Observable` from
 
 ```js
 const myEpic = action$ => {
-  return action$.ofType(...)
-  // performing side effect with .subscribe!
+  return action$.pipe(ofType(...))
+  // performing side effect with .subscribe but not returning an Observable,
+  // usually don't want to do this
   .subscribe(item => console.log(item));
 };
 ```
@@ -115,11 +106,16 @@ If you want your epic to be "read-only", meaning you want it to perform side-eff
 without producing any downstream actions, you can use the following pattern.
 
 ```js
+import { ofType } from 'redux-observable';
+import { map, tap, ignoreElements } from 'rxjs/operators';
+
 const myEpic = action$ => {
-  return action$.ofType(...)
-  .map(...)
-  .do(item => console.log(item))
-  .ignoreElements();
+  return action$.pipe(
+    ofType(...),
+    map(...),
+    tap(item => console.log(item)),
+    ignoreElements()
+  );
 };
 ```
 
@@ -136,8 +132,8 @@ const enum ActionTypes {
   One = 'ACTION_ONE',
   Two = 'ACTION_TWO',
 }
-const doOne = (myStr: string): One => ({type: ActionTypes.One, myStr})
-const doTwo = (myBool: boolean): Two => ({type: ActionTypes.Two, myBool})
+const doOne = (myStr: string): One => ({ type: ActionTypes.One, myStr })
+const doTwo = (myBool: boolean): Two => ({ type: ActionTypes.Two, myBool })
 
 interface One extends Action {
   type: ActionTypes.One
@@ -150,47 +146,26 @@ interface Two extends Action {
 type Actions = One | Two
 ```
 
-When you're using `.ofType` operator for filtering, returned observable won't be correctly narrowed within Type System, because its not capable of doing so yet ( TS 2.6.2 ).
+When you're using `ofType` operator for filtering, returned observable won't be correctly narrowed within Type System, because its not capable of doing so yet ( TS 2.6.2 ).
 
 To fix this, you need to explicitly set the generic type, so Typescript understands your intent, and narrows your action stream correctly:
 
 ```ts
 // This will let action be `Actions` type, which is wrong
 const epic = (action$: ActionsObservable<Actions>) =>
-  action$
-    .ofType(ActionTypes.One)
-    // action is still type Actions instead of One
-    .map((action) => {...})
-
-// Explicitly set generics fixes the issue
-const epic = (action$: ActionsObservable<Actions>) =>
-  action$
-    .ofType<One>(ActionTypes.One)
-    // action is correctly narrowed to One
-    .map((action) => {...})
-```
-
-Similar issue exists when pipeable operators are used ( Rx >=5.5  ).
-
-Again fix is similar by provide explicitly generics
-> this time you need to provide both while epic stream + narrowed type
-
-```ts
-// With pipeable operator, ofType won't narrow correctly
-const epic = (action$: ActionsObservable<Actions>) =>
   action$.pipe(
     ofType(ActionTypes.One),
     // action is still type Actions instead of One
     map((action) => {...})
-  )
+  );
 
 // Explicitly set generics fixes the issue
 const epic = (action$: ActionsObservable<Actions>) =>
   action$.pipe(
-    ofType<Actions,One>(ActionTypes.One),
+    ofType<One>(ActionTypes.One),
     // action is correctly narrowed to One
     map((action) => {...})
-  )
+  );
 ```
 
 * * *

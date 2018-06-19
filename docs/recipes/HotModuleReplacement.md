@@ -2,64 +2,74 @@
 
 Replacing Epics that were already running with a new version can potentially create strange bugs because Epics naturally _may_ maintain some internal state or depend on some external transient state or side effect. Think about how debouncing keeps track, or more insidious before you kick off an AJAX request you put the store into a pending state. This is not unique to redux-observable; every alternative middleware we know of has this problem because it's inherent to the nature of handling side effects.
 
-In practice however, we're unsure if this will notably impact the typical developer and since Hot Module Replacement is only used in local development, we do provide a `replaceEpic(nextEpic)` method that can be used for this purpose.
+In practice however, you may still want to do it since Hot Module Replacement is only used in local development. Bearing in mind the caveats, we can achieve it by swapping out the currenting running root Epic.
+
+There are a number of ways of doing it, here's one:
 
 ```js
-import rootEpic from './where-ever-they-are';
-const epicMiddleware = createEpicMiddleware(rootEpic);
+import { rootEpic } from './where-ever-they-are';
+import { BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+const epicMiddleware = createEpicMiddleware();
+const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+
+const epic$ = new BehaviorSubject(rootEpic);
+// Every time a new epic is given to epic$ it
+// will unsubscribe from the previous one then
+// call and subscribe to the new one because of
+// how switchMap works
+const hotReloadingEpic = (...args) =>
+  epic$.pipe(
+    switchMap(epic => epic(...args))
+  );
+
+epicMiddleware.run(hotReloadingEpic);
 
 if (module.hot) {
   module.hot.accept('./where-ever-they-are', () => {
-    const rootEpic = require('./where-ever-they-are').default;
-    epicMiddleware.replaceEpic(rootEpic);
+    const nextRootEpic = require('./where-ever-they-are').rootEpic;
+    epic$.next(nextRootEpic);
   });
 }
 ```
 
-When you call `replaceEpic` an `@@redux-observable/EPIC_END` action is dispatched before the replacement actually happens. This gives you a **synchronous** opportunity to do any cleanup you may need. You can choose to listen for this action in your Epic itself or in you reducer, where ever it makes the most sense.
-
-#### Inside your Reducer
+Another way to handle this would be to have a redux action that signals the end
 
 ```js
-import { EPIC_END } from 'redux-observable';
+import { rootEpic } from './where-ever-they-are';
+import { ofType } from 'redux-observable';
+import { BehaviorSubject } from 'rxjs';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 
-const userIsPending = (state = false, action) => {
-  switch (action.type) {
-    // Listen for the Epic ending to put things
-    // back into a safe state
-	case EPIC_END:
-	case FETCH_USER_FULFILLED:
-	case FETCH_USER_CANCELLED:
-	  return false;
-	  
-	case FETCH_USER:
-      return true;
+const epicMiddleware = createEpicMiddleware();
+const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
 
-    default:
-      return state;
-  }
-};
-```
-
-#### Inside your Epic
-
-```js
-import { EPIC_END } from 'redux-observable';
-import { race } from 'rxjs/observable/race';
-
-// Race between the AJAX call and an EPIC_END.
-// If the EPIC_END, emit a cancel action to
-// put the store in the correct state
-const fetchUserEpic = action$ =>
-  action$.ofType(FETCH_USER)
-    .mergeMap(action =>
-      race(
-        ajax(`/api/users/${action.payload}`),
-        action$.ofType(EPIC_END)
-          .take(1)
-          .mapTo({ type: FETCH_USER_CANCELLED })
+const epic$ = new BehaviorSubject(rootEpic);
+// Since we're using mergeMap, by default any new
+// epic that comes in will be merged into the previous
+// one, unless an EPIC_END action is dispatched first,
+// which would cause the old one(s) to be unsubscribed
+const hotReloadingEpic = (action$, ...rest) =>
+  epic$.pipe(
+    mergeMap(epic =>
+      epic(action$, ...rest).pipe(
+        takeUntil(action$.pipe(
+          ofType('EPIC_END')
+        ))
       )
-    );
-```
+    )
+  );
 
-If you use `replaceEpic` and have noticed bugs of any kind (or even if it works wonderfully for you!), [please do report them](https://github.com/redux-observable/redux-observable/issues/new) so we can evaluate the future of this feature!
+epicMiddleware.run(hotReloadingEpic);
+
+if (module.hot) {
+  module.hot.accept('./where-ever-they-are', () => {
+    const nextRootEpic = require('./where-ever-they-are').rootEpic;
+    // First kill any running epics
+    store.dispatch({ type: 'EPIC_END' });
+    // Now setup the new one
+    epic$.next(nextRootEpic);
+  });
+}
+```
