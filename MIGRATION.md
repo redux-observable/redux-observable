@@ -1,28 +1,16 @@
 # Migration to 1.0.0 of redux-observable
 
-This document is a WIP, but will contain a list of things that are different from the pre-1.0.0 version of redux-observable.
-
 # Upgrading
-
-[![Latest pre-release version](https://img.shields.io/npm/v/redux-observable/next.svg?label=%22latest%20pre-release%22)](/CHANGELOG.md)
-
-The final version of 1.0.0 is not yet released, but to install the latest pre-release (alpha/beta/rc) you can use:
-
-```
-npm install --save-exact redux-observable@next
-# or
-yarn add redux-observable@next --exact
-```
-
-Please keep in mind that as a pre-release, it's possible breaking changes will be introduced between versions. Feedback is definitely appreciated!
-
-> The npm `next` version tag will immediately resolve to what ever the latest pre-release version is, e.g. 1.0.0-alpha.0 (or what ever it currently is). Using the above commands, that exact version will get saved in your package.json so that you don't accidentally pick up any _future_ pre-release that may or may not have unexpected breaking changes.
 
 ## RxJS v6
 
-Version 1.0.0 of redux-observable requires v6.0.0 of RxJS. As of this writing 6.0-final is not yet released, but you can install the release candidate (rc). Documentation around it is also fairly sparse, but the biggest change is how you import and use operators. The so called "pipeable" operators and more information can be found here: [ReactiveX/rxjs/doc/pipeable-operators.md](https://github.com/ReactiveX/rxjs/blob/master/doc/pipeable-operators.md).
+Version 1.0.0 of redux-observable requires v6.0.0 of RxJS. They have their own migration guide, and there's even a `rxjs-compat` compatiblity layer allowing you to use the old v5 import paths and APIs to aid in migrating progressively. Check out their guide here:
 
-There will likely be a backwards compatibility layer provided with RxJS that will allow you to use the old import-style and prototype-based operators. This _should_ still work with redux-observable, if you have issues definitely file an issue.
+https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md
+
+## Redux v4
+
+We now also require Redux v4, which only has minor breaking changes outlined here: https://github.com/reduxjs/redux/releases/tag/v4.0.0
 
 ## Setting up the middleware
 
@@ -48,7 +36,6 @@ The optional configuration/options argument to `createEpicMiddleware` for provid
 Adapters are no longer supported, but you can achieve the same behavior by applying the transforms in a custom root Epic.
 
 Here's an example of converting the Observables to Most.js streams:
-
 
 ```js
 import most from 'most';
@@ -150,7 +137,9 @@ function replaceRootEpic(nextRootEpic) {
 
 ## Dispatching an action
 
-The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS. If you're looking for the ability to directly call dispatch yourself (rather than emit through streams) you may be interested in using an alternative middleware that is less opinionated around RxJS.
+The ability to call `store.dispatch()` inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we've seen a large number of people using it extensively. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS. To remove that common footgun we've removed the functionality entirely.
+
+If you're looking for the ability to directly call dispatch yourself (rather than emit through streams) you may be interested in using an alternative middleware that is less opinionated around RxJS.
 
 > **This is unrelated to usage of store.dispatch inside your UI components or anywhere outside of redux-observable--you will continue to use it there**
 
@@ -186,11 +175,9 @@ const somethingEpic = action$ =>
   );
 ```
 
-In v1.0.0 `store.dispatch()` is strongly deprecated and will be completely removed in v2.0.0 which will come fairly quickly (if it is not already out by now).
-
 ## Accessing state
 
-As `store.dispatch` is being removed, and since redux-observable has had several years to be used and mature in the wild, it became clear that calling `store.getState()` is useful but there are also use cases to having an Observable of state$ too.
+As `store.dispatch` is removed, and since redux-observable has had several years to be used and mature in the wild, it became clear that calling `store.getState()` is useful but there are also use cases to having an Observable of state$ too.
 
 In v1.0.0 of redux-observable, the second argument to your Epics is now a custom StateObservable, referred to from now on as `state$`. It has a `value` property that always contains the latest value of your redux state. This can be used in the same imperative way you used to use `store.getState()`.
 
