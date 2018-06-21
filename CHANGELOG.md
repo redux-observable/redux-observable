@@ -1,3 +1,16 @@
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.2...v1.0.0) (2018-06-21)
+
+It's here! 1.0 brings support for RxJS v6 and Redux v4. To help migrate from pre-1.0 versions, we've written a migration guide to help you: https://redux-observable.js.org/MIGRATION.html
+
+Is something missing from the migration guide? Let us know or make a PR!
+
+### Bug Fixes
+
+* **typings:** Epic type parameter for State (third type param) now defaults to any instead of void ([03e69cc](https://github.com/redux-observable/redux-observable/commit/03e69cc))
+
+
+
 <a name="1.0.0-beta.2"></a>
 # [1.0.0-beta.2](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2018-06-16)
 
