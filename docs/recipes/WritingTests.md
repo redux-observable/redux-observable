@@ -1,49 +1,66 @@
 # Writing Tests
 
-> Testing async code that creates side effects isn't easy. We're still learning the best way to test Epics. If you have found the perfect way, [do share](https://github.com/redux-observable/redux-observable/issues/new)!
+## Using the RxJS TestScheduler
 
-If you haven't already set up testing for regular Redux, you'll want to head over to [their documentation](https://redux.js.org/recipes/writing-tests) first to familiarize yourself since nearly all of it is applicable.
+RxJS comes with a TestScheduler that is used to virtualize time, making writing deterministic tests easier and much faster since time is virtual--you don't have to wait for _real_ time to pass.
 
-One approach is to mock the entire Redux store and replace the root Epic between each test.
+In RxJS v6 there is a new `testScheduler.run(callback)` helper that provides several new convienences on top of the previous TestScheduler behavior.
+
+Before continuing, you'll want to become familiar with [how to use the `testScheduler.run(callback)`](https://github.com/ReactiveX/rxjs/blob/master/doc/marble-testing.md).
+
+> Learning to use and write marble tests can be tough. While learning, keep in mind that these are RxJS concepts, not redux-observable, so you may find other articles on the web helpful for testing your RxJS code.
+
+While there are several ways to test Epics, it's helpful to fully appreciate that they're just functions that utilize RxJS--aside from the convention of expecting `{ type: string }` objects, they have no direct coupling to Redux itself.
+
+That means we can just call an Epic like any other function, passing in our own mock for `action$`, `state$`, and any dependencies.
+
+Here's a very simple Epic we'll write a test for:
 
 ```js
-import nock from 'nock';
-import expect from 'expect';
-import configureMockStore from 'redux-mock-store';
-import { createEpicMiddleware } from 'redux-observable';
-import { fetchUserEpic, fetchUser, FETCH_USER } from '../../redux/modules/user';
+const fetchUserEpic = (action$, state$, { getJSON }) => action$.pipe(
+  ofType('FETCH_USER'),
+  mergeMap(action =>
+    getJSON(`https://api.github.com/users/${action.id}`).pipe(
+      map(response => ({ type: 'FETCH_USER_FULFILLED', response }))
+    )
+  )
+);
+```
 
-const epicMiddleware = createEpicMiddleware(fetchUserEpic);
-const mockStore = configureMockStore([epicMiddleware]);
+> Notice how we utilize the [built-in support for a very simple dependency injection](https://redux-observable.js.org/docs/recipes/InjectingDependenciesIntoEpics.html) as our third argument? Many testing frameworks provide **better** mocking facilities for testing. For example, [Jest provides really great mocking functionality](http://jestjs.io/docs/en/manual-mocks.html). Use what works best for you!
 
-describe('fetchUserEpic', () => {
-  let store;
+Now we can test it using [`testScheduler.run(callback)` with marble diagrams](https://github.com/ReactiveX/rxjs/blob/master/doc/marble-testing.md):
 
-  beforeEach(() => {
-    store = mockStore();
+```js
+import { TestScheduler } from 'rxjs/testing';
+
+const testScheduler = new TestScheduler((actual, expected) => {
+  // somehow assert the two objects are equal
+  // e.g. with chai `expect(actual).deep.equal(expected)`
+});
+
+testScheduler.run(({ hot, cold, expectObservable }) => {
+  const action$ = hot('-a', {
+    a: { type: 'FETCH_USER', id: '123' }
   });
+  const state$ = null;
+  const dependencies = {
+    getJSON: url => cold('--a', {
+      a: { url }
+    })
+  };
 
-  afterEach(() => {
-    nock.cleanAll();
-    epicMiddleware.replaceEpic(fetchUserEpic);
-  });
+  const output$ = fetchUserEpic(action$, state$, dependencies);
 
-  it('produces the user model', () => {
-    const payload = { id: 123 };
-    nock('http://example.com/')
-      .get('/api/users/123')
-      .reply(200, payload);
-
-    store.dispatch({ type: FETCH_USER });
-
-    expect(store.getActions()).toEqual([
-      { type: FETCH_USER },
-      { type: FETCH_USER_FULFILLED, payload }
-    ]);
+  expectObservable(output$).toBe('---a', {
+    a: {
+      type: 'FETCH_USER_FULFILLED',
+      response: {
+        url: 'https://api.github.com/users/123'
+      }
+    }
   });
 });
 ```
 
-***
-
-If you're particularly adventurous, we've been experimenting with using [RxJS's `TestScheduler`](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md) along with the [marble diagram helpers](https://github.com/ReactiveX/rxjs/blob/master/doc/writing-marble-tests.md). [Check out a JSBin example](http://jsbin.com/pufima/edit?js,output). We're not quite ready to "suggest" this approach per say, but we'd love feedback or someone interested in helping pave the way!
+> You may find you commonly have nearly identical tests (and Epics too!). Consider reducing boilerplate by creating your own abstractions around the most common patterns.

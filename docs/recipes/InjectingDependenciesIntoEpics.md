@@ -1,5 +1,7 @@
 # Injecting Dependencies Into Epics
 
+> Many testing frameworks provide **better** mocking facilities for testing than what is described here. For example, [Jest provides really great mocking functionality](http://jestjs.io/docs/en/manual-mocks.html). Use what works best for you!
+
 Injecting your dependencies into your Epics can help with testing.
 
 Let's say you want to interact with the network. You could use the `ajax` helpers directly from `rxjs`:
@@ -68,12 +70,14 @@ const dependencies = {
 };
 
 // Adapt this example to your test framework and specific use cases
-fetchUserEpic(action$, state$, dependencies).pipe(
-  toArray()) // buffers all emitted actions until your Epic naturally completes()
-  .subscribe(actions => {
-    assertDeepEqual(actions, [{
-      type: 'FETCH_USER_FULFILLED',
-      payload: mockResponse
-    }]);
-  });
+const result$ = fetchUserEpic(action$, state$, dependencies).pipe(
+  toArray() // buffers output until your Epic naturally completes()
+);
+
+result$.subscribe(actions => {
+  assertDeepEqual(actions, [{
+    type: 'FETCH_USER_FULFILLED',
+    payload: mockResponse
+  }]);
+});
 ```
