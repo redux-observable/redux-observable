@@ -2,7 +2,7 @@
 
 >##### Not familiar with Observables/RxJS v6?
 > redux-observable requires an understanding of Observables with RxJS v6. If you're new to Reactive Programming with RxJS v6, head over to [http://reactivex.io/rxjs/](http://reactivex.io/rxjs/) to familiarize yourself first.
-> 
+>
 > redux-observable (because of RxJS) truly shines the most for complex async/side effects. If you're not already comfortable with RxJS you might consider using [redux-thunk](https://github.com/gaearon/redux-thunk) for simple side effects and then use redux-observable for the complex stuff. That way you can remain productive and learn RxJS as you go. redux-thunk is much simpler to learn and use, but that also means it's far less powerful. Of course, if you already love Rx like we do, you will probably use it for everything!
 
 An **Epic** is the core primitive of redux-observable.
@@ -42,13 +42,13 @@ const pingEpic = action$ => action$.pipe(
   filter(action => action.type === 'PING'),
   mapTo({ type: 'PONG' })
 );
-    
+
 // later...
 dispatch({ type: 'PING' });
 ```
 
 > Noticed how `action$` has a dollar sign at the end? It's simply a common RxJS convention to identify variables that reference a stream.
- 
+
 `pingEpic` will listen for actions of type `PING` and map them to a new action, `PONG`. This example is functionally equivalent to doing this:
 
 ```js
@@ -101,7 +101,7 @@ const pingEpic = action$ => action$.pipe(
 ```
 
 > Need to match against multiple action types? No problem! `ofType` accepts any number of arguments!
-> `action$.ofType(FIRST, SECOND, THIRD) // FIRST or SECOND or THIRD`
+> `action$.pipe(ofType(FIRST, SECOND, THIRD)) // FIRST or SECOND or THIRD`
 
 ***
 
@@ -129,7 +129,7 @@ const fetchUserEpic = action$ => action$.pipe(
     )
   )
 );
-    
+
 // later...
 dispatch(fetchUser('torvalds'));
 ```
