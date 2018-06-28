@@ -18,7 +18,6 @@
   * [Hot Module Replacement](docs/recipes/HotModuleReplacement.md)
 
 ## Help
-  * [FAQ](docs/FAQ.md)
   * [Troubleshooting](docs/Troubleshooting.md)
 
 ## [API Reference](docs/api/SUMMARY.md)
