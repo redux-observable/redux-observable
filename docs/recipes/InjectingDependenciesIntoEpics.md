@@ -33,7 +33,7 @@ import { createEpicMiddleware, combineEpics } from 'redux-observable';
 import { ajax } from 'rxjs/ajax';
 import rootEpic from './somewhere';
 
-const epicMiddleware = createEpicMiddleware(rootEpic, {
+const epicMiddleware = createEpicMiddleware({
   dependencies: { getJSON: ajax.getJSON }
 });
 ```
