@@ -12,7 +12,6 @@
   * [Usage with UI Frameworks](recipes/UsageWithUIFrameworks.md)
   * [Adding New Epics Asynchronously](recipes/AddingNewEpicsAsynchronously.md)
   * [Hot Module Replacement](recipes/HotModuleReplacement.md)
-* [FAQ](FAQ.md)
 * [Troubleshooting](Troubleshooting.md)
 * [API Reference](api/SUMMARY.md)
   * [createEpicMiddleware](api/createEpicMiddleware.md)
