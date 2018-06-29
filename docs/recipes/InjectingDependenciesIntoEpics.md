@@ -36,6 +36,8 @@ import rootEpic from './somewhere';
 const epicMiddleware = createEpicMiddleware({
   dependencies: { getJSON: ajax.getJSON }
 });
+
+epicMiddleware.run(rootEpic);
 ```
 
 Anything you provide will then be passed as the third argument to all your Epics, after the store.
@@ -59,14 +61,14 @@ const fetchUserEpic = (action$, state$, { getJSON }) => action$.pipe(
 To test, you can just call your Epic directly, passing in a mock for `getJSON`:
 
 ```js
-import { ActionsObservable } from 'redux-observable';
+import { of } from 'rxjs';
 import { fetchUserEpic } from './somewhere/fetchUserEpic';
 
 const mockResponse = { name: 'Bilbo Baggins' };
-const action$ = ActionsObservable.of({ type: 'FETCH_USERS_REQUESTED' });
+const action$ = of({ type: 'FETCH_USERS_REQUESTED' });
 const state$ = null; // not needed for this epic
 const dependencies = {
-  getJSON: url => Observable.of(mockResponse)
+  getJSON: url => of(mockResponse)
 };
 
 // Adapt this example to your test framework and specific use cases
