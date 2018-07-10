@@ -1,6 +1,7 @@
 # `combineEpics(...epics)`
 
 `combineEpics()`, as the name suggests, allows you to take multiple epics and combine them into a single one.
+Please keep in mind that the order in which epics are combined affect the order in which they are executed and receive actions.
 
 #### Arguments
 
