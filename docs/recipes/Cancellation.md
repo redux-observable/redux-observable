@@ -10,7 +10,7 @@ import { ajax } from 'rxjs/ajax';
 const fetchUserEpic = action$ => action$.pipe(
   ofType(FETCH_USER),
   mergeMap(action => ajax.getJSON(`/api/users/${action.payload}`).pipe(
-    map(response => fetchUserFulfilled(response))
+    map(response => fetchUserFulfilled(response)),
     takeUntil(action$.pipe(
       ofType(FETCH_USER_CANCELLED)
     ))
