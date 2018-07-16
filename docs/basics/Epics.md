@@ -169,7 +169,7 @@ const users = (state = {}, action) => {
 Your Epics receive a second argument, a stream of store states.
 
 ```js
-function (action$: ActionsObservable<Action>, state$: StateOverable<State>): ActionsObservable<Action>;
+function (action$: ActionsObservable<Action>, state$: StateObservable<State>): ActionsObservable<Action>;
 ```
 
 With this, you can use `state$.value` to synchronously access the current state:
