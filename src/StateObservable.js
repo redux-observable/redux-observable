@@ -23,4 +23,11 @@ export class StateObservable extends Observable {
       }
     });
   }
+
+  getState() {
+    if (process.env.NODE_ENV !== 'production') {
+      require('./utils/console').warn('Deprecated Usage of getState Found.');
+    }
+    return this.value;
+  }
 }
