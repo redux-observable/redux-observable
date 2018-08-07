@@ -25,7 +25,7 @@ const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
 epicMiddleware.run(rootEpic);
 ```
 
-This change was neccesary because in redux v4 you are no longer supposed to dispatch actions while middleware is still be setup, which an Epic could have done with the previous API.
+This change was neccesary because in redux v4 you are no longer supposed to dispatch actions while middleware is still being setup, which an Epic could have done with the previous API.
 
 This new API also gives you the ability to easily add Epics later, as in async lazy loading. Subsequent calls of `epicMiddleware.run(epic)` do not replace the previous ones, they are merged together.
 
