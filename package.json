@@ -91,7 +91,7 @@
     "gitbook-plugin-prism": "^2.0.1",
     "gitbook-plugin-theme-default": "^1.0.5",
     "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
+    "gulp-babel": "^8.0.0",
     "json-server": "^0.10.0",
     "mocha": "^3.5.3",
     "redux": "^4.0.0",
