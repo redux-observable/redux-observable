@@ -6,21 +6,26 @@ This can be done with the `catchError()` RxJS operator:
 
 ```js
 import { ajax } from 'rxjs/ajax';
+import { of, concat } from 'rxjs';
 
 const fetchUserEpic = action$ => action$.pipe(
   ofType(FETCH_USER),
-  mergeMap(action => ajax.getJSON(`/api/users/${action.payload}`).pipe(
-    map(response => fetchUserFulfilled(response)),
-    catchError(error => of({
-      type: FETCH_USER_REJECTED,
-      payload: error.xhr.response,
-      error: true
-    }))
-  ))
+  mergeMap(action => ajax.getJSON(`/api/users/${action.payload}`)),
+  map(response => fetchUserFulfilled(response)),
+  catchError((error, caught) =>
+    concat(
+      of({
+        type: FETCH_USER_REJECTED,
+        payload: error.xhr.response,
+        error: true
+      }),
+      caught
+    )
+  )
 );
 ```
 
-Here we placed the `catchError()` inside our `mergeMap()`, but after our AJAX call; this is important because if we let the error reach the `action$.pipe()`, it will terminate it and no longer listen for new actions.
+Here we placed `caught` after `of({ type: FETCH_USER_REJECTED })`; this is important because if we don't concat the `caught` stream , the stream will be terminated and no longer listen for actions.
 
 ***
 
