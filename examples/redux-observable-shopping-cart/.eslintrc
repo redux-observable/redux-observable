@@ -1,0 +1,10 @@
+{
+  "parser": "babel-eslint",
+  "rules": {
+    "indent": ["warn", 2, { "SwitchCase": 1, "VariableDeclarator": 1 }],
+    "max-len": ["warn", { "code": 80 }],
+    "semi": ["warn", "never"],
+    "no-trailing-spaces": 0,
+    "space-before-function-paren": ["error", "always"],
+  },
+}

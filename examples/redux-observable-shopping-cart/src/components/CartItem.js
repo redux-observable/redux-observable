@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Product from './Product'
 
 export default class CartItem extends Component {
-  render() {
+  render () {
     const { price, quantity, title, onRemove } = this.props
 
     return (
@@ -11,11 +11,8 @@ export default class CartItem extends Component {
         price={price}
         quantity={quantity}
         title={title}
-        action={
-          <button onClick={onRemove}>
-            {' X '}
-          </button>
-      }/>
+        action={<button onClick={onRemove}>{' X '}</button>}
+      />
     )
   }
 }

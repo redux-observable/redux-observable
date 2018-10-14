@@ -15,7 +15,7 @@ const initialState = {
   quantityById: {}
 }
 
-function checkoutStatus(state = initialState.checkoutStatus, action ) {
+function checkoutStatus (state = initialState.checkoutStatus, action) {
   switch (action.type) {
     case CHECKOUT_REQUEST:
       return {
@@ -23,7 +23,7 @@ function checkoutStatus(state = initialState.checkoutStatus, action ) {
         error: null
       }
     case CHECKOUT_SUCCESS:
-      return initialState.checkoutStatus;
+      return initialState.checkoutStatus
     case CHECKOUT_FAILURE:
       return {
         checkoutPending: false,
@@ -34,23 +34,21 @@ function checkoutStatus(state = initialState.checkoutStatus, action ) {
   }
 }
 
-function quantityById(state = initialState.quantityById, action) {
-  const { productId } = action;
+function quantityById (state = initialState.quantityById, action) {
+  const { productId } = action
   switch (action.type) {
     case CHECKOUT_SUCCESS:
-      return initialState.quantityById;
+      return initialState.quantityById
     case ADD_TO_CART:
       return {
         ...state,
         [productId]: (state[productId] || 0) + 1
       }
     case REMOVE_FROM_CART:
-      const qty = (state[productId] || 0) - 1;
-      const copy = {...state}
-      if(qty > 0)
-        copy[productId] = qty
-      else
-        delete copy[productId]
+      const qty = (state[productId] || 0) - 1
+      const copy = { ...state }
+      if (qty > 0) copy[productId] = qty
+      else delete copy[productId]
       return copy
     default:
       return state
@@ -62,10 +60,10 @@ export default combineReducers({
   quantityById
 })
 
-export function getQuantity(state, productId) {
+export function getQuantity (state, productId) {
   return state.quantityById[productId] || 0
 }
 
-export function getAddedIds(state) {
-  return Object.keys(state.quantityById);
+export function getAddedIds (state) {
+  return Object.keys(state.quantityById)
 }
