@@ -25,7 +25,7 @@ const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
 epicMiddleware.run(rootEpic);
 ```
 
-This change was neccesary because in redux v4 you are no longer supposed to dispatch actions while middleware is still being setup, which an Epic could have done with the previous API.
+This change was necessary because in redux v4 you are no longer supposed to dispatch actions while middleware is still being setup, which an Epic could have done with the previous API.
 
 This new API also gives you the ability to easily add Epics later, as in async lazy loading. Subsequent calls of `epicMiddleware.run(epic)` do not replace the previous ones, they are merged together.
 
@@ -181,7 +181,7 @@ As `store.dispatch` is removed, and since redux-observable has had several years
 
 In v1.0.0 of redux-observable, the second argument to your Epics is now a custom StateObservable, referred to from now on as `state$`. It has a `value` property that always contains the latest value of your redux state. This can be used in the same imperative way you used to use `store.getState()`.
 
-Since `state$` is also an Observable you can now compose it into other streams as you might expect and react to state changes--you can also call `state$.subscribe()` directlly, but it's usually more idiomatic to compose it with other operators rather than explicitly calling `subscribe` yourself.
+Since `state$` is also an Observable you can now compose it into other streams as you might expect and react to state changes--you can also call `state$.subscribe()` directly, but it's usually more idiomatic to compose it with other operators rather than explicitly calling `subscribe` yourself.
 
 I expect a majority of people to use the imperative `state$.value` form most of the time simply because it's more terse and a majority of the time you don't actually want to react to changes in the state.
 
