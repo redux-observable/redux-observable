@@ -4,7 +4,7 @@
 
 ## RxJS v6
 
-Version 1.0.0 of redux-observable requires v6.0.0 of RxJS. They have their own migration guide, and there's even a `rxjs-compat` compatiblity layer allowing you to use the old v5 import paths and APIs to aid in migrating progressively. Check out their guide here:
+Version 1.0.0 of redux-observable requires v6.0.0 of RxJS. They have their own migration guide, and there's even a `rxjs-compat` compatibility layer allowing you to use the old v5 import paths and APIs to aid in migrating progressively. Check out their guide here:
 
 https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md
 
