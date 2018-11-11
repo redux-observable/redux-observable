@@ -4,7 +4,7 @@
 
 RxJS comes with a TestScheduler that is used to virtualize time, making writing deterministic tests easier and much faster since time is virtual--you don't have to wait for _real_ time to pass.
 
-In RxJS v6 there is a new `testScheduler.run(callback)` helper that provides several new convienences on top of the previous TestScheduler behavior.
+In RxJS v6 there is a new `testScheduler.run(callback)` helper that provides several new conveniences on top of the previous TestScheduler behavior.
 
 Before continuing, you'll want to become familiar with [how to use the `testScheduler.run(callback)`](https://github.com/ReactiveX/rxjs/blob/master/doc/marble-testing.md).
 
