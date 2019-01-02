@@ -28,6 +28,21 @@ export function createEpicMiddleware(options = {}) {
 
     const result$ = epic$.pipe(
       map(epic => {
+        // Interate over the dependencies and pass the action and the state to
+        // each function
+        for (const dependency in options.dependencies) {
+          if (options.dependencies.hasOwnProperty(dependency)) {
+            const dependencyValue = options.dependencies[dependency];
+
+            // Alter the dependency only if it's a function
+            if (typeof dependencyValue === 'function') {
+              // Pass the action and the state to the function
+              options.dependencies[dependency] = () =>
+                dependencyValue(action$, state$);
+            }
+          }
+        }
+
         const output$ = 'dependencies' in options
           ? epic(action$, state$, options.dependencies)
           : epic(action$, state$);
