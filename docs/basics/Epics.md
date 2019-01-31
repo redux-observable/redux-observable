@@ -15,9 +15,7 @@ It has roughly this type signature:
 function (action$: Observable<Action>, state$: StateObservable<State>): Observable<Action>;
 ```
 
-While you'll most commonly produce actions out in response to some action you received in, that's not actually a requirement! Once you're inside your Epic, use any Observable patterns you desire as long as anything output from the final, returned stream, is an action.
-
-The actions you emit will be immediately dispatched through the normal `store.dispatch()`, so under the hood redux-observable effectively does `epic(action$, state$).subscribe(store.dispatch)`
+The actions you emit will be dispatched for you by redux-observable with `store.dispatch()`. Under the hood redux-observable effectively does `epic(action$, state$).subscribe(store.dispatch)`
 
 Epics run alongside the normal Redux dispatch channel, **after** the reducers have already received them--so you cannot "swallow" an incoming action. Actions always run through your reducers _before_ your Epics even receive them.
 
@@ -226,7 +224,7 @@ const rootEpic = combineEpics(
 Note that this is equivalent to:
 
 ```js
-import { merge } from 'rxjs/observable/merge';
+import { merge } from 'rxjs';
 
 const rootEpic = (action$, state$) => merge(
   pingEpic(action$, state$),
