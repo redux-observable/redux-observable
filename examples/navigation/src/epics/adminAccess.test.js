@@ -4,10 +4,9 @@ import { accessDenied, CHECKED_ADMIN_ACCESS } from '../actions'
 import adminAccessEpic from './adminAccess'
 
 describe('adminAccess epic', () => {
-  it('creates an accessDenied action first, then a route change action', done => {
+  it('creates an accessDenied action first, then a route change action', () => {
     const testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected)
-      done()
     })
 
     testScheduler.run(({ hot, expectObservable }) => {
