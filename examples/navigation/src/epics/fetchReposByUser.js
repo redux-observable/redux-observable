@@ -10,7 +10,7 @@ const fetchReposByUser = action$ =>
     switchMap(user =>
       ajax
         .getJSON(`https://api.github.com/users/${user}/repos`)
-        .pipe(map(receiveUserRepos.bind(null, user)))
+        .pipe(map(repos => receiveUserRepos(user, repos)))
     )
   )
 
