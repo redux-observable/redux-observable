@@ -17,7 +17,7 @@ const searchUsers = action$ =>
     switchMap(q =>
       timer(800).pipe(
         // debounce
-        takeUntil(action$.ofType(CLEARED_SEARCH_RESULTS)),
+        takeUntil(action$.pipe(ofType(CLEARED_SEARCH_RESULTS))),
         mergeMap(() =>
           merge(
             of(replace(`?q=${q}`)),
