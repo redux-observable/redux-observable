@@ -15,8 +15,8 @@ const searchUsers = action$ =>
     map(action => action.payload.query),
     filter(q => !!q),
     switchMap(q =>
+      // debounce
       timer(800).pipe(
-        // debounce
         takeUntil(action$.pipe(ofType(CLEARED_SEARCH_RESULTS))),
         mergeMap(() =>
           merge(
