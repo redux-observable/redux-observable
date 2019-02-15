@@ -2,42 +2,36 @@ import { TestScheduler } from 'rxjs/testing'
 import { clearSearchResults, searchUsers } from '../actions'
 import clearSearchResultsEpic from './clearSearchResults'
 
-describe('clearSearchResults epic', () => {
-  describe('when a search query is empty', () => {
-    it('creates an action to clear the search results', () => {
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected)
-      })
-
-      testScheduler.run(({ hot, expectObservable }) => {
-        const action$ = hot('-a', {
-          a: searchUsers()
-        })
-        const state$ = null
-        const output$ = clearSearchResultsEpic(action$, state$)
-
-        expectObservable(output$).toBe('-a', {
-          a: clearSearchResults()
-        })
-      })
-    })
+test('non-empty search query', () => {
+  const testScheduler = new TestScheduler((actual, expected) => {
+    expect(actual).toEqual(expected)
   })
 
-  describe('when a search query is not empty', () => {
-    it('does nothing', () => {
-      const testScheduler = new TestScheduler((actual, expected) => {
-        expect(actual).toEqual(expected)
-      })
+  testScheduler.run(({ hot, expectObservable }) => {
+    const action$ = hot('-a', {
+      a: searchUsers('jayphelps')
+    })
 
-      testScheduler.run(({ hot, expectObservable }) => {
-        const action$ = hot('-a', {
-          a: searchUsers('jayphelps')
-        })
-        const state$ = null
-        const output$ = clearSearchResultsEpic(action$, state$)
+    const output$ = clearSearchResultsEpic(action$)
 
-        expectObservable(output$).toBe('--')
-      })
+    expectObservable(output$).toBe('--')
+  })
+})
+
+test('empty search query', () => {
+  const testScheduler = new TestScheduler((actual, expected) => {
+    expect(actual).toEqual(expected)
+  })
+
+  testScheduler.run(({ hot, expectObservable }) => {
+    const action$ = hot('-a', {
+      a: searchUsers()
+    })
+
+    const output$ = clearSearchResultsEpic(action$)
+
+    expectObservable(output$).toBe('-a', {
+      a: clearSearchResults()
     })
   })
 })
