@@ -1,4 +1,4 @@
-import { replace } from 'react-router-redux'
+import { replace } from 'connected-react-router'
 import { ajax } from 'rxjs/ajax'
 import { TestScheduler } from 'rxjs/testing'
 import { clearSearchResults, receiveUsers, searchUsers } from '../actions'

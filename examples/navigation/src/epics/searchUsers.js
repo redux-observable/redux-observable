@@ -1,4 +1,4 @@
-import { replace } from 'react-router-redux'
+import { replace } from 'connected-react-router'
 import { ofType } from 'redux-observable'
 import { merge, of, timer } from 'rxjs'
 import { ajax } from 'rxjs/ajax'

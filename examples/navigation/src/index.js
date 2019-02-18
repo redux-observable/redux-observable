@@ -1,26 +1,24 @@
+import { ConnectedRouter } from 'connected-react-router'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
-import { browserHistory, IndexRoute, Route, Router } from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
+import { Route, Switch } from 'react-router'
 import Admin from './containers/Admin'
-import App from './containers/App'
 import ReposByUser from './containers/ReposByUser'
 import UserSearch from './containers/UserSearch'
-import configureStore from './store/configureStore'
+import configureStore, { history } from './store/configureStore'
 
 const store = configureStore()
-const history = syncHistoryWithStore(browserHistory, store)
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={App}>
-        <IndexRoute component={UserSearch} />
-        <Route path="repos/:user" component={ReposByUser} />
-        <Route path="admin" component={Admin} />
-      </Route>
-    </Router>
+    <ConnectedRouter history={history}>
+      <Switch>
+        <Route exact path="/" component={UserSearch} />
+        <Route path="/repos/:user" component={ReposByUser} />
+        <Route path="/admin" component={Admin} />
+      </Switch>
+    </ConnectedRouter>
   </Provider>,
   document.getElementById('root')
 )

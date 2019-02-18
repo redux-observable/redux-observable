@@ -1,6 +1,7 @@
+import { parse } from 'query-string'
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { searchUsers } from '../actions'
 import UserSearchInput from '../components/UserSearchInput'
 import UserSearchResults from '../components/UserSearchResults'
@@ -49,12 +50,17 @@ class UserSearch extends React.Component {
 }
 
 export default connect(
-  ({ routing, userResults, searchInFlight }) => ({
-    query:
-      routing.locationBeforeTransitions &&
-      routing.locationBeforeTransitions.query.q,
+  ({ userResults, searchInFlight }) => ({
     results: userResults,
     searchInFlight
   }),
-  { searchUsers }
+  { searchUsers },
+  (stateProps, dispatchProps, ownProps) => {
+    const { q: query } = parse(ownProps.location.search)
+    return {
+      ...stateProps,
+      ...dispatchProps,
+      query
+    }
+  }
 )(UserSearch)

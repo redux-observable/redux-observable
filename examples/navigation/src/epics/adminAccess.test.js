@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { TestScheduler } from 'rxjs/testing'
 import { accessDenied, CHECKED_ADMIN_ACCESS } from '../actions'
 import adminAccessEpic from './adminAccess'

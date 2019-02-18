@@ -1,4 +1,4 @@
-import { push } from 'react-router-redux'
+import { push } from 'connected-react-router'
 import { ofType } from 'redux-observable'
 import { merge, of, timer } from 'rxjs'
 import { delay, map, mergeMap } from 'rxjs/operators'
