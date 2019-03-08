@@ -29,7 +29,7 @@ const fetchUserEpic = (action$, state$, { getJSON }) => action$.pipe(
 
 > Notice how we utilize the [built-in support for a very simple dependency injection](https://redux-observable.js.org/docs/recipes/InjectingDependenciesIntoEpics.html) as our third argument? Many testing frameworks provide **better** mocking facilities for testing. For example, [Jest provides really great mocking functionality](http://jestjs.io/docs/en/manual-mocks.html). Use what works best for you!
 
-Now we can test it using [`testScheduler.run(callback)` with marble diagrams](https://github.com/ReactiveX/rxjs/blob/master/doc/marble-testing.md):
+Now we can test it using [`testScheduler.run(callback)` with marble diagrams](https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/testing/marble-testing.md):
 
 ```js
 import { TestScheduler } from 'rxjs/testing';
