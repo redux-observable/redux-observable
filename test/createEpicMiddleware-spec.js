@@ -5,7 +5,7 @@ import sinon from 'sinon';
 import { createStore, applyMiddleware } from 'redux';
 import { createEpicMiddleware, combineEpics, ActionsObservable, StateObservable, ofType } from '../';
 import { resetDeprecationsSeen } from '../lib/cjs/utils/console';
-import { of, empty, merge } from 'rxjs';
+import { of, empty, merge, queueScheduler } from 'rxjs';
 import { mapTo, filter, map, mergeMap, startWith, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 import { initAction } from './initAction';
 
@@ -413,5 +413,41 @@ describe('createEpicMiddleware', () => {
     middleware.run(rootEpic);
 
     expect(epic.called).to.equal(true);
+  });
+
+  it('should not allow interference from the public queueScheduler singleton', (done) => {
+    const reducer = (state = [], action) => state.concat(action);
+    const epic1 = action$ =>
+      action$.pipe(
+        ofType('ACTION_1'),
+        mergeMap(() =>
+          of({ type: 'ACTION_2' }, { type: 'ACTION_3' })
+        )
+      );
+
+    const epic2 = action$ =>
+      action$.pipe(
+        ofType('ACTION_2'),
+        map(() => ({ type: 'ACTION_4' }))
+      );
+
+    const rootEpic = combineEpics(epic1, epic2);
+
+    queueScheduler.schedule(() => {
+      const middleware = createEpicMiddleware();
+      const store = createStore(reducer, applyMiddleware(middleware));
+      middleware.run(rootEpic);
+      store.dispatch({ type: 'ACTION_1' });
+
+      expect(store.getState()).to.deep.equal([
+        initAction,
+        { type: 'ACTION_1' },
+        { type: 'ACTION_2' },
+        { type: 'ACTION_3' },
+        { type: 'ACTION_4' }
+      ]);
+
+      done();
+    });
   });
 });

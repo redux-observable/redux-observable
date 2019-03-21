@@ -4,6 +4,13 @@ import { ActionsObservable } from './ActionsObservable';
 import { StateObservable } from './StateObservable';
 
 export function createEpicMiddleware(options = {}) {
+  // This isn't great. RxJS doesn't publicly export the constructor for
+  // QueueScheduler nor QueueAction, so we reach in. We need to do this because
+  // we don't want our internal queuing mechanism to be on the same queue as any
+  // other RxJS code outside of redux-observable internals.
+  const QueueScheduler = queueScheduler.constructor;
+  const uniqueQueueScheduler = new QueueScheduler(queueScheduler.SchedulerAction);
+
   if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
     throw new TypeError('Providing your root Epic to `createEpicMiddleware(rootEpic)` is no longer supported, instead use `epicMiddleware.run(rootEpic)`\n\nLearn more: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware');
   }
@@ -18,10 +25,10 @@ export function createEpicMiddleware(options = {}) {
     }
     store = _store;
     const actionSubject$ = new Subject().pipe(
-      observeOn(queueScheduler)
+      observeOn(uniqueQueueScheduler)
     );
     const stateSubject$ = new Subject().pipe(
-      observeOn(queueScheduler)
+      observeOn(uniqueQueueScheduler)
     );
     const action$ = new ActionsObservable(actionSubject$);
     const state$ = new StateObservable(stateSubject$, store.getState());
@@ -40,8 +47,8 @@ export function createEpicMiddleware(options = {}) {
       }),
       mergeMap(output$ =>
         from(output$).pipe(
-          subscribeOn(queueScheduler),
-          observeOn(queueScheduler)
+          subscribeOn(uniqueQueueScheduler),
+          observeOn(uniqueQueueScheduler)
         )
       )
     );
