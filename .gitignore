@@ -5,3 +5,5 @@ temp
 dist
 _book
 typings
+.idea
+yarn.lock

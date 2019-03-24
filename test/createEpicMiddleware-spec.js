@@ -414,4 +414,70 @@ describe('createEpicMiddleware', () => {
 
     expect(epic.called).to.equal(true);
   });
+
+  it('should swallow actions not caught in epics while gatekeeping', () => {
+    const actions = [];
+
+    const reducer = (state = { value: 0 }, action) => {
+      actions.push(action);
+
+      switch (action.type) {
+        case 'PING': return { value: state.value - 1 };
+        case 'PONG': return { value: state.value + 1 };
+        default: return state;
+      }
+    };
+
+    const epic = (action$) =>
+      action$.pipe(
+        ofType('PING'),
+        map(() => ({ type: 'PONG' })),
+      );
+
+    const epicMiddleware = createEpicMiddleware({ gatekeep: true });
+    const store = createStore(reducer, applyMiddleware(epicMiddleware));
+    epicMiddleware.run(epic);
+
+    store.dispatch({ type: 'PONG' });
+
+    expect(store.getState().value).to.equal(0);
+    expect(actions).to.deep.equal([initAction]);
+  });
+
+  it('should emit actions caught in epics while gatekeeping', () => {
+    const actions = [];
+
+    const reducer = (state = { value: 0 }, action) => {
+      actions.push(action);
+
+      switch (action.type) {
+        case 'PING': return { value: state.value - 1 };
+        case 'PONG': return { value: state.value + 1 };
+        case 'CLEAR': return { value: 0 };
+        default: return state;
+      }
+    };
+
+    const epic = (action$) =>
+      action$.pipe(
+        ofType('PING'),
+        map(() => ({ type: 'PONG' })),
+      );
+
+    const epicMiddleware = createEpicMiddleware({ gatekeep: true });
+    const store = createStore(reducer, applyMiddleware(epicMiddleware));
+    epicMiddleware.run(epic);
+
+    store.dispatch({ type: 'PING' });
+    store.dispatch({ type: 'PONG' });
+    store.dispatch({ type: 'PING' });
+    store.dispatch({ type: 'CLEAR' });
+
+    expect(store.getState().value).to.equal(2);
+    expect(actions).to.deep.equal([
+      initAction,
+      { type: 'PONG' },
+      { type: 'PONG' }
+    ]);
+  });
 });

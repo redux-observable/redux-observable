@@ -10,6 +10,7 @@ export function createEpicMiddleware(options = {}) {
 
   const epic$ = new Subject();
   let store;
+  let next;
 
   const epicMiddleware = _store => {
     if (process.env.NODE_ENV !== 'production' && store) {
@@ -46,21 +47,38 @@ export function createEpicMiddleware(options = {}) {
       )
     );
 
-    result$.subscribe(store.dispatch);
+    result$.subscribe((action) => {
+      // eslint-disable-next-line
+      options.gatekeep
+        ? next(action)
+        : store.dispatch(action);
+    });
 
-    return next => {
+    return _next => {
+      next = _next;
       return action => {
-        // Downstream middleware gets the action first,
-        // which includes their reducers, so state is
-        // updated before epics receive the action
-        const result = next(action);
+        if (options.gatekeep) {
+          // Actions MUST pass through our epics before moving through the rest of the middleware flow
+          // It's possible actions may be swallowed by the epics on no action emitted to the reducers
+          // It is important that the middleware be applied last in applyMiddleware
 
-        // It's important to update the state$ before we emit
-        // the action because otherwise it would be stale
-        stateSubject$.next(store.getState());
-        actionSubject$.next(action);
+          // It's important to update the state$ before we emit
+          // the action because otherwise it would be stale
+          stateSubject$.next(store.getState());
+          actionSubject$.next(action);
+        } else {
+          // Downstream middleware gets the action first,
+          // which includes their reducers, so state is
+          // updated before epics receive the action
+          const result = next(action);
 
-        return result;
+          // It's important to update the state$ before we emit
+          // the action because otherwise it would be stale
+          stateSubject$.next(store.getState());
+          actionSubject$.next(action);
+
+          return result;
+        }
       };
     };
   };

@@ -43,6 +43,7 @@ export interface EpicMiddleware<T extends Action, O extends T = T, S = void, D =
 
 interface Options<D = any> {
   dependencies?: D;
+  gatekeep?: boolean;
 }
 
 export declare function createEpicMiddleware<T extends Action, O extends T = T, S = void, D = any>(options?: Options<D>): EpicMiddleware<T, O, S, D>;
