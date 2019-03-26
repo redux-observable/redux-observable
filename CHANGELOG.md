@@ -1,3 +1,13 @@
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0...v1.1.0) (2019-03-26)
+
+
+### Bug Fixes
+
+* **createEpicMiddleware:** Don't share a scheduler queue with anyone else's RxJS code, fixes [#624](https://github.com/redux-observable/redux-observable/issues/624) ([#625](https://github.com/redux-observable/redux-observable/issues/625)) ([e5bae19](https://github.com/redux-observable/redux-observable/commit/e5bae19))
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.2...v1.0.0) (2018-06-21)
 
