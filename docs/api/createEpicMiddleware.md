@@ -11,7 +11,7 @@
 
 (*`MiddlewareAPI`*): An instance of the redux-observable middleware.
 
-#### Example
+#### Example without dependencies
 
 ### redux/configureStore.js
 
@@ -33,3 +33,42 @@ export default function configureStore() {
   return store;
 }
 ```
+
+#### Example with dependencies
+
+### redux/configureStore.js
+
+```js
+import { createStore, applyMiddleware } from 'redux';
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic, rootReducer } from './modules/root';
+
+const epicMiddleware = createEpicMiddleware({
+  dependencies: {
+    ping: () => "PING",
+    pong: () => "PONG"
+  }
+});
+
+export default function configureStore() {
+  const store = createStore(
+    rootReducer,
+    applyMiddleware(epicMiddleware)
+  );
+
+  epicMiddleware.run(rootEpic);
+
+  return store;
+}
+```
+
+### redux/modules/root.js
+
+```js
+export const rootEpic = (action$, state$, { ping, pong }) => 
+  action$.pipe(
+    filter(action => action.type === ping()),
+    mapTo({ type: pong() })
+  )
+```
+
