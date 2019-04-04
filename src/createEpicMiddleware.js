@@ -35,9 +35,23 @@ export function createEpicMiddleware(options = {}) {
 
     const result$ = epic$.pipe(
       map(epic => {
-        const output$ = 'dependencies' in options
-          ? epic(action$, state$, options.dependencies)
-          : epic(action$, state$);
+        let output$;
+
+        if ('dependencies' in options && 'createDependencies' in options) {
+          throw new TypeError('You have passed \'dependencies\' and \'createDependencies\' to \'createEpicMiddleware\'. You may use either one, but not both at once.');
+        }
+
+        if ('dependencies' in options) {
+          output$ = epic(action$, state$, options.dependencies);
+        } else if ('createDependencies' in options) {
+          if (typeof options.createDependencies !== 'function') {
+            throw new TypeError(`Your createDependencies option is not a function, it is '${typeof options.createDependencies}'.`);
+          }
+
+          output$ = epic(action$, state$, options.createDependencies(state$));
+        } else {
+          output$ = epic(action$, state$);
+        }
 
         if (!output$) {
           throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);

@@ -415,6 +415,23 @@ describe('createEpicMiddleware', () => {
     expect(epic.called).to.equal(true);
   });
 
+  it('should pass state$ to dependencies when using createDependencies', () => {
+    const reducer = (state = 'INITIAL_STATE', action) => state;
+    const epic = spySandbox.spy(action$ => action$);
+
+    const middleware = createEpicMiddleware({
+      createDependencies: state$ => ({
+        myDep: () => state$.value
+      }),
+    });
+    createStore(reducer, applyMiddleware(middleware));
+    middleware.run(epic);
+
+    expect(epic.firstCall.args.length).to.deep.equal(3);
+    expect(epic.firstCall.args[2]).to.haveOwnProperty('myDep');
+    expect(epic.firstCall.args[2].myDep()).to.deep.equal('INITIAL_STATE');
+  });
+
   it('should not allow interference from the public queueScheduler singleton', (done) => {
     const reducer = (state = [], action) => state.concat(action);
     const epic1 = action$ =>

@@ -41,11 +41,12 @@ export interface EpicMiddleware<T extends Action, O extends T = T, S = void, D =
   run(rootEpic: Epic<T, O, S, D>): void;
 }
 
-interface Options<D = any> {
+interface Options<D = any, State = void> {
+  createDependencies?: (state$: StateObservable<State>) => D;
   dependencies?: D;
 }
 
-export declare function createEpicMiddleware<T extends Action, O extends T = T, S = void, D = any>(options?: Options<D>): EpicMiddleware<T, O, S, D>;
+export declare function createEpicMiddleware<T extends Action, O extends T = T, S = void, D = any>(options?: Options<D, S>): EpicMiddleware<T, O, S, D>;
 
 export declare function combineEpics<T extends Action, O extends T = T, S = void, D = any>(...epics: Epic<T, O, S, D>[]): Epic<T, O, S, D>;
 export declare function combineEpics<E>(...epics: E[]): E;
