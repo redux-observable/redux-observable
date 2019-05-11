@@ -6,7 +6,7 @@ RxJS comes with a TestScheduler that is used to virtualize time, making writing 
 
 In RxJS v6 there is a new `testScheduler.run(callback)` helper that provides several new conveniences on top of the previous TestScheduler behavior.
 
-Before continuing, you'll want to become familiar with [how to use the `testScheduler.run(callback)`](https://github.com/ReactiveX/rxjs/blob/master/doc/marble-testing.md).
+Before continuing, you'll want to become familiar with [how to use the `testScheduler.run(callback)`](https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/testing/marble-testing.md).
 
 > Learning to use and write marble tests can be tough. While learning, keep in mind that these are RxJS concepts, not redux-observable, so you may find other articles on the web helpful for testing your RxJS code.
 
