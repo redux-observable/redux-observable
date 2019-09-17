@@ -2,6 +2,7 @@ import { Subject, from, queueScheduler } from 'rxjs';
 import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
 import { StateObservable } from './StateObservable';
+import { warn } from './utils/console';
 
 export function createEpicMiddleware(options = {}) {
   // This isn't great. RxJS doesn't publicly export the constructor for
@@ -21,7 +22,7 @@ export function createEpicMiddleware(options = {}) {
   const epicMiddleware = _store => {
     if (process.env.NODE_ENV !== 'production' && store) {
       // https://github.com/redux-observable/redux-observable/issues/389
-      require('./utils/console').warn('this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\nLearn more: https://goo.gl/2GQ7Da');
+      warn('this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\nLearn more: https://goo.gl/2GQ7Da');
     }
     store = _store;
     const actionSubject$ = new Subject().pipe(
@@ -74,7 +75,7 @@ export function createEpicMiddleware(options = {}) {
 
   epicMiddleware.run = rootEpic => {
     if (process.env.NODE_ENV !== 'production' && !store) {
-      require('./utils/console').warn('epicMiddleware.run(rootEpic) called before the middleware has been setup by redux. Provide the epicMiddleware instance to createStore() first.');
+      warn('epicMiddleware.run(rootEpic) called before the middleware has been setup by redux. Provide the epicMiddleware instance to createStore() first.');
     }
     epic$.next(rootEpic);
   };
