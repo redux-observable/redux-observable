@@ -1,3 +1,13 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/redux-observable/redux-observable/compare/v1.1.0...v1.2.0) (2019-09-17)
+
+
+### Bug Fixes
+
+* **build:** Internally, don't mix ES Module and CommonJS syntax for warning utilities so that Rollup builds don't require special handling of redux-observable. ([#663](https://github.com/redux-observable/redux-observable/issues/663)) ([376dc5b](https://github.com/redux-observable/redux-observable/commit/376dc5b))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0...v1.1.0) (2019-03-26)
 
