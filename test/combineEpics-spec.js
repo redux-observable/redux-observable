@@ -72,6 +72,47 @@ describe('combineEpics', () => {
     }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
   });
 
+  it('should log the epic name when an error occurs', () => {
+    const epic1 = (actions, store) =>
+      actions.pipe(
+        ofType('ACTION1'),
+        map(() => { throw new Error('ERROR1'); })
+      );
+    const epic2 = (actions, store) =>
+      actions.pipe(
+        ofType('ACTION2'),
+        map(() => { throw new Error('ERROR2'); })
+      );
+
+    const rootEpic = combineEpics(
+      epic1,
+      epic2
+    );
+
+    const subject = new Subject();
+    const actions = new ActionsObservable(subject);
+
+    rootEpic(actions).subscribe();
+
+    const originalConsoleError = console.error;
+
+    console.error = (epicName, errorStack, ...rest) => {
+      expect(epicName).to.equal('epic1');
+      expect(errorStack).to.include('Error: ERROR1');
+    };
+
+    subject.next({ type: 'ACTION1' });
+
+    console.error = (epicName, errorStack, ...rest) => {
+      expect(epicName).to.equal('epic1');
+      expect(errorStack).to.include('Error: ERROR1');
+    };
+
+    subject.next({ type: 'ACTION2' });
+
+    console.error = originalConsoleError;
+  });
+
   describe('returned epic function name', () => {
     const epic1 = () => 'named epic';
     const epic2 = () => 'named epic';
