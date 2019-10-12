@@ -15,12 +15,14 @@ export const combineEpics = (...epics) => {
         output$.pipe
           ? output$.pipe(
             catchError(error => {
-              console.error(
-                epic.name,
-                error.constructor.name === 'ErrorEvent'
-                  ? error.error.stack
-                  : error
-              );
+              if (console.error) {
+                console.error(
+                  epic.name,
+                  error.constructor.name === 'ErrorEvent'
+                    ? error.error.stack
+                    : error
+                );
+              }
 
               throw error;
             })
