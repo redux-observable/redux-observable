@@ -18,7 +18,7 @@ describe('combineEpics', () => {
         map(action => ({ type: 'DELEGATED2', action, store }))
       );
 
-    const epic = combineEpics(
+    const rootEpic = combineEpics(
       epic1,
       epic2
     );
@@ -26,7 +26,7 @@ describe('combineEpics', () => {
     const store = { I: 'am', a: 'store' };
     const subject = new Subject();
     const actions = new ActionsObservable(subject);
-    const result = epic(actions, store);
+    const result = rootEpic(actions, store);
     const emittedActions = [];
 
     result.subscribe(emittedAction => emittedActions.push(emittedAction));
