@@ -18,7 +18,7 @@ export const combineEpics = (...epics) => {
               if (console.error) {
                 console.error(
                   epic.name,
-                  error.constructor.name === 'ErrorEvent'
+                  error && error.constructor && error.constructor.name === 'ErrorEvent'
                     ? error.error.stack
                     : error
                 );
