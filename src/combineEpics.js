@@ -11,17 +11,21 @@ export const combineEpics = (...epics) => {
       if (!output$) {
         throw new TypeError(`combineEpics: one of the provided Epics "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
       }
-      return output$.pipe(
-        catchError(error => {
-          console.error(
-            epic.name,
-            error.constructor.name === 'ErrorEvent'
-            ? error.error.stack
-            : error
+      return (
+        output$.pipe
+          ? output$.pipe(
+            catchError(error => {
+              console.error(
+                epic.name,
+                error.constructor.name === 'ErrorEvent'
+                  ? error.error.stack
+                  : error
+              );
+
+              throw error;
+            })
           )
-          
-          throw error;
-        })
+          : output$
       );
     })
   );
