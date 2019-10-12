@@ -72,7 +72,7 @@ describe('combineEpics', () => {
     }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
   });
 
-  it('should log the epic name when an error occurs', () => {
+  it('should log the epic name when an error occurs', done => {
     const epic1 = (actions, store) =>
       actions.pipe(
         ofType('ACTION1'),
@@ -92,23 +92,19 @@ describe('combineEpics', () => {
     const subject = new Subject();
     const actions = new ActionsObservable(subject);
 
-    rootEpic(actions).subscribe();
+    rootEpic(actions).subscribe({
+      error: console.error,
+    });
 
     const originalConsoleError = console.error;
 
-    console.error = (epicName, errorStack, ...rest) => {
+    console.error = (epicName, error) => {
       expect(epicName).to.equal('epic1');
-      expect(errorStack).to.include('Error: ERROR1');
+      expect(error).to.be.an('error');
+      done();
     };
 
     subject.next({ type: 'ACTION1' });
-
-    console.error = (epicName, errorStack, ...rest) => {
-      expect(epicName).to.equal('epic1');
-      expect(errorStack).to.include('Error: ERROR1');
-    };
-
-    subject.next({ type: 'ACTION2' });
 
     console.error = originalConsoleError;
   });
