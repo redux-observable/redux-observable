@@ -81,6 +81,26 @@ export default function configureStore() {
 }
 ```
 
+## Adding global error handler
+
+Uncaught errors can bubble up to the root epic and cause the entire stream to terminate. As a consequence, epics registered in the middleware will no longer run in your application. To alleviate this issue, you can add a global error handler to the root epic that catches uncaught errors and resubscribes to the source stream.
+
+```
+const rootEpic = (action$, store$, dependencies) =>
+  combineEpics(...epics)(action$, store$, dependencies).pipe(
+    catchError((error, source) => {
+      console.error(error);
+      return source;
+    })
+  );
+```
+
+Within the body of the function based to the `catchError` operator, you can log the uncaught error to standard error or any other exception logging tool.
+
+Note that in the example above, the `console.error` function is not supported in IE 8/9.
+
+Also note that restarting the root epic can have some unintended consequences, especially if your application uses stateful epics, as they may lose state in the restart.
+
 ## Redux DevTools
 
 To enable Redux DevTools Extension, just use `window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__` or [import `redux-devtools-extension` npm package](https://github.com/zalmoxisus/redux-devtools-extension#13-use-redux-devtools-extension-package-from-npm).
