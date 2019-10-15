@@ -1,18 +1,18 @@
-/* globals describe it */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { combineEpics, ActionsObservable, ofType } from '../';
-import { Subject } from 'rxjs';
+import { combineEpics, ActionsObservable, ofType, Epic, StateObservable } from '../';
+import { Action } from 'redux';
+import { Subject, Observable } from 'rxjs';
 import { map, toArray } from 'rxjs/operators';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
-    const epic1 = (actions, store) =>
+    const epic1: Epic = (actions, store) =>
       actions.pipe(
         ofType('ACTION1'),
         map(action => ({ type: 'DELEGATED1', action, store }))
       );
-    const epic2 = (actions, store) =>
+    const epic2: Epic = (actions, store) =>
       actions.pipe(
         ofType('ACTION2'),
         map(action => ({ type: 'DELEGATED2', action, store }))
@@ -23,11 +23,11 @@ describe('combineEpics', () => {
       epic2
     );
 
-    const store = { I: 'am', a: 'store' };
-    const subject = new Subject();
+    const store = new StateObservable(new Subject(), { I: 'am', a: 'store' });
+    const subject = new Subject<Action>();
     const actions = new ActionsObservable(subject);
-    const result = epic(actions, store);
-    const emittedActions = [];
+    const result: Observable<Action> = (epic as any)(actions, store);
+    const emittedActions: any[] = [];
 
     result.subscribe(emittedAction => emittedActions.push(emittedAction));
 
@@ -44,7 +44,7 @@ describe('combineEpics', () => {
     const epic1 = sinon.stub().returns(['first']);
     const epic2 = sinon.stub().returns(['second']);
 
-    const rootEpic = combineEpics(
+    const rootEpic: <T>(...args: T[]) => Observable<T> = combineEpics(
       epic1,
       epic2
     );

@@ -1,5 +1,14 @@
 {
-  "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    // Turn off problematic eslint rules
+    "plugin:@typescript-eslint/eslint-recommended",
+    // Recommended Typescript-eslint rules
+    "plugin:@typescript-eslint/recommended",
+    // Type checking Typescript-eslint rules
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
   "rules": {
     // Enforces getter/setter pairs in objects
     "accessor-pairs": 0,
@@ -23,8 +32,6 @@
     "eqeqeq": 2,
     // make sure for-in loops have an if statement
     "guard-for-in": 2,
-    // disabled use of an undefined variable
-    "no-undef": 2,
     // disallow the use of console
     "no-console": 0,
     // disallow the use of alert, confirm, and prompt
@@ -84,8 +91,6 @@
     "no-process-env": 0,
     // disallow usage of __proto__ property
     "no-proto": 2,
-    // disallow declaring the same variable more then once
-    "no-redeclare": 2,
     // disallow use of assignment in return statement
     "no-return-assign": 2,
     // disallow use of `javascript:` urls.
@@ -98,8 +103,6 @@
     "no-throw-literal": 2,
     // disallow usage of expressions in statement position
     "no-unused-expressions": 2,
-    // disallow unused variables/imports
-    "no-unused-vars": [2, { "vars": "all", "args": "none" }],
     // disallow unnecessary .call() and .apply()
     "no-useless-call": 0,
     // disallow use of void operator
@@ -238,9 +241,6 @@
     // disallow using `var`. Must use `let` or `const`
     "no-var": 2,
     "no-class-assign": 2,
-    "no-const-assign": 2,
-    "no-dupe-class-members": 2,
-    "no-this-before-super": 2,
     "prefer-const": 0,
     "prefer-spread": 2,
     // require object literal shorthand
@@ -248,6 +248,22 @@
     "arrow-spacing": 2,
     "prefer-arrow-callback": 2,
     "arrow-parens": [0, "as-needed"],
+
+    /* Typescript */
+    // turn off troublesome rules
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/unbound-method": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    // disallow unused variables/imports
+    "@typescript-eslint/no-unused-vars": [2, {
+      "vars": "all",
+      "args": "none",
+      "varsIgnorePattern": "^_"
+    }],
+    // TODO: Use this rule instead of eslint's "camelcase"?
+    "@typescript-eslint/camelcase": "off"
   },
   "env": {
     "browser": true,
@@ -260,6 +276,11 @@
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
-    }
+    },
+    "project": [
+      "./src/tsconfig.json",
+      "./test/tsconfig.json"
+    ],
+    "tsconfigRootDir": "."
   }
 }

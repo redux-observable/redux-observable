@@ -1,4 +1,3 @@
-/* globals describe it beforeEach afterEach */
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { StateObservable } from '../';
@@ -6,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 describe('StateObservable', () => {
-  let spySandbox;
+  let spySandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
     spySandbox = sinon.sandbox.create();
@@ -74,10 +73,10 @@ describe('StateObservable', () => {
 
   it('works correctly (and does not lift) with operators applied', () => {
     const first = { value: 'first' };
-    const input$ = new Subject();
+    const input$ = new Subject<typeof first>();
     const state$ = new StateObservable(input$, first).pipe(
       map(d => d.value)
-    );
+    ) as any as StateObservable<typeof first>;
     const next = spySandbox.spy();
     state$.subscribe(next);
 

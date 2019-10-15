@@ -1,11 +1,14 @@
+import { Action } from 'redux';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-const keyHasType = (type, key) => {
+const keyHasType = (type: unknown, key: unknown) => {
   return type === key || typeof key === 'function' && type === key.toString();
 };
 
-export const ofType = (...keys) => (source) => source.pipe(
-  filter(({ type }) => {
+export const ofType = <T extends Action, R extends T = T, K extends R['type'] = R['type']>(...keys: K[]) => (source: Observable<T>) => source.pipe(
+  filter<T, R>((action): action is R => {
+    const { type } = action;
     const len = keys.length;
     if (len === 1) {
       return keyHasType(type, keys[0]);

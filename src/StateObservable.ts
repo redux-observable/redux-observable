@@ -1,7 +1,13 @@
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 
-export class StateObservable extends Observable {
-  constructor(stateSubject, initialState) {
+export class StateObservable<S> extends Observable<S> {
+  value: S;
+  // TODO: This property is never accessed, should it be removed?
+  // @ts-ignore
+  private __subscription: Subscription;
+  private __notifier = new Subject<S>();
+
+  constructor(stateSubject: Subject<S>, initialState: S) {
     super(subscriber => {
       const subscription = this.__notifier.subscribe(subscriber);
       if (subscription && !subscription.closed) {
@@ -11,7 +17,6 @@ export class StateObservable extends Observable {
     });
 
     this.value = initialState;
-    this.__notifier = new Subject();
     this.__subscription = stateSubject.subscribe(value => {
       // We only want to update state$ if it has actually changed since
       // redux requires reducers use immutability patterns.

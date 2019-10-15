@@ -1,14 +1,14 @@
-/* globals describe it */
 import { expect } from 'chai';
 import { Subject } from 'rxjs';
 import { ofType } from '../';
+import { AnyAction } from 'redux';
 
 describe('operators', () => {
   describe('ofType', () => {
     it('should filter by action type', () => {
-      let actions = new Subject();
-      let lulz = [];
-      let haha = [];
+      let actions = new Subject<AnyAction>();
+      let lulz: AnyAction[] = [];
+      let haha: AnyAction[] = [];
 
       actions.pipe(ofType('LULZ')).subscribe(x => lulz.push(x));
       actions.pipe(ofType('HAHA')).subscribe(x => haha.push(x));
@@ -30,9 +30,9 @@ describe('operators', () => {
     });
 
     it('should filter by multiple action types', () => {
-      let actions = new Subject();
-      let lulz = [];
-      let haha = [];
+      let actions = new Subject<AnyAction>();
+      let lulz: AnyAction[] = [];
+      let haha: AnyAction[] = [];
 
       actions.pipe(ofType('LULZ', 'LARF')).subscribe(x => lulz.push(x));
       actions.pipe(ofType('HAHA')).subscribe(x => haha.push(x));
@@ -55,15 +55,15 @@ describe('operators', () => {
 
     it('should handle actionCreators which define a toString method', () => {
       // This helps when using the popular `redux-actions` npm package.
-      const actions = new Subject();
-      const cache1 = [];
-      const cache2 = [];
+      const actions = new Subject<AnyAction>();
+      const cache1: AnyAction[] = [];
+      const cache2: AnyAction[] = [];
       const LULZ_TYPE = 'LULZ';
       const HAHA_TYPE = 'HAHA';
       const LARF_TYPE = Symbol();
 
-      const createActionCreator = type => {
-        const actionCreator = payload => ({ type, payload });
+      const createActionCreator = (type: string | symbol) => {
+        const actionCreator = (payload: number) => ({ type, payload });
         actionCreator.toString = () => type;
         return actionCreator;
       };
@@ -93,14 +93,14 @@ describe('operators', () => {
     });
 
     it('should not fail when types are symbols', () => {
-      const actions = new Subject();
-      const cache1 = [];
-      const cache2 = [];
+      const actions = new Subject<AnyAction>();
+      const cache1: AnyAction[] = [];
+      const cache2: AnyAction[] = [];
       const LULZ_TYPE = Symbol();
       const HAHA_TYPE = Symbol();
       const LARF_TYPE = Symbol();
 
-      actions.pipe(ofType(LULZ_TYPE, LARF_TYPE)).subscribe(x => cache1.push(x));
+      actions.pipe(ofType(LULZ_TYPE as symbol, LARF_TYPE as symbol)).subscribe(x => cache1.push(x));
       actions.pipe(ofType(HAHA_TYPE)).subscribe(x => cache2.push(x));
 
       actions.next({ type: LULZ_TYPE, i: 0 });

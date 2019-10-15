@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { createStore, applyMiddleware, MiddlewareAPI, Action } from 'redux';
+import { createStore, applyMiddleware, Action } from 'redux';
 import { Observable, asapScheduler, of } from 'rxjs';
 import { ajax } from 'rxjs/ajax';
 import { map, mapTo, mergeMap } from 'rxjs/operators';
@@ -9,14 +9,14 @@ import { createEpicMiddleware, Epic, combineEpics,
 import { initAction } from './initAction';
 
 interface State {
-  foo: string
+  foo: string;
 }
 
 interface FluxStandardAction {
   type: string | symbol | any;
   payload?: any;
   error?: boolean | any;
-  meta?: any
+  meta?: any;
 }
 
 interface Dependencies {
@@ -89,13 +89,14 @@ const epic8: Epic<FluxStandardAction, FluxStandardAction, State, Dependencies> =
     }))
   );
 
+/* eslint-disable camelcase, @typescript-eslint/class-name-casing */
 interface Epic9_Input {
-  type: "NINTH",
-  payload: string,
+  type: 'NINTH';
+  payload: string;
 }
 interface Epic9_Output {
-  type: "ninth",
-  payload: string,
+  type: 'ninth';
+  payload: string;
 }
 
 const epic9_1: Epic<FluxStandardAction, Epic9_Output, State, Dependencies> = (action$, state$, dependencies) =>
@@ -103,7 +104,7 @@ const epic9_1: Epic<FluxStandardAction, Epic9_Output, State, Dependencies> = (ac
     ofType<FluxStandardAction, Epic9_Input>('NINTH'),
     map(({ type, payload }) => ({
       type: 'ninth' as 'ninth',
-      payload: dependencies.func("ninth-" + payload),
+      payload: dependencies.func('ninth-' + payload),
     }))
   );
 
@@ -112,14 +113,15 @@ const epic9_2 = (action$: ActionsObservable<FluxStandardAction>, state$: StateOb
     ofType<FluxStandardAction, Epic9_Input>('NINTH'),
     map(({ type, payload }) => ({
       type: 'ninth',
-      payload: dependencies.func("ninth-" + payload),
+      payload: dependencies.func('ninth-' + payload),
     } as Epic9_Output))
   );
+/* eslint-enable camelcase, @typescript-eslint/class-name-casing */
 const rootEpic1: Epic<FluxStandardAction> = combineEpics<FluxStandardAction, FluxStandardAction, any>(epic1, epic2, epic3, epic4, epic5, epic6, epic7, epic8, epic9_1);
 const rootEpic2 = combineEpics(epic1, epic2, epic3, epic4, epic5, epic6, epic7, epic8, epic9_2);
 
 const dependencies: Dependencies = {
-  func(value: string) { return `func-${value}`}
+  func(value: string) { return `func-${value}`; }
 };
 
 const epicMiddleware1: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>({ dependencies });
@@ -147,11 +149,11 @@ const customEpic2: CustomEpic<FluxStandardAction, State, number> = (action$, sta
     }))
   );
 
-const customEpicMiddleware: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>({
+const _customEpicMiddleware: EpicMiddleware<FluxStandardAction> = createEpicMiddleware<FluxStandardAction>({
   dependencies: { getJSON: ajax.getJSON }
 });
 
-const combinedCustomEpics = combineEpics<CustomEpic<FluxStandardAction, State, number>>(customEpic, customEpic2);
+const _combinedCustomEpics = combineEpics<CustomEpic<FluxStandardAction, State, number>>(customEpic, customEpic2);
 
 const reducer = (state: Array<FluxStandardAction> = [], action: FluxStandardAction) => state.concat(action);
 const store = createStore(
@@ -170,6 +172,7 @@ store.dispatch({ type: 'SEVENTH', payload: 'seventh-payload' });
 store.dispatch({ type: 'EIGHTH', payload: 'eighth-payload' });
 store.dispatch({ type: 'NINTH', payload: 'ninth-payload' });
 
+/* eslint-disable quotes, quote-props */
 expect(store.getState()).to.deep.equal([
   initAction,
   { "type": "fourth" },
@@ -218,11 +221,12 @@ expect(store.getState()).to.deep.equal([
   { "type": "ninth", "payload": "func-ninth-ninth-payload" },
   { "type": "ninth", "payload": "func-ninth-ninth-payload" },
 ]);
+/* eslint-enable quotes, quote-props */
 
 const input$ = Observable.create(() => {});
-const action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
-const action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asapScheduler);
-const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asapScheduler);
+const _action$1: ActionsObservable<FluxStandardAction> = new ActionsObservable<FluxStandardAction>(input$);
+const _action$2: ActionsObservable<FluxStandardAction> = ActionsObservable.of<FluxStandardAction>({ type: 'SECOND' }, { type: 'FIRST' }, asapScheduler);
+const _action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<FluxStandardAction>([{ type: 'SECOND' }, { type: 'FIRST' }], asapScheduler);
 
 {
   // proper type narrowing
@@ -230,27 +234,26 @@ const action$3: ActionsObservable<FluxStandardAction> = ActionsObservable.from<F
     One = 'ACTION_ONE',
     Two = 'ACTION_TWO',
   }
-  const doOne = (myStr: string): One => ({type: ActionTypes.One, myStr})
-  const doTwo = (myBool: boolean): Two => ({type: ActionTypes.Two, myBool})
+  const _doOne = (myStr: string): One => ({ type: ActionTypes.One, myStr });
+  const _doTwo = (myBool: boolean): Two => ({ type: ActionTypes.Two, myBool });
 
   interface One extends Action {
-    type: ActionTypes.One
-    myStr: string
+    type: ActionTypes.One;
+    myStr: string;
   }
   interface Two extends Action {
-    type: ActionTypes.Two
-    myBool: boolean
+    type: ActionTypes.Two;
+    myBool: boolean;
   }
   type Actions = One | Two
 
-// Explicitly set generics fixes the issue
-const epic = (action$: ActionsObservable<Actions>) =>
-  action$.pipe(
-    ofType<Actions,One>(ActionTypes.One),
-    // action is correctly narrowed to One
-    map((action) => { console.log(action.myStr) })
-  );
-
+  // Explicitly set generics fixes the issue
+  const _epic = (action$: ActionsObservable<Actions>) =>
+    action$.pipe(
+      ofType<Actions, One>(ActionTypes.One),
+      // action is correctly narrowed to One
+      map((action) => { console.log(action.myStr); })
+    );
 }
 
 console.log('typings.ts: OK');

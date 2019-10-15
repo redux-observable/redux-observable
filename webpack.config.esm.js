@@ -5,15 +5,19 @@ const env = process.env.NODE_ENV;
 
 const config = {
   mode: env,
+  entry: './src/index.ts',
+  resolve: {
+    extensions: ['.ts']
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts$/,
         exclude: /(node_modules|bower_components)/,
         use: {
-          loader: 'babel-loader',
+          loader: 'ts-loader',
           options: {
-            presets: [['env', { modules: false }]]
+            configFile: 'src/tsconfig.json'
           }
         }
       }
