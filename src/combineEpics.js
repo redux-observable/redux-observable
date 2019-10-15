@@ -12,7 +12,7 @@ export const combineEpics = (...epics) => {
         throw new TypeError(`combineEpics: one of the provided Epics "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);
       }
       return (
-        output$.pipe
+        process.env.NODE_ENV !== 'production' && output$.pipe
           ? output$.pipe(
             catchError(error => {
               if (console.error) {
