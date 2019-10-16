@@ -1,13 +1,11 @@
 import { Action } from 'redux';
-import { merge, Observable } from 'rxjs';
+import { merge } from 'rxjs';
 import { Epic } from './epic';
 
 /**
   Merges all epics into a single one.
  */
-export function combineEpics<T extends Action, O extends T = T, S = void, D = any>(...epics: Epic<T, O, S, D>[]): Epic<T, O, S, D>;
-export function combineEpics<E extends () => Observable<any>>(...epics: E[]): E;
-export function combineEpics(...epics: Epic[]) {
+export function combineEpics<T extends Action, O extends T = T, S = void, D = any>(...epics: Epic<T, O, S, D>[]): Epic<T, O, S, D> {
   const merger = (...args: Parameters<Epic>) => merge(
     ...epics.map(epic => {
       const output$ = epic(...args);
