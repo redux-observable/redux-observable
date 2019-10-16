@@ -333,7 +333,7 @@ describe('createEpicMiddleware', () => {
     });
   });
 
-  it('should not pass third argument to epic if no dependencies provided', () => {
+  it('should pass undefined as third argument to epic if no dependencies provided', () => {
     const reducer: Reducer = (state = [], action) => state;
     const epic = spySandbox.spy((action$: any) => action$);
 
@@ -341,7 +341,8 @@ describe('createEpicMiddleware', () => {
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(epic);
 
-    expect(epic.firstCall.args.length).to.deep.equal(2);
+    expect(epic.firstCall.args.length).to.deep.equal(3);
+    expect(epic.firstCall.args[2]).to.equal(undefined);
   });
 
   it('should inject dependencies into a single epic', () => {

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { combineEpics, ActionsObservable, ofType, Epic, StateObservable } from '../';
 import { Action } from 'redux';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, EMPTY } from 'rxjs';
 import { map, toArray } from 'rxjs/operators';
 
 describe('combineEpics', () => {
@@ -63,8 +63,8 @@ describe('combineEpics', () => {
   });
 
   it('should return a new epic that, when called, errors if one of the combined epics doesn\'t return anything', () => {
-    const epic1 = () => [];
-    const epic2 = () => {};
+    const epic1 = () => EMPTY;
+    const epic2: () => any = () => {};
     const rootEpic = combineEpics(epic1, epic2);
 
     expect(() => {
@@ -73,9 +73,9 @@ describe('combineEpics', () => {
   });
 
   describe('returned epic function name', () => {
-    const epic1 = () => 'named epic';
-    const epic2 = () => 'named epic';
-    const epic3 = () => 'named epic';
+    const epic1 = () => EMPTY;
+    const epic2 = () => EMPTY;
+    const epic3 = () => EMPTY;
 
     it('should name the new epic with `combineEpics(...epic names)`', () => {
       const rootEpic = combineEpics(epic1, epic2);
@@ -84,7 +84,7 @@ describe('combineEpics', () => {
     });
 
     it('should annotate combined anonymous epics with `<anonymous>`', () => {
-      const rootEpic = combineEpics(() => 'anonymous', epic2);
+      const rootEpic = combineEpics(() => EMPTY, epic2);
 
       expect(rootEpic).to.have.property('name').that.equals('combineEpics(<anonymous>, epic2)');
     });
