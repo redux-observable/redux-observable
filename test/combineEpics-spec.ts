@@ -44,10 +44,10 @@ describe('combineEpics', () => {
     const epic1 = sinon.stub().returns(['first']);
     const epic2 = sinon.stub().returns(['second']);
 
-    const rootEpic: <T>(...args: T[]) => Observable<T> = combineEpics(
+    const rootEpic = combineEpics(
       epic1,
       epic2
-    );
+    ) as <T>(...args: T[]) => Observable<T>;
 
     rootEpic(1, 2, 3, 4).pipe(toArray()).subscribe(values => {
       expect(values).to.deep.equal(['first', 'second']);
@@ -68,7 +68,7 @@ describe('combineEpics', () => {
     const rootEpic = combineEpics(epic1, epic2);
 
     expect(() => {
-      rootEpic();
+      rootEpic(1 as any, 2 as any, 3 as any);
     }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
   });
 

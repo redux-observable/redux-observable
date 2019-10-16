@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware, Reducer, Middleware, Action, AnyAction } from 'redux';
 import { createEpicMiddleware, combineEpics, ActionsObservable, StateObservable, ofType, Epic, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
-import { of, empty, merge, queueScheduler } from 'rxjs';
+import { of, empty, merge, queueScheduler, Observable } from 'rxjs';
 import { mapTo, filter, map, mergeMap, startWith, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 import { initAction } from './initAction';
 
@@ -406,7 +406,7 @@ describe('createEpicMiddleware', () => {
       return action$;
     });
 
-    const rootEpic = (...args: Parameters<Epic>) => combineEpics(epic)(...args, 'first', 'second');
+    const rootEpic = (...args: Parameters<Epic>) => (combineEpics(epic) as <T>(...args: T[]) => Observable<T>)(...args, 'first', 'second');
     const middleware = createEpicMiddleware({ dependencies: 'deps' });
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(rootEpic);
