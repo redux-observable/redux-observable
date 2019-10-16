@@ -1,18 +1,18 @@
-/* globals describe it */
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { combineEpics, ActionsObservable, ofType } from '../';
-import { Subject } from 'rxjs';
+import { combineEpics, ActionsObservable, ofType, Epic, StateObservable } from '../';
+import { Action } from 'redux';
+import { Subject, Observable, EMPTY } from 'rxjs';
 import { map, toArray } from 'rxjs/operators';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
-    const epic1 = (actions, store) =>
+    const epic1: Epic = (actions, store) =>
       actions.pipe(
         ofType('ACTION1'),
         map(action => ({ type: 'DELEGATED1', action, store }))
       );
-    const epic2 = (actions, store) =>
+    const epic2: Epic = (actions, store) =>
       actions.pipe(
         ofType('ACTION2'),
         map(action => ({ type: 'DELEGATED2', action, store }))
@@ -23,11 +23,11 @@ describe('combineEpics', () => {
       epic2
     );
 
-    const store = { I: 'am', a: 'store' };
-    const subject = new Subject();
+    const store = new StateObservable(new Subject(), { I: 'am', a: 'store' });
+    const subject = new Subject<Action>();
     const actions = new ActionsObservable(subject);
-    const result = epic(actions, store);
-    const emittedActions = [];
+    const result: Observable<Action> = (epic as any)(actions, store);
+    const emittedActions: any[] = [];
 
     result.subscribe(emittedAction => emittedActions.push(emittedAction));
 
@@ -47,7 +47,7 @@ describe('combineEpics', () => {
     const rootEpic = combineEpics(
       epic1,
       epic2
-    );
+    ) as <T>(...args: T[]) => Observable<T>;
 
     rootEpic(1, 2, 3, 4).pipe(toArray()).subscribe(values => {
       expect(values).to.deep.equal(['first', 'second']);
@@ -63,19 +63,19 @@ describe('combineEpics', () => {
   });
 
   it('should return a new epic that, when called, errors if one of the combined epics doesn\'t return anything', () => {
-    const epic1 = () => [];
-    const epic2 = () => {};
+    const epic1 = () => EMPTY;
+    const epic2: () => any = () => {};
     const rootEpic = combineEpics(epic1, epic2);
 
     expect(() => {
-      rootEpic();
+      rootEpic(1 as any, 2 as any, 3 as any);
     }).to.throw('combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!');
   });
 
   describe('returned epic function name', () => {
-    const epic1 = () => 'named epic';
-    const epic2 = () => 'named epic';
-    const epic3 = () => 'named epic';
+    const epic1 = () => EMPTY;
+    const epic2 = () => EMPTY;
+    const epic3 = () => EMPTY;
 
     it('should name the new epic with `combineEpics(...epic names)`', () => {
       const rootEpic = combineEpics(epic1, epic2);
@@ -84,7 +84,7 @@ describe('combineEpics', () => {
     });
 
     it('should annotate combined anonymous epics with `<anonymous>`', () => {
-      const rootEpic = combineEpics(() => 'anonymous', epic2);
+      const rootEpic = combineEpics(() => EMPTY, epic2);
 
       expect(rootEpic).to.have.property('name').that.equals('combineEpics(<anonymous>, epic2)');
     });

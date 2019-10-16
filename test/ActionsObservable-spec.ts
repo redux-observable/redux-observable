@@ -1,7 +1,7 @@
-/* globals describe it */
 import { expect } from 'chai';
 import { ActionsObservable } from '../';
 import { Subject } from 'rxjs';
+import { Action, AnyAction } from 'redux';
 
 describe('ActionsObservable', () => {
   it('should exist', () => {
@@ -9,7 +9,7 @@ describe('ActionsObservable', () => {
   });
 
   it('should support ActionsObservable.of(...actions)', () => {
-    const output = [];
+    const output: Action[] = [];
     const action$ = ActionsObservable.of({ type: 'FIRST' }, { type: 'SECOND' });
     action$.subscribe(x => output.push(x));
 
@@ -18,7 +18,7 @@ describe('ActionsObservable', () => {
   });
 
   it('should support ActionsObservable.from(...actions, scheduler)', () => {
-    const output = [];
+    const output: Action[] = [];
     const action$ = ActionsObservable.from([{ type: 'FIRST' }, { type: 'SECOND' }]);
     action$.subscribe(x => output.push(x));
 
@@ -28,10 +28,10 @@ describe('ActionsObservable', () => {
 
   describe('ofType operator', () => {
     it('should filter by action type', () => {
-      let actions = new Subject();
+      let actions = new Subject<AnyAction>();
       let actionsObs = new ActionsObservable(actions);
-      let lulz = [];
-      let haha = [];
+      let lulz: AnyAction[] = [];
+      let haha: AnyAction[] = [];
 
       actionsObs.ofType('LULZ').subscribe(x => lulz.push(x));
       actionsObs.ofType('HAHA').subscribe(x => haha.push(x));
@@ -53,10 +53,10 @@ describe('ActionsObservable', () => {
     });
 
     it('should filter by multiple action types', () => {
-      let actions = new Subject();
+      let actions = new Subject<AnyAction>();
       let actionsObs = new ActionsObservable(actions);
-      let lulz = [];
-      let haha = [];
+      let lulz: AnyAction[] = [];
+      let haha: AnyAction[] = [];
 
       actionsObs.ofType('LULZ', 'LARF').subscribe(x => lulz.push(x));
       actionsObs.ofType('HAHA').subscribe(x => haha.push(x));

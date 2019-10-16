@@ -1,44 +1,53 @@
+import { Action, Middleware, MiddlewareAPI, Dispatch } from 'redux';
 import { Subject, from, queueScheduler } from 'rxjs';
 import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
 import { ActionsObservable } from './ActionsObservable';
 import { StateObservable } from './StateObservable';
+import { Epic } from './epic';
 import { warn } from './utils/console';
 
-export function createEpicMiddleware(options = {}) {
+interface Options<D = any> {
+  dependencies?: D;
+}
+
+export interface EpicMiddleware<T extends Action, O extends T = T, S = void, D = any> extends Middleware<{}, S, Dispatch<any>> {
+  run(rootEpic: Epic<T, O, S, D>): void;
+}
+
+export function createEpicMiddleware<T extends Action, O extends T = T, S = void, D = any>(options: Options<D> = {}): EpicMiddleware<T, O, S, D> {
   // This isn't great. RxJS doesn't publicly export the constructor for
   // QueueScheduler nor QueueAction, so we reach in. We need to do this because
   // we don't want our internal queuing mechanism to be on the same queue as any
   // other RxJS code outside of redux-observable internals.
-  const QueueScheduler = queueScheduler.constructor;
-  const uniqueQueueScheduler = new QueueScheduler(queueScheduler.SchedulerAction);
+  const QueueScheduler: any = queueScheduler.constructor;
+  const uniqueQueueScheduler: typeof queueScheduler = new QueueScheduler((queueScheduler as any).SchedulerAction);
 
   if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
     throw new TypeError('Providing your root Epic to `createEpicMiddleware(rootEpic)` is no longer supported, instead use `epicMiddleware.run(rootEpic)`\n\nLearn more: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware');
   }
 
-  const epic$ = new Subject();
-  let store;
+  const epic$ = new Subject<Epic<T, O, S, D>>();
+  let store: MiddlewareAPI<Dispatch<any>, S>;
 
-  const epicMiddleware = _store => {
+  const epicMiddleware: EpicMiddleware<T, O, S, D> = _store => {
     if (process.env.NODE_ENV !== 'production' && store) {
       // https://github.com/redux-observable/redux-observable/issues/389
       warn('this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\nLearn more: https://goo.gl/2GQ7Da');
     }
     store = _store;
-    const actionSubject$ = new Subject().pipe(
+    // `.pipe()` transforms typing from `Subject<T>` to `Observable<T>`
+    const actionSubject$ = new Subject<T>().pipe(
       observeOn(uniqueQueueScheduler)
-    );
-    const stateSubject$ = new Subject().pipe(
+    ) as any as Subject<T>;
+    const stateSubject$ = new Subject<S>().pipe(
       observeOn(uniqueQueueScheduler)
-    );
+    ) as any as Subject<S>;
     const action$ = new ActionsObservable(actionSubject$);
     const state$ = new StateObservable(stateSubject$, store.getState());
 
     const result$ = epic$.pipe(
       map(epic => {
-        const output$ = 'dependencies' in options
-          ? epic(action$, state$, options.dependencies)
-          : epic(action$, state$);
+        const output$ = epic(action$, state$, options.dependencies!);
 
         if (!output$) {
           throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);

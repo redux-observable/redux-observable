@@ -1,16 +1,14 @@
-/* globals describe, beforeEach, afterEach, it */
 import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware, combineEpics, ActionsObservable, StateObservable, ofType } from '../';
-import { resetDeprecationsSeen } from '../lib/cjs/utils/console';
-import { of, empty, merge, queueScheduler } from 'rxjs';
+import { createStore, applyMiddleware, Reducer, Middleware, Action, AnyAction } from 'redux';
+import { createEpicMiddleware, combineEpics, ActionsObservable, StateObservable, ofType, Epic, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
+import { of, empty, merge, queueScheduler, Observable } from 'rxjs';
 import { mapTo, filter, map, mergeMap, startWith, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 import { initAction } from './initAction';
 
 describe('createEpicMiddleware', () => {
-  let spySandbox;
+  let spySandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
     spySandbox = sinon.sandbox.create();
@@ -22,10 +20,10 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should provide epics a stream of action$ and a stream of state$', (done) => {
-    const reducer = (state = [], action) => state.concat(action);
+    const reducer: Reducer = (state = [], action) => state.concat(action);
     const epic = sinon.stub().returns(empty());
     const epicMiddleware = createEpicMiddleware();
-    const mockMiddleware = store => next => action => {
+    const mockMiddleware: Middleware = _store => _next => _action => {
       expect(epic.calledOnce).to.equal(true);
       expect(epic.firstCall.args[0]).to.be.instanceOf(ActionsObservable);
       expect(epic.firstCall.args[1]).to.be.instanceof(StateObservable);
@@ -38,16 +36,16 @@ describe('createEpicMiddleware', () => {
 
   it('should throw an error if you provide a function to createEpicMiddleware (used to be rootEpic)', () => {
     expect(() => {
-      createEpicMiddleware(() => {});
+      createEpicMiddleware((() => {}) as any);
     }).to.throw(TypeError, 'Providing your root Epic to `createEpicMiddleware(rootEpic)` is no longer supported, instead use `epicMiddleware.run(rootEpic)`\n\nLearn more: https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware');
   });
 
   it('should warn about reusing the epicMiddleware', () => {
     spySandbox.spy(console, 'warn');
-    const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, state$) => action$.pipe(
+    const reducer: Reducer = (state = [], action) => state.concat(action);
+    const epic: Epic = (action$, _state$) => action$.pipe(
       ofType('PING'),
-      map(() => state$.dispatch({ type: 'PONG' })),
+      map(() => ({ type: 'PONG' })),
       ignoreElements(),
     );
 
@@ -56,13 +54,13 @@ describe('createEpicMiddleware', () => {
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(epic);
 
-    expect(console.warn.callCount).to.equal(1);
-    expect(console.warn.getCall(0).args[0]).to.equal('redux-observable | WARNING: this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\nLearn more: https://goo.gl/2GQ7Da');
+    expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
+    expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal('redux-observable | WARNING: this middleware is already associated with a store. createEpicMiddleware should be called for every store.\n\nLearn more: https://goo.gl/2GQ7Da');
   });
 
   it('should update state$ after an action goes through reducers but before epics', () => {
-    const actions = [];
-    const reducer = (state = 0, action) => {
+    const actions: Action[] = [];
+    const reducer: Reducer = (state = 0, action) => {
       actions.push(action);
 
       if (action.type === 'PING') {
@@ -71,9 +69,9 @@ describe('createEpicMiddleware', () => {
         return state;
       }
     };
-    const epic = (action$, state$) =>
+    const epic: Epic = (action$, state$) =>
       merge(
-        action$.pipe(ofType('PING')),
+        action$.pipe(ofType<any, any, any>('PING')),
         state$.pipe(distinctUntilChanged())
       ).pipe(
         map(input => ({
@@ -119,8 +117,8 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should allow accessing state$.value on epic startup', () => {
-    const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, state$) => of({
+    const reducer: Reducer = (state = [], action) => state.concat(action);
+    const epic: Epic = (action$, state$) => of({
       type: 'PONG',
       state: state$.value
     });
@@ -140,8 +138,8 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should queue state$ updates', () => {
-    const actions = [];
-    const reducer = (state = { action: null, value: 0 }, action) => {
+    const actions: AnyAction[] = [];
+    const reducer: Reducer = (state = { action: null, value: 0 }, action) => {
       actions.push(action);
 
       switch (action.type) {
@@ -157,7 +155,7 @@ describe('createEpicMiddleware', () => {
           return state;
       }
     };
-    const epic = (action$, state$) =>
+    const epic: Epic = (action$, state$) =>
       action$.pipe(
         ofType('FIRST'),
         mergeMap(() =>
@@ -203,8 +201,8 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should accept an epic that wires up action$ input to action$ out', () => {
-    const reducer = (state = [], action) => state.concat(action);
-    const epic = (action$, state$) =>
+    const reducer: Reducer = (state = [], action) => state.concat(action);
+    const epic: Epic = (action$, state$) =>
       merge(
         action$.pipe(
           ofType('FIRE_1'),
@@ -233,9 +231,9 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should support synchronous emission by epics on start up', () => {
-    const reducer = (state = [], action) => state.concat(action);
-    const epic1 = (action$, state$) => of({ type: 'ACTION_1' });
-    const epic2 = (action$, state$) => action$.pipe(
+    const reducer: Reducer = (state = [], action) => state.concat(action);
+    const epic1: Epic = (action$, state$) => of({ type: 'ACTION_1' });
+    const epic2: Epic = (action$, state$) => action$.pipe(
       ofType('ACTION_1'),
       mapTo({ type: 'ACTION_2' })
     );
@@ -254,8 +252,8 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should queue synchronous actions', () => {
-    const reducer = (state = [], action) => state.concat(action);
-    const epic1 = action$ =>
+    const reducer: Reducer = (state = [], action) => state.concat(action);
+    const epic1: Epic = action$ =>
       action$.pipe(
         ofType('ACTION_1'),
         mergeMap(() =>
@@ -263,7 +261,7 @@ describe('createEpicMiddleware', () => {
         )
       );
 
-    const epic2 = action$ =>
+    const epic2: Epic = action$ =>
       action$.pipe(
         ofType('ACTION_2'),
         map(() => ({ type: 'ACTION_4' })),
@@ -286,7 +284,7 @@ describe('createEpicMiddleware', () => {
   });
 
   it('exceptions thrown in reducers as part of an epic-dispatched action should go through HostReportErrors', (done) => {
-    const reducer = (state = [], action) => {
+    const reducer: Reducer = (state = [], action) => {
       switch (action.type) {
         case 'ACTION_1':
           throw new Error('some error');
@@ -294,7 +292,7 @@ describe('createEpicMiddleware', () => {
           return state;
       }
     };
-    const epic = (action$, state$) =>
+    const epic: Epic = (action$, state$) =>
       merge(
         action$.pipe(
           ofType('FIRE_1'),
@@ -327,7 +325,7 @@ describe('createEpicMiddleware', () => {
     const rootEpic = () => { };
     const epicMiddleware = createEpicMiddleware();
     createStore(() => { }, applyMiddleware(epicMiddleware));
-    epicMiddleware.run(rootEpic);
+    epicMiddleware.run(rootEpic as any);
 
     process.prependOnceListener('uncaughtException', (err) => {
       expect(err.message).to.equal('Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!');
@@ -335,20 +333,21 @@ describe('createEpicMiddleware', () => {
     });
   });
 
-  it('should not pass third argument to epic if no dependencies provided', () => {
-    const reducer = (state = [], action) => state;
-    const epic = spySandbox.spy(action$ => action$);
+  it('should pass undefined as third argument to epic if no dependencies provided', () => {
+    const reducer: Reducer = (state = [], action) => state;
+    const epic = spySandbox.spy((action$: any) => action$);
 
     const middleware = createEpicMiddleware();
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(epic);
 
-    expect(epic.firstCall.args.length).to.deep.equal(2);
+    expect(epic.firstCall.args.length).to.deep.equal(3);
+    expect(epic.firstCall.args[2]).to.equal(undefined);
   });
 
   it('should inject dependencies into a single epic', () => {
-    const reducer = (state = [], action) => state;
-    const epic = spySandbox.spy(action$ => action$);
+    const reducer: Reducer = (state = [], action) => state;
+    const epic = spySandbox.spy((action$: any) => action$);
 
     const middleware = createEpicMiddleware({ dependencies: 'deps' });
     createStore(reducer, applyMiddleware(middleware));
@@ -359,8 +358,8 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should pass literally anything provided as dependencies, even `undefined`', () => {
-    const reducer = (state = [], action) => state;
-    const epic = spySandbox.spy(action$ => action$);
+    const reducer: Reducer = (state = [], action) => state;
+    const epic = spySandbox.spy((action$: any) => action$);
 
     const middleware = createEpicMiddleware({ dependencies: undefined });
     createStore(reducer, applyMiddleware(middleware));
@@ -371,8 +370,8 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should inject dependencies into combined epics', () => {
-    const reducer = (state = [], action) => state;
-    const epic = spySandbox.spy((action$, state$, { foo, bar }) => {
+    const reducer: Reducer = (state = [], action) => state;
+    const epic = spySandbox.spy(<T>(action$: T, state$: T, { foo, bar }: any) => {
       expect(foo).to.equal('bar');
       expect(bar).to.equal('foo');
       return action$;
@@ -399,15 +398,15 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should call epics with all additional arguments, not just dependencies', () => {
-    const reducer = (state = [], action) => state;
-    const epic = spySandbox.spy((action$, state$, deps, arg1, arg2) => {
+    const reducer: Reducer = (state = [], action) => state;
+    const epic = spySandbox.spy(<T>(action$: T, state$: T, deps: T, arg1: T, arg2: T) => {
       expect(deps).to.equal('deps');
       expect(arg1).to.equal('first');
       expect(arg2).to.equal('second');
       return action$;
     });
 
-    const rootEpic = (...args) => combineEpics(epic)(...args, 'first', 'second');
+    const rootEpic = (...args: Parameters<Epic>) => (combineEpics(epic) as <T>(...args: T[]) => Observable<T>)(...args, 'first', 'second');
     const middleware = createEpicMiddleware({ dependencies: 'deps' });
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(rootEpic);
@@ -416,8 +415,8 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should not allow interference from the public queueScheduler singleton', (done) => {
-    const reducer = (state = [], action) => state.concat(action);
-    const epic1 = action$ =>
+    const reducer: Reducer = (state = [], action) => state.concat(action);
+    const epic1: Epic = action$ =>
       action$.pipe(
         ofType('ACTION_1'),
         mergeMap(() =>
@@ -425,7 +424,7 @@ describe('createEpicMiddleware', () => {
         )
       );
 
-    const epic2 = action$ =>
+    const epic2: Epic = action$ =>
       action$.pipe(
         ofType('ACTION_2'),
         map(() => ({ type: 'ACTION_4' }))
