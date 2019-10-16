@@ -1,10 +1,7 @@
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 export class StateObservable<S> extends Observable<S> {
   value: S;
-  // TODO: This property is never accessed, should it be removed?
-  // @ts-ignore
-  private __subscription: Subscription;
   private __notifier = new Subject<S>();
 
   constructor(stateSubject: Subject<S>, initialState: S) {
@@ -17,7 +14,7 @@ export class StateObservable<S> extends Observable<S> {
     });
 
     this.value = initialState;
-    this.__subscription = stateSubject.subscribe(value => {
+    stateSubject.subscribe(value => {
       // We only want to update state$ if it has actually changed since
       // redux requires reducers use immutability patterns.
       // This is basically what distinctUntilChanged() does but it's so simple

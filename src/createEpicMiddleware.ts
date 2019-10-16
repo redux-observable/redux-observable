@@ -47,9 +47,7 @@ export function createEpicMiddleware<T extends Action, O extends T = T, S = void
 
     const result$ = epic$.pipe(
       map(epic => {
-        const output$ = 'dependencies' in options
-          ? epic(action$, state$, options.dependencies!)
-          : (epic as any)(action$, state$);
+        const output$ = epic(action$, state$, options.dependencies!);
 
         if (!output$) {
           throw new TypeError(`Your root Epic "${epic.name || '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`);

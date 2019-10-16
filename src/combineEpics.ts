@@ -1,15 +1,12 @@
 import { Action } from 'redux';
-import { merge } from 'rxjs';
+import { merge, Observable } from 'rxjs';
 import { Epic } from './epic';
 
 /**
   Merges all epics into a single one.
  */
 export function combineEpics<T extends Action, O extends T = T, S = void, D = any>(...epics: Epic<T, O, S, D>[]): Epic<T, O, S, D>;
-// TODO: Maybe we should make sure `E` is callable? (`E extends () => ...`)
-export function combineEpics<E>(...epics: E[]): E;
-// TODO: This typing seems brittle, is `any` really needed?
-export function combineEpics(...epics: any[]): any;
+export function combineEpics<E extends () => Observable<any>>(...epics: E[]): E;
 export function combineEpics(...epics: Epic[]) {
   const merger = (...args: Parameters<Epic>) => merge(
     ...epics.map(epic => {
