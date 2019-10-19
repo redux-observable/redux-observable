@@ -6,8 +6,6 @@
   * [Epics](docs/basics/Epics.md)
   * [Setting Up The Middleware](docs/basics/SettingUpTheMiddleware.md)
 
-* [Sponsors and Backers](/BACKERS.md)
-
 ## [Recipes](docs/recipes/SUMMARY.md)
   * [Cancellation](docs/recipes/Cancellation.md)
   * [Error Handling](docs/recipes/ErrorHandling.md)
