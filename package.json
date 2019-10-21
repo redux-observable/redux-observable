@@ -96,6 +96,7 @@
     "rxjs": "^6.0.0",
     "sinon": "^4.5.0",
     "ts-loader": "^6.2.0",
+    "tslib": "^1.10.0",
     "typescript": "^3.6.4",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
