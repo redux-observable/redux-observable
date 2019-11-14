@@ -1,3 +1,41 @@
+<a name="2.0.0-alpha.0"></a>
+# [2.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v1.2.0...v2.0.0-alpha.0) (2019-11-14)
+
+
+### feature
+
+* **ofType:** Type inference for ofType, removal of ActionsObservable in favor of just Observable ([#681](https://github.com/redux-observable/redux-observable/issues/681)) ([16f083d](https://github.com/redux-observable/redux-observable/commit/16f083d))
+
+
+* Convert project to Typescript and add es2015 build target (#672) ([ba4699e](https://github.com/redux-observable/redux-observable/commit/ba4699e)), closes [#672](https://github.com/redux-observable/redux-observable/issues/672)
+
+
+### BREAKING CHANGES
+
+* **ofType:** ActionsObservable existed so we could provide an ofType() method to the prototype of action$, before RxJS had pipeable operators. Now that pipeable operators have been out for quite some time we are removing ActionsObservable in favor or using the pipeable ofType() instead.
+
+```js
+// BEFORE
+function someEpic(action$) {
+  return action$
+    .ofType('PING')
+    .mapTo({ type: 'PONG' });
+}
+
+// AFTER
+import { ofType } from 'redux-observable';
+import { mapTo } from 'rxjs/operators';
+function someEpic(action$) {
+  return action$.pipe(
+    ofType('PING')
+    mapTo({ type: 'PONG' })
+  );
+}
+```
+* the TS type definition for `combineEpics()` no longer accepts any unsafe overloads. Cast to `any` if you need to provide unsafe/untyped Epics.
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/redux-observable/redux-observable/compare/v1.1.0...v1.2.0) (2019-09-17)
 
