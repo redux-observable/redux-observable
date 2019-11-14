@@ -9,7 +9,7 @@ Please keep in mind that the order in which epics are combined affect the order 
 
 #### Returns
 
-(*`Epic`*): An Epic that merges the output of every Epic provided and passes along the `ActionsObservable` and redux store as arguments.
+(*`Epic`*): An Epic that merges the output of every Epic provided and passes along the action$ Observable and redux store as arguments.
 
 #### Example
 

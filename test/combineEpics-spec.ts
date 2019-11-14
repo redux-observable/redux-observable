@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { combineEpics, ActionsObservable, ofType, Epic, StateObservable } from '../';
+import { combineEpics, ofType, Epic, StateObservable } from '../';
 import { Action } from 'redux';
 import { Subject, Observable, EMPTY } from 'rxjs';
 import { map, toArray } from 'rxjs/operators';
@@ -24,15 +24,14 @@ describe('combineEpics', () => {
     );
 
     const store = new StateObservable(new Subject(), { I: 'am', a: 'store' });
-    const subject = new Subject<Action>();
-    const actions = new ActionsObservable(subject);
+    const actions = new Subject<Action>();
     const result: Observable<Action> = (epic as any)(actions, store);
     const emittedActions: any[] = [];
 
     result.subscribe(emittedAction => emittedActions.push(emittedAction));
 
-    subject.next({ type: 'ACTION1' });
-    subject.next({ type: 'ACTION2' });
+    actions.next({ type: 'ACTION1' });
+    actions.next({ type: 'ACTION2' });
 
     expect(emittedActions).to.deep.equal([
       { type: 'DELEGATED1', action: { type: 'ACTION1' }, store },

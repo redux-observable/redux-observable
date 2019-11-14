@@ -1,24 +1,39 @@
 import { Action } from 'redux';
-import { Observable } from 'rxjs';
+import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 const keyHasType = (type: unknown, key: unknown) => {
-  return type === key || typeof key === 'function' && type === key.toString();
+  return type === key || (typeof key === 'function' && type === key.toString());
 };
 
-export const ofType = <T extends Action, R extends T = T, K extends R['type'] = R['type']>(...keys: K[]) => (source: Observable<T>) => source.pipe(
-  filter<T, R>((action): action is R => {
+/**
+ * Inferring the types of this is a bit challenging, and only works in newer
+ * versions of TypeScript.
+ *
+ * @param ...types One or more Redux action types you want to filter for, variadic.
+ */
+export function ofType<
+  // All possible actions your app can dispatch
+  Input extends Action,
+  // The types you want to filter for
+  Types extends Input['type'][],
+  // The resulting actions that match the above types
+  Output extends Input = Extract<Input, Action<Types[number]>>
+>(...types: Types): OperatorFunction<Input, Output> {
+  return filter((action): action is Output => {
     const { type } = action;
-    const len = keys.length;
+    const len = types.length;
+
     if (len === 1) {
-      return keyHasType(type, keys[0]);
+      return keyHasType(type, types[0]);
     } else {
       for (let i = 0; i < len; i++) {
-        if (keyHasType(type, keys[i])) {
+        if (keyHasType(type, types[i])) {
           return true;
         }
       }
     }
+
     return false;
-  })
-);
+  });
+}
