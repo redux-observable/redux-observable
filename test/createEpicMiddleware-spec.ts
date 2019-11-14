@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware, Reducer, Middleware, Action, AnyAction } from 'redux';
-import { createEpicMiddleware, combineEpics, ActionsObservable, StateObservable, ofType, Epic, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
+import { createEpicMiddleware, combineEpics, StateObservable, ofType, Epic, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
 import { of, empty, merge, queueScheduler, Observable } from 'rxjs';
 import { mapTo, filter, map, mergeMap, startWith, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 import { initAction } from './initAction';
@@ -25,7 +25,7 @@ describe('createEpicMiddleware', () => {
     const epicMiddleware = createEpicMiddleware();
     const mockMiddleware: Middleware = _store => _next => _action => {
       expect(epic.calledOnce).to.equal(true);
-      expect(epic.firstCall.args[0]).to.be.instanceOf(ActionsObservable);
+      expect(epic.firstCall.args[0]).to.be.instanceOf(Observable);
       expect(epic.firstCall.args[1]).to.be.instanceof(StateObservable);
       done();
     };

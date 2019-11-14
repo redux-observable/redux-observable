@@ -1,5 +1,4 @@
 export { createEpicMiddleware, EpicMiddleware } from './createEpicMiddleware';
-export { ActionsObservable } from './ActionsObservable';
 export { StateObservable } from './StateObservable';
 export { Epic } from './epic';
 export { combineEpics } from './combineEpics';
