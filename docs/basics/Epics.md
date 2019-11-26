@@ -33,7 +33,7 @@ const actionEpic = action$ => action$; // creates infinite loop
 
 ## A Basic Example
 
-> **IMPORTANT:** Our examples will not include any imports. Under normal circumstances, all operators (the funtions used within the `pipe()` method) must be imported like `import { filter, mapTo } from 'rxjs/operators';`
+> **IMPORTANT:** Our examples will not include any imports. Under normal circumstances, all operators (the functions used within the `pipe()` method) must be imported like `import { filter, mapTo } from 'rxjs/operators';`
 
 Let's start with a simple Epic example:
 
