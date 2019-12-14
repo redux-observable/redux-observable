@@ -1,12 +1,21 @@
 import { Action, Middleware, MiddlewareAPI, Dispatch } from 'redux';
-import { Subject, from, queueScheduler } from 'rxjs';
-import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
+import { Subject, from, queueScheduler, Observable } from 'rxjs';
+import { finalize, map, mergeMap, observeOn, subscribeOn, takeUntil } from 'rxjs/operators';
 import { StateObservable } from './StateObservable';
 import { Epic } from './epic';
 import { warn } from './utils/console';
 
 interface Options<D = any> {
   dependencies?: D;
+}
+
+interface ThreadStorage {
+  [key: string]: null | {
+    id: string;
+    sigterm$: Subject<void>;
+    sigkill$: Subject<void>;
+    output$: Observable<any>;
+  };
 }
 
 export interface EpicMiddleware<
@@ -16,6 +25,8 @@ export interface EpicMiddleware<
   D = any
 > extends Middleware<{}, S, Dispatch<any>> {
   run(rootEpic: Epic<T, O, S, D>): void;
+  sigterm(rootEpic: Epic<T, O, S, D>): Observable<O>;
+  sigkill(rootEpic: Epic<T, O, S, D>): Observable<O>;
 }
 
 export function createEpicMiddleware<
@@ -41,6 +52,7 @@ export function createEpicMiddleware<
 
   const epic$ = new Subject<Epic<T, O, S, D>>();
   let store: MiddlewareAPI<Dispatch<any>, S>;
+  const threads: ThreadStorage = {};
 
   const epicMiddleware: EpicMiddleware<T, O, S, D> = _store => {
     if (process.env.NODE_ENV !== 'production' && store) {
@@ -62,23 +74,40 @@ export function createEpicMiddleware<
 
     const result$ = epic$.pipe(
       map(epic => {
-        const output$ = epic(action$, state$, options.dependencies!);
+        const id = epic.id;
+        const sigterm$ = new Subject<void>();
+        const sigkill$ = new Subject<void>();
 
-        if (!output$) {
+        const thread$ = epic(
+          action$.pipe(
+            takeUntil(sigterm$),
+          ),
+          state$,
+          options.dependencies!,
+        );
+
+        if (!thread$) {
           throw new TypeError(
             `Your root Epic "${epic.name ||
               '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`
           );
         }
 
-        return output$;
+        return { id, thread$, sigkill$, sigterm$ };
       }),
-      mergeMap(output$ =>
-        from(output$).pipe(
+      mergeMap(({ id, thread$, sigkill$, sigterm$ }) => {
+        const output$ = from(thread$).pipe(
           subscribeOn(uniqueQueueScheduler),
-          observeOn(uniqueQueueScheduler)
-        )
-      )
+          observeOn(uniqueQueueScheduler),
+          takeUntil(sigkill$),
+          finalize(() => {
+            threads[id] = null;
+          }),
+        );
+
+        threads[id] = { id, output$, sigkill$, sigterm$ };
+        return output$;
+      })
     );
 
     result$.subscribe(store.dispatch);
@@ -106,7 +135,48 @@ export function createEpicMiddleware<
         'epicMiddleware.run(rootEpic) called before the middleware has been setup by redux. Provide the epicMiddleware instance to createStore() first.'
       );
     }
+
+    if (!rootEpic.id) {
+      Object.defineProperty(rootEpic, 'id', {
+        value: Math.random().toString(16),
+      });
+    }
+
     epic$.next(rootEpic);
+  };
+
+  epicMiddleware.sigterm = (rootEpic) => {
+    const id = rootEpic.id;
+    const thread = threads[id];
+
+    if (!thread) {
+      // thread is not running,
+      // probably need to throw
+      return;
+    }
+
+    setTimeout(() => {
+      thread.sigterm$.next();
+    }, 0);
+
+    return thread.output$;
+  };
+
+  epicMiddleware.sigkill = (rootEpic) => {
+    const id = rootEpic.id;
+    const thread = threads[id];
+
+    if (!thread) {
+      // thread is not running,
+      // probably need to throw
+      return;
+    }
+
+    setTimeout(() => {
+      thread.sigkill$.next();
+    }, 0);
+
+    return thread.output$;
   };
 
   return epicMiddleware;

@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { createStore, applyMiddleware, Reducer, Middleware, Action, AnyAction } from 'redux';
-import { createEpicMiddleware, combineEpics, StateObservable, ofType, Epic, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
+import { createEpicMiddleware, combineEpics, StateObservable, ofType, Epic, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../src';
 import { of, empty, merge, queueScheduler, Observable } from 'rxjs';
 import { mapTo, filter, map, mergeMap, startWith, ignoreElements, distinctUntilChanged } from 'rxjs/operators';
 import { initAction } from './initAction';
@@ -447,6 +447,93 @@ describe('createEpicMiddleware', () => {
       ]);
 
       done();
+    });
+  });
+});
+
+describe('createEpicMiddleware#{sigkill,sigterm}', () => {
+  let context: any;
+
+  beforeEach(() => {
+    const reducer: Reducer = (state = [], action) => state.concat(action);
+    const epic1: Epic = action$ =>
+      action$.pipe(
+        ofType('INPUT'),
+        mapTo({ type: 'E1-OUTPUT' }),
+      );
+    const epic2: Epic = action$ =>
+      action$.pipe(
+        ofType('INPUT'),
+        mapTo({ type: 'E2-OUTPUT' }),
+      );
+
+    const middleware = createEpicMiddleware();
+    const store = createStore(reducer, applyMiddleware(middleware));
+
+    const verifyActions = (given: { type: string }[]) => {
+      expect(store.getState()).to.deep.equal([initAction, ...given]);
+    };
+
+    context = { middleware, store, epic1, epic2, verifyActions };
+  });
+
+  it('should complete after sigterm', (done) => {
+    const { epic1, epic2, middleware, store, verifyActions } = context;
+
+    queueScheduler.schedule(() => {
+      middleware.run(epic1);
+      middleware.run(epic2);
+
+      expect(epic1).to.have.property('id');
+      expect(epic2).to.have.property('id');
+
+      store.dispatch({ type: 'INPUT' });
+
+      const thread$ = middleware.sigterm(epic1);
+
+      thread$.toPromise().then(() => {
+        store.dispatch({ type: 'INPUT' });
+
+        verifyActions([
+          { type: 'INPUT' },
+          { type: 'E1-OUTPUT' },
+          { type: 'E2-OUTPUT' },
+          { type: 'INPUT' },
+          { type: 'E2-OUTPUT' },
+        ]);
+
+        done();
+      }).catch(done);
+    });
+  });
+
+  it('should complete after being killed', (done) => {
+    const { epic1, epic2, middleware, store, verifyActions } = context;
+
+    queueScheduler.schedule(() => {
+      middleware.run(epic1);
+      middleware.run(epic2);
+
+      expect(epic1).to.have.property('id');
+      expect(epic2).to.have.property('id');
+
+      store.dispatch({ type: 'INPUT' });
+
+      const thread$ = middleware.sigkill(epic1);
+
+      thread$.toPromise().then(() => {
+        store.dispatch({ type: 'INPUT' });
+
+        verifyActions([
+          { type: 'INPUT' },
+          { type: 'E1-OUTPUT' },
+          { type: 'E2-OUTPUT' },
+          { type: 'INPUT' },
+          { type: 'E2-OUTPUT' },
+        ]);
+
+        done();
+      }).catch(done);
     });
   });
 });
