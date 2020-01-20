@@ -256,6 +256,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-empty-function": "off",
     // disallow unused variables/imports
     "@typescript-eslint/no-unused-vars": [2, {
       "vars": "all",

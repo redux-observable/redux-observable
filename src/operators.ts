@@ -1,6 +1,7 @@
 import { Action } from 'redux';
 import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { warn } from './utils/console';
 
 const keyHasType = (type: unknown, key: unknown) => {
   return type === key || (typeof key === 'function' && type === key.toString());
@@ -21,6 +22,15 @@ export function ofType<
   Output extends Input = Extract<Input, Action<Type>>
 >(...types: [Type, ...Type[]]): OperatorFunction<Input, Output> {
   const len = types.length;
+
+  if (process.env.NODE_ENV !== 'production') {
+    if (len === 0) {
+      warn('ofType was called without any types!');
+    }
+    if (types.some(key => key === null || key === undefined)) {
+      warn('ofType was called with one or more undefined or null values!');
+    }
+  }
 
   return filter(
     len === 1
