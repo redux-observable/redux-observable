@@ -20,20 +20,19 @@ export function ofType<
   // The resulting actions that match the above types
   Output extends Input = Extract<Input, Action<Type>>
 >(...types: [Type, ...Type[]]): OperatorFunction<Input, Output> {
-  return filter((action): action is Output => {
-    const { type } = action;
-    const len = types.length;
+  const len = types.length;
 
-    if (len === 1) {
-      return keyHasType(type, types[0]);
-    } else {
-      for (let i = 0; i < len; i++) {
-        if (keyHasType(type, types[i])) {
-          return true;
+  return filter(
+    len === 1
+      ? (action): action is Output => keyHasType(action.type, types[0])
+      : (action): action is Output => {
+        for (let i = 0; i < len; i++) {
+          if (keyHasType(action.type, types[i])) {
+            return true;
+          }
         }
-      }
-    }
 
-    return false;
-  });
+        return false;
+      }
+  );
 }
