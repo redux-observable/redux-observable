@@ -1,6 +1,7 @@
 import { Action } from 'redux';
 import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { warn } from './utils/console';
 
 const keyHasType = (type: unknown, key: unknown) => {
   return type === key || (typeof key === 'function' && type === key.toString());
@@ -20,20 +21,28 @@ export function ofType<
   // The resulting actions that match the above types
   Output extends Input = Extract<Input, Action<Type>>
 >(...types: [Type, ...Type[]]): OperatorFunction<Input, Output> {
-  return filter((action): action is Output => {
-    const { type } = action;
-    const len = types.length;
+  const len = types.length;
 
-    if (len === 1) {
-      return keyHasType(type, types[0]);
-    } else {
-      for (let i = 0; i < len; i++) {
-        if (keyHasType(type, types[i])) {
-          return true;
-        }
-      }
+  if (process.env.NODE_ENV !== 'production') {
+    if (len === 0) {
+      warn('ofType was called without any types!');
     }
+    if (types.some(key => key === null || key === undefined)) {
+      warn('ofType was called with one or more undefined or null values!');
+    }
+  }
 
-    return false;
-  });
+  return filter(
+    len === 1
+      ? (action): action is Output => keyHasType(action.type, types[0])
+      : (action): action is Output => {
+        for (let i = 0; i < len; i++) {
+          if (keyHasType(action.type, types[i])) {
+            return true;
+          }
+        }
+
+        return false;
+      }
+  );
 }

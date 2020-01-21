@@ -1,10 +1,22 @@
 import { expect } from 'chai';
 import { Subject } from 'rxjs';
-import { ofType } from '../';
+import { ofType, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
 import { AnyAction } from 'redux';
+import sinon from 'sinon';
 
 describe('operators', () => {
   describe('ofType', () => {
+    let spySandbox: sinon.SinonSandbox;
+
+    beforeEach(() => {
+      spySandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+      spySandbox.restore();
+      resetDeprecationsSeen();
+    });
+
     it('should filter by action type', () => {
       let actions = new Subject<AnyAction>();
       let lulz: AnyAction[] = [];
@@ -117,6 +129,24 @@ describe('operators', () => {
 
       expect(cache1).to.deep.equal([{ type: LULZ_TYPE, i: 0 }, { type: LARF_TYPE, i: 1 }]);
       expect(cache2).to.deep.equal([{ type: HAHA_TYPE, i: 0 }]);
+    });
+
+    it('should warn about not passing any values', () => {
+      spySandbox.spy(console, 'warn');
+
+      // @ts-ignore
+      const _operator = ofType();
+
+      expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
+      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal('redux-observable | WARNING: ofType was called without any types!');
+    });
+
+    it('should warn about using nullsy values', () => {
+      spySandbox.spy(console, 'warn');
+      const _operator = ofType('foo', null);
+
+      expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
+      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal('redux-observable | WARNING: ofType was called with one or more undefined or null values!');
     });
   });
 });
