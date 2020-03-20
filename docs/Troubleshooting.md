@@ -66,19 +66,20 @@ If you are organizing your epics into a class. (E.g. in order to benefit from An
 
 ```typescript
 class TooFancy {
-  constructor(private somethingInjected:SomethingInjected)
-  checkAutoLogin (action$: Observable<IPayloadAction>) {
+  constructor(private somethingInjected: SomethingInjected) {}
+  checkAutoLogin = (action$: Observable<IPayloadAction>) => {
     console.log(this); // Is Window! when called from redux-observable
   }
 }
 ```
+
 follow the docs and:
 
 ```typescript
 class TooFancy {
-  constructor(private somethingInjected:SomethingInjected)
-  checkAutoLogin =  (action$: Observable<IPayloadAction>) => {
-    console.log(this); // YOu can access somethingInjected
+  constructor(private somethingInjected: SomethingInjected) {}
+  checkAutoLogin(action$: Observable<IPayloadAction>) {
+    console.log(this); // You can access somethingInjected
   }
 }
 ```
@@ -121,7 +122,7 @@ const myEpic = action$ => {
 
 This approach essentially returns an empty `Observable` from the epic, which does not cause any downstream actions.
 
-### Typescript: ofType operator won't narrow to proper Observable type
+### TypeScript: ofType operator won't narrow to proper Observable type
 
 Let's say you have following action types + action creator types:
 
