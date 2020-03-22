@@ -85,7 +85,7 @@ export default function configureStore() {
 
 Uncaught errors can bubble up to the root epic and cause the entire stream to terminate. As a consequence, epics registered in the middleware will no longer run in your application. To alleviate this issue, you can add a global error handler to the root epic that catches uncaught errors and resubscribes to the source stream.
 
-```
+```js
 const rootEpic = (action$, store$, dependencies) =>
   combineEpics(...epics)(action$, store$, dependencies).pipe(
     catchError((error, source) => {
