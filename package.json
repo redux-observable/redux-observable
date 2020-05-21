@@ -74,7 +74,7 @@
     "@types/mocha": "^2.2.48",
     "@types/node": "^12.7.12",
     "@types/sinon": "^4.3.1",
-    "@typescript-eslint/eslint-plugin": "^2.4.0",
+    "@typescript-eslint/eslint-plugin": "^3.0.0",
     "@typescript-eslint/parser": "^2.4.0",
     "babel-polyfill": "^6.13.0",
     "chai": "^4.1.2",
