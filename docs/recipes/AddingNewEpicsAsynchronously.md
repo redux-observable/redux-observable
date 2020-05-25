@@ -19,4 +19,4 @@ epic$.next(asyncEpic2);
 
 Keep in mind that any existing Epics will be left running as-is. This is not for actual replacement of Epics, like hot reloading.
 
-Adding new Epics to your root Epic is very safe, but replacing Epics that were already running with a new version can potentially create strange bugs because Epics naturally _may_ maintain state or depend on some external transient state or side effect. To learn more about that, check out the [`replaceEpic(nextEpic)`](HotModuleReplacement.md) method.
+Adding new Epics to your root Epic is very safe, but replacing Epics that were already running with a new version can potentially create strange bugs because Epics naturally _may_ maintain state or depend on some external transient state or side effect. To learn more about that, check out how to use [`BehaviorSubject`](HotModuleReplacement.md) instance to subscribe to an epic, which you can terminate and replace with another one asynchronously.
