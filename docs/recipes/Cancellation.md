@@ -1,6 +1,6 @@
 # Cancellation
 
-Cancelling some async side effects is a common requirement of Epics. While there are several ways of doing this depending on your requirements, the most common way is to have your application dispatch a cancellation action and listen for it inside your Epic.
+Canceling some async side effects is a common requirement of Epics. While there are several ways of doing this depending on your requirements, the most common way is to have your application dispatch a cancellation action and listen for it inside your Epic.
 
 This can be done with the [`takeUntil()`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-takeUntil) RxJS operator:
 
@@ -33,7 +33,7 @@ Here we placed the `takeUntil()` inside our [`mergeMap()`](http://reactivex.io/r
 
 Sometimes you want to not only cancel a side effect (such as an AJAX call), _but also_ do something else, like emit a totally different action.
 
-You can achieve that using the aptly named [`race`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-race) operator. It allows you to literally "race" between streams; whichever one emits a value first wins! The losing streams are unsubscribed, cancelling any operation they were performing.
+You can achieve that using the aptly named [`race`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-race) operator. It allows you to literally "race" between streams; whichever one emits a value first wins! The losing streams are unsubscribed, canceling any operation they were performing.
 
 For example, let's say that we make an AJAX call when someone dispatches `FETCH_USER`, but if someone dispatches `FETCH_USER_CANCELLED` we cancel that pending AJAX request and instead emit a totally different action - in this case, to increment a counter:
 
