@@ -7,16 +7,15 @@ This is a place to share common problems and solutions to them.
 >
 > You can also get help in our public [Gitter channel](https://gitter.im/redux-observable/redux-observable)!
 
-
 * * *
 
-### RxJS v5 (or rxjs-compat) operators are missing! e.g. TypeError: action$.ofType(...).switchMap is not a function
+## RxJS v5 (or rxjs-compat) operators are missing! e.g. `TypeError: action$.ofType(...).switchMap` is not a function
 
-Version v1.0.0 of redux-observable requires RxJS v6, which uses [pipeable operators](https://github.com/ReactiveX/rxjs/blob/master/doc/pipeable-operators.md) instead of prototype-based methods. To aid in migration there is an [rxjs-compat layer that lets you use the old v5 APIs](https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md).
+Version v1.0.0 of redux-observable requires RxJS v6, which uses [pipeable operators](https://rxjs.dev/guide/v6/pipeable-operators) instead of prototype-based methods. To aid in migration there is an [rxjs-compat layer that lets you use the old v5 APIs](https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md).
 
-So if you're using rxjs-compat (or using a pre-1.0 version of redux-observable), and still getting an error like this where an operator is missing, you most likely need to import the operator you're looking for. RxJS supports the ability to [add operators individually](https://github.com/ReactiveX/rxjs#installation-and-usage) so your bundles remain small.
+If you are using rxjs-compat (or using a pre-1.0 version of redux-observable) and still getting an error like this where an operator is missing, you most likely need to import the operator you're looking for. RxJS supports the ability to [add operators individually](https://github.com/ReactiveX/rxjs#installation-and-usage) so your bundles remain small.
 
-#### Add all operators
+### Add all operators
 
 If you want to instead add all operators, you can import the entire library inside your entry `index.js`:
 
@@ -25,10 +24,11 @@ import 'rxjs';
 ```
 This will add every core RxJS operator to the `Observable` prototype.
 
-#### Add only the operators you use
+### Add only the operators you use
 
-tl;dr
+There are several ways to do this. Check out the [RxJS documentation on this](https://github.com/ReactiveX/rxjs#installation-and-usage).
 
+For example,
 
 ```js
 import 'rxjs/add/operator/switchMap';
@@ -36,21 +36,19 @@ action$.ofType(...).switchMap(...);
 
 // OR
 
-import { switchMap } from 'rxjs/operator/switchMap';
-action$.ofType(...)::switchMap(...);
+import { switchMap } from 'rxjs/operators';
+action$.ofType(...).switchMap(...);
 ```
-
-There are several ways to do this, so we don't suggest any particular one in the docs. Check out the [RxJS documentation on this](https://github.com/ReactiveX/rxjs#installation-and-usage).
 
 If you use the `'rxjs/add/operator/name'` technique, you may find it helpful to create a single file where you place all of these so you don't have to import the same operators repeatedly.
 
-* * *
-
-### TypeError: Cannot read property 'subscribe' of undefined
+## TypeError: Cannot read property 'subscribe' of undefined
 
 This almost always means you're using an operator somewhere that expects to be provided with an observable but you instead did not give it anything at all. Often, you may be passing a variable but it is unknowingly set to `undefined`, so step through a debugger to confirm.
 
-#### Happens from `combineEpics()`
+### Potential reasons
+
+#### If the debugger shows `combineEpics()`,
 
 Usually this means you're not returning an observable from one or more of your Epics. Often this is just a missing `return`.
 
@@ -60,7 +58,7 @@ const myEpic = action$ => { // MISSING EXPLICIT RETURN!
 };
 ```
 
-### this is set to Window
+#### `this` is set to Window
 
 If you are organizing your epics into a class. (E.g. in order to benefit from Angular 2 dependency injection), you might have made the mistake of using class methods:
 
@@ -83,9 +81,9 @@ class TooFancy {
 }
 ```
 
-See https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions (Arrow functions used as methods)
+See [arrow functions from MDN](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/Arrow_functions) (Arrow functions used as methods)
 
-### It seems like your epics are not responding to actions
+## It seems like your epics are not responding to actions
 
 You might be returning the result of calling `subscribe` on an `Observable` from one of your epics.
 
@@ -121,7 +119,7 @@ const myEpic = action$ => {
 
 This approach essentially returns an empty `Observable` from the epic, which does not cause any downstream actions.
 
-### Typescript: ofType operator won't narrow to proper Observable type
+## Typescript: `ofType` operator won't narrow to proper Observable type
 
 Let's say you have following action types + action creator types:
 
@@ -146,9 +144,13 @@ interface Two extends Action {
 type Actions = One | Two
 ```
 
-When you're using `ofType` operator for filtering, returned observable won't be correctly narrowed within Type System, because its not capable of doing so yet ( TS 2.6.2 ).
+When you're using `ofType` operator for filtering, returned observable won't be correctly narrowed within Type System. There is an ongoing PR about this (see [here](https://github.com/redux-observable/redux-observable/pull/459)), but the following can be used as workarounds:
 
-To fix this, you need to explicitly set the generic type, so Typescript understands your intent, and narrows your action stream correctly:
+### Workarounds
+
+#### Explicity set the action
+
+You can explicitly set the generic type our type narrows your action stream correctly:
 
 ```ts
 // This will let action be `Actions` type, which is wrong
@@ -166,6 +168,23 @@ const epic = (action$: ActionsObservable<Actions>) =>
     // action is correctly narrowed to One
     map((action) => {...})
   );
+```
+
+#### Redefine `ofType` with condition types (Typescript 2.8+)
+
+In your custom type definitions folder (see the [tsconfig typeRoots option](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#types-typeroots-and-types)), you can overload `ofType` by making a file and writing to it the following: 
+
+```typescript
+// redux-observable.d.ts (this comment is not needed).
+
+import { OperatorFunction } from "rxjs";
+import { Action } from "redux";
+
+declare module "redux-observable" {
+ function ofType<T extends Action<unknown>, K extends string>(
+  ...key: K[]
+ ): OperatorFunction<T, Extract<T, { type: K }>>;
+}
 ```
 
 * * *
