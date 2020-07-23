@@ -1,32 +1,37 @@
-import { Action as ReduxAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
-import { from, Subject } from 'rxjs';
-import { QueueAction } from 'rxjs/internal/scheduler/QueueAction';
-import { QueueScheduler } from 'rxjs/internal/scheduler/QueueScheduler';
+import { Action, Middleware, MiddlewareAPI, Dispatch } from 'redux';
+import { Subject, from, queueScheduler } from 'rxjs';
 import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
-import { Epic } from './epic';
 import { StateObservable } from './StateObservable';
+import { Epic } from './epic';
 import { warn } from './utils/console';
 
-interface Options<Dependencies = any> {
-  dependencies?: Dependencies;
+interface Options<D = any> {
+  dependencies?: D;
 }
 
 export interface EpicMiddleware<
-  Action extends ReduxAction,
-  Output extends Action = Action,
-  State = any,
-  Dependencies = any
-> extends Middleware<{}, State, Dispatch<any>> {
-  run(rootEpic: Epic<Action, Output, State, Dependencies>): void;
+  T extends Action,
+  O extends T = T,
+  S = void,
+  D = any
+> extends Middleware<{}, S, Dispatch<any>> {
+  run(rootEpic: Epic<T, O, S, D>): void;
 }
 
 export function createEpicMiddleware<
-  Action extends ReduxAction,
-  Output extends Action = Action,
-  State = any,
-  Dependencies = any
->(options: Options<Dependencies> = {}): EpicMiddleware<Action, Output, State, Dependencies> {
-  const uniqueQueueScheduler = new QueueScheduler(QueueAction);
+  T extends Action,
+  O extends T = T,
+  S = void,
+  D = any
+>(options: Options<D> = {}): EpicMiddleware<T, O, S, D> {
+  // This isn't great. RxJS doesn't publicly export the constructor for
+  // QueueScheduler nor QueueAction, so we reach in. We need to do this because
+  // we don't want our internal queuing mechanism to be on the same queue as any
+  // other RxJS code outside of redux-observable internals.
+  const QueueScheduler: any = queueScheduler.constructor;
+  const uniqueQueueScheduler: typeof queueScheduler = new QueueScheduler(
+    (queueScheduler as any).SchedulerAction
+  );
 
   if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
     throw new TypeError(
@@ -34,10 +39,10 @@ export function createEpicMiddleware<
     );
   }
 
-  const epic$ = new Subject<Epic<Action, Output, State, Dependencies>>();
-  let store: MiddlewareAPI<Dispatch<any>, State>;
+  const epic$ = new Subject<Epic<T, O, S, D>>();
+  let store: MiddlewareAPI<Dispatch<any>, S>;
 
-  const epicMiddleware: EpicMiddleware<Action, Output, State, Dependencies> = (_store) => {
+  const epicMiddleware: EpicMiddleware<T, O, S, D> = _store => {
     if (process.env.NODE_ENV !== 'production' && store) {
       // https://github.com/redux-observable/redux-observable/issues/389
       warn(
@@ -45,8 +50,8 @@ export function createEpicMiddleware<
       );
     }
     store = _store;
-    const actionSubject$ = new Subject<Action>();
-    const stateSubject$ = new Subject<State>();
+    const actionSubject$ = new Subject<T>();
+    const stateSubject$ = new Subject<S>();
     const action$ = actionSubject$
       .asObservable()
       .pipe(observeOn(uniqueQueueScheduler));
@@ -56,20 +61,19 @@ export function createEpicMiddleware<
     );
 
     const result$ = epic$.pipe(
-      map((epic) => {
+      map(epic => {
         const output$ = epic(action$, state$, options.dependencies!);
 
         if (!output$) {
           throw new TypeError(
-            `Your root Epic "${
-              epic.name || '<anonymous>'
-            }" does not return a stream. Double check you\'re not missing a return statement!`
+            `Your root Epic "${epic.name ||
+              '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`
           );
         }
 
         return output$;
       }),
-      mergeMap((output$) =>
+      mergeMap(output$ =>
         from(output$).pipe(
           subscribeOn(uniqueQueueScheduler),
           observeOn(uniqueQueueScheduler)
@@ -79,8 +83,8 @@ export function createEpicMiddleware<
 
     result$.subscribe(store.dispatch);
 
-    return (next) => {
-      return (action) => {
+    return next => {
+      return action => {
         // Downstream middleware gets the action first,
         // which includes their reducers, so state is
         // updated before epics receive the action
@@ -96,7 +100,7 @@ export function createEpicMiddleware<
     };
   };
 
-  epicMiddleware.run = (rootEpic) => {
+  epicMiddleware.run = rootEpic => {
     if (process.env.NODE_ENV !== 'production' && !store) {
       warn(
         'epicMiddleware.run(rootEpic) called before the middleware has been setup by redux. Provide the epicMiddleware instance to createStore() first.'
