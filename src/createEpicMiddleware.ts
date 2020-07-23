@@ -12,7 +12,7 @@ interface Options<D = any> {
 export interface EpicMiddleware<
   T extends Action,
   O extends T = T,
-  S = void,
+  S = any,
   D = any
 > extends Middleware<{}, S, Dispatch<any>> {
   run(rootEpic: Epic<T, O, S, D>): void;
@@ -21,7 +21,7 @@ export interface EpicMiddleware<
 export function createEpicMiddleware<
   T extends Action,
   O extends T = T,
-  S = void,
+  S = any,
   D = any
 >(options: Options<D> = {}): EpicMiddleware<T, O, S, D> {
   // This isn't great. RxJS doesn't publicly export the constructor for
