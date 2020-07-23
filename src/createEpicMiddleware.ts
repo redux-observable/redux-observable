@@ -1,7 +1,5 @@
 import { Action as ReduxAction, Dispatch, Middleware, MiddlewareAPI } from 'redux';
-import { from, Subject } from 'rxjs';
-import { QueueAction } from 'rxjs/internal/scheduler/QueueAction';
-import { QueueScheduler } from 'rxjs/internal/scheduler/QueueScheduler';
+import { from, Subject, queueScheduler } from 'rxjs';
 import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
 import { Epic } from './epic';
 import { StateObservable } from './StateObservable';
@@ -16,7 +14,7 @@ export interface EpicMiddleware<
   Output extends Action = Action,
   State = any,
   Dependencies = any
-> extends Middleware<{}, State, Dispatch<any>> {
+  > extends Middleware<{}, State, Dispatch<any>> {
   run(rootEpic: Epic<Action, Output, State, Dependencies>): void;
 }
 
@@ -26,7 +24,20 @@ export function createEpicMiddleware<
   State = any,
   Dependencies = any
 >(options: Options<Dependencies> = {}): EpicMiddleware<Action, Output, State, Dependencies> {
-  const uniqueQueueScheduler = new QueueScheduler(QueueAction);
+  // This isn't a great solution, however RxJS does not **publicly** export the constructor for
+  // QueueScheduler nor QueueAction, so we reach in. We need to do this because
+  // we don't want our internal queuing mechanism to be on the same queue as any
+  // other RxJS code outside of redux-observable internals.
+  // See this discussion:
+  // https://github.com/redux-observable/redux-observable/pull/734#discussion_r459519441_
+  const {
+    SchedulerAction,
+    constructor: QueueScheduler,
+  } = queueScheduler as any;
+
+  const uniqueQueueScheduler: typeof queueScheduler = new QueueScheduler(
+    SchedulerAction
+  );
 
   if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
     throw new TypeError(
