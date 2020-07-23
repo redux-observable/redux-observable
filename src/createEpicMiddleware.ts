@@ -24,9 +24,9 @@ export function createEpicMiddleware<
   State = any,
   Dependencies = any
 >(options: Options<Dependencies> = {}): EpicMiddleware<Action, Output, State, Dependencies> {
-  // This isn"t a great solution, however RxJS does not **publicly** export the constructor for
+  // This isn't a great solution, however RxJS does not **publicly** export the constructor for
   // QueueScheduler nor QueueAction, so we reach in. We need to do this because
-  // we don"t want our internal queuing mechanism to be on the same queue as any
+  // we don't want our internal queuing mechanism to be on the same queue as any
   // other RxJS code outside of redux-observable internals.
   // See this discussion:
   // https://github.com/redux-observable/redux-observable/pull/734#discussion_r459519441_
@@ -67,7 +67,7 @@ export function createEpicMiddleware<
           throw new TypeError(
             `Your root Epic "${
             epic.name || "<anonymous>"
-            }" does not return a stream. Double check you\"re not missing a return statement!`
+            }" does not return a stream. Double check you're not missing a return statement!`
           );
         }
 
