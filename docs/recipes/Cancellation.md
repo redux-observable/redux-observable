@@ -3,14 +3,15 @@
 Cancelling some async side effects is a common requirement of Epics. While there are several ways of doing this depending on your requirements, the most common way is to have your application dispatch a cancellation action and listen for it inside your Epic.
 
 This can be done with the [`takeUntil`](https://rxjs-dev.firebaseapp.com/api/operators/takeUntil) RxJS operator:
+
 ```js
 const fetchUserEpic = action$ => action$.pipe(
- ofType(FETCH_USER),
-  mergeMap(action => ajax.getJSON(`/api/users/${action.payload}`).pipe(
-   takeUntil(action$.pipe(ofType(FETCH_USER_CANCELLED))),
-   map(response => fetchUserFulfilled(response))
+  ofType(FETCH_USER),
+    mergeMap(action => ajax.getJSON(`/api/users/${action.payload}`).pipe(
+    takeUntil(action$.pipe(ofType(FETCH_USER_CANCELLED))),
+    map(response => fetchUserFulfilled(response))
+    )
   )
- )
 );
 ```
 
@@ -38,17 +39,17 @@ For example, let's say that we make an AJAX call when someone dispatches `FETCH_
 import { ajax } from 'rxjs/ajax';
 
 const fetchUserEpic = action$ => action$.pipe(
- ofType(FETCH_USER),
- mergeMap(action => race(
-  ajax.getJSON(`/api/users/${action.payload}`).pipe(
-    map(response => fetchUserFulfilled(response))
-  ),
-  action$.pipe(
-    ofType(FETCH_USER_CANCELLED),
-    take(1),
-    map(() => incrementCounter())
-  )
- ))
+  ofType(FETCH_USER),
+  mergeMap(action => race(
+    ajax.getJSON(`/api/users/${action.payload}`).pipe(
+      map(response => fetchUserFulfilled(response))
+    ),
+    action$.pipe(
+      ofType(FETCH_USER_CANCELLED),
+      take(1),
+      map(() => incrementCounter())
+    )
+  ))
 );
 ```
 
