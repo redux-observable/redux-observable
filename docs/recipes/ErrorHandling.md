@@ -21,10 +21,3 @@ const fetchUserEpic = action$ => action$.pipe(
 ```
 
 Here we placed the `catchError()` inside our `mergeMap()`, but after our AJAX call; this is important because if we let the error reach the `action$.pipe()`, it will terminate it and no longer listen for new actions.
-
-***
-
-### Try It Live!
-
-<a class="jsbin-embed" href="https://jsbin.com/yuleju/embed?js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
-

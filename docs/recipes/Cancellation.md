@@ -22,13 +22,6 @@ Here we placed the `takeUntil()` inside our [`mergeMap()`](http://reactivex.io/r
 
 > This example uses `mergeMap` (aka `flatMap`), which means it allows multiple concurrent `FETCH_USER` requests. If you instead want to **cancel** any pending request and instead switch to the latest one, you can use the [`switchMap`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-switchMap) operator.
 
-***
-
-### Try It Live!
-
-<a class="jsbin-embed" href="https://jsbin.com/fivaca/embed?js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
-
-
 ## Cancel and Do Something Else (Emit a Different Action)
 
 Sometimes you want to not only cancel a side effect (such as an AJAX call), _but also_ do something else, like emit a totally different action.
