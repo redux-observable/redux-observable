@@ -103,12 +103,6 @@ const pingEpic = action$ => action$.pipe(
 > Need to match against multiple action types? No problem! `ofType` accepts any number of arguments!
 > `action$.pipe(ofType(FIRST, SECOND, THIRD)) // FIRST or SECOND or THIRD`
 
-***
-
-### Try It Live!
-
-<a class="jsbin-embed" href="https://jsbin.com/vayoho/embed?js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
-
 ## A Real World Example
 
 Now that we have a general idea of what an Epic looks like, let's continue with a more real-world example:
@@ -158,12 +152,6 @@ const users = (state = {}, action) => {
 };
 ```
 
-***
-
-### Try It Live!
-
-<a class="jsbin-embed" href="https://jsbin.com/jopuza/embed?js,output&height=500px">View this demo on JSBin</a><script src="https://static.jsbin.com/js/embed.min.js?3.40.2"></script>
-
 ## Accessing the Store's State
 
 Your Epics receive a second argument, a stream of store states.
@@ -203,12 +191,6 @@ const incrementIfOddEpic = (action$, state$) => action$.pipe(
 ```
 
 > REMEMBER: When an Epic receives an action, it has already been run through your reducers and the state updated.
-
-***
-
-### Try It Live!
-
-<a class="jsbin-embed" href="https://jsbin.com/somuvur/embed?js,output&height=500px">View this demo on JSBinn</a><script src="https://static.jsbin.com/js/embed.min.js?3.37.0"></script>
 
 ## Combining Epics
 
