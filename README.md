@@ -5,13 +5,13 @@
 [![build status](https://img.shields.io/travis/redux-observable/redux-observable/master.svg)](https://travis-ci.org/redux-observable/redux-observable)
 [![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
-[![code climate](https://codeclimate.com/github/redux-observable/redux-observable/badges/gpa.svg)](https://codeclimate.com/github/redux-observable/redux-observable)
-[![Greenkeeper badge](https://badges.greenkeeper.io/redux-observable/redux-observable.svg)](https://greenkeeper.io/)
 
 [RxJS](http://github.com/ReactiveX/RxJS)-based middleware for
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
 
 [https://redux-observable.js.org](https://redux-observable.js.org)
+
+> Note: this project is quite stable, but is currently in maintenance mode. Critical fixes will still be released, but for now no additional features or changes will be considered as the maintainer [@jayphelps](https://github.com/jayphelps) is not actively working on any apps that use redux-observable (or any UI apps at all, actually.) If you would like to become a maintainer, please reach out to [@jayphelps](https://github.com/jayphelps). There is some [ongoing discussion](https://github.com/redux-observable/redux-observable/issues/738) around a potential 2.0.0 release (based on the current alpha) if you'd like to join in.
 
 ## Install
 
