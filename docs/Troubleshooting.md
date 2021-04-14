@@ -78,7 +78,7 @@ follow the docs and:
 class TooFancy {
   constructor(private somethingInjected:SomethingInjected)
   checkAutoLogin =  (action$: Observable<IPayloadAction>) => {
-    console.log(this); // YOu can access somethingInjected
+    console.log(this); // You can access somethingInjected
   }
 }
 ```
