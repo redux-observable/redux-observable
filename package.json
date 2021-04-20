@@ -7,7 +7,7 @@
   "es2015": "./dist/es2015/index.js",
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint --ext .ts src && eslint --ext .ts test",
+    "lint": "eslint . --ext .ts",
     "build": "npm run build:esm && npm run build:es2015 && npm run build:cjs && npm run build:types && npm run build:umd && npm run build:umd:min",
     "build:esm": "tsc -p configs/tsconfig.esm.json",
     "build:es2015": "tsc -p configs/tsconfig.es2015.json",
