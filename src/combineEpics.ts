@@ -26,4 +26,4 @@ export function combineEpics<T extends Action, O extends T = T, S = void, D = an
   } catch (e) {}
 
   return merger;
-};
+}
