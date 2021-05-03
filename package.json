@@ -72,7 +72,7 @@
   "devDependencies": {
     "@types/chai": "^3.5.2",
     "@types/mocha": "^2.2.48",
-    "@types/node": "^12.7.12",
+    "@types/node": "^14.14.3",
     "@types/sinon": "^4.3.1",
     "@typescript-eslint/eslint-plugin": "~4.22.0",
     "@typescript-eslint/parser": "~4.22.0",

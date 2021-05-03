@@ -31,7 +31,7 @@ export function createEpicMiddleware<
   // other RxJS code outside of redux-observable internals.
   const QueueScheduler: any = queueScheduler.constructor;
   const uniqueQueueScheduler: typeof queueScheduler = new QueueScheduler(
-    (queueScheduler as any).SchedulerAction || (queueScheduler as any).schedulerActionCtor
+    (queueScheduler as any).schedulerActionCtor
   );
 
   if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
