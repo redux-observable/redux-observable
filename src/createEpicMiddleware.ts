@@ -14,6 +14,7 @@ export interface EpicMiddleware<
   O extends T = T,
   S = void,
   D = any
+  // eslint-disable-next-line @typescript-eslint/ban-types
 > extends Middleware<{}, S, Dispatch<any>> {
   run(rootEpic: Epic<T, O, S, D>): void;
 }
@@ -30,7 +31,7 @@ export function createEpicMiddleware<
   // other RxJS code outside of redux-observable internals.
   const QueueScheduler: any = queueScheduler.constructor;
   const uniqueQueueScheduler: typeof queueScheduler = new QueueScheduler(
-    (queueScheduler as any).SchedulerAction
+    (queueScheduler as any).schedulerActionCtor
   );
 
   if (process.env.NODE_ENV !== 'production' && typeof options === 'function') {
