@@ -1,3 +1,24 @@
+<a name="2.0.0-rc.1"></a>
+# [2.0.0-rc.1](https://github.com/redux-observable/redux-observable/compare/v2.0.0-alpha.0...v2.0.0-rc.1) (2021-05-07)
+
+
+### Bug Fixes
+
+* **types:** Type system now requires ofType operator to have at least one action type passed in, fixes [#689](https://github.com/redux-observable/redux-observable/issues/689) ([#690](https://github.com/redux-observable/redux-observable/issues/690)) ([72182ec](https://github.com/redux-observable/redux-observable/commit/72182ec))
+
+
+### Features
+
+* **ofType:** Add warning for nullsy typescloses [#607](https://github.com/redux-observable/redux-observable/issues/607) ([ecf3f21](https://github.com/redux-observable/redux-observable/commit/ecf3f21))
+* **rxjs7:** add rxjs 7 compatibility ([a4932a1](https://github.com/redux-observable/redux-observable/commit/a4932a1)), closes [#735](https://github.com/redux-observable/redux-observable/issues/735)
+
+
+### BREAKING CHANGES
+
+* **rxjs7:** Uses typescript 4.2.2 and tslib 2.1.0 (same libs as rxjs 7). @typescript-eslint/eslint-plugin and @typescript-eslint/parser has been updated to 4.22.0 to run linter properly with new ts version, new troublesome linter rules added.
+
+
+
 <a name="2.0.0-alpha.0"></a>
 # [2.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v1.2.0...v2.0.0-alpha.0) (2019-11-14)
 
