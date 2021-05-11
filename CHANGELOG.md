@@ -1,3 +1,13 @@
+<a name="2.0.0-rc.2"></a>
+# [2.0.0-rc.2](https://github.com/redux-observable/redux-observable/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2021-05-11)
+
+
+### Bug Fixes
+
+* **dependencies:** rxjs and tslib are now listed as dependencies ([#748](https://github.com/redux-observable/redux-observable/issues/748)) ([e1580d7](https://github.com/redux-observable/redux-observable/commit/e1580d7))
+
+
+
 <a name="2.0.0-rc.1"></a>
 # [2.0.0-rc.1](https://github.com/redux-observable/redux-observable/compare/v2.0.0-alpha.0...v2.0.0-rc.1) (2021-05-07)
 
