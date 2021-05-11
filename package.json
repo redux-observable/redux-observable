@@ -65,7 +65,9 @@
   },
   "homepage": "https://github.com/redux-observable/redux-observable#README.md",
   "peerDependencies": {
-    "redux": ">=4 <5",
+    "redux": ">=4 <5"
+  },
+  "dependencies": {
     "rxjs": "^7.0.0",
     "tslib": "~2.1.0"
   },
