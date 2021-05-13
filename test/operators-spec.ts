@@ -1,8 +1,9 @@
 import { expect } from 'chai';
-import { Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { ofType, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
 import { AnyAction } from 'redux';
 import sinon from 'sinon';
+import { map } from 'rxjs/operators';
 
 describe('operators', () => {
   describe('ofType', () => {
@@ -147,6 +148,113 @@ describe('operators', () => {
 
       expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
       expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal('redux-observable | WARNING: ofType was called with one or more undefined or null values!');
+    });
+
+    it('should narrow type based for primitive type', () => {
+      enum StringEnum {
+        A = 'A',
+        B = 'B'
+      }
+
+      enum NumericEnum {
+        A = 100,
+        B = 200,
+      }
+
+      const symbolA: unique symbol = Symbol();
+      const symbolB = Symbol();
+
+      type StringLiteralAction = {
+        type: 'stringLiteralA';
+        stringLiteralA: string;
+      } | {
+        type: 'stringLiteralB';
+        stringLiteralB: string;
+      };
+
+      type NumericLiteralAction = {
+        type: 0;
+        numericLiteral0: string;
+      } | {
+        type: 1;
+        numericLiteral1: string;
+      }
+
+      type StringEnumAction = {
+        type: StringEnum.A;
+        stringEnumA: string;
+      } | {
+        type: StringEnum.B;
+        stringEnumB: string;
+      };
+
+      type NumericEnumAction = {
+        type: NumericEnum.A;
+        numericEnumA: string;
+      } | {
+        type: NumericEnum.B;
+        numericEnumB: string;
+      };
+
+      type SymbolAction = {
+        type: typeof symbolA;
+        symbolA: string;
+      } | {
+        type: typeof symbolB;
+        symbolB: string;
+      }
+
+      class Constructor {}
+
+      type SpecialAction = {
+        type: undefined;
+        undefined: string;
+      } | {
+        type: null;
+        null: string;
+      } | {
+        type: {foo: 'bar'};
+        objectLiteral: string;
+      } | {
+        type: true;
+        true: string;
+      } | {
+        type: false;
+        false: string;
+      } | {
+        type: typeof Constructor;
+        constructor: string;
+      };
+
+
+      type TestAction = StringLiteralAction | NumericLiteralAction | StringEnumAction | NumericEnumAction | SymbolAction | SpecialAction;
+
+      // This test only verify the following code can be compiled
+
+      of<TestAction>().pipe(ofType('stringLiteralA'), map((x) => x.stringLiteralA));
+      of<TestAction>().pipe(ofType('stringLiteralB'), map((x) => x.stringLiteralB));
+      of<TestAction>().pipe(ofType(0), map((x) => x.numericLiteral0));
+      of<TestAction>().pipe(ofType(1), map((x) => x.numericLiteral1));
+      of<TestAction>().pipe(ofType(StringEnum.A), map((x) => x.stringEnumA));
+      of<TestAction>().pipe(ofType(StringEnum.B), map((x) => x.stringEnumB));
+
+      // Maybe a bug of typescript: When type of Action contains both numeric literal and numeric enum,
+      // ofType cannot narrow for numeric enum type, so the following does not compile
+      //
+      //   of<TestAction>().pipe(ofType(NumericEnum.A), map((x) => x.value6));
+      //   of<TestAction>().pipe(ofType(NumericEnum.B), map((x) => x.value7));
+      //
+      // But the following code compiles
+      of<Exclude<TestAction, NumericLiteralAction>>().pipe(ofType(NumericEnum.A), map((x => x.numericEnumA)));
+      of<Exclude<TestAction, NumericLiteralAction>>().pipe(ofType(NumericEnum.B), map((x => x.numericEnumB)));
+
+      of<TestAction>().pipe(ofType(symbolA), map((x) => x.symbolA));
+      of<TestAction>().pipe(ofType(symbolB), map((x) => x.symbolB));
+      of<TestAction>().pipe(ofType({ foo: 'bar' }), map((x) => x.objectLiteral));
+      of<TestAction>().pipe(ofType(undefined), map((x) => x.undefined));
+      of<TestAction>().pipe(ofType(true), map((x) => x.true));
+      of<TestAction>().pipe(ofType(false), map((x) => x.false));
+      of<TestAction>().pipe(ofType(Constructor), map((x) => x.constructor));
     });
   });
 });

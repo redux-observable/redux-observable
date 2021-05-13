@@ -16,9 +16,30 @@ const keyHasType = (type: unknown, key: unknown) => {
 export function ofType<
   // All possible actions your app can dispatch
   Input extends Action,
+  // The literal types you want to filter for
+  Type extends Input['type'] & (string | number | symbol | boolean | object),
+  // The resulting actions that match the above types
+  Output extends Input = Extract<Input, Action<Type>>
+>(...types: [Type, ...Type[]]): OperatorFunction<Input, Output>;
+
+/**
+ * Inferring the types of this is a bit challenging, and only works in newer
+ * versions of TypeScript.
+ *
+ * @param ...types One or more Redux action types you want to filter for, variadic.
+ */
+export function ofType<
+  // All possible actions your app can dispatch
+  Input extends Action,
   // The types you want to filter for
   Type extends Input['type'],
   // The resulting actions that match the above types
+  Output extends Input = Extract<Input, Action<Type>>
+>(...types: [Type, ...Type[]]): OperatorFunction<Input, Output>;
+
+export function ofType<
+  Input extends Action,
+  Type extends Input['type'],
   Output extends Input = Extract<Input, Action<Type>>
 >(...types: [Type, ...Type[]]): OperatorFunction<Input, Output> {
   const len = types.length;
