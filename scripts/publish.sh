@@ -10,7 +10,7 @@ if [[ -z $(git status -uno --porcelain) ]]; then
   read -p "Look good? (y/n) " CONDITION;
 
   if [ "$CONDITION" == "y" ]; then
-    git add package.json CHANGELOG.md;
+    git add package.json package-lock.json CHANGELOG.md;
     git commit -m "chore(publish): ${VERSION}";
     git tag "${VERSION}" -m "See https://github.com/redux-observable/redux-observable/blob/master/CHANGELOG.md";
     git push origin master;
