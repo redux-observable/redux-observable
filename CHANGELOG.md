@@ -1,3 +1,8 @@
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/redux-observable/redux-observable/compare/v2.0.0-rc.2...v2.0.0) (2021-06-24)
+
+2.0.0 brings support for RxJS v7, newer TypeScript support, and a few bug fixes (see previous pre-releases.) Of note is BREAKING CHANGE that `action$.ofType()` has been removed in favor of a pipeable operator you can import `import { ofType } from 'redux-observable';` 
+
 <a name="2.0.0-rc.2"></a>
 # [2.0.0-rc.2](https://github.com/redux-observable/redux-observable/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2021-05-11)
 
