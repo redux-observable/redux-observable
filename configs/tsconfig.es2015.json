@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.defaults.json",
+  "compilerOptions": {
+    "outDir": "../dist/es2015",
+    "target": "es2015"
+  },
+  "include": [
+    "../src/**/*.ts"
+  ]
+}

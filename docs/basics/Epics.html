@@ -1,0 +1,708 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Epics · redux-observable</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    
+    <link rel="stylesheet" type="text/css" href="../../website/style.css" />
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="SettingUpTheMiddleware.html" />
+    
+    
+    <link rel="prev" href="../../" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">README</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Basics</li>
+        
+        
+    
+        <li class="chapter active" data-level="2.1" data-path="Epics.html">
+            
+                <a href="Epics.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    Epics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="SettingUpTheMiddleware.html">
+            
+                <a href="SettingUpTheMiddleware.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    Setting Up The Middleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Recipes</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="../recipes/Cancellation.html">
+            
+                <a href="../recipes/Cancellation.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    Cancellation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="../recipes/ErrorHandling.html">
+            
+                <a href="../recipes/ErrorHandling.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Error Handling
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="../recipes/InjectingDependenciesIntoEpics.html">
+            
+                <a href="../recipes/InjectingDependenciesIntoEpics.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    Injecting Dependencies Into Epics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="../recipes/WritingTests.html">
+            
+                <a href="../recipes/WritingTests.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    Writing Tests
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="../recipes/UsageWithUIFrameworks.html">
+            
+                <a href="../recipes/UsageWithUIFrameworks.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    Usage with UI Frameworks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="../recipes/AddingNewEpicsAsynchronously.html">
+            
+                <a href="../recipes/AddingNewEpicsAsynchronously.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    Adding New Epics Asynchronously
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="../recipes/HotModuleReplacement.html">
+            
+                <a href="../recipes/HotModuleReplacement.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    Hot Module Replacement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Help</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../Troubleshooting.html">
+            
+                <a href="../Troubleshooting.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    Troubleshooting
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API Reference</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../api/createEpicMiddleware.html">
+            
+                <a href="../api/createEpicMiddleware.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    createEpicMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../api/combineEpics.html">
+            
+                <a href="../api/combineEpics.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    combineEpics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../api/EpicMiddleware.html">
+            
+                <a href="../api/EpicMiddleware.html">
+            
+                    
+                        <b>5.3.</b>
+                    
+                    EpicMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../../MIGRATION.html">
+            
+                <a href="../../MIGRATION.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    MIGRATION
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="../../CODE_OF_CONDUCT.html">
+            
+                <a href="../../CODE_OF_CONDUCT.html">
+            
+                    
+                        <b>6.2.</b>
+                    
+                    CODE OF CONDUCT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="../../CHANGELOG.html">
+            
+                <a href="../../CHANGELOG.html">
+            
+                    
+                        <b>6.3.</b>
+                    
+                    CHANGELOG
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Epics</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="epics">Epics</h1>
+<blockquote>
+<h5 id="not-familiar-with-observablesrxjs-v6">Not familiar with Observables/RxJS v6?</h5>
+<p>redux-observable requires an understanding of Observables with RxJS v6. If you&apos;re new to Reactive Programming with RxJS v6, head over to <a href="http://reactivex.io/rxjs/" target="_blank">http://reactivex.io/rxjs/</a> to familiarize yourself first.</p>
+<p>redux-observable (because of RxJS) truly shines the most for complex async/side effects. If you&apos;re not already comfortable with RxJS you might consider using <a href="https://github.com/gaearon/redux-thunk" target="_blank">redux-thunk</a> for simple side effects and then use redux-observable for the complex stuff. That way you can remain productive and learn RxJS as you go. redux-thunk is much simpler to learn and use, but that also means it&apos;s far less powerful. Of course, if you already love Rx like we do, you will probably use it for everything!</p>
+</blockquote>
+<p>An <strong>Epic</strong> is the core primitive of redux-observable.</p>
+<p>It is a function which takes a stream of actions and returns a stream of actions. <strong>Actions in, actions out.</strong></p>
+<p>It has roughly this type signature:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">:</span> Observable<span class="token operator">&lt;</span>Action<span class="token operator">&gt;</span><span class="token punctuation">,</span> state$<span class="token punctuation">:</span> StateObservable<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span></span><span class="token punctuation">)</span><span class="token punctuation">:</span> Observable<span class="token operator">&lt;</span>Action<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+</code></pre>
+<p>While you&apos;ll most commonly produce actions out in response to some action you received in, that&apos;s not actually a requirement! Once you&apos;re inside your Epic, use any Observable patterns you desire as long as any output from the final, returned stream, is an action.</p>
+<p>The actions you emit will be immediately dispatched through the normal <code>store.dispatch()</code>, so under the hood redux-observable effectively does <code>epic(action$, state$).subscribe(store.dispatch)</code></p>
+<p>Epics run alongside the normal Redux dispatch channel, <strong>after</strong> the reducers have already received them--so you cannot &quot;swallow&quot; an incoming action. Actions always run through your reducers <em>before</em> your Epics even receive them.</p>
+<p>If you let an incoming action pass through, it will create an infinite loop:</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// DO NOT DO THIS</span>
+<span class="token keyword">const</span> <span class="token function-variable function">actionEpic</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">;</span> <span class="token comment">// creates infinite loop</span>
+</code></pre>
+<blockquote>
+<p>The pattern of handling side effects this way is similar to the &quot;<em>process manager</em>&quot; pattern, sometimes called a <a href="https://msdn.microsoft.com/en-us/library/jj591569.aspx" target="_blank">&quot;<em>saga</em>&quot;</a>, but the original definition of <a href="https://web.archive.org/web/20160730071315/http://kellabyte.com:80/2012/05/30/clarifying-the-saga-pattern/" target="_blank">saga is not truly applicable</a>. If you&apos;re familiar with <a href="https://redux-saga.github.io/redux-saga/" target="_blank">redux-saga</a>, redux-observable is very similar. But because it uses RxJS it is much more declarative and you utilize and expand your existing RxJS abilities.</p>
+</blockquote>
+<h2 id="a-basic-example">A Basic Example</h2>
+<blockquote>
+<p><strong>IMPORTANT:</strong> Our examples will not include any imports. Under normal circumstances, all operators (the functions used within the <code>pipe()</code> method) must be imported like <code>import { filter, mapTo } from &apos;rxjs/operators&apos;;</code></p>
+</blockquote>
+<p>Let&apos;s start with a simple Epic example:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">pingEpic</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+  <span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">action</span> <span class="token operator">=&gt;</span> action<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">&apos;PING&apos;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">mapTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;PONG&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// later...</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;PING&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>Noticed how <code>action$</code> has a dollar sign at the end? It&apos;s simply a common RxJS convention to identify variables that reference a stream.</p>
+</blockquote>
+<p><code>pingEpic</code> will listen for actions of type <code>PING</code> and map them to a new action, <code>PONG</code>. This example is functionally equivalent to doing this:</p>
+<pre class="language-"><code class="lang-js"><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;PING&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;PONG&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>REMEMBER: Epics run alongside the normal Redux dispatch channel, <strong>after</strong> the reducers have already received them. When you map an action to another one, <strong>you are not</strong> preventing the original action from reaching the reducers; that action has already been through them!</p>
+</blockquote>
+<p>The real power comes when you need to do something asynchronous. Let&apos;s say you want to dispatch <code>PONG</code> 1 second after receiving the <code>PING</code>:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">pingEpic</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+  <span class="token function">filter</span><span class="token punctuation">(</span><span class="token parameter">action</span> <span class="token operator">=&gt;</span> action<span class="token punctuation">.</span>type <span class="token operator">===</span> <span class="token string">&apos;PING&apos;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Asynchronously wait 1000ms then continue</span>
+  <span class="token function">mapTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;PONG&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// later...</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;PING&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Your reducers will receive the original <code>PING</code> action, then 1 second later receive the <code>PONG</code>.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">pingReducer</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">state <span class="token operator">=</span> <span class="token punctuation">{</span> isPinging<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> action</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">&apos;PING&apos;</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span> isPinging<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">case</span> <span class="token string">&apos;PONG&apos;</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span> isPinging<span class="token punctuation">:</span> <span class="token boolean">false</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> state<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Since filtering by a specific action type is so common, redux-observable includes an <code>ofType</code> operator to reduce that boilerplate:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> ofType <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;redux-observable&apos;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">pingEpic</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+  <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token string">&apos;PING&apos;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">delay</span><span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token comment">// Asynchronously wait 1000ms then continue</span>
+  <span class="token function">mapTo</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;PONG&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>Need to match against multiple action types? No problem! <code>ofType</code> accepts any number of arguments!
+<code>action$.pipe(ofType(FIRST, SECOND, THIRD)) // FIRST or SECOND or THIRD</code></p>
+</blockquote>
+<h2 id="a-real-world-example">A Real World Example</h2>
+<p>Now that we have a general idea of what an Epic looks like, let&apos;s continue with a more real-world example:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> ajax <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;rxjs/ajax&apos;</span><span class="token punctuation">;</span>
+
+<span class="token comment">// action creators</span>
+<span class="token keyword">const</span> <span class="token function-variable function">fetchUser</span> <span class="token operator">=</span> <span class="token parameter">username</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">FETCH_USER</span><span class="token punctuation">,</span> payload<span class="token punctuation">:</span> username <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">fetchUserFulfilled</span> <span class="token operator">=</span> <span class="token parameter">payload</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">FETCH_USER_FULFILLED</span><span class="token punctuation">,</span> payload <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// epic</span>
+<span class="token keyword">const</span> <span class="token function-variable function">fetchUserEpic</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+  <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">FETCH_USER</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">mergeMap</span><span class="token punctuation">(</span><span class="token parameter">action</span> <span class="token operator">=&gt;</span>
+    ajax<span class="token punctuation">.</span><span class="token function">getJSON</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">https://api.github.com/users/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>action<span class="token punctuation">.</span>payload<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+      <span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token function">fetchUserFulfilled</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// later...</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">fetchUser</span><span class="token punctuation">(</span><span class="token string">&apos;torvalds&apos;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>We&apos;re using action creators (aka factories) like <code>fetchUser</code> instead of creating the action POJO directly. This is a Redux convention that is totally optional.</p>
+</blockquote>
+<p>We have a standard Redux action creator <code>fetchUser</code>, but also a corresponding Epic to orchestrate the actual AJAX call. When that AJAX call comes back, we map the response to a <code>FETCH_USER_FULFILLED</code> action.</p>
+<blockquote>
+<p>Remember, Epics take a stream of <strong>actions in</strong> and return a stream of <strong>actions out</strong>. If the RxJS operators and behavior shown so far is unfamiliar to you, you&apos;ll definitely want to take some time to <a href="http://reactivex.io/rxjs/" target="_blank">dive deeper into RxJS</a> before proceeding.</p>
+</blockquote>
+<p>You can then update your Store&apos;s state in response to that <code>FETCH_USER_FULFILLED</code> action:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">users</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">state <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> action</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>action<span class="token punctuation">.</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token constant">FETCH_USER_FULFILLED</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> <span class="token punctuation">{</span>
+        <span class="token operator">...</span>state<span class="token punctuation">,</span>
+        <span class="token comment">// `login` is the username</span>
+        <span class="token punctuation">[</span>action<span class="token punctuation">.</span>payload<span class="token punctuation">.</span>login<span class="token punctuation">]</span><span class="token punctuation">:</span> action<span class="token punctuation">.</span>payload
+      <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">default</span><span class="token punctuation">:</span>
+      <span class="token keyword">return</span> state<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="accessing-the-stores-state">Accessing the Store&apos;s State</h2>
+<p>Your Epics receive a second argument, a stream of store states.</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">:</span> ActionsObservable<span class="token operator">&lt;</span>Action<span class="token operator">&gt;</span><span class="token punctuation">,</span> state$<span class="token punctuation">:</span> StateObservable<span class="token operator">&lt;</span>State<span class="token operator">&gt;</span></span><span class="token punctuation">)</span><span class="token punctuation">:</span> ActionsObservable<span class="token operator">&lt;</span>Action<span class="token operator">&gt;</span><span class="token punctuation">;</span>
+</code></pre>
+<p>With this, you can use <code>state$.value</code> to synchronously access the current state:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token constant">INCREMENT</span> <span class="token operator">=</span> <span class="token string">&apos;INCREMENT&apos;</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token constant">INCREMENT_IF_ODD</span> <span class="token operator">=</span> <span class="token string">&apos;INCREMENT_IF_ODD&apos;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">increment</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">INCREMENT</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token function-variable function">incrementIfOdd</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">INCREMENT_IF_ODD</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">incrementIfOddEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+  <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">INCREMENT_IF_ODD</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state$<span class="token punctuation">.</span>value<span class="token punctuation">.</span>counter <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// later...</span>
+<span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token function">incrementIfOdd</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>You can also use <code>withLatestFrom</code> for a more reactive approach:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">incrementIfOddEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+  <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">INCREMENT_IF_ODD</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">withLatestFrom</span><span class="token punctuation">(</span>state$<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">filter</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">[</span><span class="token punctuation">,</span> state<span class="token punctuation">]</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> state<span class="token punctuation">.</span>counter <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">===</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>REMEMBER: When an Epic receives an action, it has already been run through your reducers and the state updated.</p>
+</blockquote>
+<h2 id="combining-epics">Combining Epics</h2>
+<p>Finally, redux-observable provides a utility called <a href="../api/combineEpics.html"><code>combineEpics()</code></a> that allows you to easily combine multiple Epics into a single one:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> combineEpics <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;redux-observable&apos;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> rootEpic <span class="token operator">=</span> <span class="token function">combineEpics</span><span class="token punctuation">(</span>
+  pingEpic<span class="token punctuation">,</span>
+  fetchUserEpic
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Note that this is equivalent to:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> merge <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;rxjs/observable/merge&apos;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">rootEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">merge</span><span class="token punctuation">(</span>
+  <span class="token function">pingEpic</span><span class="token punctuation">(</span>action$<span class="token punctuation">,</span> state$<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">fetchUserEpic</span><span class="token punctuation">(</span>action$<span class="token punctuation">,</span> state$<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="next-steps">Next Steps</h2>
+<p>Next, we&#x2019;ll explore how to <a href="SettingUpTheMiddleware.html">activate your Epics</a> so they can start listening for actions.</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="../../" class="navigation navigation-prev " aria-label="Previous page: Introduction">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="SettingUpTheMiddleware.html" class="navigation navigation-next " aria-label="Next page: Setting Up The Middleware">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Epics","level":"2.1","depth":1,"next":{"title":"Setting Up The Middleware","level":"2.2","depth":1,"path":"docs/basics/SettingUpTheMiddleware.md","ref":"docs/basics/SettingUpTheMiddleware.md","articles":[]},"previous":{"title":"Introduction","level":"1.1","depth":1,"path":"README.md","ref":"README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","github","anker-enable","addcssjs"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"github":{"url":"https://github.com/redux-observable/redux-observable/"},"anker-enable":{},"search":{},"addcssjs":{"js":["website/script.js"],"css":["website/style.css"]},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/redux-observable/redux-observable/tree/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"redux-observable","gitbook":"^3.1.1"},"file":{"path":"docs/basics/Epics.md","mtime":"2021-04-08T02:09:37.621Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-06-24T20:29:11.992Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-anker-enable/anker.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    
+    <script type="text/javascript" src="../../website/script.js"></script>
+    
+
+    </body>
+</html>
+

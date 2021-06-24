@@ -1,0 +1,23 @@
+.book-summary {
+  position: fixed;
+}
+
+.book-body {
+  overflow-y: initial;
+}
+
+.book-body .body-inner {
+  overflow-y: initial;
+}
+
+.navigation.navigation-prev {
+  left: 300px;
+}
+
+.navigation {
+  position: fixed;
+}
+
+.gitbook-link {
+  display: none !important;
+}

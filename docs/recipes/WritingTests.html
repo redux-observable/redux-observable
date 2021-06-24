@@ -1,0 +1,591 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Writing Tests · redux-observable</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    
+    <link rel="stylesheet" type="text/css" href="../../website/style.css" />
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="UsageWithUIFrameworks.html" />
+    
+    
+    <link rel="prev" href="InjectingDependenciesIntoEpics.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">README</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Basics</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="../basics/Epics.html">
+            
+                <a href="../basics/Epics.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    Epics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="../basics/SettingUpTheMiddleware.html">
+            
+                <a href="../basics/SettingUpTheMiddleware.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    Setting Up The Middleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Recipes</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="Cancellation.html">
+            
+                <a href="Cancellation.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    Cancellation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="ErrorHandling.html">
+            
+                <a href="ErrorHandling.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Error Handling
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="InjectingDependenciesIntoEpics.html">
+            
+                <a href="InjectingDependenciesIntoEpics.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    Injecting Dependencies Into Epics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="3.4" data-path="WritingTests.html">
+            
+                <a href="WritingTests.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    Writing Tests
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="UsageWithUIFrameworks.html">
+            
+                <a href="UsageWithUIFrameworks.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    Usage with UI Frameworks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="AddingNewEpicsAsynchronously.html">
+            
+                <a href="AddingNewEpicsAsynchronously.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    Adding New Epics Asynchronously
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="HotModuleReplacement.html">
+            
+                <a href="HotModuleReplacement.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    Hot Module Replacement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Help</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="../Troubleshooting.html">
+            
+                <a href="../Troubleshooting.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    Troubleshooting
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API Reference</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="../api/createEpicMiddleware.html">
+            
+                <a href="../api/createEpicMiddleware.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    createEpicMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="../api/combineEpics.html">
+            
+                <a href="../api/combineEpics.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    combineEpics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="../api/EpicMiddleware.html">
+            
+                <a href="../api/EpicMiddleware.html">
+            
+                    
+                        <b>5.3.</b>
+                    
+                    EpicMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter " data-level="6.1" data-path="../../MIGRATION.html">
+            
+                <a href="../../MIGRATION.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    MIGRATION
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="../../CODE_OF_CONDUCT.html">
+            
+                <a href="../../CODE_OF_CONDUCT.html">
+            
+                    
+                        <b>6.2.</b>
+                    
+                    CODE OF CONDUCT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="../../CHANGELOG.html">
+            
+                <a href="../../CHANGELOG.html">
+            
+                    
+                        <b>6.3.</b>
+                    
+                    CHANGELOG
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >Writing Tests</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="writing-tests">Writing Tests</h1>
+<h2 id="using-the-rxjs-testscheduler">Using the RxJS TestScheduler</h2>
+<p>RxJS comes with a TestScheduler that is used to virtualize time, making writing deterministic tests easier and much faster since time is virtual--you don&apos;t have to wait for <em>real</em> time to pass.</p>
+<p>In RxJS v6 there is a new <code>testScheduler.run(callback)</code> helper that provides several new conveniences on top of the previous TestScheduler behavior.</p>
+<p>Before continuing, you&apos;ll want to become familiar with <a href="https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/testing/marble-testing.md" target="_blank">how to use the <code>testScheduler.run(callback)</code></a>.</p>
+<blockquote>
+<p>Learning to use and write marble tests can be tough. While learning, keep in mind that these are RxJS concepts, not redux-observable, so you may find other articles on the web helpful for testing your RxJS code.</p>
+</blockquote>
+<p>While there are several ways to test Epics, it&apos;s helpful to fully appreciate that they&apos;re just functions that utilize RxJS--aside from the convention of expecting <code>{ type: string }</code> objects, they have no direct coupling to Redux itself.</p>
+<p>That means we can just call an Epic like any other function, passing in our own mock for <code>action$</code>, <code>state$</code>, and any dependencies.</p>
+<p>Here&apos;s a very simple Epic we&apos;ll write a test for:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">fetchUserEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$<span class="token punctuation">,</span> <span class="token punctuation">{</span> getJSON <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+  <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token string">&apos;FETCH_USER&apos;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token function">mergeMap</span><span class="token punctuation">(</span><span class="token parameter">action</span> <span class="token operator">=&gt;</span>
+    <span class="token function">getJSON</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">https://api.github.com/users/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>action<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+      <span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;FETCH_USER_FULFILLED&apos;</span><span class="token punctuation">,</span> response <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>Notice how we utilize the <a href="https://redux-observable.js.org/docs/recipes/InjectingDependenciesIntoEpics.html" target="_blank">built-in support for a very simple dependency injection</a> as our third argument? Many testing frameworks provide <strong>better</strong> mocking facilities for testing. For example, <a href="http://jestjs.io/docs/en/manual-mocks.html" target="_blank">Jest provides really great mocking functionality</a>. Use what works best for you!</p>
+</blockquote>
+<p>Now we can test it using <a href="https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/testing/marble-testing.md" target="_blank"><code>testScheduler.run(callback)</code> with marble diagrams</a>:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">import</span> <span class="token punctuation">{</span> TestScheduler <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;rxjs/testing&apos;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> testScheduler <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">TestScheduler</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">actual<span class="token punctuation">,</span> expected</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">// somehow assert the two objects are equal</span>
+  <span class="token comment">// e.g. with chai `expect(actual).deep.equal(expected)`</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+testScheduler<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> hot<span class="token punctuation">,</span> cold<span class="token punctuation">,</span> expectObservable <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> action$ <span class="token operator">=</span> <span class="token function">hot</span><span class="token punctuation">(</span><span class="token string">&apos;-a&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    a<span class="token punctuation">:</span> <span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token string">&apos;FETCH_USER&apos;</span><span class="token punctuation">,</span> id<span class="token punctuation">:</span> <span class="token string">&apos;123&apos;</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> state$ <span class="token operator">=</span> <span class="token keyword">null</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> dependencies <span class="token operator">=</span> <span class="token punctuation">{</span>
+    <span class="token function-variable function">getJSON</span><span class="token punctuation">:</span> <span class="token parameter">url</span> <span class="token operator">=&gt;</span> <span class="token function">cold</span><span class="token punctuation">(</span><span class="token string">&apos;--a&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+      a<span class="token punctuation">:</span> <span class="token punctuation">{</span> url <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> output$ <span class="token operator">=</span> <span class="token function">fetchUserEpic</span><span class="token punctuation">(</span>action$<span class="token punctuation">,</span> state$<span class="token punctuation">,</span> dependencies<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">expectObservable</span><span class="token punctuation">(</span>output$<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">toBe</span><span class="token punctuation">(</span><span class="token string">&apos;---a&apos;</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>
+    a<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      type<span class="token punctuation">:</span> <span class="token string">&apos;FETCH_USER_FULFILLED&apos;</span><span class="token punctuation">,</span>
+      response<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+        url<span class="token punctuation">:</span> <span class="token string">&apos;https://api.github.com/users/123&apos;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<blockquote>
+<p>You may find you commonly have nearly identical tests (and Epics too!). Consider reducing boilerplate by creating your own abstractions around the most common patterns.</p>
+</blockquote>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="InjectingDependenciesIntoEpics.html" class="navigation navigation-prev " aria-label="Previous page: Injecting Dependencies Into Epics">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="UsageWithUIFrameworks.html" class="navigation navigation-next " aria-label="Next page: Usage with UI Frameworks">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Writing Tests","level":"3.4","depth":1,"next":{"title":"Usage with UI Frameworks","level":"3.5","depth":1,"path":"docs/recipes/UsageWithUIFrameworks.md","ref":"docs/recipes/UsageWithUIFrameworks.md","articles":[]},"previous":{"title":"Injecting Dependencies Into Epics","level":"3.3","depth":1,"path":"docs/recipes/InjectingDependenciesIntoEpics.md","ref":"docs/recipes/InjectingDependenciesIntoEpics.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","github","anker-enable","addcssjs"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"github":{"url":"https://github.com/redux-observable/redux-observable/"},"anker-enable":{},"search":{},"addcssjs":{"js":["website/script.js"],"css":["website/style.css"]},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/redux-observable/redux-observable/tree/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"redux-observable","gitbook":"^3.1.1"},"file":{"path":"docs/recipes/WritingTests.md","mtime":"2021-04-08T02:08:49.796Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-06-24T20:29:11.992Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-anker-enable/anker.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    
+    <script type="text/javascript" src="../../website/script.js"></script>
+    
+
+    </body>
+</html>
+

@@ -1,0 +1,731 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>MIGRATION · redux-observable</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    
+    <link rel="stylesheet" href="gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-prism/prism.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+    
+    <link rel="stylesheet" type="text/css" href="website/style.css" />
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="CODE_OF_CONDUCT.html" />
+    
+    
+    <link rel="prev" href="docs/api/EpicMiddleware.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        <li class="header">README</li>
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="./">
+            
+                <a href="./">
+            
+                    
+                        <b>1.1.</b>
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Basics</li>
+        
+        
+    
+        <li class="chapter " data-level="2.1" data-path="docs/basics/Epics.html">
+            
+                <a href="docs/basics/Epics.html">
+            
+                    
+                        <b>2.1.</b>
+                    
+                    Epics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="2.2" data-path="docs/basics/SettingUpTheMiddleware.html">
+            
+                <a href="docs/basics/SettingUpTheMiddleware.html">
+            
+                    
+                        <b>2.2.</b>
+                    
+                    Setting Up The Middleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Recipes</li>
+        
+        
+    
+        <li class="chapter " data-level="3.1" data-path="docs/recipes/Cancellation.html">
+            
+                <a href="docs/recipes/Cancellation.html">
+            
+                    
+                        <b>3.1.</b>
+                    
+                    Cancellation
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.2" data-path="docs/recipes/ErrorHandling.html">
+            
+                <a href="docs/recipes/ErrorHandling.html">
+            
+                    
+                        <b>3.2.</b>
+                    
+                    Error Handling
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.3" data-path="docs/recipes/InjectingDependenciesIntoEpics.html">
+            
+                <a href="docs/recipes/InjectingDependenciesIntoEpics.html">
+            
+                    
+                        <b>3.3.</b>
+                    
+                    Injecting Dependencies Into Epics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.4" data-path="docs/recipes/WritingTests.html">
+            
+                <a href="docs/recipes/WritingTests.html">
+            
+                    
+                        <b>3.4.</b>
+                    
+                    Writing Tests
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.5" data-path="docs/recipes/UsageWithUIFrameworks.html">
+            
+                <a href="docs/recipes/UsageWithUIFrameworks.html">
+            
+                    
+                        <b>3.5.</b>
+                    
+                    Usage with UI Frameworks
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.6" data-path="docs/recipes/AddingNewEpicsAsynchronously.html">
+            
+                <a href="docs/recipes/AddingNewEpicsAsynchronously.html">
+            
+                    
+                        <b>3.6.</b>
+                    
+                    Adding New Epics Asynchronously
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="3.7" data-path="docs/recipes/HotModuleReplacement.html">
+            
+                <a href="docs/recipes/HotModuleReplacement.html">
+            
+                    
+                        <b>3.7.</b>
+                    
+                    Hot Module Replacement
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">Help</li>
+        
+        
+    
+        <li class="chapter " data-level="4.1" data-path="docs/Troubleshooting.html">
+            
+                <a href="docs/Troubleshooting.html">
+            
+                    
+                        <b>4.1.</b>
+                    
+                    Troubleshooting
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="header">API Reference</li>
+        
+        
+    
+        <li class="chapter " data-level="5.1" data-path="docs/api/createEpicMiddleware.html">
+            
+                <a href="docs/api/createEpicMiddleware.html">
+            
+                    
+                        <b>5.1.</b>
+                    
+                    createEpicMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.2" data-path="docs/api/combineEpics.html">
+            
+                <a href="docs/api/combineEpics.html">
+            
+                    
+                        <b>5.2.</b>
+                    
+                    combineEpics
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="5.3" data-path="docs/api/EpicMiddleware.html">
+            
+                <a href="docs/api/EpicMiddleware.html">
+            
+                    
+                        <b>5.3.</b>
+                    
+                    EpicMiddleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+        
+        <li class="divider"></li>
+        
+        
+    
+        <li class="chapter active" data-level="6.1" data-path="MIGRATION.html">
+            
+                <a href="MIGRATION.html">
+            
+                    
+                        <b>6.1.</b>
+                    
+                    MIGRATION
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.2" data-path="CODE_OF_CONDUCT.html">
+            
+                <a href="CODE_OF_CONDUCT.html">
+            
+                    
+                        <b>6.2.</b>
+                    
+                    CODE OF CONDUCT
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="6.3" data-path="CHANGELOG.html">
+            
+                <a href="CHANGELOG.html">
+            
+                    
+                        <b>6.3.</b>
+                    
+                    CHANGELOG
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="." >MIGRATION</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="migration-to-100-of-redux-observable">Migration to 1.0.0 of redux-observable</h1>
+<h1 id="upgrading">Upgrading</h1>
+<h2 id="rxjs-v6">RxJS v6</h2>
+<p>Version 1.0.0 of redux-observable requires v6.0.0 of RxJS. They have their own migration guide, and there&apos;s even a <code>rxjs-compat</code> compatibility layer allowing you to use the old v5 import paths and APIs to aid in migrating progressively. Check out their guide here:</p>
+<p><a href="https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md" target="_blank">https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md</a></p>
+<h2 id="redux-v4">Redux v4</h2>
+<p>We now also require Redux v4, which only has minor breaking changes outlined here: <a href="https://github.com/reduxjs/redux/releases/tag/v4.0.0" target="_blank">https://github.com/reduxjs/redux/releases/tag/v4.0.0</a></p>
+<h2 id="setting-up-the-middleware">Setting up the middleware</h2>
+<h3 id="rootepic">rootEpic</h3>
+<p>In 1.0.0 you no longer provide your root Epic to <code>createEpicMiddleware</code>. Instead, you call <code>epicMiddleware.run(rootEpic)</code> on the instance of the middleware <em>after</em> you have created your store with it.</p>
+<pre class="language-"><code class="lang-ts"><span class="token keyword">const</span> epicMiddleware <span class="token operator">=</span> <span class="token function">createEpicMiddleware</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span>rootReducer<span class="token punctuation">,</span> <span class="token function">applyMiddleware</span><span class="token punctuation">(</span>epicMiddleware<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+epicMiddleware<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>rootEpic<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>This change was necessary because in redux v4 you are no longer supposed to dispatch actions while middleware is still being setup, which an Epic could have done with the previous API.</p>
+<p>This new API also gives you the ability to easily add Epics later, as in async lazy loading. Subsequent calls of <code>epicMiddleware.run(epic)</code> do not replace the previous ones, they are merged together.</p>
+<p>The optional configuration/options argument to <code>createEpicMiddleware</code> for providing dependencies, adapters, etc is now the first and only argument to <code>createEpicMiddleware(options)</code>.</p>
+<h3 id="adapters">Adapters</h3>
+<p>Adapters are no longer supported, but you can achieve the same behavior by applying the transforms in a custom root Epic.</p>
+<p>Here&apos;s an example of converting the Observables to Most.js streams:</p>
+<pre class="language-"><code class="lang-js"><span class="token keyword">import</span> most <span class="token keyword">from</span> <span class="token string">&apos;most&apos;</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> <span class="token keyword">from</span> <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">&apos;rxjs&apos;</span><span class="token punctuation">;</span>
+
+<span class="token comment">// a Most.js implementatin of combineEpics</span>
+<span class="token keyword">const</span> <span class="token function-variable function">combineEpics</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>epics</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  most<span class="token punctuation">.</span><span class="token function">merge</span><span class="token punctuation">(</span>
+    <span class="token operator">...</span>epics<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">epic</span> <span class="token operator">=&gt;</span> <span class="token function">epic</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">rootEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$<span class="token punctuation">,</span> <span class="token operator">...</span>rest</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> epic <span class="token operator">=</span> <span class="token function">combineEpics</span><span class="token punctuation">(</span>epic1<span class="token punctuation">,</span> epic2<span class="token punctuation">,</span> <span class="token operator">...</span>etc<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// action$ and state$ are converted from Observables to Most.js streams</span>
+  <span class="token keyword">const</span> output <span class="token operator">=</span> <span class="token function">epic</span><span class="token punctuation">(</span>
+    most<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>action$<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    most<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>state$<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token operator">...</span>rest
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// convert Most.js stream back to Observable</span>
+  <span class="token keyword">return</span> <span class="token keyword">from</span><span class="token punctuation">(</span>output<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="actions-emitted-by-your-epics-are-now-scheduled-on-a-queue">Actions emitted by your epics are now scheduled on a queue</h2>
+<p>In 1.0.0 we now subscribe to your root Epic, and dispatch actions emitted by it, using the queueScheduler from RxJS. This is a bit hard to explain (and understand) but as the name suggests, a queue is used. If the queue is empty, the action is emitted as usual, but if that action synchronously causes other actions to be emitted they will be queued up until the call stack of the first action returns.</p>
+<p>In a large majority of cases this will have no perceivable impact, but it may affect the order of any complex epic-to-epic communication you have.</p>
+<p>One benefit is that actions which are emitted by an epic on start up are not missed by epics which come after it. e.g. With <code>combineEpics(epic1, epic2)</code> previously if epic1 emitted on startup, epic2 would not receive that action because it had not yet been set up. It also changes the potential order of complex epic-to-epic communication in a way that most may find more intuitive.</p>
+<p>Take this example:</p>
+<pre class="language-"><code class="lang-ts"><span class="token keyword">const</span> <span class="token function-variable function">epic1</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+    <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token string">&apos;FIRST&apos;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">mergeMap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+      <span class="token keyword">of</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token keyword">type</span><span class="token punctuation">:</span> <span class="token string">&apos;SECOND&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token keyword">type</span><span class="token punctuation">:</span> <span class="token string">&apos;THIRD&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">epic2</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+    <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token string">&apos;SECOND&apos;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token keyword">type</span><span class="token punctuation">:</span> <span class="token string">&apos;FOURTH&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">startWith</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token keyword">type</span><span class="token punctuation">:</span> <span class="token string">&apos;FIRST&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// notice that epic2 comes *after* epic1</span>
+<span class="token keyword">const</span> rootEpic <span class="token operator">=</span> <span class="token function">combineEpics</span><span class="token punctuation">(</span>epic1<span class="token punctuation">,</span> epic2<span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>In older version of redux-observable, your reducers would have been missing the FOURTH:</p>
+<pre class="language-"><code>FIRST
+SECOND
+THIRD
+</code></pre><p>However in 1.0.0 it now would see it as the last one:</p>
+<pre class="language-"><code>FIRST
+SECOND
+THIRD
+FOURTH
+</code></pre><p>In that example, the SECOND action is now seen by epic2 because it is queued on the same schedule as subscribing (setting up) the Epics themselves is. Since the middleware will try to subscribe to the Epics first, it now always will finish doing so before any action is emitted--so epic2 doesn&apos;t miss any actions.</p>
+<p>Another way of looking at it is that when an individual Epic is synchronously emitting actions, they will always be emitted in the sequence provided, without any other Epics being able to sneak another action in-between. When we did <code>of({ type: &apos;SECOND&apos; }, { type: &apos;THIRD&apos; })</code>, we now know <em>for sure</em> that THIRD will immediately follow SECOND; in older versions of redux-observable this wasn&apos;t guaranteed as another Epic could have been listening for SECOND and emitted some other action before THIRD, because they shared the same call-stack.</p>
+<p>Because this is dealing with very complex recursion, call stacks, and sequences, this may be tough to fully wrap your head around. We hope that what actually happens in practice is itself more intuitive, even if truly understanding how things are queued is now.</p>
+<h2 id="epicmiddlewarereplaceepic-was-removed"><code>epicMiddleware.replaceEpic</code> was removed</h2>
+<p>If you were using <code>epicMiddleware.replaceEpic</code>, you can achieve similar behavior by dispatching your own <code>END</code> action that your root Epic listens for with a <code>takeUntil</code>, directing it to terminate. You then call <code>epicMiddleware.run(nextEpic)</code> with the next root Epic you wish to run.</p>
+<pre class="language-"><code class="lang-ts"><span class="token comment">// Your root Epic uses function composition to add the takeUntil.</span>
+<span class="token comment">// It combines your epics together, but instead of returning that new combined epic</span>
+<span class="token comment">// it calls it, providing the action$, state$, etc so that we can pipe the takeUntil</span>
+<span class="token comment">// on the result</span>
+<span class="token keyword">const</span> <span class="token function-variable function">rootEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> <span class="token operator">...</span>rest</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  <span class="token function">combineEpics</span><span class="token punctuation">(</span>epic1<span class="token punctuation">,</span> epic2<span class="token punctuation">,</span> <span class="token operator">...</span>etc<span class="token punctuation">)</span><span class="token punctuation">(</span>action$<span class="token punctuation">,</span> <span class="token operator">...</span>rest<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+    <span class="token function">takeUntil</span><span class="token punctuation">(</span>action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+      <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token string">&apos;END&apos;</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">replaceRootEpic</span><span class="token punctuation">(</span><span class="token parameter">nextRootEpic</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> <span class="token keyword">type</span><span class="token punctuation">:</span> <span class="token string">&apos;END&apos;</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  epicMiddleware<span class="token punctuation">.</span><span class="token function">run</span><span class="token punctuation">(</span>nextRootEpic<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="dispatching-an-action">Dispatching an action</h2>
+<p>The ability to call <code>store.dispatch()</code> inside your Epics was originally provided as an escape hatch, to be used rarely, if ever. Unfortunately in practice we&apos;ve seen a large number of people using it extensively. Instead, Epics should emit actions through the Observable the Epic returns, using idiomatic RxJS. To remove that common footgun we&apos;ve removed the functionality entirely.</p>
+<p>If you&apos;re looking for the ability to directly call dispatch yourself (rather than emit through streams) you may be interested in using an alternative middleware that is less opinionated around RxJS.</p>
+<blockquote>
+<p><strong>This is unrelated to usage of store.dispatch inside your UI components or anywhere outside of redux-observable--you will continue to use it there</strong></p>
+</blockquote>
+<p><a href="https://github.com/redux-observable/redux-observable/pull/346" target="_blank">Learn More</a></p>
+<h4 id="before">Before</h4>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">somethingEpic</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">SOMETHING</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">switchMap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+      <span class="token function">ajax</span><span class="token punctuation">(</span><span class="token string">&apos;/something&apos;</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">do</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">SOMETHING_ELSE</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">SUCCESS</span><span class="token punctuation">,</span> response <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="after">After</h4>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Now uses rxjs v6 pipeable operators</span>
+<span class="token keyword">const</span> <span class="token function-variable function">somethingEpic</span> <span class="token operator">=</span> <span class="token parameter">action$</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+    <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">SOMETHING</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">switchMap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+      <span class="token function">getJSON</span><span class="token punctuation">(</span><span class="token string">&apos;/something&apos;</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+        <span class="token function">mergeMap</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token keyword">of</span><span class="token punctuation">(</span>
+          <span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">SOMETHING_ELSE</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+          <span class="token punctuation">{</span> type<span class="token punctuation">:</span> <span class="token constant">SUCCESS</span><span class="token punctuation">,</span> response <span class="token punctuation">}</span>
+        <span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h2 id="accessing-state">Accessing state</h2>
+<p>As <code>store.dispatch</code> is removed, and since redux-observable has had several years to be used and mature in the wild, it became clear that calling <code>store.getState()</code> is useful but there are also use cases to having an Observable of state$ too.</p>
+<p>In v1.0.0 of redux-observable, the second argument to your Epics is now a custom StateObservable, referred to from now on as <code>state$</code>. It has a <code>value</code> property that always contains the latest value of your redux state. This can be used in the same imperative way you used to use <code>store.getState()</code>.</p>
+<p>Since <code>state$</code> is also an Observable you can now compose it into other streams as you might expect and react to state changes--you can also call <code>state$.subscribe()</code> directly, but it&apos;s usually more idiomatic to compose it with other operators rather than explicitly calling <code>subscribe</code> yourself.</p>
+<p>I expect a majority of people to use the imperative <code>state$.value</code> form most of the time simply because it&apos;s more terse and a majority of the time you don&apos;t actually want to react to changes in the state.</p>
+<h4 id="before">Before</h4>
+<pre class="language-"><code class="lang-js"><span class="token keyword">const</span> <span class="token function-variable function">fetchUserEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> store</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">FETCH_USER</span><span class="token punctuation">)</span>
+    <span class="token punctuation">.</span><span class="token function">mergeMap</span><span class="token punctuation">(</span><span class="token parameter">action</span> <span class="token operator">=&gt;</span>
+      <span class="token function">ajax</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">/users/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>action<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token string">&apos;Authorization&apos;</span><span class="token punctuation">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Bearer </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>store<span class="token punctuation">.</span><span class="token function">getState</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>authToken<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token comment">// &lt;----- here</span>
+        <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token function">fetchUserFulfilled</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<h4 id="after">After</h4>
+<pre class="language-"><code class="lang-js"><span class="token comment">// Also now using v6 pipe operators</span>
+<span class="token keyword">const</span> <span class="token function-variable function">fetchUserEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+    <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">FETCH_USER</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">mergeMap</span><span class="token punctuation">(</span><span class="token parameter">action</span> <span class="token operator">=&gt;</span>
+      <span class="token function">ajax</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">/users/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>action<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token string">&apos;Authorization&apos;</span><span class="token punctuation">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Bearer </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>state$<span class="token punctuation">.</span>value<span class="token punctuation">.</span>authToken<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span> <span class="token comment">// &lt;----- here</span>
+        <span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">response</span> <span class="token operator">=&gt;</span> <span class="token function">fetchUserFulfilled</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// or the &quot;reactive&quot; way, but more verbose.</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">fetchUserEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+    <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">FETCH_USER</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">withLatestFrom</span><span class="token punctuation">(</span>state$<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">mergeMap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">[</span>action<span class="token punctuation">,</span> state<span class="token punctuation">]</span></span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+      <span class="token function">getJson</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">/users/</span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>action<span class="token punctuation">.</span>id<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token string">&apos;Authorization&apos;</span><span class="token punctuation">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Bearer </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>state<span class="token punctuation">.</span>authToken<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+        <span class="token function">map</span><span class="token punctuation">(</span><span class="token parameter">respose</span> <span class="token operator">=&gt;</span> <span class="token function">fetchUserFulfilled</span><span class="token punctuation">(</span>response<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p>Since it&apos;s a stream, you can do all sorts of cool things:</p>
+<pre class="language-"><code class="lang-js"><span class="token comment">// This code is UNTESTED and likely has bugs, just here to give you the gist.</span>
+<span class="token comment">// It shows one possible way of having an auto-save feature based on the state</span>
+<span class="token comment">// changing instead of needing to know all the possible actions that could change</span>
+<span class="token comment">// that state.</span>
+<span class="token keyword">const</span> <span class="token function-variable function">autoSaveEpic</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">action$<span class="token punctuation">,</span> state$</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+  action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+    <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">AUTO_SAVE_ENABLE</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+    <span class="token function">exhaustMap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span>
+      state$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+        <span class="token function">pluck</span><span class="token punctuation">(</span><span class="token string">&apos;googleDocument&apos;</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token function">distinctUntilChanged</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token function">throttleTime</span><span class="token punctuation">(</span><span class="token number">500</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> leading<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span> trailing<span class="token punctuation">:</span> <span class="token boolean">true</span> <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token function">concatMap</span><span class="token punctuation">(</span><span class="token parameter">googleDocument</span> <span class="token operator">=&gt;</span>
+          <span class="token function">saveGoogleDoc</span><span class="token punctuation">(</span>googleDocument<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+            <span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token function">saveGoogleDocFulfilled</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+            <span class="token function">catchError</span><span class="token punctuation">(</span><span class="token parameter">e</span> <span class="token operator">=&gt;</span> <span class="token keyword">of</span><span class="token punctuation">(</span><span class="token function">saveGoogleDocRejected</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+          <span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">,</span>
+        <span class="token function">takeUntil</span><span class="token punctuation">(</span>action$<span class="token punctuation">.</span><span class="token function">pipe</span><span class="token punctuation">(</span>
+          <span class="token function">ofType</span><span class="token punctuation">(</span><span class="token constant">AUTO_SAVE_DISABLE</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">)</span>
+    <span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+<p><a href="https://github.com/redux-observable/redux-observable/pull/410" target="_blank">Learn More</a></p>
+<blockquote>
+<p>Have a cool use case for state$? Please let us know by opening an issue ticket so we can feature it!</p>
+</blockquote>
+<hr>
+<p>Are we missing something about the migration? Open an issue or open a PR if possible!</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="docs/api/EpicMiddleware.html" class="navigation navigation-prev " aria-label="Previous page: EpicMiddleware">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="CODE_OF_CONDUCT.html" class="navigation navigation-next " aria-label="Next page: CODE OF CONDUCT">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"MIGRATION","level":"6.1","depth":1,"next":{"title":"CODE OF CONDUCT","level":"6.2","depth":1,"path":"CODE_OF_CONDUCT.md","ref":"CODE_OF_CONDUCT.md","articles":[]},"previous":{"title":"EpicMiddleware","level":"5.3","depth":1,"path":"docs/api/EpicMiddleware.md","ref":"docs/api/EpicMiddleware.md","articles":[]},"dir":"ltr"},"config":{"plugins":["edit-link","prism","github","anker-enable","addcssjs"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"prism":{},"github":{"url":"https://github.com/redux-observable/redux-observable/"},"anker-enable":{},"search":{},"addcssjs":{"js":["website/script.js"],"css":["website/style.css"]},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"highlight":{},"sharing":{"facebook":false,"twitter":false,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"edit-link":{"label":"Edit This Page","base":"https://github.com/redux-observable/redux-observable/tree/master"},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":true}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"redux-observable","gitbook":"^3.1.1"},"file":{"path":"MIGRATION.md","mtime":"2021-04-08T02:08:49.793Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-06-24T20:29:11.992Z"},"basePath":".","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    
+    <script src="gitbook/gitbook.js"></script>
+    <script src="gitbook/theme.js"></script>
+    
+        
+        <script src="gitbook/gitbook-plugin-edit-link/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-github/plugin.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-anker-enable/anker.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    
+    <script type="text/javascript" src="website/script.js"></script>
+    
+
+    </body>
+</html>
+
