@@ -6,6 +6,8 @@ If you are doing code splitting or otherwise want to add an Epic to the middlewa
 import { BehaviorSubject } from 'rxjs';
 import { combineEpics } from 'redux-observable';
 
+// In case your dynamic epics might register before adding the rootEpic to the middleware, aka before the initial subscribe,
+// you might want to use ReplaySubject instead, otherwise epic1 and epic2 will not register
 const epic$ = new BehaviorSubject(combineEpics(epic1, epic2));
 const rootEpic = (action$, state$) => epic$.pipe(
   mergeMap(epic => epic(action$, state$))
