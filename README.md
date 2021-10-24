@@ -11,17 +11,19 @@
 
 [https://redux-observable.js.org](https://redux-observable.js.org)
 
-> Note: this project is quite stable, but is currently in maintenance mode. Critical fixes will still be released, but for now no additional features or changes will be considered as the maintainer [@jayphelps](https://github.com/jayphelps) is not actively working on any apps that use redux-observable (or any UI apps at all, actually.) If you would like to become a maintainer, please reach out to [@jayphelps](https://github.com/jayphelps). There is some [ongoing discussion](https://github.com/redux-observable/redux-observable/issues/738) around a potential 2.0.0 release (based on the current alpha) if you'd like to join in.
+> Note: this project is quite stable, and although a new version (2.0.0) has been recently released, the project remains in maintenance mode. Critical fixes will still be released, but for now no additional features or changes will be considered as the maintainer [@jayphelps](https://github.com/jayphelps) is not actively working on any apps that use redux-observable (or any UI apps at all, actually.) If you would like to become a maintainer, please reach out to [@jayphelps](https://github.com/jayphelps).
 
 ## Install
 
-This has peer dependencies of `rxjs@6.x.x` and `redux@4.x.x`, which will have to be installed as well.
+This project has a peer dependency of `redux@4.x.x`, which will have to be installed as well. 
 
 ```bash
 npm install --save redux-observable
 ```
 
-> Note: current stable version `redux-observable` doesn't work with `rxjs@7.x.x`, it works with `rxjs@6.x.x`. If you still want to use `rxjs@7.x.x`, upgrade to `redux-observable@2.0.0-rc.2`.
+### RxJS version compatibility
+
+Current stable version `redux-observable@2.0.0` is compatible with `rxjs@7.0.0`.  If your project is using `rxjs@6.x.x`, and you cannot upgrade, we recommend downgrading to (`redux-observable@1.x.x`).
 
 ##### UMD
 
