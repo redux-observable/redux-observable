@@ -88,7 +88,27 @@ const pingReducer = (state = { isPinging: false }, action) => {
 };
 ```
 
-Since filtering by a specific action type is so common, redux-observable includes an `ofType` operator to reduce that boilerplate:
+Since filtering by a specific action type is so common, Redux Toolkit includes a `.match` property on all of it's action creators that can be used with `filter`:
+
+```js
+import { filter, mapTo } from 'rxjs/operators'
+import { createAction } from '@reduxjs/toolkit';
+
+// action creators could also (and most of the time will) be created by `createSlice`
+const ping = createAction('ping')
+const pong = createAction('pong')
+
+const pingEpic = action$ => action$.pipe(
+  filter(ping.match),
+  delay(1000), // Asynchronously wait 1000ms then continue
+  mapTo(pong())
+);
+```
+
+> Need to match against multiple action types? No problem! Redux Toolkit provides [matcher combining utilities](https://redux-toolkit.js.org/api/matching-utilities) like `isAnyOf`!
+> `action$.pipe(filter(isAnyOf(first, second, third))) // first or second or third`
+
+If you are using plain legacy Redux, redux-observable includes an `ofType` operator to reduce that boilerplate:
 
 ```js
 import { ofType } from 'redux-observable';
@@ -109,14 +129,15 @@ Now that we have a general idea of what an Epic looks like, let's continue with 
 
 ```js
 import { ajax } from 'rxjs/ajax';
+import { createAction } from '@reduxjs/toolkit'
 
-// action creators
-const fetchUser = username => ({ type: FETCH_USER, payload: username });
-const fetchUserFulfilled = payload => ({ type: FETCH_USER_FULFILLED, payload });
+// action creators, could also be created by using `createSlice`
+const fetchUser = createAction('user/fetch');
+const fetchUserFulfilled = createAction('user/fetch/fulfilled')
 
 // epic
 const fetchUserEpic = action$ => action$.pipe(
-  ofType(FETCH_USER),
+  filter(fetchUser.match),
   mergeMap(action =>
     ajax.getJSON(`https://api.github.com/users/${action.payload}`).pipe(
       map(response => fetchUserFulfilled(response))
@@ -163,14 +184,15 @@ function (action$: ActionsObservable<Action>, state$: StateObservable<State>): A
 With this, you can use `state$.value` to synchronously access the current state:
 
 ```js
-const INCREMENT = 'INCREMENT';
-const INCREMENT_IF_ODD = 'INCREMENT_IF_ODD';
 
-const increment = () => ({ type: INCREMENT });
-const incrementIfOdd = () => ({ type: INCREMENT_IF_ODD });
+import { createAction } from '@reduxjs/toolkit'
+
+// action creators, could also be created by using `createSlice`
+const increment = createAction('increment');
+const incrementIfOdd = createAction('incrementIfOdd');
 
 const incrementIfOddEpic = (action$, state$) => action$.pipe(
-  ofType(INCREMENT_IF_ODD),
+  filter(incrementIfOdd.match),
   filter(() => state$.value.counter % 2 === 1),
   map(() => increment())
 );
@@ -183,7 +205,7 @@ You can also use `withLatestFrom` for a more reactive approach:
 
 ```js
 const incrementIfOddEpic = (action$, state$) => action$.pipe(
-  ofType(INCREMENT_IF_ODD),
+  filter(incrementIfOdd.match),
   withLatestFrom(state$),
   filter(([, state]) => state.counter % 2 === 1),
   map(() => increment())

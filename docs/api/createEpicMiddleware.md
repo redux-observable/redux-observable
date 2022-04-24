@@ -16,20 +16,20 @@
 ### redux/configureStore.js
 
 ```js
-import { createStore, applyMiddleware, compose } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { createEpicMiddleware } from 'redux-observable';
-import { rootEpic, rootReducer } from './modules/root';
+import { rootEpic } from './modules/rootEpic';
 
 const epicMiddleware = createEpicMiddleware();
 
-export default function configureStore() {
-  const store = createStore(
-    rootReducer,
-    applyMiddleware(epicMiddleware)
-  );
+export const store = configureStore({
+  reducer: {
+    // ...reducers...
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(epicMiddleware),
+});
 
   epicMiddleware.run(rootEpic);
-
-  return store;
 }
 ```
