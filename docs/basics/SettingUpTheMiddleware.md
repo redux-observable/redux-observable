@@ -4,27 +4,18 @@ Now that we know what [Epics](Epics.md) are, we need to provide them to the redu
 
 ## Root Epic
 
-Similar to redux requiring a single root Reducer, redux-observable requires a single root Epic. As we [learned previously](Epics.md), we can use `combineEpics()` to accomplish this.
+redux-observable requires a single root Epic. As we [learned previously](Epics.md), we can use `combineEpics()` to accomplish this.
 
 We recommend importing all of your Epics into a single file, which then exports the root Epic and the root Reducer.
 
-### redux/modules/root.js
+### app/rootEpic.js
 
 ```js
-import { combineEpics } from 'redux-observable';
-import { combineReducers } from 'redux';
-import ping, { pingEpic } from './ping';
-import users, { fetchUserEpic } from './users';
+import { combineEpics } from "redux-observable";
+import { pingEpic } from "features/ping/pingEpic";
+import { fetchUserEpic } from "features/users/usersEpic";
 
-export const rootEpic = combineEpics(
-  pingEpic,
-  fetchUserEpic
-);
-
-export const rootReducer = combineReducers({
-  ping,
-  users
-});
+export const rootEpic = combineEpics(pingEpic, fetchUserEpic);
 ```
 
 > This pattern is an extension of the [Ducks Modular Redux pattern](https://github.com/erikras/ducks-modular-redux).
@@ -34,51 +25,59 @@ export const rootReducer = combineReducers({
 Now create an instance of the redux-observable middleware.
 
 ```js
-import { createEpicMiddleware } from 'redux-observable';
+import { createEpicMiddleware } from "redux-observable";
 
 const epicMiddleware = createEpicMiddleware();
 ```
 
-Then you pass this to the createStore function from Redux.
+Then you pass this to the configureStore function from Redux.
 
 ```js
-import { createStore, applyMiddleware } from 'redux';
+import { configureStore } from "@reduxjs/toolkit";
+import ping from "features/ping/pingSlice";
+import users from "features/users/usersSlice";
 
-const store = createStore(
-  rootReducer,
-  applyMiddleware(epicMiddleware)
-);
+const store = configureStore({
+  reducer: {
+    ping,
+    users,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(epicMiddleware),
+});
 ```
 
 And after that you call `epicMiddleware.run()` with the rootEpic you created earlier.
 
 ```js
-import { rootEpic } from './modules/root';
+import { rootEpic } from "./rootEpic";
 
 epicMiddleware.run(rootEpic);
 ```
 
 Integrate the code above with your existing Store configuration so that it looks like this:
 
-### redux/configureStore.js
+### app/store.js
 
 ```js
-import { createStore, applyMiddleware } from 'redux';
-import { createEpicMiddleware } from 'redux-observable';
-import { rootEpic, rootReducer } from './modules/root';
+import { configureStore } from "@reduxjs/toolkit";
+import { createEpicMiddleware } from "redux-observable";
+import { rootEpic } from "./rootEpic";
+import ping from "features/ping/pingSlice";
+import users from "features/users/usersSlice";
 
 const epicMiddleware = createEpicMiddleware();
 
-export default function configureStore() {
-  const store = createStore(
-    rootReducer,
-    applyMiddleware(epicMiddleware)
-  );
-  
-  epicMiddleware.run(rootEpic);
+export const store = configureStore({
+  reducer: {
+    ping,
+    users,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(epicMiddleware),
+});
 
-  return store;
-}
+epicMiddleware.run(rootEpic);
 ```
 
 ## Adding global error handler
@@ -100,22 +99,3 @@ Within the body of the function based to the `catchError` operator, you can log 
 Note that in the example above, the `console.error` function is not supported in IE 8/9.
 
 Also note that restarting the root epic can have some unintended consequences, especially if your application uses stateful epics, as they may lose state in the restart.
-
-## Redux DevTools
-
-To enable Redux DevTools Extension, just use `window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__` or [import `redux-devtools-extension` npm package](https://github.com/zalmoxisus/redux-devtools-extension#13-use-redux-devtools-extension-package-from-npm).
-
-```js
-import { compose } from 'redux'; // and your other imports from before
-const epicMiddleware = createEpicMiddleware();
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(pingReducer,
-  composeEnhancers(
-    applyMiddleware(epicMiddleware)
-  )
-);
-
-epicMiddleware.run(pingEpic);
-```

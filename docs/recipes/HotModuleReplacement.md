@@ -12,7 +12,13 @@ import { BehaviorSubject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 const epicMiddleware = createEpicMiddleware();
-const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+const store = configureStore({
+  reducer: {
+    // ... reducers ...
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(epicMiddleware),
+});
 
 const epic$ = new BehaviorSubject(rootEpic);
 // Every time a new epic is given to epic$ it
@@ -43,7 +49,13 @@ import { BehaviorSubject } from 'rxjs';
 import { mergeMap, takeUntil } from 'rxjs/operators';
 
 const epicMiddleware = createEpicMiddleware();
-const store = createStore(rootReducer, applyMiddleware(epicMiddleware));
+const store = configureStore({
+  reducer: {
+    // ... reducers ...
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(epicMiddleware),
+});
 
 const epic$ = new BehaviorSubject(rootEpic);
 // Since we're using mergeMap, by default any new
