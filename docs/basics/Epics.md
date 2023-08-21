@@ -149,7 +149,7 @@ const fetchUserEpic = action$ => action$.pipe(
 dispatch(fetchUser('torvalds'));
 ```
 
-> We're using action creators (aka factories) like `fetchUser` instead of creating the action POJO directly. This is a Redux convention that is totally optional.
+> We're using action creators (aka factories) like `fetchUser` instead of creating a plain action object directly. This is a Redux convention that is totally optional.
 
 We have a standard Redux action creator `fetchUser`, but also a corresponding Epic to orchestrate the actual AJAX call. When that AJAX call comes back, we map the response to a `FETCH_USER_FULFILLED` action.
 
