@@ -65,6 +65,7 @@ describe('combineEpics', () => {
     const rootEpic = combineEpics(epic1, epic2);
 
     expect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       rootEpic(1 as any, 2 as any, 3 as any);
     }).to.throw(
       'combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!'

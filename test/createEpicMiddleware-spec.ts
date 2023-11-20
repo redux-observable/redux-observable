@@ -7,7 +7,7 @@ import {
   Reducer,
   Middleware,
   Action,
-  AnyAction,
+  UnknownAction,
 } from 'redux';
 import {
   createEpicMiddleware,
@@ -45,7 +45,7 @@ describe('createEpicMiddleware', () => {
     const reducer: Reducer = (state = [], action) => state.concat(action);
     const epic = sinon.stub().returns(empty());
     const epicMiddleware = createEpicMiddleware();
-    const mockMiddleware: Middleware = (_store) => (_next) => (_action) => {
+    const mockMiddleware: Middleware<unknown, void, any> = (_store) => (_next) => (_action) => {
       expect(epic.calledOnce).to.equal(true);
       expect(epic.firstCall.args[0]).to.be.instanceOf(Observable);
       expect(epic.firstCall.args[1]).to.be.instanceof(StateObservable);
@@ -61,6 +61,7 @@ describe('createEpicMiddleware', () => {
 
   it('should throw an error if you provide a function to createEpicMiddleware (used to be rootEpic)', () => {
     expect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       createEpicMiddleware((() => {}) as any);
     }).to.throw(
       TypeError,
@@ -75,6 +76,7 @@ describe('createEpicMiddleware', () => {
       action$.pipe(
         ofType('PING'),
         map(() => ({ type: 'PONG' })),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         ignoreElements()
       );
 
@@ -183,8 +185,9 @@ describe('createEpicMiddleware', () => {
   });
 
   it('should queue state$ updates', () => {
-    const actions: AnyAction[] = [];
-    const reducer: Reducer = (state = { action: null, value: 0 }, action) => {
+    type TestState = { action: string | null, value: number };
+    const actions: UnknownAction[] = [];
+    const reducer: Reducer<TestState> = (state = { action: null, value: 0 }, action) => {
       actions.push(action);
 
       switch (action.type) {
@@ -201,7 +204,7 @@ describe('createEpicMiddleware', () => {
           return state;
       }
     };
-    const epic: Epic = (action$, state$) =>
+    const epic: Epic<UnknownAction, UnknownAction, TestState> = (action$, state$) =>
       action$.pipe(
         ofType('FIRST'),
         mergeMap(() =>
@@ -215,7 +218,7 @@ describe('createEpicMiddleware', () => {
         )
       );
 
-    const epicMiddleware = createEpicMiddleware();
+    const epicMiddleware = createEpicMiddleware<UnknownAction, UnknownAction, TestState>();
     const store = createStore(reducer, applyMiddleware(epicMiddleware));
     epicMiddleware.run(epic);
 
@@ -365,6 +368,7 @@ describe('createEpicMiddleware', () => {
     const rootEpic = () => {};
     const epicMiddleware = createEpicMiddleware();
     createStore(() => {}, applyMiddleware(epicMiddleware));
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     epicMiddleware.run(rootEpic as any);
 
     process.prependOnceListener('uncaughtException', (err) => {
@@ -421,13 +425,13 @@ describe('createEpicMiddleware', () => {
       }
     );
 
-    const rootEpic = combineEpics(
+    const rootEpic: Epic<UnknownAction, UnknownAction, any, Record<string, string>> = combineEpics(
       epic,
       epic,
       combineEpics(epic, combineEpics(epic, epic))
     );
 
-    const middleware = createEpicMiddleware({
+    const middleware = createEpicMiddleware<UnknownAction, UnknownAction, any, Record<string, string>>({
       dependencies: { foo: 'bar', bar: 'foo' },
     });
     createStore(reducer, applyMiddleware(middleware));

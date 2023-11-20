@@ -4,7 +4,7 @@ import {
   ofType,
   __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen,
 } from '../src';
-import { AnyAction } from 'redux';
+import { UnknownAction } from 'redux';
 import sinon from 'sinon';
 
 describe('operators', () => {
@@ -21,9 +21,9 @@ describe('operators', () => {
     });
 
     it('should filter by action type', () => {
-      let actions = new Subject<AnyAction>();
-      let lulz: AnyAction[] = [];
-      let haha: AnyAction[] = [];
+      let actions = new Subject<UnknownAction>();
+      let lulz: UnknownAction[] = [];
+      let haha: UnknownAction[] = [];
 
       actions.pipe(ofType('LULZ')).subscribe((x) => lulz.push(x));
       actions.pipe(ofType('HAHA')).subscribe((x) => haha.push(x));
@@ -51,9 +51,9 @@ describe('operators', () => {
     });
 
     it('should filter by multiple action types', () => {
-      let actions = new Subject<AnyAction>();
-      let lulz: AnyAction[] = [];
-      let haha: AnyAction[] = [];
+      let actions = new Subject<UnknownAction>();
+      let lulz: UnknownAction[] = [];
+      let haha: UnknownAction[] = [];
 
       actions.pipe(ofType('LULZ', 'LARF')).subscribe((x) => lulz.push(x));
       actions.pipe(ofType('HAHA')).subscribe((x) => haha.push(x));
@@ -95,6 +95,7 @@ describe('operators', () => {
 
     it('should warn about using nullsy values', () => {
       spySandbox.spy(console, 'warn');
+      // @ts-expect-error deliberately passing null
       const _operator = ofType('foo', null);
 
       expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
