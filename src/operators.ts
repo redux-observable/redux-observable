@@ -7,6 +7,12 @@ const keyHasType = (type: unknown, key: unknown) => {
   return type === key || (typeof key === 'function' && type === key.toString());
 };
 
+const isAction = (action: unknown): action is Action =>
+  action !== null &&
+  typeof action === 'object' &&
+  'type' in action &&
+  typeof action.type === 'string';
+
 /**
  * Inferring the types of this is a bit challenging, and only works in newer
  * versions of TypeScript.
@@ -34,11 +40,13 @@ export function ofType<
 
   return filter(
     len === 1
-      ? (action): action is Output => keyHasType(action.type, types[0])
+      ? (action): action is Output => isAction(action) && keyHasType(action.type, types[0])
       : (action): action is Output => {
-        for (let i = 0; i < len; i++) {
-          if (keyHasType(action.type, types[i])) {
-            return true;
+        if (isAction(action)) {
+          for (let i = 0; i < len; i++) {
+            if (keyHasType(action.type, types[i])) {
+              return true;
+            }
           }
         }
 
