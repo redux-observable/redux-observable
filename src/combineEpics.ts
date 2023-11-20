@@ -12,7 +12,7 @@ export function combineEpics<
 >(
   ...epics: Epic<Input, Output, State, Dependencies>[]
 ): Epic<Input, Output, State, Dependencies> {
-  const merger = (...args: Parameters<Epic>) =>
+  const merger = (...args: Parameters<Epic<Input, Output, State, Dependencies>>) =>
     merge(
       ...epics.map((epic) => {
         const output$ = epic(...args);
