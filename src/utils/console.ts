@@ -5,7 +5,7 @@ export const resetDeprecationsSeen = (): void => {
 
 const consoleWarn =
   typeof console === 'object' && typeof console.warn === 'function'
-    ? (...args: any[]) => console.warn(...args)
+    ? console.warn.bind(console)
     : () => {};
 
 export const deprecate = (msg: string): void => {
