@@ -15,9 +15,9 @@ const keyHasType = (type: unknown, key: unknown) => {
  */
 export function ofType<
   // All possible actions your app can dispatch
-  Input extends Action,
+  Input,
   // The types you want to filter for
-  Type extends Input['type'],
+  Type extends string,
   // The resulting actions that match the above types
   Output extends Input = Extract<Input, Action<Type>>
 >(...types: [Type, ...Type[]]): OperatorFunction<Input, Output> {

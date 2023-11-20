@@ -1,4 +1,3 @@
-import { Action } from 'redux';
 import { merge } from 'rxjs';
 import { Epic } from './epic';
 
@@ -6,7 +5,7 @@ import { Epic } from './epic';
   Merges all epics into a single one.
  */
 export function combineEpics<
-  Input extends Action,
+  Input = unknown,
   Output extends Input = Input,
   State = void,
   Dependencies = any

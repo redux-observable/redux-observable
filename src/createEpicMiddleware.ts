@@ -1,4 +1,4 @@
-import { Action, Middleware, MiddlewareAPI, Dispatch } from 'redux';
+import { Middleware, MiddlewareAPI, Dispatch } from 'redux';
 import { Subject, from, queueScheduler } from 'rxjs';
 import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
 import { StateObservable } from './StateObservable';
@@ -10,7 +10,7 @@ interface Options<D = any> {
 }
 
 export interface EpicMiddleware<
-  Input extends Action,
+  Input = unknown,
   Output extends Input = Input,
   State = void,
   Dependencies = any
@@ -20,7 +20,7 @@ export interface EpicMiddleware<
 }
 
 export function createEpicMiddleware<
-  Input extends Action,
+  Input = unknown,
   Output extends Input = Input,
   State = void,
   Dependencies = any
@@ -99,7 +99,7 @@ export function createEpicMiddleware<
         // It's important to update the state$ before we emit
         // the action because otherwise it would be stale
         stateSubject$.next(store.getState());
-        actionSubject$.next(action);
+        actionSubject$.next(action as Input);
 
         return result;
       };
