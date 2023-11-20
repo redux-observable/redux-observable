@@ -10,21 +10,23 @@ interface Options<D = any> {
 }
 
 export interface EpicMiddleware<
-  T extends Action,
-  O extends T = T,
-  S = void,
-  D = any
+  Input extends Action,
+  Output extends Input = Input,
+  State = void,
+  Dependencies = any
   // eslint-disable-next-line @typescript-eslint/ban-types
-> extends Middleware<{}, S, Dispatch<any>> {
-  run(rootEpic: Epic<T, O, S, D>): void;
+> extends Middleware<{}, State, Dispatch<any>> {
+  run(rootEpic: Epic<Input, Output, State, Dependencies>): void;
 }
 
 export function createEpicMiddleware<
-  T extends Action,
-  O extends T = T,
-  S = void,
-  D = any
->(options: Options<D> = {}): EpicMiddleware<T, O, S, D> {
+  Input extends Action,
+  Output extends Input = Input,
+  State = void,
+  Dependencies = any
+>(
+  options: Options<Dependencies> = {}
+): EpicMiddleware<Input, Output, State, Dependencies> {
   // This isn't great. RxJS doesn't publicly export the constructor for
   // QueueScheduler nor QueueAction, so we reach in. We need to do this because
   // we don't want our internal queuing mechanism to be on the same queue as any
@@ -40,10 +42,12 @@ export function createEpicMiddleware<
     );
   }
 
-  const epic$ = new Subject<Epic<T, O, S, D>>();
-  let store: MiddlewareAPI<Dispatch<any>, S>;
+  const epic$ = new Subject<Epic<Input, Output, State, Dependencies>>();
+  let store: MiddlewareAPI<Dispatch<any>, State>;
 
-  const epicMiddleware: EpicMiddleware<T, O, S, D> = _store => {
+  const epicMiddleware: EpicMiddleware<Input, Output, State, Dependencies> = (
+    _store
+  ) => {
     if (process.env.NODE_ENV !== 'production' && store) {
       // https://github.com/redux-observable/redux-observable/issues/389
       warn(
@@ -51,8 +55,8 @@ export function createEpicMiddleware<
       );
     }
     store = _store;
-    const actionSubject$ = new Subject<T>();
-    const stateSubject$ = new Subject<S>();
+    const actionSubject$ = new Subject<Input>();
+    const stateSubject$ = new Subject<State>();
     const action$ = actionSubject$
       .asObservable()
       .pipe(observeOn(uniqueQueueScheduler));
@@ -62,19 +66,20 @@ export function createEpicMiddleware<
     );
 
     const result$ = epic$.pipe(
-      map(epic => {
+      map((epic) => {
         const output$ = epic(action$, state$, options.dependencies!);
 
         if (!output$) {
           throw new TypeError(
-            `Your root Epic "${epic.name ||
-              '<anonymous>'}" does not return a stream. Double check you\'re not missing a return statement!`
+            `Your root Epic "${
+              epic.name || '<anonymous>'
+            }" does not return a stream. Double check you\'re not missing a return statement!`
           );
         }
 
         return output$;
       }),
-      mergeMap(output$ =>
+      mergeMap((output$) =>
         from(output$).pipe(
           subscribeOn(uniqueQueueScheduler),
           observeOn(uniqueQueueScheduler)
@@ -84,8 +89,8 @@ export function createEpicMiddleware<
 
     result$.subscribe(store.dispatch);
 
-    return next => {
-      return action => {
+    return (next) => {
+      return (action) => {
         // Downstream middleware gets the action first,
         // which includes their reducers, so state is
         // updated before epics receive the action
@@ -101,7 +106,7 @@ export function createEpicMiddleware<
     };
   };
 
-  epicMiddleware.run = rootEpic => {
+  epicMiddleware.run = (rootEpic) => {
     if (process.env.NODE_ENV !== 'production' && !store) {
       warn(
         'epicMiddleware.run(rootEpic) called before the middleware has been setup by redux. Provide the epicMiddleware instance to createStore() first.'

@@ -27,7 +27,7 @@ export function ofType<
     if (len === 0) {
       warn('ofType was called without any types!');
     }
-    if (types.some(key => key === null || key === undefined)) {
+    if (types.some((key) => key === null || key === undefined)) {
       warn('ofType was called with one or more undefined or null values!');
     }
   }

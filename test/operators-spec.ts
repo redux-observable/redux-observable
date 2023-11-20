@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 import { Subject } from 'rxjs';
-import { ofType, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../';
+import {
+  ofType,
+  __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen,
+} from '../';
 import { AnyAction } from 'redux';
 import sinon from 'sinon';
 
@@ -22,8 +25,8 @@ describe('operators', () => {
       let lulz: AnyAction[] = [];
       let haha: AnyAction[] = [];
 
-      actions.pipe(ofType('LULZ')).subscribe(x => lulz.push(x));
-      actions.pipe(ofType('HAHA')).subscribe(x => haha.push(x));
+      actions.pipe(ofType('LULZ')).subscribe((x) => lulz.push(x));
+      actions.pipe(ofType('HAHA')).subscribe((x) => haha.push(x));
 
       actions.next({ type: 'LULZ', i: 0 });
 
@@ -32,12 +35,18 @@ describe('operators', () => {
 
       actions.next({ type: 'LULZ', i: 1 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LULZ', i: 1 },
+      ]);
       expect(haha).to.deep.equal([]);
 
       actions.next({ type: 'HAHA', i: 0 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LULZ', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LULZ', i: 1 },
+      ]);
       expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
     });
 
@@ -46,8 +55,8 @@ describe('operators', () => {
       let lulz: AnyAction[] = [];
       let haha: AnyAction[] = [];
 
-      actions.pipe(ofType('LULZ', 'LARF')).subscribe(x => lulz.push(x));
-      actions.pipe(ofType('HAHA')).subscribe(x => haha.push(x));
+      actions.pipe(ofType('LULZ', 'LARF')).subscribe((x) => lulz.push(x));
+      actions.pipe(ofType('HAHA')).subscribe((x) => haha.push(x));
 
       actions.next({ type: 'LULZ', i: 0 });
 
@@ -56,12 +65,18 @@ describe('operators', () => {
 
       actions.next({ type: 'LARF', i: 1 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LARF', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LARF', i: 1 },
+      ]);
       expect(haha).to.deep.equal([]);
 
       actions.next({ type: 'HAHA', i: 0 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }, { type: 'LARF', i: 1 }]);
+      expect(lulz).to.deep.equal([
+        { type: 'LULZ', i: 0 },
+        { type: 'LARF', i: 1 },
+      ]);
       expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
     });
 
@@ -88,8 +103,8 @@ describe('operators', () => {
       expect(String(lulz)).to.deep.equal(LULZ_TYPE);
       expect(lulz(0)).to.deep.equal({ type: LULZ_TYPE, payload: 0 });
 
-      actions.pipe(ofType(lulz, larf)).subscribe(x => cache1.push(x));
-      actions.pipe(ofType(haha)).subscribe(x => cache2.push(x));
+      actions.pipe(ofType(lulz, larf)).subscribe((x) => cache1.push(x));
+      actions.pipe(ofType(haha)).subscribe((x) => cache2.push(x));
 
       actions.next(lulz(0));
       expect(cache1).to.deep.equal([lulz(0)]);
@@ -112,8 +127,10 @@ describe('operators', () => {
       const HAHA_TYPE = Symbol();
       const LARF_TYPE = Symbol();
 
-      actions.pipe(ofType(LULZ_TYPE as symbol, LARF_TYPE as symbol)).subscribe(x => cache1.push(x));
-      actions.pipe(ofType(HAHA_TYPE)).subscribe(x => cache2.push(x));
+      actions
+        .pipe(ofType(LULZ_TYPE as symbol, LARF_TYPE as symbol))
+        .subscribe((x) => cache1.push(x));
+      actions.pipe(ofType(HAHA_TYPE)).subscribe((x) => cache2.push(x));
 
       actions.next({ type: LULZ_TYPE, i: 0 });
 
@@ -122,12 +139,18 @@ describe('operators', () => {
 
       actions.next({ type: LARF_TYPE, i: 1 });
 
-      expect(cache1).to.deep.equal([{ type: LULZ_TYPE, i: 0 }, { type: LARF_TYPE, i: 1 }]);
+      expect(cache1).to.deep.equal([
+        { type: LULZ_TYPE, i: 0 },
+        { type: LARF_TYPE, i: 1 },
+      ]);
       expect(cache2).to.deep.equal([]);
 
       actions.next({ type: HAHA_TYPE, i: 0 });
 
-      expect(cache1).to.deep.equal([{ type: LULZ_TYPE, i: 0 }, { type: LARF_TYPE, i: 1 }]);
+      expect(cache1).to.deep.equal([
+        { type: LULZ_TYPE, i: 0 },
+        { type: LARF_TYPE, i: 1 },
+      ]);
       expect(cache2).to.deep.equal([{ type: HAHA_TYPE, i: 0 }]);
     });
 
@@ -139,7 +162,9 @@ describe('operators', () => {
       const _operator = ofType();
 
       expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
-      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal('redux-observable | WARNING: ofType was called without any types!');
+      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal(
+        'redux-observable | WARNING: ofType was called without any types!'
+      );
     });
 
     it('should warn about using nullsy values', () => {
@@ -147,7 +172,9 @@ describe('operators', () => {
       const _operator = ofType('foo', null);
 
       expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
-      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal('redux-observable | WARNING: ofType was called with one or more undefined or null values!');
+      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal(
+        'redux-observable | WARNING: ofType was called with one or more undefined or null values!'
+      );
     });
   });
 });
