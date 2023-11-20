@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { StateObservable } from '../';
+import { StateObservable } from '../src';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 

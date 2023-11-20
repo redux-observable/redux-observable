@@ -16,7 +16,7 @@ import {
   ofType,
   Epic,
   __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen,
-} from '../';
+} from '../src';
 import { of, empty, merge, queueScheduler, Observable } from 'rxjs';
 import {
   mapTo,

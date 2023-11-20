@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import {
   ofType,
   __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen,
-} from '../';
+} from '../src';
 import { AnyAction } from 'redux';
 import sinon from 'sinon';
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { combineEpics, ofType, Epic, StateObservable } from '../';
+import { combineEpics, ofType, Epic, StateObservable } from '../src';
 import { Action } from 'redux';
 import { Subject, Observable, EMPTY } from 'rxjs';
 import { map, toArray } from 'rxjs/operators';
