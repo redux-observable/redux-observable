@@ -1,4 +1,4 @@
-import { Action } from 'redux';
+import { Action, isAction } from 'redux';
 import { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { warn } from './utils/console';
@@ -6,12 +6,6 @@ import { warn } from './utils/console';
 const keyHasType = (type: unknown, key: unknown) => {
   return type === key || (typeof key === 'function' && type === key.toString());
 };
-
-const isAction = (action: unknown): action is Action =>
-  action !== null &&
-  typeof action === 'object' &&
-  'type' in action &&
-  typeof action.type === 'string';
 
 /**
  * Inferring the types of this is a bit challenging, and only works in newer
