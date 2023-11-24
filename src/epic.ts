@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { StateObservable } from './StateObservable';
+import type { Observable } from 'rxjs';
+import type { StateObservable } from './StateObservable';
 
 export declare interface Epic<
   Input = unknown,

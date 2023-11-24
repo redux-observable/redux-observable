@@ -1,5 +1,5 @@
-import { Action, isAction } from 'redux';
-import { OperatorFunction } from 'rxjs';
+import { isAction, type Action } from 'redux';
+import type { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { warn } from './utils/console';
 

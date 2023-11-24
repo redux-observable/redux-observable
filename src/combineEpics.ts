@@ -1,5 +1,5 @@
 import { merge } from 'rxjs';
-import { Epic } from './epic';
+import type { Epic } from './epic';
 
 /**
   Merges all epics into a single one.

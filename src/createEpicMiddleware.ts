@@ -1,8 +1,8 @@
-import { Middleware, MiddlewareAPI, Dispatch } from 'redux';
+import type { Dispatch, Middleware, MiddlewareAPI } from 'redux';
 import { Subject, from, queueScheduler } from 'rxjs';
 import { map, mergeMap, observeOn, subscribeOn } from 'rxjs/operators';
 import { StateObservable } from './StateObservable';
-import { Epic } from './epic';
+import type { Epic } from './epic';
 import { warn } from './utils/console';
 
 interface Options<D = any> {
