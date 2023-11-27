@@ -3,10 +3,6 @@ import type { OperatorFunction } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { warn } from './utils/console';
 
-const keyHasType = (type: unknown, key: unknown) => {
-  return type === key || (typeof key === 'function' && type === key.toString());
-};
-
 /**
  * Inferring the types of this is a bit challenging, and only works in newer
  * versions of TypeScript.
@@ -34,11 +30,11 @@ export function ofType<
 
   return filter(
     len === 1
-      ? (action): action is Output => isAction(action) && keyHasType(action.type, types[0])
+      ? (action): action is Output => isAction(action) && action.type === types[0]
       : (action): action is Output => {
         if (isAction(action)) {
           for (let i = 0; i < len; i++) {
-            if (keyHasType(action.type, types[i])) {
+            if (action.type === types[i]) {
               return true;
             }
           }
