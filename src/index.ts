@@ -1,7 +1,7 @@
-export { createEpicMiddleware, EpicMiddleware } from './createEpicMiddleware';
 export { StateObservable } from './StateObservable';
-export { Epic } from './epic';
 export { combineEpics } from './combineEpics';
+export { createEpicMiddleware, type EpicMiddleware } from './createEpicMiddleware';
+export type { Epic } from './epic';
 export { ofType } from './operators';
 
 // eslint-disable-next-line camelcase

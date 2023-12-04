@@ -3,9 +3,10 @@ export const resetDeprecationsSeen = (): void => {
   deprecationsSeen = {};
 };
 
-const consoleWarn = (typeof console === 'object' && typeof console.warn === 'function')
-  ? (...args: any[]) => console.warn(...args)
-  : () => { };
+const consoleWarn =
+  typeof console === 'object' && typeof console.warn === 'function'
+    ? console.warn.bind(console)
+    : () => {};
 
 export const deprecate = (msg: string): void => {
   if (!deprecationsSeen[msg]) {

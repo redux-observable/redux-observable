@@ -1,11 +1,10 @@
-import { Action } from 'redux';
-import { Observable } from 'rxjs';
-import { StateObservable } from './StateObservable';
+import type { Observable } from 'rxjs';
+import type { StateObservable } from './StateObservable';
 
 export declare interface Epic<
-  Input extends Action = any,
+  Input = unknown,
   Output extends Input = Input,
-  State = any,
+  State = void,
   Dependencies = any
 > {
   (

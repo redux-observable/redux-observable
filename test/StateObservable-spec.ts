@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { StateObservable } from '../';
+import { StateObservable } from '../src';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -24,7 +24,7 @@ describe('StateObservable', () => {
     const state$ = new StateObservable(input$, 'first');
     let result = null;
 
-    state$.subscribe(state => {
+    state$.subscribe((state) => {
       result = state;
     });
 
@@ -75,7 +75,7 @@ describe('StateObservable', () => {
     const first = { value: 'first' };
     const input$ = new Subject<typeof first>();
     const state$ = new StateObservable(input$, first).pipe(
-      map(d => d.value)
+      map((d) => d.value)
     ) as any as StateObservable<typeof first>;
     const next = spySandbox.spy();
     state$.subscribe(next);
