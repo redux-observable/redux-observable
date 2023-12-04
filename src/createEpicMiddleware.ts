@@ -15,7 +15,7 @@ export interface EpicMiddleware<
   State = void,
   Dependencies = any
   // eslint-disable-next-line @typescript-eslint/ban-types
-> extends Middleware<{}, State, Dispatch<any>> {
+> extends Middleware<{}, State> {
   run(rootEpic: Epic<Input, Output, State, Dependencies>): void;
 }
 
