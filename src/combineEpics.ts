@@ -20,7 +20,7 @@ export function combineEpics<
           throw new TypeError(
             `combineEpics: one of the provided Epics "${
               epic.name || '<anonymous>'
-            }" does not return a stream. Double check you\'re not missing a return statement!`
+            }" does not return a stream. Double check you're not missing a return statement!`
           );
         }
         return output$;
@@ -36,7 +36,9 @@ export function combineEpics<
         .map((epic) => epic.name || '<anonymous>')
         .join(', ')})`,
     });
-  } catch (e) {}
+  } catch (e) {
+    // noop
+  }
 
   return merger;
 }

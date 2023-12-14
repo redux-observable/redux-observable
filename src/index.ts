@@ -4,5 +4,4 @@ export { createEpicMiddleware, type EpicMiddleware } from './createEpicMiddlewar
 export type { Epic } from './epic';
 export { ofType } from './operators';
 
-// eslint-disable-next-line camelcase
 export { resetDeprecationsSeen as __FOR_TESTING__resetDeprecationsSeen } from './utils/console';

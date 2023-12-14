@@ -12,7 +12,7 @@ describe('operators', () => {
     let spySandbox: sinon.SinonSandbox;
 
     beforeEach(() => {
-      spySandbox = sinon.sandbox.create();
+      spySandbox = sinon.createSandbox();
     });
 
     afterEach(() => {
@@ -21,9 +21,9 @@ describe('operators', () => {
     });
 
     it('should filter by action type', () => {
-      let actions = new Subject<UnknownAction>();
-      let lulz: UnknownAction[] = [];
-      let haha: UnknownAction[] = [];
+      const actions = new Subject<UnknownAction>();
+      const lulz: UnknownAction[] = [];
+      const haha: UnknownAction[] = [];
 
       actions.pipe(ofType('LULZ')).subscribe((x) => lulz.push(x));
       actions.pipe(ofType('HAHA')).subscribe((x) => haha.push(x));
@@ -51,9 +51,9 @@ describe('operators', () => {
     });
 
     it('should filter by multiple action types', () => {
-      let actions = new Subject<UnknownAction>();
-      let lulz: UnknownAction[] = [];
-      let haha: UnknownAction[] = [];
+      const actions = new Subject<UnknownAction>();
+      const lulz: UnknownAction[] = [];
+      const haha: UnknownAction[] = [];
 
       actions.pipe(ofType('LULZ', 'LARF')).subscribe((x) => lulz.push(x));
       actions.pipe(ofType('HAHA')).subscribe((x) => haha.push(x));
@@ -83,8 +83,8 @@ describe('operators', () => {
     it('should warn about not passing any values', () => {
       spySandbox.spy(console, 'warn');
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
+      // @ts-expect-error this is on purpose
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _operator = ofType();
 
       expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
@@ -96,6 +96,7 @@ describe('operators', () => {
     it('should warn about using nullsy values', () => {
       spySandbox.spy(console, 'warn');
       // @ts-expect-error deliberately passing null
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const _operator = ofType('foo', null);
 
       expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
