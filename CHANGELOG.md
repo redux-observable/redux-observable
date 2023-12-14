@@ -1,3 +1,17 @@
+<a name="3.0.0-rc.1"></a>
+# [3.0.0-rc.1](https://github.com/redux-observable/redux-observable/compare/v2.0.0...v3.0.0-rc.1) (2023-12-14)
+
+3.0.0 brings support for Redux 5. Please see the [Redux 5.0.0 changelog](https://github.com/reduxjs/redux/releases/tag/v5.0.0) for required changes. Of note is that action types are now required to be strings, and the type of actions are now `unknown`.
+
+We recommend using Redux-Toolkit if you aren't already. The action creators give a nice `match` property you can use to filter actions instead of the `ofType` operator. This will do proper type narrowing if you are using TypeScript.
+
+```js
+const increment = createAction<number>("counter/increment");
+
+const myEpic = action$ => action$.pipe(
+    filter(incrementAsync.match),
+```
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/redux-observable/redux-observable/compare/v2.0.0-rc.2...v2.0.0) (2021-06-24)
 
