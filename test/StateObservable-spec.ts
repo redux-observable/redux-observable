@@ -8,7 +8,7 @@ describe('StateObservable', () => {
   let spySandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
-    spySandbox = sinon.sandbox.create();
+    spySandbox = sinon.createSandbox();
   });
 
   afterEach(() => {

@@ -7,22 +7,24 @@ import { map, toArray } from 'rxjs/operators';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
-    const epic1: Epic = (actions, store) =>
+    type state = { I: string, a: string };
+
+    const epic1: Epic<Action, Action, state> = (actions, store) =>
       actions.pipe(
         ofType('ACTION1'),
         map((action) => ({ type: 'DELEGATED1', action, store }))
       );
-    const epic2: Epic = (actions, store) =>
+    const epic2: Epic<Action, Action, state> = (actions, store) =>
       actions.pipe(
         ofType('ACTION2'),
         map((action) => ({ type: 'DELEGATED2', action, store }))
       );
 
-    const epic = combineEpics(epic1, epic2);
+    const epic = combineEpics<Action, Action, { I: string, a: string }>(epic1, epic2);
 
-    const store = new StateObservable(new Subject(), { I: 'am', a: 'store' });
+    const store = new StateObservable(new Subject<state>(), { I: 'am', a: 'store' });
     const actions = new Subject<Action>();
-    const result: Observable<Action> = (epic as any)(actions, store);
+    const result: Observable<Action> = epic(actions, store, undefined);
     const emittedActions: any[] = [];
 
     result.subscribe((emittedAction) => emittedActions.push(emittedAction));

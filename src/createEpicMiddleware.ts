@@ -32,7 +32,9 @@ export function createEpicMiddleware<
   // we don't want our internal queuing mechanism to be on the same queue as any
   // other RxJS code outside of redux-observable internals.
   const QueueScheduler: any = queueScheduler.constructor;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const uniqueQueueScheduler: typeof queueScheduler = new QueueScheduler(
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (queueScheduler as any).schedulerActionCtor
   );
 
@@ -73,7 +75,7 @@ export function createEpicMiddleware<
           throw new TypeError(
             `Your root Epic "${
               epic.name || '<anonymous>'
-            }" does not return a stream. Double check you\'re not missing a return statement!`
+            }" does not return a stream. Double check you're not missing a return statement!`
           );
         }
 
