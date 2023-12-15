@@ -1,4 +1,10 @@
 <a name="3.0.0-rc.1"></a>
+# [3.0.0-rc.2](https://github.com/redux-observable/redux-observable/compare/v3.0.0-rc.1...v3.0.0-rc.2) (2023-12-15)
+
+- Added RxJS to peer dependencies.
+- Package.json was pointing at a .d.ts file while we published a .d.mts file.
+
+<a name="3.0.0-rc.1"></a>
 # [3.0.0-rc.1](https://github.com/redux-observable/redux-observable/compare/v2.0.0...v3.0.0-rc.1) (2023-12-14)
 
 3.0.0 brings support for Redux 5. Please see the [Redux 5.0.0 changelog](https://github.com/reduxjs/redux/releases/tag/v5.0.0) for required changes. Of note is that action types are now required to be strings, and the type of actions are now `unknown`.
