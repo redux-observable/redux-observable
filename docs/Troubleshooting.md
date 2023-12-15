@@ -1,11 +1,9 @@
-# Troubleshooting [![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+# Troubleshooting [![Discord](https://img.shields.io/discord/102860784329052160)](https://discord.gg/reactiflux)
 
 
 This is a place to share common problems and solutions to them.
 
-> If your problem isn't yet listed here or you need other help, please use [Stack Overflow](http://stackoverflow.com/questions/tagged/redux-observable) first with the `redux-observable` tag. If you don't receive a response after a reasonable amount of time, create an issue ticket that includes a link to your Stack Overflow question.
->
-> You can also get help in our public [Gitter channel](https://gitter.im/redux-observable/redux-observable)!
+> If your problem isn't yet listed here or you need other help, read through the [Issues](https://github.com/redux-observable/redux-observable/issues) and [Discussions](https://github.com/redux-observable/redux-observable/discussions) and feel free to make a post. You can also find help on [Stack Overflow](http://stackoverflow.com/questions/tagged/redux-observable) or the [Reactiflux discord](https://discord.gg/reactiflux) look for the channels #redux or #reactive-programming
 
 
 * * *

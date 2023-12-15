@@ -1,7 +1,7 @@
 <img title="logo" src="logo/logo-small.gif" width="16.5%">
 <img title="redux-observable" src="logo/logo-text-small.png" width="72%">
 
-[![Join the chat at https://gitter.im/redux-observable/redux-observable](https://badges.gitter.im/redux-observable/redux-observable.svg)](https://gitter.im/redux-observable/redux-observable?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Discord](https://img.shields.io/discord/102860784329052160)](https://discord.gg/reactiflux)
 [![build status](https://img.shields.io/travis/redux-observable/redux-observable/master.svg)](https://travis-ci.org/redux-observable/redux-observable)
 [![npm version](https://img.shields.io/npm/v/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)
 [![npm downloads](https://img.shields.io/npm/dm/redux-observable.svg)](https://www.npmjs.com/package/redux-observable)

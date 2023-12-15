@@ -1,9 +1,9 @@
 <!--
-IMPORTANT PLEASE READ: Hi there! If this is a *usage question* or you're not sure if its a bug, please **do not post it here**, post it on Stack Overflow (http://stackoverflow.com/questions/tagged/redux-observable) first; if you get no response after a reasonable amount of time, create a ticket here and link us to your Stack Overflow question. If this is not a “feature” or a “bug”, or the phrase “How do I...?” applies, then it's probably a usage question. Thank you!
-
-We also have a Gitter channel anyone is welcome to join to discuss and find help: https://gitter.im/redux-observable/redux-observable
+IMPORTANT PLEASE READ: Hi there! If this is a *usage question* or you're not sure if its a bug, please **do not post it here**, create a discussion first https://github.com/redux-observable/redux-observable/discussions. If this is not a “feature” or a “bug”, or the phrase “How do I...?” applies, then it's probably a usage question. Thank you!
 
 Most usage questions are not actually redux-observable specific, but rather general RxJS questions and patterns, so you can also find help in the RxJS community at large. RxJS bugs can be reported in their repo: https://github.com/ReactiveX/rxjs
+
+If you would like to chat you can join the Reactiflux discord https://discord.gg/reactiflux look for the channels #redux or #reactive-programming.
 -->
 
 **Do you want to request a *feature* or report a *bug*?**  
