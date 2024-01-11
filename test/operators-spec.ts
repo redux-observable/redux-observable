@@ -1,26 +1,17 @@
-import { expect } from 'chai';
-import { Subject } from 'rxjs';
-import {
-  ofType,
-  __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen,
-} from '../src';
 import { UnknownAction } from 'redux';
-import sinon from 'sinon';
+import { Subject } from 'rxjs';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { ofType, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../src';
 
 describe('operators', () => {
   describe('ofType', () => {
-    let spySandbox: sinon.SinonSandbox;
-
-    beforeEach(() => {
-      spySandbox = sinon.createSandbox();
-    });
-
     afterEach(() => {
-      spySandbox.restore();
+      vi.resetAllMocks();
       resetDeprecationsSeen();
     });
 
     it('should filter by action type', () => {
+      expect.assertions(6);
       const actions = new Subject<UnknownAction>();
       const lulz: UnknownAction[] = [];
       const haha: UnknownAction[] = [];
@@ -30,27 +21,28 @@ describe('operators', () => {
 
       actions.next({ type: 'LULZ', i: 0 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }]);
-      expect(haha).to.deep.equal([]);
+      expect(lulz).toEqual([{ type: 'LULZ', i: 0 }]);
+      expect(haha).toEqual([]);
 
       actions.next({ type: 'LULZ', i: 1 });
 
-      expect(lulz).to.deep.equal([
+      expect(lulz).toEqual([
         { type: 'LULZ', i: 0 },
         { type: 'LULZ', i: 1 },
       ]);
-      expect(haha).to.deep.equal([]);
+      expect(haha).toEqual([]);
 
       actions.next({ type: 'HAHA', i: 0 });
 
-      expect(lulz).to.deep.equal([
+      expect(lulz).toEqual([
         { type: 'LULZ', i: 0 },
         { type: 'LULZ', i: 1 },
       ]);
-      expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
+      expect(haha).toEqual([{ type: 'HAHA', i: 0 }]);
     });
 
     it('should filter by multiple action types', () => {
+      expect.assertions(6);
       const actions = new Subject<UnknownAction>();
       const lulz: UnknownAction[] = [];
       const haha: UnknownAction[] = [];
@@ -60,48 +52,47 @@ describe('operators', () => {
 
       actions.next({ type: 'LULZ', i: 0 });
 
-      expect(lulz).to.deep.equal([{ type: 'LULZ', i: 0 }]);
-      expect(haha).to.deep.equal([]);
+      expect(lulz).toEqual([{ type: 'LULZ', i: 0 }]);
+      expect(haha).toEqual([]);
 
       actions.next({ type: 'LARF', i: 1 });
 
-      expect(lulz).to.deep.equal([
+      expect(lulz).toEqual([
         { type: 'LULZ', i: 0 },
         { type: 'LARF', i: 1 },
       ]);
-      expect(haha).to.deep.equal([]);
+      expect(haha).toEqual([]);
 
       actions.next({ type: 'HAHA', i: 0 });
 
-      expect(lulz).to.deep.equal([
+      expect(lulz).toEqual([
         { type: 'LULZ', i: 0 },
         { type: 'LARF', i: 1 },
       ]);
-      expect(haha).to.deep.equal([{ type: 'HAHA', i: 0 }]);
+      expect(haha).toEqual([{ type: 'HAHA', i: 0 }]);
     });
 
     it('should warn about not passing any values', () => {
-      spySandbox.spy(console, 'warn');
+      expect.assertions(2);
+      const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
-      // @ts-expect-error this is on purpose
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const _operator = ofType();
+      // @ts-expect-error deliberately passing nothing
+      ofType();
 
-      expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
-      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal(
-        'redux-observable | WARNING: ofType was called without any types!'
-      );
+      expect(spy).toBeCalledTimes(1);
+      expect(spy).toBeCalledWith('redux-observable | WARNING: ofType was called without any types!');
     });
 
     it('should warn about using nullsy values', () => {
-      spySandbox.spy(console, 'warn');
-      // @ts-expect-error deliberately passing null
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const _operator = ofType('foo', null);
+      expect.assertions(2);
+      const spy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
-      expect((console.warn as sinon.SinonSpy).callCount).to.equal(1);
-      expect((console.warn as sinon.SinonSpy).getCall(0).args[0]).to.equal(
-        'redux-observable | WARNING: ofType was called with one or more undefined or null values!'
+      // @ts-expect-error deliberately passing null
+      ofType('foo', null);
+
+      expect(spy).toBeCalledTimes(1);
+      expect(spy).toBeCalledWith(
+        'redux-observable | WARNING: ofType was called with one or more undefined or null values!',
       );
     });
   });

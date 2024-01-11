@@ -1,30 +1,31 @@
-import { expect } from 'chai';
-import sinon from 'sinon';
-import { combineEpics, ofType, Epic, StateObservable } from '../src';
 import { Action } from 'redux';
-import { Subject, Observable, EMPTY } from 'rxjs';
+import { EMPTY, Observable, Subject } from 'rxjs';
 import { map, toArray } from 'rxjs/operators';
+import { describe, expect, it, vi } from 'vitest';
+import { Epic, StateObservable, combineEpics, ofType } from '../src';
 
 describe('combineEpics', () => {
   it('should combine epics', () => {
-    type state = { I: string, a: string };
+    expect.assertions(1);
+    type State = { I: string; a: string };
 
-    const epic1: Epic<Action, Action, state> = (actions, store) =>
-      actions.pipe(
+    const epic1: Epic<Action, Action, State> = (action$, state$) =>
+      action$.pipe(
         ofType('ACTION1'),
-        map((action) => ({ type: 'DELEGATED1', action, store }))
+        map((action) => ({ type: 'DELEGATED1', action, state$ })),
       );
-    const epic2: Epic<Action, Action, state> = (actions, store) =>
-      actions.pipe(
+
+    const epic2: Epic<Action, Action, State> = (action$, state$) =>
+      action$.pipe(
         ofType('ACTION2'),
-        map((action) => ({ type: 'DELEGATED2', action, store }))
+        map((action) => ({ type: 'DELEGATED2', action, state$ })),
       );
 
-    const epic = combineEpics<Action, Action, { I: string, a: string }>(epic1, epic2);
+    const epic = combineEpics<Action, Action, State>(epic1, epic2);
 
-    const store = new StateObservable(new Subject<state>(), { I: 'am', a: 'store' });
+    const state$ = new StateObservable(new Subject<State>(), { I: 'am', a: 'store' });
     const actions = new Subject<Action>();
-    const result: Observable<Action> = epic(actions, store, undefined);
+    const result: Observable<Action> = epic(actions, state$, undefined);
     const emittedActions: any[] = [];
 
     result.subscribe((emittedAction) => emittedActions.push(emittedAction));
@@ -32,45 +33,50 @@ describe('combineEpics', () => {
     actions.next({ type: 'ACTION1' });
     actions.next({ type: 'ACTION2' });
 
-    expect(emittedActions).to.deep.equal([
-      { type: 'DELEGATED1', action: { type: 'ACTION1' }, store },
-      { type: 'DELEGATED2', action: { type: 'ACTION2' }, store },
+    expect(emittedActions).toEqual([
+      { type: 'DELEGATED1', action: { type: 'ACTION1' }, state$ },
+      { type: 'DELEGATED2', action: { type: 'ACTION2' }, state$ },
     ]);
   });
 
-  it('should pass along every argument arbitrarily', (done) => {
-    const epic1 = sinon.stub().returns(['first']);
-    const epic2 = sinon.stub().returns(['second']);
+  it('should pass along every argument arbitrarily', () =>
+    new Promise<void>((done) => {
+      expect.assertions(5);
+      const epic1 = vi.fn(() => ['first']);
+      const epic2 = vi.fn(() => ['second']);
 
-    const rootEpic = combineEpics(epic1, epic2) as <T>(
-      ...args: T[]
-    ) => Observable<T>;
+      // @ts-expect-error type doesn't match on purpose
+      const rootEpic = combineEpics(epic1, epic2);
 
-    rootEpic(1, 2, 3, 4)
-      .pipe(toArray())
-      .subscribe((values) => {
-        expect(values).to.deep.equal(['first', 'second']);
+      // @ts-expect-error type doesn't match on purpose
+      rootEpic(1, 2, 3, 4)
+        .pipe(toArray())
+        .subscribe((values) => {
+          expect(values).toEqual(['first', 'second']);
 
-        expect(epic1.callCount).to.equal(1);
-        expect(epic2.callCount).to.equal(1);
+          expect(epic1).toHaveBeenCalledOnce();
+          expect(epic2).toHaveBeenCalledOnce();
 
-        expect(epic1.firstCall.args).to.deep.equal([1, 2, 3, 4]);
-        expect(epic2.firstCall.args).to.deep.equal([1, 2, 3, 4]);
+          expect(epic1).toHaveBeenCalledWith(1, 2, 3, 4);
+          expect(epic2).toHaveBeenCalledWith(1, 2, 3, 4);
 
-        done();
-      });
-  });
+          done();
+        });
+    }));
 
   it("should return a new epic that, when called, errors if one of the combined epics doesn't return anything", () => {
+    expect.assertions(1);
     const epic1 = () => EMPTY;
-    const epic2: () => any = () => {};
+    const epic2 = () => {};
+
+    // @ts-expect-error type doesn't match on purpose
     const rootEpic = combineEpics(epic1, epic2);
 
     expect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      rootEpic(1 as any, 2 as any, 3 as any);
-    }).to.throw(
-      'combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!'
+      // @ts-expect-error type doesn't match on purpose
+      rootEpic(1, 2, 3);
+    }).toThrowError(
+      'combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!',
     );
   });
 
@@ -80,27 +86,24 @@ describe('combineEpics', () => {
     const epic3 = () => EMPTY;
 
     it('should name the new epic with `combineEpics(...epic names)`', () => {
+      expect.assertions(1);
       const rootEpic = combineEpics(epic1, epic2);
 
-      expect(rootEpic)
-        .to.have.property('name')
-        .that.equals('combineEpics(epic1, epic2)');
+      expect(rootEpic).toHaveProperty('name', 'combineEpics(epic1, epic2)');
     });
 
     it('should annotate combined anonymous epics with `<anonymous>`', () => {
+      expect.assertions(1);
       const rootEpic = combineEpics(() => EMPTY, epic2);
 
-      expect(rootEpic)
-        .to.have.property('name')
-        .that.equals('combineEpics(<anonymous>, epic2)');
+      expect(rootEpic).toHaveProperty('name', 'combineEpics(<anonymous>, epic2)');
     });
 
     it('should include all combined epic names in the returned epic', () => {
+      expect.assertions(1);
       const rootEpic = combineEpics(epic1, epic2, epic3);
 
-      expect(rootEpic)
-        .to.have.property('name')
-        .that.equals('combineEpics(epic1, epic2, epic3)');
+      expect(rootEpic).toHaveProperty('name', 'combineEpics(epic1, epic2, epic3)');
     });
   });
 });
