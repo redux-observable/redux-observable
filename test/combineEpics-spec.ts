@@ -1,6 +1,5 @@
 import { Action } from 'redux';
-import { EMPTY, Observable, Subject } from 'rxjs';
-import { map, toArray } from 'rxjs/operators';
+import { EMPTY, Subject, map, toArray } from 'rxjs';
 import { describe, expect, it, vi } from 'vitest';
 import { Epic, StateObservable, combineEpics, ofType } from '../src';
 
@@ -24,14 +23,14 @@ describe('combineEpics', () => {
     const epic = combineEpics<Action, Action, State>(epic1, epic2);
 
     const state$ = new StateObservable(new Subject<State>(), { I: 'am', a: 'store' });
-    const actions = new Subject<Action>();
-    const result: Observable<Action> = epic(actions, state$, undefined);
-    const emittedActions: any[] = [];
+    const action$ = new Subject<Action>();
+    const result = epic(action$, state$, undefined);
+    const emittedActions: Action[] = [];
 
     result.subscribe((emittedAction) => emittedActions.push(emittedAction));
 
-    actions.next({ type: 'ACTION1' });
-    actions.next({ type: 'ACTION2' });
+    action$.next({ type: 'ACTION1' });
+    action$.next({ type: 'ACTION2' });
 
     expect(emittedActions).toEqual([
       { type: 'DELEGATED1', action: { type: 'ACTION1' }, state$ },

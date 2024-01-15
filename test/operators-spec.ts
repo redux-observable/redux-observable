@@ -79,8 +79,8 @@ describe('operators', () => {
       // @ts-expect-error deliberately passing nothing
       ofType();
 
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith('redux-observable | WARNING: ofType was called without any types!');
+      expect(spy).toHaveBeenCalledOnce();
+      expect(spy).toHaveBeenCalledWith('redux-observable | WARNING: ofType was called without any types!');
     });
 
     it('should warn about using nullsy values', () => {
@@ -90,8 +90,8 @@ describe('operators', () => {
       // @ts-expect-error deliberately passing null
       ofType('foo', null);
 
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(
+      expect(spy).toHaveBeenCalledOnce();
+      expect(spy).toHaveBeenCalledWith(
         'redux-observable | WARNING: ofType was called with one or more undefined or null values!',
       );
     });
