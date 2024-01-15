@@ -41,7 +41,7 @@ describe('createEpicMiddleware', () => {
         return EMPTY;
       });
       const epicMiddleware = createEpicMiddleware();
-      const mockMiddleware: Middleware<unknown, void, any> = (_store) => (_next) => (_action) => {
+      const mockMiddleware: Middleware<unknown, void> = (_store) => (_next) => (_action) => {
         expect(epic).toHaveBeenCalledOnce();
 
         done();
@@ -97,7 +97,7 @@ describe('createEpicMiddleware', () => {
       }
     };
     const epic: Epic = (action$, state$) =>
-      merge(action$.pipe(ofType<any, any, any>('PING')), state$.pipe(distinctUntilChanged())).pipe(
+      merge(action$.pipe(ofType('PING')), state$.pipe(distinctUntilChanged())).pipe(
         map((input: unknown) => ({
           type: 'PONG',
           state: state$.value,
@@ -394,14 +394,14 @@ describe('createEpicMiddleware', () => {
   it('should pass undefined as third argument to epic if no dependencies provided', () => {
     expect.assertions(2);
     const reducer: Reducer<UnknownAction[]> = (state = [], _action) => state;
-    const epic = vi.fn((...args: [Observable<unknown>, StateObservable<any>, any]) => {
+    const epic = vi.fn((...args: [Observable<unknown>, StateObservable<UnknownAction[]>, undefined]) => {
       expect(args.length).toEqual(3);
       expect(args[2]).toEqual(undefined);
 
       return args[0];
     });
 
-    const middleware = createEpicMiddleware();
+    const middleware = createEpicMiddleware<unknown, unknown, UnknownAction[]>();
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(epic);
   });
@@ -409,14 +409,14 @@ describe('createEpicMiddleware', () => {
   it('should inject dependencies into a single epic', () => {
     expect.assertions(2);
     const reducer: Reducer<UnknownAction[]> = (state = [], _action) => state;
-    const epic = vi.fn((...args: [Observable<unknown>, StateObservable<any>, any]) => {
+    const epic = vi.fn((...args: [Observable<unknown>, StateObservable<UnknownAction[]>, string]) => {
       expect(args.length).toEqual(3);
       expect(args[2]).toEqual('deps');
 
       return args[0];
     });
 
-    const middleware = createEpicMiddleware({ dependencies: 'deps' });
+    const middleware = createEpicMiddleware<unknown, unknown, UnknownAction[], string>({ dependencies: 'deps' });
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(epic);
   });
@@ -424,14 +424,14 @@ describe('createEpicMiddleware', () => {
   it('should pass literally anything provided as dependencies, even `undefined`', () => {
     expect.assertions(2);
     const reducer: Reducer<UnknownAction[]> = (state = [], _action) => state;
-    const epic = vi.fn((...args: [Observable<unknown>, StateObservable<any>, any]) => {
+    const epic = vi.fn((...args: [Observable<unknown>, StateObservable<UnknownAction[]>, undefined]) => {
       expect(args.length).toEqual(3);
       expect(args[2]).toEqual(undefined);
 
       return args[0];
     });
 
-    const middleware = createEpicMiddleware({ dependencies: undefined });
+    const middleware = createEpicMiddleware<unknown, unknown, UnknownAction[], undefined>({ dependencies: undefined });
     createStore(reducer, applyMiddleware(middleware));
     middleware.run(epic);
   });
@@ -439,19 +439,19 @@ describe('createEpicMiddleware', () => {
   it('should inject dependencies into combined epics', () => {
     expect.assertions(11);
     const reducer: Reducer<UnknownAction[]> = (state = [], _action) => state;
-    const epic = vi.fn((action$: Observable<unknown>, _state$: StateObservable<any>, { foo, bar }: any) => {
+    const epic = vi.fn((action$: Observable<unknown>, _state$: StateObservable<UnknownAction[]>, { foo, bar }: Record<string, string>) => {
       expect(foo).toEqual('bar');
       expect(bar).toEqual('foo');
       return action$;
     });
 
-    const rootEpic: Epic<unknown, unknown, any, any> = combineEpics(
+    const rootEpic: Epic<unknown, unknown, UnknownAction[], Record<string, string>> = combineEpics(
       epic,
       epic,
       combineEpics(epic, combineEpics(epic, epic)),
     );
 
-    const middleware = createEpicMiddleware<unknown, unknown, any, any>({
+    const middleware = createEpicMiddleware<unknown, unknown, UnknownAction[], Record<string, string>>({
       dependencies: { foo: 'bar', bar: 'foo' },
     });
     createStore(reducer, applyMiddleware(middleware));
