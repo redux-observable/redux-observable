@@ -11,6 +11,7 @@ import {
   __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen,
 } from '../src';
 import { initAction } from './initAction';
+import { config } from 'rxjs';
 
 describe('createEpicMiddleware', () => {
   afterEach(() => {
@@ -330,10 +331,11 @@ describe('createEpicMiddleware', () => {
       const store = createStore(reducer, applyMiddleware(middleware));
       middleware.run(epic);
 
-      process.prependOnceListener('uncaughtException', (err) => {
+      config.onUnhandledError = (err: Error) => {
         expect(err.message).toEqual('some error');
+        config.onUnhandledError = null;
         done();
-      });
+      };
 
       // rxjs v6 does not rethrow synchronously instead emitting on
       // HostReportErrors e.g. window.onerror or process.on('uncaughtException')
@@ -344,20 +346,23 @@ describe('createEpicMiddleware', () => {
 
   it("should throw if you provide a root epic that doesn't return anything", () =>
     new Promise<void>((done) => {
-      expect.assertions(1);
+      expect.assertions(2);
       const rootEpic = () => {};
       const epicMiddleware = createEpicMiddleware();
       createStore(() => {}, applyMiddleware(epicMiddleware));
 
-      // @ts-expect-error type mismatch on purpose
-      epicMiddleware.run(rootEpic);
-
-      process.prependOnceListener('uncaughtException', (err) => {
+      config.onUnhandledError = (err: Error) => {
         expect(err.message).toEqual(
           'Your root Epic "rootEpic" does not return a stream. Double check you\'re not missing a return statement!',
         );
+        config.onUnhandledError = null;
         done();
-      });
+      };
+
+      expect(() => {
+        // @ts-expect-error type mismatch on purpose
+        epicMiddleware.run(rootEpic);
+      }).not.toThrow();
     }));
 
   it('should pass undefined as third argument to epic if no dependencies provided', () => {
