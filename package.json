@@ -16,7 +16,8 @@
   "sideEffects": false,
   "scripts": {
     "lint": "eslint . --ext .ts",
-    "build": "tsup"
+    "build": "tsup",
+    "test": "vitest"
   },
   "files": [
     "dist",
@@ -60,21 +61,15 @@
     "rxjs": ">=7 <8"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.11",
-    "@types/mocha": "^10.0.6",
     "@types/node": "^20.10.4",
-    "@types/sinon": "^17.0.2",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
-    "chai": "^4.3.10",
-    "conventional-changelog-cli": "^4.1.0",
     "eslint": "^8.55.0",
     "eslint-plugin-rxjs": "^5.0.3",
-    "mocha": "^10.2.0",
     "redux": "^5.0.0",
     "rxjs": "^7.8.1",
-    "sinon": "^17.0.1",
     "tsup": "7.0.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vitest": "^1.1.3"
   }
 }

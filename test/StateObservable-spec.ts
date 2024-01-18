@@ -1,25 +1,15 @@
-import { expect } from 'chai';
-import sinon from 'sinon';
+import { Observable, Subject, map } from 'rxjs';
+import { describe, expect, it, vi } from 'vitest';
 import { StateObservable } from '../src';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 describe('StateObservable', () => {
-  let spySandbox: sinon.SinonSandbox;
-
-  beforeEach(() => {
-    spySandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    spySandbox.restore();
-  });
-
   it('should exist', () => {
-    expect(StateObservable.prototype).to.be.instanceof(Observable);
+    expect.assertions(1);
+    expect(StateObservable.prototype).toBeInstanceOf(Observable);
   });
 
   it('should mirror the source subject', () => {
+    expect.assertions(3);
     const input$ = new Subject();
     const state$ = new StateObservable(input$, 'first');
     let result = null;
@@ -28,73 +18,73 @@ describe('StateObservable', () => {
       result = state;
     });
 
-    expect(result).to.equal('first');
+    expect(result).toEqual('first');
     input$.next('second');
-    expect(result).to.equal('second');
+    expect(result).toEqual('second');
     input$.next('third');
-    expect(result).to.equal('third');
+    expect(result).toEqual('third');
   });
 
   it('should cache last state on the `value` property', () => {
+    expect.assertions(2);
     const input$ = new Subject();
     const state$ = new StateObservable(input$, 'first');
 
-    expect(state$.value).to.equal('first');
+    expect(state$.value).toEqual('first');
     input$.next('second');
-    expect(state$.value).to.equal('second');
+    expect(state$.value).toEqual('second');
   });
 
   it('should only update when the next value shallowly differs', () => {
+    expect.assertions(10);
     const input$ = new Subject();
     const first = { value: 'first' };
     const state$ = new StateObservable(input$, first);
-    const next = spySandbox.spy();
+    const next = vi.fn();
     state$.subscribe(next);
 
-    expect(state$.value).to.equal(first);
-    expect(next.callCount).to.equal(1);
-    expect(next.getCall(0).args).to.deep.equal([first]);
+    expect(state$.value).toEqual(first);
+    expect(next).toHaveBeenCalledOnce();
+    expect(next).lastCalledWith(first);
 
     input$.next(first);
-    expect(state$.value).to.equal(first);
-    expect(next.callCount).to.equal(1);
+    expect(state$.value).toEqual(first);
+    expect(next).toHaveBeenCalledOnce();
 
     first.value = 'something else';
     input$.next(first);
-    expect(state$.value).to.equal(first);
-    expect(next.callCount).to.equal(1);
+    expect(state$.value).toEqual(first);
+    expect(next).toHaveBeenCalledOnce();
 
     const second = { value: 'second' };
     input$.next(second);
-    expect(state$.value).to.equal(second);
-    expect(next.callCount).to.equal(2);
-    expect(next.getCall(1).args).to.deep.equal([second]);
+    expect(state$.value).toEqual(second);
+    expect(next).toHaveBeenCalledTimes(2);
+    expect(next).lastCalledWith(second);
   });
 
   it('works correctly (and does not lift) with operators applied', () => {
+    expect.assertions(6);
     const first = { value: 'first' };
     const input$ = new Subject<typeof first>();
-    const state$ = new StateObservable(input$, first).pipe(
-      map((d) => d.value)
-    ) as any as StateObservable<typeof first>;
-    const next = spySandbox.spy();
+    const state$ = new StateObservable(input$, first).pipe(map((d) => d.value));
+    const next = vi.fn();
     state$.subscribe(next);
 
-    // because we piped an operator over it state$ is no longer a StateObservable
-    // it's just a regular Observable and so it loses its `.value` prop
-    expect(state$.value).to.equal(undefined);
-    expect(next.callCount).to.equal(1);
-    expect(next.getCall(0).args).to.deep.equal(['first']);
+    // @ts-expect-error because we piped an operator over it state$ is no longer
+    // a StateObservable it's just a regular Observable and so it loses its `.value` prop
+    expect(state$.value).toEqual(undefined);
+
+    expect(next).toHaveBeenCalledOnce();
+    expect(next).lastCalledWith('first');
 
     first.value = 'something else';
     input$.next(first);
-    expect(state$.value).to.equal(undefined);
-    expect(next.callCount).to.equal(1);
+    expect(next).toHaveBeenCalledOnce();
 
     const second = { value: 'second' };
     input$.next(second);
-    expect(state$.value).to.equal(undefined);
-    expect(next.callCount).to.equal(2);
-    expect(next.getCall(1).args).to.deep.equal(['second']);
+    expect(next).toHaveBeenCalledTimes(2);
+    expect(next).lastCalledWith('second');
   });
 });
