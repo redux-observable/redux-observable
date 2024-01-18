@@ -58,7 +58,7 @@
   "homepage": "https://github.com/redux-observable/redux-observable#README.md",
   "peerDependencies": {
     "redux": ">=5 <6",
-    "rxjs": ">=7 <8"
+    "rxjs": ">=7 <9"
   },
   "devDependencies": {
     "@types/node": "^20.10.4",
@@ -67,7 +67,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-rxjs": "^5.0.3",
     "redux": "^5.0.0",
-    "rxjs": "^7.8.1",
+    "rxjs": "^8.0.0-alpha.14",
     "tsup": "7.0.0",
     "typescript": "^5.3.3",
     "vitest": "^1.1.3"
