@@ -17,7 +17,8 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "build": "tsup",
-    "test": "vitest"
+    "test": "vitest",
+    "typecheck": "tsc --noEmit"
   },
   "files": [
     "dist",
