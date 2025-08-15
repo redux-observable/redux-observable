@@ -4,7 +4,7 @@ import {
   Reducer,
   UnknownAction,
   applyMiddleware,
-  createStore,
+  legacy_createStore as createStore,
 } from 'redux';
 import {
   EMPTY,
