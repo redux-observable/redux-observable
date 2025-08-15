@@ -12,3 +12,24 @@
 [https://redux-observable.js.org](https://redux-observable.js.org)
 
 > Note: this project is quite stable, but is currently in maintenance mode. Critical fixes will still be released, but for now no additional features or changes will be considered as the maintainer [@jayphelps](https://github.com/jayphelps) is not actively working on any apps that use redux-observable (or any UI apps at all, actually.) If you would like to become a maintainer, please reach out to [@jayphelps](https://github.com/jayphelps).
+
+# redux-observable Turborepo Monorepo
+
+This is a monorepo managed with [Turborepo](https://turbo.build/).
+
+## Structure
+
+- `packages/redux-observable`: The core redux-observable package
+- `apps/sample-app`: A sample app demonstrating usage
+
+## Getting Started
+
+```sh
+npm install
+npm run build
+npm run test
+```
+
+## Development
+- Use `npm run build`, `npm run test`, and `npm run lint` at the root for all packages/apps.
+- Each package/app can also be developed/tested independently.

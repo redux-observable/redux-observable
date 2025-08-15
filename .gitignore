@@ -1,8 +1,10 @@
-.vscode
-npm-debug.log
 node_modules
-lib
-temp
-dist
-_book
-typings
+packages/redux-observable/dist
+packages/redux-observable/types
+apps/sample-app/dist
+*.log
+.env
+.idea
+.DS_Store
+.turbo
+tsconfig.tsbuildinfo

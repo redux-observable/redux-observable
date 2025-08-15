@@ -10,7 +10,14 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:rxjs/recommended',
   ],
-  overrides: [],
+  overrides: [
+    {
+      files: ['apps/sample-app/**/*.ts', 'apps/sample-app/**/*.tsx'],
+      parserOptions: {
+        project: ['./apps/sample-app/tsconfig.json'],
+      },
+    },
+  ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',

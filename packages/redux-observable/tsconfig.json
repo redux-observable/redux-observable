@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "es2017"],
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "./types",
+    "sourceMap": true,
+    "removeComments": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "baseUrl": "./",
+    "rootDir": "src"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "sample-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "redux": "^5.0.1",
+    "rxjs": "^7.8.1",
+    "redux-observable": "file:../../packages/redux-observable"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "typescript": "^5.3.3"
+  }
+}
