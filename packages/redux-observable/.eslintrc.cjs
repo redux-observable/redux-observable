@@ -1,4 +1,5 @@
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
@@ -7,16 +8,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:rxjs/recommended',
-  ],
-  overrides: [
-    {
-      files: ['apps/sample-app/**/*.ts', 'apps/sample-app/**/*.tsx'],
-      parserOptions: {
-        project: ['./apps/sample-app/tsconfig.json'],
-      },
-    },
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -35,5 +27,5 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['*.d.ts', '*.config.*', '*.cjs', 'packages/redux-observable/'],
+  ignorePatterns: ['dist/', 'types/', 'node_modules/', '*.config.*', '.eslintrc.cjs'],
 };

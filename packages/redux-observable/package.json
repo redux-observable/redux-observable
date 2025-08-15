@@ -16,8 +16,8 @@
   },
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix",
+    "lint": "eslint src test --ext .ts",
+    "lint:fix": "eslint src test --ext .ts --fix",
     "build": "tsup",
     "prebuild": "tsc --emitDeclarationOnly",
     "prepare": "npm run build",

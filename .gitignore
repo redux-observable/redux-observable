@@ -8,3 +8,4 @@ apps/sample-app/dist
 .DS_Store
 .turbo
 tsconfig.tsbuildinfo
+dist

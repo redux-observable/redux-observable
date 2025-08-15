@@ -1,5 +1,6 @@
 {
   "files": [],
+  "include": ["packages/**/*.ts", "apps/**/*.ts"],
   "references": [
     { "path": "./packages/redux-observable" },
     { "path": "./apps/sample-app" }

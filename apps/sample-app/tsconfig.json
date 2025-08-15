@@ -1,11 +1,26 @@
 {
-  "extends": "../../packages/redux-observable/tsconfig.json",
   "compilerOptions": {
     "composite": true,
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "lib": ["dom", "es2017"],
+    "jsx": "react",
+    "declaration": true,
+    "declarationDir": "./types",
+    "sourceMap": true,
+    "removeComments": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "baseUrl": "./",
     "outDir": "./dist",
     "rootDir": "."
   },
   "include": ["./**/*"],
+  "exclude": ["node_modules", "dist", "types"],
   "references": [
     { "path": "../../packages/redux-observable" }
   ]
