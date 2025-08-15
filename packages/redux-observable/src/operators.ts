@@ -15,7 +15,7 @@ export function ofType<
   // The types you want to filter for
   Type extends string,
   // The resulting actions that match the above types
-  Output extends Input = Extract<Input, Action<Type>>
+  Output extends Input = Extract<Input, Action<Type>>,
 >(...types: [Type, ...Type[]]): OperatorFunction<Input, Output> {
   const len = types.length;
 
@@ -30,17 +30,18 @@ export function ofType<
 
   return filter(
     len === 1
-      ? (action): action is Output => isAction(action) && action.type === types[0]
+      ? (action): action is Output =>
+          isAction(action) && action.type === types[0]
       : (action): action is Output => {
-        if (isAction(action)) {
-          for (let i = 0; i < len; i++) {
-            if (action.type === types[i]) {
-              return true;
+          if (isAction(action)) {
+            for (let i = 0; i < len; i++) {
+              if (action.type === types[i]) {
+                return true;
+              }
             }
           }
-        }
 
-        return false;
-      }
+          return false;
+        }
   );
 }

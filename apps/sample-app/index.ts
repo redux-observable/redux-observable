@@ -30,7 +30,8 @@ const pingEpic: Epic<Action, Action> = (action$) =>
 const epicMiddleware = createEpicMiddleware<Action, Action>();
 const store = configureStore({
   reducer: pingPongReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(epicMiddleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ thunk: false }).concat(epicMiddleware),
 });
 epicMiddleware.run(combineEpics<Action, Action>(pingEpic));
 

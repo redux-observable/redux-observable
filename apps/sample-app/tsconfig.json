@@ -21,7 +21,5 @@
   },
   "include": ["./**/*"],
   "exclude": ["node_modules", "dist", "types"],
-  "references": [
-    { "path": "../../packages/redux-observable" }
-  ]
+  "references": [{ "path": "../../packages/redux-observable" }]
 }

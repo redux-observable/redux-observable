@@ -31,5 +31,6 @@ npm run test
 ```
 
 ## Development
+
 - Use `npm run build`, `npm run test`, and `npm run lint` at the root for all packages/apps.
 - Each package/app can also be developed/tested independently.

@@ -26,9 +26,7 @@ const epic$ = new BehaviorSubject(rootEpic);
 // call and subscribe to the new one because of
 // how switchMap works
 const hotReloadingEpic = (...args) =>
-  epic$.pipe(
-    switchMap(epic => epic(...args))
-  );
+  epic$.pipe(switchMap((epic) => epic(...args)));
 
 epicMiddleware.run(hotReloadingEpic);
 
@@ -64,12 +62,8 @@ const epic$ = new BehaviorSubject(rootEpic);
 // which would cause the old one(s) to be unsubscribed
 const hotReloadingEpic = (action$, ...rest) =>
   epic$.pipe(
-    mergeMap(epic =>
-      epic(action$, ...rest).pipe(
-        takeUntil(action$.pipe(
-          ofType('EPIC_END')
-        ))
-      )
+    mergeMap((epic) =>
+      epic(action$, ...rest).pipe(takeUntil(action$.pipe(ofType('EPIC_END'))))
     )
   );
 

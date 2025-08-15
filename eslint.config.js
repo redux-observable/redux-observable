@@ -25,11 +25,6 @@ export default [
     },
   },
   {
-    ignores: [
-      '*.d.ts',
-      '*.config.*',
-      '*.cjs',
-      'packages/redux-observable/**',
-    ],
+    ignores: ['*.d.ts', '*.config.*', '*.cjs', 'packages/redux-observable/**'],
   },
 ];

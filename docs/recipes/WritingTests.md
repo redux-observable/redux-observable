@@ -17,14 +17,15 @@ That means we can just call an Epic like any other function, passing in our own 
 Here's a very simple Epic we'll write a test for:
 
 ```js
-const fetchUserEpic = (action$, state$, { getJSON }) => action$.pipe(
-  ofType('FETCH_USER'),
-  mergeMap(action =>
-    getJSON(`https://api.github.com/users/${action.id}`).pipe(
-      map(response => ({ type: 'FETCH_USER_FULFILLED', response }))
+const fetchUserEpic = (action$, state$, { getJSON }) =>
+  action$.pipe(
+    ofType('FETCH_USER'),
+    mergeMap((action) =>
+      getJSON(`https://api.github.com/users/${action.id}`).pipe(
+        map((response) => ({ type: 'FETCH_USER_FULFILLED', response }))
+      )
     )
-  )
-);
+  );
 ```
 
 > Notice how we utilize the [built-in support for a very simple dependency injection](https://redux-observable.js.org/docs/recipes/InjectingDependenciesIntoEpics.html) as our third argument? Many testing frameworks provide **better** mocking facilities for testing. For example, [Jest provides really great mocking functionality](http://jestjs.io/docs/en/manual-mocks.html). Use what works best for you!
@@ -41,13 +42,14 @@ const testScheduler = new TestScheduler((actual, expected) => {
 
 testScheduler.run(({ hot, cold, expectObservable }) => {
   const action$ = hot('-a', {
-    a: { type: 'FETCH_USER', id: '123' }
+    a: { type: 'FETCH_USER', id: '123' },
   });
   const state$ = null;
   const dependencies = {
-    getJSON: url => cold('--a', {
-      a: { url }
-    })
+    getJSON: (url) =>
+      cold('--a', {
+        a: { url },
+      }),
   };
 
   const output$ = fetchUserEpic(action$, state$, dependencies);
@@ -56,9 +58,9 @@ testScheduler.run(({ hot, cold, expectObservable }) => {
     a: {
       type: 'FETCH_USER_FULFILLED',
       response: {
-        url: 'https://api.github.com/users/123'
-      }
-    }
+        url: 'https://api.github.com/users/123',
+      },
+    },
   });
 });
 ```

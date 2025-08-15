@@ -1,7 +1,10 @@
 import { UnknownAction } from 'redux';
 import { Subject } from 'rxjs';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ofType, __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen } from '../src';
+import {
+  ofType,
+  __FOR_TESTING__resetDeprecationsSeen as resetDeprecationsSeen,
+} from '../src';
 
 describe('operators', () => {
   describe('ofType', () => {
@@ -80,7 +83,9 @@ describe('operators', () => {
       ofType();
 
       expect(spy).toHaveBeenCalledOnce();
-      expect(spy).toHaveBeenCalledWith('redux-observable | WARNING: ofType was called without any types!');
+      expect(spy).toHaveBeenCalledWith(
+        'redux-observable | WARNING: ofType was called without any types!'
+      );
     });
 
     it('should warn about using nullsy values', () => {
@@ -92,7 +97,7 @@ describe('operators', () => {
 
       expect(spy).toHaveBeenCalledOnce();
       expect(spy).toHaveBeenCalledWith(
-        'redux-observable | WARNING: ofType was called with one or more undefined or null values!',
+        'redux-observable | WARNING: ofType was called with one or more undefined or null values!'
       );
     });
   });

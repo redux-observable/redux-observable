@@ -9,11 +9,11 @@
   },
   "dependencies": {
     "redux": "^5.0.1",
-    "rxjs": "^7.8.1",
+    "rxjs": "^7.8.2",
     "redux-observable": "file:../../packages/redux-observable"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
-    "typescript": "^5.3.3"
+    "vite": "^7.1.2",
+    "typescript": "^5.9.2"
   }
 }

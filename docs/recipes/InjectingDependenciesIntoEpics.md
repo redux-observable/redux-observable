@@ -34,7 +34,7 @@ import { ajax } from 'rxjs/ajax';
 import rootEpic from './somewhere';
 
 const epicMiddleware = createEpicMiddleware({
-  dependencies: { getJSON: ajax.getJSON }
+  dependencies: { getJSON: ajax.getJSON },
 });
 
 epicMiddleware.run(rootEpic);
@@ -68,7 +68,7 @@ const mockResponse = { name: 'Bilbo Baggins' };
 const action$ = of({ type: 'FETCH_USERS_REQUESTED' });
 const state$ = null; // not needed for this epic
 const dependencies = {
-  getJSON: url => of(mockResponse)
+  getJSON: (url) => of(mockResponse),
 };
 
 // Adapt this example to your test framework and specific use cases
@@ -76,10 +76,12 @@ const result$ = fetchUserEpic(action$, state$, dependencies).pipe(
   toArray() // buffers output until your Epic naturally completes()
 );
 
-result$.subscribe(actions => {
-  assertDeepEqual(actions, [{
-    type: 'FETCH_USER_FULFILLED',
-    payload: mockResponse
-  }]);
+result$.subscribe((actions) => {
+  assertDeepEqual(actions, [
+    {
+      type: 'FETCH_USER_FULFILLED',
+      payload: mockResponse,
+    },
+  ]);
 });
 ```

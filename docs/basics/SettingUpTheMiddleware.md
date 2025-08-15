@@ -11,9 +11,9 @@ We recommend importing all of your Epics into a single file, which then exports 
 ### app/rootEpic.js
 
 ```js
-import { combineEpics } from "redux-observable";
-import { pingEpic } from "features/ping/pingEpic";
-import { fetchUserEpic } from "features/users/usersEpic";
+import { combineEpics } from 'redux-observable';
+import { pingEpic } from 'features/ping/pingEpic';
+import { fetchUserEpic } from 'features/users/usersEpic';
 
 export const rootEpic = combineEpics(pingEpic, fetchUserEpic);
 ```
@@ -25,7 +25,7 @@ export const rootEpic = combineEpics(pingEpic, fetchUserEpic);
 Now create an instance of the redux-observable middleware.
 
 ```js
-import { createEpicMiddleware } from "redux-observable";
+import { createEpicMiddleware } from 'redux-observable';
 
 const epicMiddleware = createEpicMiddleware();
 ```
@@ -33,9 +33,9 @@ const epicMiddleware = createEpicMiddleware();
 Then you pass this to the configureStore function from Redux.
 
 ```js
-import { configureStore } from "@reduxjs/toolkit";
-import ping from "features/ping/pingSlice";
-import users from "features/users/usersSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import ping from 'features/ping/pingSlice';
+import users from 'features/users/usersSlice';
 
 const store = configureStore({
   reducer: {
@@ -50,7 +50,7 @@ const store = configureStore({
 And after that you call `epicMiddleware.run()` with the rootEpic you created earlier.
 
 ```js
-import { rootEpic } from "./rootEpic";
+import { rootEpic } from './rootEpic';
 
 epicMiddleware.run(rootEpic);
 ```
@@ -60,11 +60,11 @@ Integrate the code above with your existing Store configuration so that it looks
 ### app/store.js
 
 ```js
-import { configureStore } from "@reduxjs/toolkit";
-import { createEpicMiddleware } from "redux-observable";
-import { rootEpic } from "./rootEpic";
-import ping from "features/ping/pingSlice";
-import users from "features/users/usersSlice";
+import { configureStore } from '@reduxjs/toolkit';
+import { createEpicMiddleware } from 'redux-observable';
+import { rootEpic } from './rootEpic';
+import ping from 'features/ping/pingSlice';
+import users from 'features/users/usersSlice';
 
 const epicMiddleware = createEpicMiddleware();
 

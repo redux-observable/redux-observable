@@ -7,15 +7,16 @@ This can be done with the [`takeUntil()`](http://reactivex.io/rxjs/class/es6/Obs
 ```js
 import { ajax } from 'rxjs/ajax';
 
-const fetchUserEpic = action$ => action$.pipe(
-  ofType(FETCH_USER),
-  mergeMap(action => ajax.getJSON(`/api/users/${action.payload}`).pipe(
-    map(response => fetchUserFulfilled(response)),
-    takeUntil(action$.pipe(
-      ofType(FETCH_USER_CANCELLED)
-    ))
-  ))
-);
+const fetchUserEpic = (action$) =>
+  action$.pipe(
+    ofType(FETCH_USER),
+    mergeMap((action) =>
+      ajax.getJSON(`/api/users/${action.payload}`).pipe(
+        map((response) => fetchUserFulfilled(response)),
+        takeUntil(action$.pipe(ofType(FETCH_USER_CANCELLED)))
+      )
+    )
+  );
 ```
 
 Here we placed the `takeUntil()` inside our [`mergeMap()`](http://reactivex.io/rxjs/class/es6/Observable.js~Observable.html#instance-method-mergeMap), but after our AJAX call; this is important because we want to cancel only the AJAX request, not stop the Epic from listening for any future actions. Isolating your observable chains like this is an important concept you will use often. If this isn't clear, you should consider spending some time getting intimately familiar with RxJS and generally how operator chaining works. Ben Lesh [has a great video that explains how Observables work](https://www.youtube.com/watch?v=3LKMwkuK0ZE) and even covers isolating your chains!
@@ -33,19 +34,22 @@ For example, let's say that we make an AJAX call when someone dispatches `FETCH_
 ```js
 import { ajax } from 'rxjs/ajax';
 
-const fetchUserEpic = action$ => action$.pipe(
-  ofType(FETCH_USER),
-  mergeMap(action => race(
-    ajax.getJSON(`/api/users/${action.payload}`).pipe(
-      map(response => fetchUserFulfilled(response))
-    ),
-    action$.pipe(
-      ofType(FETCH_USER_CANCELLED),
-      map(() => incrementCounter()),
-      take(1)
+const fetchUserEpic = (action$) =>
+  action$.pipe(
+    ofType(FETCH_USER),
+    mergeMap((action) =>
+      race(
+        ajax
+          .getJSON(`/api/users/${action.payload}`)
+          .pipe(map((response) => fetchUserFulfilled(response))),
+        action$.pipe(
+          ofType(FETCH_USER_CANCELLED),
+          map(() => incrementCounter()),
+          take(1)
+        )
+      )
     )
-  ))
-);
+  );
 ```
 
 We also need to use `take(1)`, because we only want to listen for the cancellation action _once_ while we're racing the AJAX call.

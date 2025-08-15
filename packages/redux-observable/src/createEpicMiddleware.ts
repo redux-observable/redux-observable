@@ -13,7 +13,7 @@ export interface EpicMiddleware<
   Input = unknown,
   Output extends Input = Input,
   State = void,
-  Dependencies = any
+  Dependencies = any,
   // Redux Middleware expects an object type for extra
 > extends Middleware<object, State> {
   run(rootEpic: Epic<Input, Output, State, Dependencies>): void;
@@ -23,7 +23,7 @@ export function createEpicMiddleware<
   Input = unknown,
   Output extends Input = Input,
   State = void,
-  Dependencies = any
+  Dependencies = any,
 >(
   options: Options<Dependencies> = {}
 ): EpicMiddleware<Input, Output, State, Dependencies> {

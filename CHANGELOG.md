@@ -34,7 +34,7 @@ const myEpic = action$ => action$.pipe(
 
 - **dependencies:** rxjs and tslib are now listed as dependencies ([#748](https://github.com/redux-observable/redux-observable/issues/748)) ([e1580d7](https://github.com/redux-observable/redux-observable/commit/e1580d7))
 
-2.0.0-rc.1">
+  2.0.0-rc.1">
 
 ## [2.0.0-rc.1](https://github.com/redux-observable/redux-observable/compare/v2.0.0-alpha.0...v2.0.0-rc.1) (2021-05-07)
 
@@ -51,7 +51,7 @@ const myEpic = action$ => action$.pipe(
 
 - **rxjs7:** Uses typescript 4.2.2 and tslib 2.1.0 (same libs as rxjs 7). @typescript-eslint/eslint-plugin and @typescript-eslint/parser has been updated to 4.22.0 to run linter properly with new ts version, new troublesome linter rules added.
 
-2.0.0-alpha.0">
+  2.0.0-alpha.0">
 
 ## [2.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v1.2.0...v2.0.0-alpha.0) (2019-11-14)
 
@@ -84,9 +84,9 @@ function someEpic(action$) {
 }
 ```
 
-* the TS type definition for `combineEpics()` no longer accepts any unsafe overloads. Cast to `any` if you need to provide unsafe/untyped Epics.
+- the TS type definition for `combineEpics()` no longer accepts any unsafe overloads. Cast to `any` if you need to provide unsafe/untyped Epics.
 
-1.2.0">
+  1.2.0">
 
 ## [1.2.0](https://github.com/redux-observable/redux-observable/compare/v1.1.0...v1.2.0) (2019-09-17)
 
@@ -94,7 +94,7 @@ function someEpic(action$) {
 
 - **build:** Internally, don't mix ES Module and CommonJS syntax for warning utilities so that Rollup builds don't require special handling of redux-observable. ([#663](https://github.com/redux-observable/redux-observable/issues/663)) ([376dc5b](https://github.com/redux-observable/redux-observable/commit/376dc5b))
 
-1.1.0">
+  1.1.0">
 
 ## [1.1.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0...v1.1.0) (2019-03-26)
 
@@ -102,7 +102,7 @@ function someEpic(action$) {
 
 - **createEpicMiddleware:** Don't share a scheduler queue with anyone else's RxJS code, fixes [#624](https://github.com/redux-observable/redux-observable/issues/624) ([#625](https://github.com/redux-observable/redux-observable/issues/625)) ([e5bae19](https://github.com/redux-observable/redux-observable/commit/e5bae19))
 
-1.0.0">
+  1.0.0">
 
 ## [1.0.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.2...v1.0.0) (2018-06-21)
 
@@ -114,7 +114,7 @@ Is something missing from the migration guide? Let us know or make a PR!
 
 - **typings:** Epic type parameter for State (third type param) now defaults to any instead of void ([03e69cc](https://github.com/redux-observable/redux-observable/commit/03e69cc))
 
-1.0.0-beta.2">
+  1.0.0-beta.2">
 
 ## [1.0.0-beta.2](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2018-06-16)
 
@@ -126,15 +126,15 @@ Is something missing from the migration guide? Let us know or make a PR!
 
 - **adapters:** Support for adapters has been removed. Adapters were previously used to transform the `action$` Observable into some other stream-library primitive; like Most.js, Bacon, RxJS v4, etc. While rarely used, if you would like this functionality the MIGRATION.md guide gives an example: <https://redux-observable.js.org/MIGRATION.html#setting-up-the-middleware>
 
-1.0.0-beta.1">
+  1.0.0-beta.1">
 
 ## [1.0.0-beta.1](https://github.com/redux-observable/redux-observable/compare/v1.0.0-beta.0...v1.0.0-beta.1) (2018-06-04)
 
 ### Bug Fixes
 
-- **combineEpics:** combineEpics no longer errors on React Native Android because of readonly `name`  prop setting ([7b4f208](https://github.com/redux-observable/redux-observable/commit/7b4f208))
+- **combineEpics:** combineEpics no longer errors on React Native Android because of readonly `name` prop setting ([7b4f208](https://github.com/redux-observable/redux-observable/commit/7b4f208))
 
-1.0.0-beta.0">
+  1.0.0-beta.0">
 
 ## [1.0.0-beta.0](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.3...v1.0.0-beta.0) (2018-06-01)
 
@@ -151,7 +151,7 @@ Is something missing from the migration guide? Let us know or make a PR!
 
 - **state$:** previously the second argument to your epics was a "lite" version of the redux store with store.dispatch() and store.getState(), however this has been replaced with a stream of a state$ in v1.0.0 of redux-observable and the old methods were deprecated with warnings in previous alpha versions. This release removes them entirely. See <https://redux-observable.js.org/MIGRATION.html>
 
-1.0.0-alpha.3">
+  1.0.0-alpha.3">
 
 ## [1.0.0-alpha.3](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2018-06-01)
 
@@ -172,7 +172,7 @@ Is something missing from the migration guide? Let us know or make a PR!
 - **createEpicMiddleware:** `epicMiddleware.replaceEpic` has been removed. A the equivilant behavior can be accomplished by dispatching your own `END` action that your rootEpic is listening for with a `takeUntil`, then providing the next rootEpic to `epicMiddleware.run(nextRootEpic)`. See <https://redux-observable.js.org/MIGRATION.html>
 - **createEpicMiddleware:** Actions your epics emit are now scheduled using the queueScheduler. This is a bit hard to explain (and understand) but as the name suggests, a queue is used. If the queue is empty, the action is emitted as usual, but if that action causes other actions to be emitted they will be queued up until the call stack of the first action returns. In a large majority of cases this will have no perceivable impact, but it may affect the order of any complex epic-to-epic communication you have. The benefit is that actions which are emitted by an epic on start up are not missed by epics which come after it. e.g. With `combineEpics(epic1, epic2)` previously if epic1 emitted on startup, epic2 would not receive that action because it had not yet been set up. See <https://redux-observable.js.org/MIGRATION.html>
 
-1.0.0-alpha.2">
+  1.0.0-alpha.2">
 
 ## [1.0.0-alpha.2](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2018-04-09)
 
@@ -180,7 +180,7 @@ Is something missing from the migration guide? Let us know or make a PR!
 
 - **deps:** gitbook-plugin-github is no longer listed as a normal dependency (it gets added automatically by gitbook even and I usually manually remove it, but it slipped in) ([fabcded](https://github.com/redux-observable/redux-observable/commit/fabcded))
 
-1.0.0-alpha.1">
+  1.0.0-alpha.1">
 
 ## [1.0.0-alpha.1](https://github.com/redux-observable/redux-observable/compare/v1.0.0-alpha.0...v1.0.0-alpha.1) (2018-04-05)
 
@@ -188,7 +188,7 @@ Is something missing from the migration guide? Let us know or make a PR!
 
 - **typings:** Update type of Epic parameter from store to state$ ([#465](https://github.com/redux-observable/redux-observable/issues/465)) ([6e9430d](https://github.com/redux-observable/redux-observable/commit/6e9430d))
 
-1.0.0-alpha.0">
+  1.0.0-alpha.0">
 
 ## [1.0.0-alpha.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v1.0.0-alpha.0) (2018-04-04)
 
@@ -199,7 +199,7 @@ Early version alpha, breaking changes are still possible so use as your own risk
 - **createEpicMiddleware:** warn about reusing middleware ([e72661a](https://github.com/redux-observable/redux-observable/commit/e72661a)), closes [#389](https://github.com/redux-observable/redux-observable/issues/389)
 - **state$:** The second argument of an Epic is now a stream of state$, not a store ([#410](https://github.com/redux-observable/redux-observable/issues/410)) ([2ff3f6e](https://github.com/redux-observable/redux-observable/commit/2ff3f6e)), closes [#56](https://github.com/redux-observable/redux-observable/issues/56)
 
-0.19.0">
+  0.19.0">
 
 ## [0.19.0](https://github.com/redux-observable/redux-observable/compare/v0.18.0...v0.19.0) (2018-06-06)
 
@@ -211,13 +211,13 @@ Early version alpha, breaking changes are still possible so use as your own risk
 
 - **errors:** For 0.19.0 errors from reducers are no longer caught and console.error logged, instead they are just rethrown as before. This was a temporary workaround for a bug in rxjs where it would silently swallow errors. That bug has been fixed in 5.5.6+, so it is highly recommended you use _at least_ rxjs@5.5.6+ with this version of redux-observable. However, redux-observable is close to reaching 1.0.0-final which will require rxjs v6 and redux v4, if you'd like to start upgrading to it now you can use redux-observable@next (as of this writing 1.0.0-beta.1)
 
-0.18.0">
+  0.18.0">
 
 ## [0.18.0](https://github.com/redux-observable/redux-observable/compare/v0.17.0...v0.18.0) (2018-02-07)
 
 ### Bug Fixes
 
-- **Reducer errors:** log exceptions thrown from `store.dispatch` inside the middleware  ([#379](https://github.com/redux-observable/redux-observable/issues/379)) ([56c1903](https://github.com/redux-observable/redux-observable/commit/56c1903)), closes [#263](https://github.com/redux-observable/redux-observable/issues/263)
+- **Reducer errors:** log exceptions thrown from `store.dispatch` inside the middleware ([#379](https://github.com/redux-observable/redux-observable/issues/379)) ([56c1903](https://github.com/redux-observable/redux-observable/commit/56c1903)), closes [#263](https://github.com/redux-observable/redux-observable/issues/263)
 - **typings:** make lettable ofType correctly narrow action type ([#385](https://github.com/redux-observable/redux-observable/issues/385)) ([45d09a7](https://github.com/redux-observable/redux-observable/commit/45d09a7)), closes [#382](https://github.com/redux-observable/redux-observable/issues/382)
 - **typings:** More correct Epic and ofType type refinement for TypeScript users ([#392](https://github.com/redux-observable/redux-observable/issues/392)) ([#396](https://github.com/redux-observable/redux-observable/issues/396)) ([63b2acc](https://github.com/redux-observable/redux-observable/commit/63b2acc))
 - **typings:** More correct ofType type refinement ([#376](https://github.com/redux-observable/redux-observable/issues/376)) ([e850c93](https://github.com/redux-observable/redux-observable/commit/e850c93)), closes [#375](https://github.com/redux-observable/redux-observable/issues/375)
@@ -227,7 +227,7 @@ Early version alpha, breaking changes are still possible so use as your own risk
 - **dependencies:** Loosen peerDependencies ([#359](https://github.com/redux-observable/redux-observable/issues/359)) ([3140ac2](https://github.com/redux-observable/redux-observable/commit/3140ac2)), closes [#358](https://github.com/redux-observable/redux-observable/issues/358)
 - **ofType:** `ofType()` TypeScript overload that permits narrowing the filtered actions type `action$.ofType<SomeNarrowAction>(someType);` ([#312](https://github.com/redux-observable/redux-observable/issues/312)) ([#370](https://github.com/redux-observable/redux-observable/issues/370)) ([5b62ac5](https://github.com/redux-observable/redux-observable/commit/5b62ac5))
 
-0.17.0">
+  0.17.0">
 
 ## [0.17.0](https://github.com/redux-observable/redux-observable/compare/v0.16.0...v0.17.0) (2017-10-31)
 
@@ -246,25 +246,23 @@ The ability to call `store.dispatch()` inside your Epics was originally provided
 
 ```js
 const somethingEpic = (action$, store) =>
-  action$.ofType(SOMETHING)
-    .switchMap(() =>
-      ajax('/something')
-        .do(() => store.dispatch({ type: SOMETHING_ELSE }))
-        .map(response => ({ type: SUCCESS, response }))
-    );
+  action$.ofType(SOMETHING).switchMap(() =>
+    ajax('/something')
+      .do(() => store.dispatch({ type: SOMETHING_ELSE }))
+      .map((response) => ({ type: SUCCESS, response }))
+  );
 ```
 
 ### After
 
 ```js
-const somethingEpic = action$ =>
-  action$.ofType(SOMETHING)
+const somethingEpic = (action$) =>
+  action$
+    .ofType(SOMETHING)
     .switchMap(() =>
-      ajax('/something')
-        .mergeMap(response => Observable.of(
-          { type: SOMETHING_ELSE },
-          { type: SUCCESS, response }
-        ))
+      ajax('/something').mergeMap((response) =>
+        Observable.of({ type: SOMETHING_ELSE }, { type: SUCCESS, response })
+      )
     );
 ```
 
@@ -273,7 +271,7 @@ const somethingEpic = action$ =>
 - **ofType:** Better support for redux-actions ([#348](https://github.com/redux-observable/redux-observable/issues/348)) ([c4d0ccf](https://github.com/redux-observable/redux-observable/commit/c4d0ccf))
 - **ofType:** expose ofType as lettable operator ([#343](https://github.com/redux-observable/redux-observable/issues/343)) ([fb4a5af](https://github.com/redux-observable/redux-observable/commit/fb4a5af)), closes [#186](https://github.com/redux-observable/redux-observable/issues/186)
 
-0.16.0">
+  0.16.0">
 
 ## [0.16.0](https://github.com/redux-observable/redux-observable/compare/v0.15.0...v0.16.0) (2017-08-16)
 
@@ -281,7 +279,7 @@ const somethingEpic = action$ =>
 
 - **types:** Constrain ActionsObservable type param ([#289](https://github.com/redux-observable/redux-observable/issues/289)) ([2144e7d](https://github.com/redux-observable/redux-observable/commit/2144e7d))
 
-0.15.0">
+  0.15.0">
 
 ## [0.15.0](https://github.com/redux-observable/redux-observable/compare/v0.14.0...v0.15.0) (2017-08-08)
 
@@ -295,7 +293,7 @@ const somethingEpic = action$ =>
 
 - **typings:** make dependencies generic type ([#250](https://github.com/redux-observable/redux-observable/issues/250)) ([b690902](https://github.com/redux-observable/redux-observable/commit/b690902)), closes [#231](https://github.com/redux-observable/redux-observable/issues/231)
 
-0.14.0">
+  0.14.0">
 
 ## [0.14.0](https://github.com/redux-observable/redux-observable/compare/v0.13.0...v0.14.0) (2017-03-02)
 
@@ -315,9 +313,9 @@ const somethingEpic = action$ =>
 ### BREAKING CHANGES
 
 - rxjs: RxJS v5 non-beta (e.g. 5.1.0) is now required. Upgrading from rxjs 5
-beta to latest should be easy in most cases.
+  beta to latest should be easy in most cases.
 
-0.13.0">
+  0.13.0">
 
 ## [0.13.0](https://github.com/redux-observable/redux-observable/compare/v0.12.2...v0.13.0) (2017-01-20)
 
@@ -330,7 +328,7 @@ beta to latest should be easy in most cases.
 
 - typings: TypeScript users only, the type interface for Epics now requires a second generic argument, your store's state interface. `interface Epic<ActionShape, StateShape>`. If you don't to strictly type your state, you can pass `any`
 
-0.12.2">
+  0.12.2">
 
 ## [0.12.2](https://github.com/redux-observable/redux-observable/compare/v0.12.1...v0.12.2) (2016-11-18)
 
@@ -339,7 +337,7 @@ beta to latest should be easy in most cases.
 - **ActionsObservable:** `ActionsObservable.from()` now correctly returns an ActionsObservable as expected ([#149](https://github.com/redux-observable/redux-observable/issues/149)) ([fd393a1](https://github.com/redux-observable/redux-observable/commit/fd393a1))
 - **typings:** Adds type definitions for ActionsObservable.from/of ([0cba557](https://github.com/redux-observable/redux-observable/commit/0cba557))
 
-0.12.1">
+  0.12.1">
 
 ## [0.12.1](https://github.com/redux-observable/redux-observable/compare/v0.12.0...v0.12.1) (2016-10-04)
 
@@ -347,7 +345,7 @@ beta to latest should be easy in most cases.
 
 - **UMD:** bump webpack-rxjs-externals to correct UMD generation ([3535b3d](https://github.com/redux-observable/redux-observable/commit/3535b3d)), closes [#127](https://github.com/redux-observable/redux-observable/issues/127)
 
-0.12.0">
+  0.12.0">
 
 ## [0.12.0](https://github.com/redux-observable/redux-observable/compare/v0.11.0...v0.12.0) (2016-09-22)
 
@@ -355,7 +353,7 @@ beta to latest should be easy in most cases.
 
 - **combineEpics:** combineEpics() now transparently passes along _any_ arguments, not just action$, store. ([ee3efbf](https://github.com/redux-observable/redux-observable/commit/ee3efbf))
 
-0.11.0">
+  0.11.0">
 
 ## [0.11.0](https://github.com/redux-observable/redux-observable/compare/0.10.0...v0.11.0) (2016-09-15)
 
@@ -369,9 +367,9 @@ beta to latest should be easy in most cases.
 
 ### BREAKING CHANGES
 
-- thunkservables: Support for thunkservables has been removed, replaced by Epics. You may now use redux-thunk in tandem with redux-observable.  [Read more](http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-removed)
+- thunkservables: Support for thunkservables has been removed, replaced by Epics. You may now use redux-thunk in tandem with redux-observable. [Read more](http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-removed)
 
-0.10.0">
+  0.10.0">
 
 ## [0.10.0](https://github.com/redux-observable/redux-observable/compare/v0.9.1...v0.10.0) (2016-09-11)
 
@@ -379,7 +377,7 @@ beta to latest should be easy in most cases.
 
 - **typings:** TypeScript users: Added generics to createEpicMiddleware so developer defines what redux Actions look like ([#105](https://github.com/redux-observable/redux-observable/issues/105)) ([7b4214f](https://github.com/redux-observable/redux-observable/commit/7b4214f)). Previously, the behavior was rather restrictive so while it's unlikely going to break anyone's code, it technically is a breaking change.
 
-0.9.1">
+  0.9.1">
 
 ## [0.9.1](https://github.com/redux-observable/redux-observable/compare/v0.9.0...v0.9.1) (2016-08-17)
 
@@ -387,7 +385,7 @@ beta to latest should be easy in most cases.
 
 - **typings:** add explicit return types inside ActionsObservable ([95b4ce4](https://github.com/redux-observable/redux-observable/commit/95b4ce4)), closes [#96](https://github.com/redux-observable/redux-observable/issues/96)
 
-0.9.0">
+  0.9.0">
 
 ## [0.9.0](https://github.com/redux-observable/redux-observable/compare/v0.8.0...v0.9.0) (2016-08-01)
 
@@ -395,7 +393,7 @@ beta to latest should be easy in most cases.
 
 - **Adapters:** Adds support for Epic input/output adapters. This allows us to support RxJS v4 via [redux-observable-adapter-rxjs-v4](https://github.com/redux-observable/redux-observable-adapter-rxjs-v4) ([#85](https://github.com/redux-observable/redux-observable/issues/85)) ([a662cdf](https://github.com/redux-observable/redux-observable/commit/a662cdf))
 
-0.8.0">
+  0.8.0">
 
 ## [0.8.0](https://github.com/redux-observable/redux-observable/compare/v0.7.2...v0.8.0) (2016-07-24)
 
@@ -404,7 +402,7 @@ beta to latest should be easy in most cases.
 - **replaceEpic:** Added middleware method to replace the root Epic. Useful for code splitting and hot reloading ([a8f458d](https://github.com/redux-observable/redux-observable/commit/a8f458d))
 - **replaceEpic:** Dispatches an EPIC_END action when you replaceEpic() ([#75](https://github.com/redux-observable/redux-observable/issues/75)) ([fef6f80](https://github.com/redux-observable/redux-observable/commit/fef6f80))
 
-0.7.2">
+  0.7.2">
 
 ## [0.7.2](https://github.com/redux-observable/redux-observable/compare/v0.7.1...v0.7.2) (2016-07-14)
 
@@ -412,15 +410,13 @@ beta to latest should be easy in most cases.
 
 - **Typings:** Correct that createEpicMiddleware() only accepts a single Epic ([1d5e2ec](https://github.com/redux-observable/redux-observable/commit/1d5e2ec))
 
-0.7.1">
+  0.7.1">
 
 ## [0.7.1](https://github.com/redux-observable/redux-observable/compare/v0.7.0...v0.7.1) (2016-07-14)
 
 ### Bug Fixes
 
 - **TypeScript type definition:** Add combineEpics(), provide more accurate type info for others ([#70](https://github.com/redux-observable/redux-observable/issues/70)) ([20da88c](https://github.com/redux-observable/redux-observable/commit/20da88c)), closes [#69](https://github.com/redux-observable/redux-observable/issues/69)
-
-
 
 ## 0.7.0 (2016-07-13)
 
@@ -429,15 +425,15 @@ We have brand new docs! <http://redux-observable.js.org/>
 ### BREAKING CHANGES
 
 - thunkservables: We are deprecating thunkservables in favor of the new
-process managers called "Epics". See
-<http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-deprecated>
-for more information on Epics.
+  process managers called "Epics". See
+  <http://redux-observable.js.org/docs/FAQ.html#why-were-thunkservables-deprecated>
+  for more information on Epics.
 - API renames: Creating the middleware is now done with
-`createEpicMiddleware(rootEpic)` instead of `reduxObservable(rootEpic)` and `combineDelegators()` has been renamed as
-`combineEpics()`
+  `createEpicMiddleware(rootEpic)` instead of `reduxObservable(rootEpic)` and `combineDelegators()` has been renamed as
+  `combineEpics()`
 - middleware: dispatched actions will now occur _before_ the actions created by synchronous observable side effects.
 
-0.6.0">
+  0.6.0">
 
 ## [0.6.0](https://github.com/redux-observable/redux-observable/compare/0.5.0...v0.6.0) (2016-05-26)
 
@@ -450,7 +446,7 @@ for more information on Epics.
 - **combineEpics:** add a method to combine different epics to make it easier to create a rootDelegator ([da2eeaf](https://github.com/redux-observable/redux-observable/commit/da2eeaf))
 - **ofType:** now accepts multiple types to filter for ([9027d1c](https://github.com/redux-observable/redux-observable/commit/9027d1c))
 
-0.5.0">
+  0.5.0">
 
 ## [0.5.0](https://github.com/redux-observable/redux-observable/compare/0.4.0...v0.5.0) (2016-05-20)
 
@@ -463,7 +459,7 @@ for more information on Epics.
 
 - middleware processor: dispatched actions will now occur _before_ the actions created by synchronous observable side effects.
 
-0.4.0">
+  0.4.0">
 
 ## [0.4.0](https://github.com/blesh/redux-observable/compare/0.3.0...v0.4.0) (2016-05-12)
 
@@ -475,7 +471,7 @@ for more information on Epics.
 
 - **ofType:** add operator to provided actions observable ([174ceda](https://github.com/blesh/redux-observable/commit/174ceda))
 
-0.3.0">
+  0.3.0">
 
 ## [0.3.0](https://github.com/blesh/redux-observable/compare/0.2.0...v0.3.0) (2016-05-12)
 

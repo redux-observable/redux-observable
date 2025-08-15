@@ -1,6 +1,9 @@
 export { StateObservable } from './StateObservable';
 export { combineEpics } from './combineEpics';
-export { createEpicMiddleware, type EpicMiddleware } from './createEpicMiddleware';
+export {
+  createEpicMiddleware,
+  type EpicMiddleware,
+} from './createEpicMiddleware';
 export type { Epic } from './epic';
 export { ofType } from './operators';
 

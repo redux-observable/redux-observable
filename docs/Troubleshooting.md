@@ -1,12 +1,10 @@
 # Troubleshooting [![Discord](https://img.shields.io/discord/102860784329052160)](https://discord.gg/reactiflux)
 
-
 This is a place to share common problems and solutions to them.
 
 > If your problem isn't yet listed here or you need other help, read through the [Issues](https://github.com/redux-observable/redux-observable/issues) and [Discussions](https://github.com/redux-observable/redux-observable/discussions) and feel free to make a post. You can also find help on [Stack Overflow](http://stackoverflow.com/questions/tagged/redux-observable) or the [Reactiflux discord](https://discord.gg/reactiflux) look for the channels #redux or #reactive-programming
 
-
-* * *
+---
 
 ### RxJS v5 (or rxjs-compat) operators are missing! e.g. TypeError: action$.ofType(...).switchMap is not a function
 
@@ -21,12 +19,12 @@ If you want to instead add all operators, you can import the entire library insi
 ```js
 import 'rxjs';
 ```
+
 This will add every core RxJS operator to the `Observable` prototype.
 
 #### Add only the operators you use
 
 tl;dr
-
 
 ```js
 import 'rxjs/add/operator/switchMap';
@@ -42,7 +40,7 @@ There are several ways to do this, so we don't suggest any particular one in the
 
 If you use the `'rxjs/add/operator/name'` technique, you may find it helpful to create a single file where you place all of these so you don't have to import the same operators repeatedly.
 
-* * *
+---
 
 ### TypeError: Cannot read property 'subscribe' of undefined
 
@@ -70,6 +68,7 @@ class TooFancy {
   }
 }
 ```
+
 follow the docs and:
 
 ```typescript
@@ -124,24 +123,24 @@ This approach essentially returns an empty `Observable` from the epic, which doe
 Let's say you have following action types + action creator types:
 
 ```ts
-import { Action } from 'redux'
+import { Action } from 'redux';
 
 const enum ActionTypes {
   One = 'ACTION_ONE',
   Two = 'ACTION_TWO',
 }
-const doOne = (myStr: string): One => ({ type: ActionTypes.One, myStr })
-const doTwo = (myBool: boolean): Two => ({ type: ActionTypes.Two, myBool })
+const doOne = (myStr: string): One => ({ type: ActionTypes.One, myStr });
+const doTwo = (myBool: boolean): Two => ({ type: ActionTypes.Two, myBool });
 
 interface One extends Action {
-  type: ActionTypes.One
-  myStr: string
+  type: ActionTypes.One;
+  myStr: string;
 }
 interface Two extends Action {
-  type: ActionTypes.Two
-  myBool: boolean
+  type: ActionTypes.Two;
+  myBool: boolean;
 }
-type Actions = One | Two
+type Actions = One | Two;
 ```
 
 When you're using `ofType` operator for filtering, returned observable won't be correctly narrowed within Type System, because its not capable of doing so yet ( TS 2.6.2 ).
@@ -166,7 +165,7 @@ const epic = (action$: ActionsObservable<Actions>) =>
   );
 ```
 
-* * *
+---
 
 ## Something else doesn’t work
 

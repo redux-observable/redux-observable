@@ -18,4 +18,4 @@ You might need to call this multiple times if your app implements code splitting
 
 #### Arguments
 
-1. `rootEpic` (*Epic*) The epic for the middleware to use.
+1. `rootEpic` (_Epic_) The epic for the middleware to use.

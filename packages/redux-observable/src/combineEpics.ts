@@ -8,7 +8,7 @@ export function combineEpics<
   Input = unknown,
   Output extends Input = Input,
   State = void,
-  Dependencies = any
+  Dependencies = any,
 >(
   ...epics: Epic<Input, Output, State, Dependencies>[]
 ): Epic<Input, Output, State, Dependencies> {

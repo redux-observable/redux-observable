@@ -11,18 +11,21 @@ describe('combineEpics', () => {
     const epic1: Epic<Action, Action, State> = (action$, state$) =>
       action$.pipe(
         ofType('ACTION1'),
-        map((action) => ({ type: 'DELEGATED1', action, state$ })),
+        map((action) => ({ type: 'DELEGATED1', action, state$ }))
       );
 
     const epic2: Epic<Action, Action, State> = (action$, state$) =>
       action$.pipe(
         ofType('ACTION2'),
-        map((action) => ({ type: 'DELEGATED2', action, state$ })),
+        map((action) => ({ type: 'DELEGATED2', action, state$ }))
       );
 
     const epic = combineEpics<Action, Action, State>(epic1, epic2);
 
-    const state$ = new StateObservable(new Subject<State>(), { I: 'am', a: 'store' });
+    const state$ = new StateObservable(new Subject<State>(), {
+      I: 'am',
+      a: 'store',
+    });
     const action$ = new Subject<Action>();
     const result = epic(action$, state$, undefined);
     const emittedActions: Action[] = [];
@@ -75,7 +78,7 @@ describe('combineEpics', () => {
       // @ts-expect-error type doesn't match on purpose
       rootEpic(1, 2, 3);
     }).toThrowError(
-      'combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!',
+      'combineEpics: one of the provided Epics "epic2" does not return a stream. Double check you\'re not missing a return statement!'
     );
   });
 
@@ -95,14 +98,20 @@ describe('combineEpics', () => {
       expect.assertions(1);
       const rootEpic = combineEpics(() => EMPTY, epic2);
 
-      expect(rootEpic).toHaveProperty('name', 'combineEpics(<anonymous>, epic2)');
+      expect(rootEpic).toHaveProperty(
+        'name',
+        'combineEpics(<anonymous>, epic2)'
+      );
     });
 
     it('should include all combined epic names in the returned epic', () => {
       expect.assertions(1);
       const rootEpic = combineEpics(epic1, epic2, epic3);
 
-      expect(rootEpic).toHaveProperty('name', 'combineEpics(epic1, epic2, epic3)');
+      expect(rootEpic).toHaveProperty(
+        'name',
+        'combineEpics(epic1, epic2, epic3)'
+      );
     });
   });
 });

@@ -2,7 +2,8 @@
   "name": "redux-observable-turbo",
   "private": true,
   "version": "0.0.0-monorepo",
-  "packageManager": "npm@9.0.0",
+  "type": "module",
+  "packageManager": "npm@10.0.0",
   "workspaces": [
     "packages/*",
     "apps/*"
@@ -10,10 +11,13 @@
   "scripts": {
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
-    "turbo": "^2.0.0"
+    "prettier": "^3.4.2",
+    "turbo": "^2.5.6"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.8.2"

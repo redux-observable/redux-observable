@@ -1,6 +1,4 @@
-
 import { Observable, Subject, Subscription } from 'rxjs';
-
 
 /**
  * StateObservable is an Observable that also holds the current state value.

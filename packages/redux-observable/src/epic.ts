@@ -5,7 +5,7 @@ export declare interface Epic<
   Input = unknown,
   Output extends Input = Input,
   State = void,
-  Dependencies = any
+  Dependencies = any,
 > {
   (
     action$: Observable<Input>,
