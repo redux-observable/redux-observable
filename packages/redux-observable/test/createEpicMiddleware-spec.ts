@@ -552,8 +552,8 @@ describe('createEpicMiddleware', () => {
       }
     );
 
-    // @ts-expect-error type mismatch on purpose
     const rootEpic = (...args: Parameters<Epic>) =>
+      // @ts-expect-error intentionally passing extra arguments for testing
       combineEpics(epic)(...args, 'first', 'second');
     const middleware = createEpicMiddleware({ dependencies: 'deps' });
     createStore(reducer, applyMiddleware(middleware));
