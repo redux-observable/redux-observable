@@ -1,16 +1,16 @@
 # Migration to 1.0.0 of redux-observable
 
-# Upgrading
+## Upgrading
 
-## RxJS v6
+### RxJS v6
 
 Version 1.0.0 of redux-observable requires v6.0.0 of RxJS. They have their own migration guide, and there's even a `rxjs-compat` compatibility layer allowing you to use the old v5 import paths and APIs to aid in migrating progressively. Check out their guide here:
 
-https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md
+[RxJS v6 Migration Guide](https://github.com/ReactiveX/rxjs/blob/master/docs_app/content/guide/v6/migration.md)
 
-## Redux v4
+### Redux v4
 
-We now also require Redux v4, which only has minor breaking changes outlined here: https://github.com/reduxjs/redux/releases/tag/v4.0.0
+We now also require Redux v4, which only has minor breaking changes outlined here: [Redux v4.0.0 Release Notes](https://github.com/reduxjs/redux/releases/tag/v4.0.0)
 
 ## Setting up the middleware
 
@@ -87,7 +87,7 @@ const rootEpic = combineEpics(epic1, epic2);
 
 In older version of redux-observable, your reducers would have been missing the FOURTH:
 
-```
+```text
 FIRST
 SECOND
 THIRD
@@ -95,7 +95,7 @@ THIRD
 
 However in 1.0.0 it now would see it as the last one:
 
-```
+```text
 FIRST
 SECOND
 THIRD
@@ -140,7 +140,7 @@ If you're looking for the ability to directly call dispatch yourself (rather tha
 
 [Learn More](https://github.com/redux-observable/redux-observable/pull/346)
 
-#### Before
+### Before (dispatching actions)
 
 ```js
 const somethingEpic = (action$) =>
@@ -151,7 +151,7 @@ const somethingEpic = (action$) =>
   );
 ```
 
-#### After
+### After (dispatching actions)
 
 ```js
 // Now uses rxjs v6 pipeable operators
@@ -178,7 +178,7 @@ Since `state$` is also an Observable you can now compose it into other streams a
 
 I expect a majority of people to use the imperative `state$.value` form most of the time simply because it's more terse and a majority of the time you don't actually want to react to changes in the state.
 
-#### Before
+### Before (accessing state)
 
 ```js
 const fetchUserEpic = (action$, store) =>
@@ -190,7 +190,7 @@ const fetchUserEpic = (action$, store) =>
   );
 ```
 
-#### After
+### After (accessing state)
 
 ```js
 // Also now using v6 pipe operators
