@@ -2,7 +2,7 @@
   "extends": "../../packages/redux-observable/tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    "outDir": "dist",
+    "outDir": "./dist",
     "rootDir": "."
   },
   "include": ["./**/*"],

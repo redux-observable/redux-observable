@@ -4,11 +4,11 @@
   "description": "RxJS based middleware for Redux. Compose and cancel async actions and more.",
   "main": "dist/redux-observable.cjs",
   "module": "dist/redux-observable.mjs",
-  "types": "dist/redux-observable.d.ts",
+  "types": "types/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "types": "./dist/redux-observable.d.ts",
+      "types": "./types/index.d.ts",
       "import": "./dist/redux-observable.mjs",
       "require": "./dist/redux-observable.cjs",
       "default": "./dist/redux-observable.cjs"
@@ -19,6 +19,7 @@
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "build": "tsup",
+    "prebuild": "tsc --emitDeclarationOnly",
     "prepare": "npm run build",
     "test": "vitest run",
     "test:watch": "vitest",

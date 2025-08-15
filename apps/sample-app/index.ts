@@ -1,7 +1,7 @@
-import { createStore, applyMiddleware } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { createEpicMiddleware, combineEpics } from 'redux-observable';
 import { ofType } from 'redux-observable';
-import { mapTo } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 // Actions
 type Action = { type: 'PING' } | { type: 'PONG' };
@@ -24,14 +24,14 @@ import type { Epic } from 'redux-observable';
 const pingEpic: Epic<Action, Action> = (action$) =>
   action$.pipe(
     ofType('PING'),
-    mapTo({ type: 'PONG' })
+    map(() => ({ type: 'PONG' }))
   );
 
 const epicMiddleware = createEpicMiddleware<Action, Action>();
-const store = createStore(
-  pingPongReducer,
-  applyMiddleware(epicMiddleware)
-);
+const store = configureStore({
+  reducer: pingPongReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(epicMiddleware),
+});
 epicMiddleware.run(combineEpics<Action, Action>(pingEpic));
 
 store.subscribe(() => console.log(store.getState()));

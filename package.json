@@ -14,5 +14,8 @@
   },
   "devDependencies": {
     "turbo": "^2.0.0"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.8.2"
   }
 }
