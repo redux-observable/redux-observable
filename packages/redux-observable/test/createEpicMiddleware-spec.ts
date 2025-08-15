@@ -69,7 +69,7 @@ describe('createEpicMiddleware', () => {
       action$.pipe(
         ofType('PING'),
         map(() => ({ type: 'PONG' })),
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  
         ignoreElements(),
       );
 

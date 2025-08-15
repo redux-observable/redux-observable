@@ -14,8 +14,8 @@ export interface EpicMiddleware<
   Output extends Input = Input,
   State = void,
   Dependencies = any
-  // eslint-disable-next-line @typescript-eslint/ban-types
-> extends Middleware<{}, State> {
+  // Redux Middleware expects an object type for extra
+> extends Middleware<object, State> {
   run(rootEpic: Epic<Input, Output, State, Dependencies>): void;
 }
 
@@ -32,9 +32,7 @@ export function createEpicMiddleware<
   // we don't want our internal queuing mechanism to be on the same queue as any
   // other RxJS code outside of redux-observable internals.
   const QueueScheduler: any = queueScheduler.constructor;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const uniqueQueueScheduler: typeof queueScheduler = new QueueScheduler(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (queueScheduler as any).schedulerActionCtor
   );
 

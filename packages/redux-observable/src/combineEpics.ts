@@ -36,7 +36,7 @@ export function combineEpics<
         .map((epic) => epic.name || '<anonymous>')
         .join(', ')})`,
     });
-  } catch (e) {
+  } catch {
     // noop
   }
 
