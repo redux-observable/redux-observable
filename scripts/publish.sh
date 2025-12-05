@@ -12,8 +12,8 @@ if [[ -z $(git status -uno --porcelain) ]]; then
   if [ "$CONDITION" == "y" ]; then
     git add package.json package-lock.json CHANGELOG.md;
     git commit -m "chore(publish): ${VERSION}";
-    git tag "${VERSION}" -m "See https://github.com/redux-observable/redux-observable/blob/master/CHANGELOG.md";
-    git push origin master;
+    git tag "${VERSION}" -m "See https://github.com/redux-observable/redux-observable/blob/main/CHANGELOG.md";
+    git push origin main;
     git push origin "${VERSION}";
     read -p "Which dist-tag? (latest) " DIST_TAG;
     DIST_TAG=${DIST_TAG:-latest}

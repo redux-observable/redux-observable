@@ -172,4 +172,4 @@ const epic = (action$: ActionsObservable<Actions>) =>
 
 If you think your issue is a bug with redux-observable, [create an issue](https://github.com/redux-observable/redux-observable/issues);
 
-If you figure it out, [edit this document](https://github.com/redux-observable/redux-observable/edit/master/docs/Troubleshooting.md) as a courtesy to the next person having the same problem.
+If you figure it out, [edit this document](https://github.com/redux-observable/redux-observable/edit/main/docs/Troubleshooting.md) as a courtesy to the next person having the same problem.
