@@ -10,5 +10,3 @@
 [Redux](http://github.com/reactjs/redux). Compose and cancel async actions to create side effects and more.
 
 [https://redux-observable.js.org](https://redux-observable.js.org)
-
-> Note: this project is quite stable, but is currently in maintenance mode. Critical fixes will still be released, but for now no additional features or changes will be considered as the maintainer [@jayphelps](https://github.com/jayphelps) is not actively working on any apps that use redux-observable (or any UI apps at all, actually.) If you would like to become a maintainer, please reach out to [@jayphelps](https://github.com/jayphelps).
