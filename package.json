@@ -70,7 +70,7 @@
     "eslint-plugin-rxjs": "^5.0.3",
     "redux": "^5.0.0",
     "rxjs": "^7.8.1",
-    "tsup": "7.0.0",
+    "tsup": "8.3.5",
     "typescript": "^5.3.3",
     "vitest": "^1.1.3"
   }
