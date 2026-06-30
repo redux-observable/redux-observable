@@ -6,11 +6,11 @@ To create it, call [`createEpicMiddleware`](createEpicMiddleware.md).
 
 ### EpicMiddleware Methods
 
-- [`run(rootEpic)`](#run)
+- [`run(rootEpic)`](#runrootepic)
 
-<hr>
+---
 
-### <a id='run'></a>[`run(rootEpic)`](#replaceEpic)
+### `run(rootEpic)`
 
 Run the middleware with the provided epic.
 
