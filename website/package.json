@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "sync:logo": "node ./scripts/sync-logo.mjs",
+    "prestart": "npm run sync:logo",
+    "prebuild": "npm run sync:logo",
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
