@@ -1,4 +1,4 @@
-# Troubleshooting [![Discord](https://img.shields.io/discord/102860784329052160)](https://discord.gg/reactiflux)
+# Troubleshooting
 
 
 This is a place to share common problems and solutions to them.
