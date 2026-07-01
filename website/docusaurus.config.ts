@@ -45,6 +45,7 @@ const config: Config = {
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
         },
+        blog: false,
       } satisfies Preset.Options,
     ],
   ],
