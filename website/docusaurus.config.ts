@@ -41,7 +41,7 @@ const config: Config = {
       {
         docs: {
           path: '..',
-          include: ['README.md', 'CHANGELOG.md', 'CODE_OF_CONDUCT.md', 'MIGRATION.md', 'docs/**/*.md'],
+          include: ['*.md', 'docs/**/*.md'],
           sidebarPath: './sidebars.ts',
           routeBasePath: '/',
         },
