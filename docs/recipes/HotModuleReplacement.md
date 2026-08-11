@@ -27,7 +27,7 @@ const epic$ = new BehaviorSubject(rootEpic);
 // how switchMap works
 const hotReloadingEpic = (...args) =>
   epic$.pipe(
-    switchMap(epic => epic(...args))
+    switchMap(epic => epic(...args)),
   );
 
 epicMiddleware.run(hotReloadingEpic);
@@ -53,8 +53,7 @@ const store = configureStore({
   reducer: {
     // ... reducers ...
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(epicMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(epicMiddleware),
 });
 
 const epic$ = new BehaviorSubject(rootEpic);
@@ -67,10 +66,10 @@ const hotReloadingEpic = (action$, ...rest) =>
     mergeMap(epic =>
       epic(action$, ...rest).pipe(
         takeUntil(action$.pipe(
-          ofType('EPIC_END')
-        ))
-      )
-    )
+          ofType('EPIC_END'),
+        )),
+      ),
+    ),
   );
 
 epicMiddleware.run(hotReloadingEpic);
