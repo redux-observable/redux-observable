@@ -6,12 +6,11 @@ Most usage questions are not actually redux-observable specific, but rather gene
 If you would like to chat you can join the Reactiflux discord https://discord.gg/reactiflux look for the channels #redux or #reactive-programming.
 -->
 
-**Do you want to request a *feature* or report a *bug*?**  
+**Do you want to request a _feature_ or report a _bug_?**
 
 <!-- Make sure someone else hasn't already reported it: https://github.com/redux-observable/redux-observable/issues -->
 
 **What is the current behavior?**
-
 
 **If the current behavior is a bug, please provide the steps to reproduce and a minimal demo of the problem using JSBin, StackBlitz, or similar.**
 
@@ -25,6 +24,5 @@ StackBlitz: https://stackblitz.com/edit/redux-observable-playground
 -->
 
 **What is the expected behavior?**
-
 
 **Which versions of redux-observable, and which browser and OS are affected by this issue? Did this work in previous versions of redux-observable?**

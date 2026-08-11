@@ -4,12 +4,12 @@
 
 #### Arguments
 
-1. *`[options: Object]`*: The optional configuration. Options:
-    * *`dependencies`*: If given, it will be injected as the 3rd argument to all epics.
+1. _`[options: Object]`_: The optional configuration. Options:
+   - _`dependencies`_: If given, it will be injected as the 3rd argument to all epics.
 
 #### Returns
 
-(*`MiddlewareAPI`*): An instance of the redux-observable middleware.
+(_`MiddlewareAPI`_): An instance of the redux-observable middleware.
 
 #### Example
 
@@ -26,10 +26,8 @@ export const store = configureStore({
   reducer: {
     // ...reducers...
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(epicMiddleware),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(epicMiddleware),
 });
 
-  epicMiddleware.run(rootEpic);
-}
+epicMiddleware.run(rootEpic);
 ```

@@ -5,11 +5,11 @@ Please keep in mind that the order in which epics are combined affect the order 
 
 #### Arguments
 
-1. *`...epics: Epic[]`*: The [epics](../basics/Epics.md) to combine.
+1. _`...epics: Epic[]`_: The [epics](../basics/Epics.md) to combine.
 
 #### Returns
 
-(*`Epic`*): An Epic that merges the output of every Epic provided and passes along the action$ Observable and redux store as arguments.
+(_`Epic`_): An Epic that merges the output of every Epic provided and passes along the action$ Observable and redux store as arguments.
 
 #### Example
 

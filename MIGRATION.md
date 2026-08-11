@@ -44,7 +44,7 @@ import { from } from 'rxjs';
 // a Most.js implementatin of combineEpics
 const combineEpics = (...epics) => (...args) =>
   most.merge(
-    ...epics.map(epic => epic(...args))
+    ...epics.map(epic => epic(...args)),
   );
 
 const rootEpic = (action$, state$, ...rest) => {
@@ -72,19 +72,17 @@ One benefit is that actions which are emitted by an epic on start up are not mis
 Take this example:
 
 ```ts
-const epic1 = action$ =>
+const epic1 = (action$) =>
   action$.pipe(
     ofType('FIRST'),
-    mergeMap(() =>
-      of({ type: 'SECOND' }, { type: 'THIRD' })
-    )
+    mergeMap(() => of({ type: 'SECOND' }, { type: 'THIRD' })),
   );
 
-const epic2 = action$ =>
+const epic2 = (action$) =>
   action$.pipe(
     ofType('SECOND'),
     map(() => ({ type: 'FOURTH' })),
-    startWith({ type: 'FIRST' })
+    startWith({ type: 'FIRST' }),
   );
 
 // notice that epic2 comes *after* epic1
@@ -100,6 +98,7 @@ THIRD
 ```
 
 However in 1.0.0 it now would see it as the last one:
+
 ```
 FIRST
 SECOND
@@ -125,8 +124,8 @@ If you were using `epicMiddleware.replaceEpic`, you can achieve similar behavior
 const rootEpic = (action$, ...rest) =>
   combineEpics(epic1, epic2, ...etc)(action$, ...rest).pipe(
     takeUntil(action$.pipe(
-      ofType('END')
-    ))
+      ofType('END'),
+    )),
   );
 
 function replaceRootEpic(nextRootEpic) {
@@ -148,30 +147,30 @@ If you're looking for the ability to directly call dispatch yourself (rather tha
 #### Before
 
 ```js
-const somethingEpic = action$ =>
-  action$.ofType(SOMETHING)
-    .switchMap(() =>
-      ajax('/something')
-        .do(() => store.dispatch({ type: SOMETHING_ELSE }))
-        .map(response => ({ type: SUCCESS, response }))
-    );
+const somethingEpic = (action$) => action$
+  .ofType(SOMETHING)
+  .switchMap(() =>
+    ajax('/something')
+      .do(() => store.dispatch({ type: SOMETHING_ELSE }))
+      .map((response) => ({ type: SUCCESS, response })),
+  );
 ```
 
 #### After
 
 ```js
 // Now uses rxjs v6 pipeable operators
-const somethingEpic = action$ =>
+const somethingEpic = (action$) =>
   action$.pipe(
     ofType(SOMETHING),
     switchMap(() =>
       getJSON('/something').pipe(
-        mergeMap(response => of(
+        mergeMap((response) => of(
           { type: SOMETHING_ELSE },
-          { type: SUCCESS, response }
-        ))
-      )
-    )
+          { type: SUCCESS, response },
+        )),
+      ),
+    ),
   );
 ```
 
@@ -188,12 +187,12 @@ I expect a majority of people to use the imperative `state$.value` form most of 
 #### Before
 
 ```js
-const fetchUserEpic = (action$, store) =>
-  action$.ofType(FETCH_USER)
-    .mergeMap(action =>
-      ajax(`/users/${action.id}`, { 'Authorization': `Bearer ${store.getState().authToken}` }) // <----- here
-        .map(response => fetchUserFulfilled(response))
-    );
+const fetchUserEpic = (action$, store) => action$
+  .ofType(FETCH_USER)
+  .mergeMap((action) =>
+    ajax(`/users/${action.id}`, { Authorization: `Bearer ${store.getState().authToken}` }) // <----- here
+      .map((response) => fetchUserFulfilled(response)),
+  );
 ```
 
 #### After
@@ -239,17 +238,15 @@ const autoSaveEpic = (action$, state$) =>
         pluck('googleDocument'),
         distinctUntilChanged(),
         throttleTime(500, { leading: false, trailing: true }),
-        concatMap(googleDocument =>
+        concatMap((googleDocument) =>
           saveGoogleDoc(googleDocument).pipe(
             map(() => saveGoogleDocFulfilled()),
-            catchError(e => of(saveGoogleDocRejected(e)))
-          )
+            catchError((e) => of(saveGoogleDocRejected(e))),
+          ),
         ),
-        takeUntil(action$.pipe(
-          ofType(AUTO_SAVE_DISABLE)
-        ))
-      )
-    )
+        takeUntil(action$.pipe(ofType(AUTO_SAVE_DISABLE))),
+      ),
+    ),
   );
 ```
 
@@ -257,6 +254,6 @@ const autoSaveEpic = (action$, state$) =>
 
 > Have a cool use case for state$? Please let us know by opening an issue ticket so we can feature it!
 
-***
+---
 
 Are we missing something about the migration? Open an issue or open a PR if possible!
