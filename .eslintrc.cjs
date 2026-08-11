@@ -28,5 +28,5 @@ module.exports = {
       },
     ],
   },
-  ignorePatterns: ['*.d.ts', '*.config.*', '*.cjs'],
+  ignorePatterns: ['*.d.ts', '*.config.*', '*.cjs', 'website/**'],
 };
